@@ -1,4 +1,4 @@
-# tidymapr
+# tidymapr <img src="man/figures/logo.png" align="right" height="139" alt="tidymapr hex logo" />
 
 Tidy mapping verbs for biodiversity and spatial ecology, designed to work
 with [tidydiversity](https://github.com/jmozez/tidydiversity).
