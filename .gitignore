@@ -3,4 +3,11 @@
 .RData
 .Ruserdata
 docs
-*.html
+inst/doc
+*.Rcheck
+tidymapr_*.tar.gz
+src/*.o
+src/*.so
+src/*.dll
+figure/
+tests/testthat/Rplots.pdf

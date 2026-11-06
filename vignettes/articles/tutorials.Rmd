@@ -1,0 +1,42 @@
+---
+title: "Tutorials"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  dev.args = list(bg = "white"),
+  collapse = TRUE, comment = "#>", out.width = "100%",
+  dpi = 150, fig.width = 7, fig.height = 4.5
+)
+```
+
+The tutorials run a whole mapping workflow on published Papua New Guinea
+data shipped with tidydiversity. Each tab gives a short preview; follow the
+link for the full analysis.
+
+```{r setup, message = FALSE}
+library(tidymapr)
+library(tidydiversity)
+```
+
+## Papua New Guinea {.tabset}
+
+### Mt Wilhelm ants
+
+Ground ants at baits along the Mt Wilhelm elevational gradient
+(`png_ants`; Moses et al. 2023): site map, richness on a map and distance
+decay. [Full tutorial](case-png-wilhelm.html).
+
+```{r wilhelm, fig.alt = "Study sites along Mt Wilhelm coloured by elevation band"}
+sites <- geo_example_sites("wilhelm")
+plot_sites(sites, lon, lat, colour = elevation_band, label = site, basemap = "coast")
+```
+
+### Wanang stems
+
+A ForestGEO-style plot: stems over hillshade and contours, and terrain
+variables from the DEM. [Full tutorial](case-wanang-stems.html).
+
+```{r wanang, fig.alt = "Illustrative stem map over topography", fig.height = 5.5}
+plot_topo(geo_example_stems(), colour = species, size = dbh, dem = geo_example_dem())
+```

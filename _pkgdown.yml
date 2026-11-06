@@ -1,0 +1,157 @@
+url: https://jmozez.github.io/tidymapr/
+
+template:
+  bootstrap: 5
+  includes:
+    # Tell browsers the site has its own light and dark themes, so their
+    # automatic dark mode does not invert (darken) the figures.
+    # The CSP allows only the site's own scripts; GitHub Pages cannot send
+    # security headers, so they are set as meta tags.
+    in_header: |
+      <meta name="color-scheme" content="light dark">
+      <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+      <meta name="referrer" content="strict-origin-when-cross-origin">
+  opengraph:
+    image:
+      src: man/figures/logo.png
+      alt: "tidymapr hex logo"
+  light-switch: true
+  bslib:
+    primary: "#349295"
+    secondary: "#11376B"
+    base_font: {google: "Inter"}
+    heading_font: {google: "Inter"}
+    code_font: {google: "JetBrains Mono"}
+    font-size-base: 1rem
+    line-height-base: 1.65
+    headings-font-weight: 700
+    link-color: "#2A7F82"
+    navbar-bg: "#11376B"
+    border-radius: 0.5rem
+
+# Every figure, including reference-page examples, on an opaque white
+# background so no plot ever shows the dark theme through it.
+figures:
+  bg: white
+  dev.args:
+    bg: white
+
+navbar:
+  bg: dark
+  structure:
+    left: [intro, tutorials, guides, gallery, reference, news]
+    right: [tidydiversity, search, github, lightswitch]
+  components:
+    intro:
+      text: Get started
+      href: articles/tidymapr.html
+    tutorials:
+      text: Tutorials
+      menu:
+        - text: Overview
+          href: articles/tutorials.html
+        - text: -------
+        - text: Papua New Guinea
+        - text: Ants along Mt Wilhelm, from sites to maps
+          href: articles/case-png-wilhelm.html
+        - text: Stems over topography at Wanang
+          href: articles/case-wanang-stems.html
+    guides:
+      text: Guides
+      menu:
+        - text: Geospatial diversity workflows
+          href: articles/geospatial.html
+    gallery:
+      text: Gallery
+      href: articles/gallery.html
+    news:
+      text: News
+      href: news/index.html
+    tidydiversity:
+      text: tidydiversity
+      icon: fa-leaf
+      aria-label: tidydiversity, the companion package for diversity estimation
+      href: https://jmozez.github.io/tidydiversity/
+
+home:
+  title: "tidymapr: tidy mapping verbs for biodiversity and spatial ecology"
+  description: >
+    Study-site maps, rasters joined as columns, occurrence cleaning,
+    geographic and environmental distance decay, Hill numbers on maps, stem
+    maps over topography, bioclim layers and tidy species distribution
+    models, in one tidy R workflow with tidydiversity.
+  sidebar:
+    structure: [links, license, community, citation, authors, dev]
+
+reference:
+  - title: Sites and occurrences
+    contents:
+      - geo_as_sf
+      - geo_extract
+      - geo_clean
+      - geo_gbif
+      - geo-map-interop
+      - geo_as_features
+  - title: Example data
+    contents:
+      - geo_example_sites
+      - geo_example_stems
+      - geo_example_dem
+      - geo_example_censuses
+  - title: Distances and spatial statistics
+    contents:
+      - geo_distance
+      - geo_decay
+      - geo_moran
+      - geo_mem
+      - geo_rarefy_spatial
+      - geo_grain
+      - geo_middomain
+  - title: Maps
+    contents:
+      - plot_sites
+      - plot_geo
+      - plot_topo
+      - geo_basemap
+      - geo_save
+      - theme_tidymapr
+      - ggplot_add.tmr_geo_basemap
+  - title: Vector, raster and file verbs
+    contents:
+      - geo-io
+      - geo-vector
+      - geo-raster
+  - title: Environmental layers
+    contents:
+      - geo-bioclim
+      - geo_elevation
+      - geo_gadm
+  - title: Forest plot stem maps
+    desc: Quadrats, habitat joins, neighbourhoods and torus-translation tests in local plot coordinates.
+    contents:
+      - stems_spatial
+      - stems_habitat_test
+  - title: Species distribution models
+    contents:
+      - sdm
+  - title: Package
+    contents:
+      - tidymapr-package
+      - geo
+
+articles:
+  - title: Get started
+    navbar: ~
+    contents:
+      - tidymapr
+  - title: Papua New Guinea case studies
+    contents:
+      - articles/tutorials
+      - articles/case-png-wilhelm
+      - articles/case-wanang-stems
+  - title: Guides
+    contents:
+      - articles/geospatial
+  - title: Gallery
+    contents:
+      - articles/gallery

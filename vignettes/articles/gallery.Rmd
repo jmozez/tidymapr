@@ -1,0 +1,183 @@
+---
+title: "Gallery"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  dev.args = list(bg = "white"),
+  collapse = TRUE, comment = "#>", out.width = "100%",
+  dpi = 150, fig.width = 7
+)
+```
+
+Every map tidymapr draws. Each entry has three tabs: the map, the tidy
+table behind it, and the code. Maps use the colour-blind-safe Okabe-Ito
+palette and `theme_tidymapr()`, which matches
+`tidydiversity::theme_tidydiversity()`. Site coordinates from
+`geo_example_sites()` are illustrative; replace them with your own GPS.
+
+```{r setup, message = FALSE}
+library(tidymapr)
+library(tidydiversity)
+library(ggplot2)
+set.seed(1)
+sites <- geo_example_sites("wilhelm")
+```
+
+## Study-site map {.tabset}
+
+### Map
+
+```{r sites, echo = FALSE, fig.height = 5, fig.alt = "Study sites along Mt Wilhelm coloured by elevation band, with labels, scale bar and north arrow"}
+plot_sites(sites, lon, lat, colour = elevation_band, label = site, basemap = "coast")
+```
+
+### Table
+
+```{r sites-table}
+sites
+```
+
+### Code
+
+```r
+sites <- geo_example_sites("wilhelm")
+plot_sites(sites, lon, lat, colour = elevation_band, label = site, basemap = "coast")
+```
+
+## Study sites on a tile basemap {.tabset}
+
+### Map
+
+```{r sites-tiles, echo = FALSE, fig.height = 5, message = FALSE, fig.alt = "Study sites on an ESRI imagery basemap, falling back to the coast outline when offline"}
+plot_sites(sites, lon, lat, colour = elevation_band, basemap = "esri")
+```
+
+### Table
+
+```{r sites-tiles-table}
+sites[c("site", "lon", "lat", "elevation")]
+```
+
+### Code
+
+```r
+# "osm", "carto", "carto_dark" and "esri" tiles; falls back to "coast" offline
+plot_sites(sites, lon, lat, colour = elevation_band, basemap = "esri")
+```
+
+## Hill numbers on a map {.tabset}
+
+```{r hill-data, include = FALSE}
+est <- div_estimate(png_ants, q = 0, nboot = 0, .by = season)
+est <- dplyr::left_join(est, sites[c("site", "lon", "lat")], by = "site")
+est_dry <- est[est$season == "dry", ]
+```
+
+### Map
+
+```{r hill-map, echo = FALSE, fig.height = 5, fig.alt = "Observed ant richness at each Mt Wilhelm site in the dry season"}
+plot_geo(est_dry, estimate, lon, lat, label = site, basemap = "coast")
+```
+
+### Table
+
+```{r hill-table}
+est_dry
+```
+
+### Code
+
+```r
+est <- div_estimate(png_ants, q = 0, nboot = 0, .by = season)
+est <- dplyr::left_join(est, sites[c("site", "lon", "lat")], by = "site")
+plot_geo(est[est$season == "dry", ], estimate, lon, lat, label = site, basemap = "coast")
+```
+
+## Distance decay {.tabset}
+
+```{r decay-data, include = FALSE}
+com <- dplyr::left_join(png_ants, sites[c("site", "lon", "lat")], by = "site")
+decay <- geo_decay(com, lon, lat, .by = season, method = "haversine")
+```
+
+### Plot
+
+```{r decay, echo = FALSE, fig.height = 4, fig.alt = "Pairwise ant dissimilarity against great-circle distance by season"}
+autoplot(decay)
+```
+
+### Table
+
+```{r decay-table}
+decay
+```
+
+### Code
+
+```r
+com <- dplyr::left_join(png_ants, sites[c("site", "lon", "lat")], by = "site")
+decay <- geo_decay(com, lon, lat, .by = season, method = "haversine")
+autoplot(decay)
+```
+
+## Stems over topography {.tabset}
+
+### Map
+
+```{r topo, echo = FALSE, fig.height = 5.5, fig.alt = "Illustrative ForestGEO-style stem map over hillshade and contours"}
+plot_topo(
+  geo_example_stems(),
+  colour = species, size = dbh,
+  dem = geo_example_dem(), boundary = c(0, 0, 100, 100)
+)
+```
+
+### Table
+
+```{r topo-table}
+geo_example_stems()
+```
+
+### Code
+
+```r
+plot_topo(
+  geo_example_stems(),
+  colour = species, size = dbh,
+  dem = geo_example_dem(), boundary = c(0, 0, 100, 100)
+)
+```
+
+## Species distribution model {.tabset}
+
+```{r sdm-data, include = FALSE}
+grid <- expand.grid(
+  lon = seq(145, 145.5, length.out = 20),
+  lat = seq(-5.9, -5.5, length.out = 16)
+)
+grid$bio1 <- 15 + 12 * (grid$lat - min(grid$lat)) / diff(range(grid$lat))
+pa <- grid
+pa$present <- as.integer(pa$bio1 > 22)
+fit <- sdm_fit(pa, predictors = "bio1", present = present, engine = "glm")
+```
+
+### Map
+
+```{r sdm, echo = FALSE, fig.height = 4.5, fig.alt = "Predicted habitat suitability for a simulated species present only at high bio1"}
+plot_sdm(sdm_predict(fit, newdata = grid), basemap = "none")
+```
+
+### Evaluation
+
+```{r sdm-table}
+sdm_evaluate(fit)
+```
+
+### Code
+
+```r
+fit <- sdm_fit(pa, predictors = "bio1", present = present, engine = "glm")
+sdm_evaluate(fit)
+plot_sdm(sdm_predict(fit, newdata = grid), basemap = "none")
+```

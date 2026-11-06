@@ -1,0 +1,98 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+name: lint.yaml
+
+permissions: read-all
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # setup-r installs ~200 apt packages, and the runner's Azure apt mirror
+      # sometimes serves them at ~40 kB/s (20+ min). Keep the .deb files in the
+      # Actions cache so only the first run on a new runner image downloads them.
+      - name: Prepare apt cache
+        id: apt
+        if: runner.os == 'Linux'
+        run: |
+          printf '%s\n' 'Acquire::Retries "5";' 'Acquire::http::Timeout "20";' \
+            'Acquire::https::Timeout "20";' 'APT::Keep-Downloaded-Packages "true";' \
+            'Binary::apt::APT::Keep-Downloaded-Packages "true";' |
+            sudo tee /etc/apt/apt.conf.d/80-ci
+          prefix="apt-$ImageOS-$GITHUB_JOB-${R_VERSION:-release}-"
+          echo "prefix=$prefix" >> "$GITHUB_OUTPUT"
+          echo "any_job=apt-$ImageOS-" >> "$GITHUB_OUTPUT"
+          echo "key=$prefix$ImageVersion" >> "$GITHUB_OUTPUT"
+
+      - name: Restore apt cache
+        id: apt-cache
+        if: runner.os == 'Linux'
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: ~/.apt-debs
+          key: ${{ steps.apt.outputs.key }}
+          restore-keys: |
+            ${{ steps.apt.outputs.prefix }}
+            ${{ steps.apt.outputs.any_job }}
+
+      - name: Load cached .deb files
+        if: runner.os == 'Linux' && steps.apt-cache.outputs.cache-matched-key != ''
+        run: sudo cp ~/.apt-debs/*.deb /var/cache/apt/archives/ || true
+
+      - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
+        with:
+          extra-packages: any::lintr, any::spelling, local::.
+          needs: lint
+
+      - name: Collect .deb files
+        id: debs
+        if: runner.os == 'Linux' && steps.apt-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.apt-debs
+          cp /var/cache/apt/archives/*.deb ~/.apt-debs/ 2>/dev/null || true
+          echo "n=$(ls ~/.apt-debs | wc -l)" >> "$GITHUB_OUTPUT"
+
+      - name: Save apt cache
+        if: runner.os == 'Linux' && steps.debs.outputs.n != '' && steps.debs.outputs.n != '0'
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: ~/.apt-debs
+          key: ${{ steps.apt.outputs.key }}
+
+      - name: Lint
+        run: lintr::lint_package()
+        shell: Rscript {0}
+        env:
+          LINTR_ERROR_ON_LINT: true
+
+      # spelling has no en-NZ dictionary, so check against en-GB.
+      - name: Spelling
+        run: |
+          files <- c(
+            list.files("man", "\\.Rd$", full.names = TRUE),
+            list.files("vignettes", "\\.Rmd$", full.names = TRUE, recursive = TRUE),
+            "README.Rmd", "NEWS.md", "DESCRIPTION"
+          )
+          bad <- spelling::spell_check_files(
+            files, ignore = readLines("inst/WORDLIST"), lang = "en_GB"
+          )
+          print(bad)
+          if (nrow(bad) > 0) {
+            stop("Fix the spelling or add the words to inst/WORDLIST.")
+          }
+        shell: Rscript {0}
