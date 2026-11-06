@@ -1,0 +1,75 @@
+---
+title: "Getting started with tidymapr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with tidymapr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  dev.args = list(bg = "white"), collapse = TRUE, comment = "#>",
+  fig.width = 7, fig.height = 4.5
+)
+has_sf <- requireNamespace("sf", quietly = TRUE)
+has_gg <- requireNamespace("ggplot2", quietly = TRUE)
+has_td <- requireNamespace("tidydiversity", quietly = TRUE)
+```
+
+tidymapr is the mapping companion to
+[tidydiversity](https://github.com/jmozez/tidydiversity). Every verb takes a
+data frame and returns a tibble, an `sf` table, a `SpatRaster` or a ggplot,
+so diversity estimates and maps stay in one tidy workflow, in the same way
+dplyr and ggplot2 work together.
+
+```{r setup}
+library(tidymapr)
+```
+
+## Study sites
+
+`geo_example_sites()` supplies illustrative WGS84 positions for the Papua
+New Guinea example data in tidydiversity. Replace them with your own GPS
+before publication.
+
+```{r sites}
+sites <- geo_example_sites("wilhelm")
+sites
+```
+
+`plot_sites()` draws a publication-ready study-site map with a scale bar
+and north arrow.
+
+```{r plot-sites, eval = has_sf && has_gg, fig.height = 5}
+plot_sites(sites, lon, lat, colour = elevation_band, label = site)
+```
+
+## Sites as `sf` and distances
+
+```{r sf, eval = has_sf}
+geo_as_sf(sites, lon, lat)
+```
+
+```{r distance}
+head(geo_distance(sites, lon, lat, site = site))
+```
+
+## Diversity on a map with tidydiversity
+
+Load both packages and pipe diversity estimates straight onto a map.
+
+```{r diversity-map, eval = has_sf && has_gg && has_td}
+library(tidydiversity)
+est <- div_estimate(png_ants, q = 0, nboot = 0, .by = season)
+est <- dplyr::left_join(est, sites[c("site", "lon", "lat")], by = "site")
+plot_geo(est[est$season == "dry", ], estimate, lon, lat, label = site)
+```
+
+`geo_decay()` joins geographic, elevational or environmental distances to
+`tidydiversity::beta_pair()` so `tidydiversity::beta_decay_model()` can fit
+distance-decay models.
+
+See the article "Geospatial diversity workflows" for rasters, occurrence
+cleaning, basemaps, bioclim layers, stem maps, spatial eigenvectors and
+species distribution models.

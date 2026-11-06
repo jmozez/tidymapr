@@ -1,0 +1,6 @@
+linters: linters_with_defaults(
+    line_length_linter(100),
+    object_usage_linter = NULL
+  )
+exclusions: list("data-raw")
+encoding: "UTF-8"

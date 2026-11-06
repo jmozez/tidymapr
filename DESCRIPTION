@@ -3,18 +3,61 @@ Title: Tidy Mapping Verbs for Biodiversity and Spatial Ecology
 Version: 0.0.0.9000
 Authors@R: 
     person("Jimmy", "Moses", , "jimmy.moses@pnguot.ac.pg", role = c("aut", "cre", "cph"))
-Description: Tidy, pipe-friendly mapping verbs for biodiversity and
-    spatial ecology. Designed to work with 'tidydiversity' in the same way
-    that 'dplyr' and 'ggplot2' do: load both packages and keep a single
-    workflow. Mapping features now in 'tidydiversity' will move here, and
-    'tidydiversity' will re-export the verbs users need so existing
-    pipelines keep working.
+Description: Tidy, pipe-friendly mapping and geospatial verbs for
+    biodiversity and spatial ecology. Turns site tables into 'sf' objects,
+    joins raster values as columns, cleans occurrence records, computes
+    geographic, elevational and environmental distances, draws
+    publication-ready study-site, diversity and stem maps with 'ggplot2',
+    reads and writes common vector and raster formats, downloads bioclim,
+    elevation and administrative boundary layers, and fits simple species
+    distribution models. Designed to work with 'tidydiversity' in the same
+    way that 'dplyr' and 'ggplot2' do: every verb takes a data frame and
+    returns a tibble or a 'ggplot', so the two packages share one workflow.
 License: MIT + file LICENSE
-URL: https://github.com/jmozez/tidymapr
+URL: https://github.com/jmozez/tidymapr, https://jmozez.github.io/tidymapr/
 BugReports: https://github.com/jmozez/tidymapr/issues
 Depends: 
     R (>= 4.1.0)
+Imports: 
+    cli (>= 3.6.0),
+    dplyr (>= 1.1.0),
+    grDevices,
+    Rcpp,
+    rlang (>= 1.1.0),
+    stats,
+    tibble (>= 3.2.0),
+    tidyselect (>= 1.2.0),
+    tools,
+    utils,
+    vctrs (>= 0.6.0)
+LinkingTo: 
+    Rcpp
+Suggests: 
+    CoordinateCleaner,
+    elevatr,
+    geodata,
+    ggplot2 (>= 3.5.0),
+    ggrepel,
+    knitr,
+    leaflet,
+    maptiles,
+    metR,
+    mgcv,
+    rgbif,
+    rmarkdown,
+    rnaturalearth,
+    rnaturalearthdata,
+    sf,
+    spdep,
+    terra,
+    testthat (>= 3.0.0),
+    tidydiversity,
+    tmap
+Remotes: 
+    jmozez/tidydiversity
+VignetteBuilder: knitr
+Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-NZ
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.1.1
