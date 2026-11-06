@@ -1,0 +1,112 @@
+url: https://jmozez.github.io/tidymapr/
+
+template:
+  bootstrap: 5
+  includes:
+    # Tell browsers the site has its own light and dark themes, so their
+    # automatic dark mode does not invert (darken) the figures.
+    # The CSP allows only the site's own scripts; GitHub Pages cannot send
+    # security headers, so they are set as meta tags.
+    in_header: |
+      <meta name="color-scheme" content="light dark">
+      <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+      <meta name="referrer" content="strict-origin-when-cross-origin">
+  opengraph:
+    image:
+      src: man/figures/logo.png
+      alt: "tidymapr hex logo"
+  light-switch: true
+  bslib:
+    primary: "#1A9E93"
+    secondary: "#0E2A47"
+    base_font: {google: "Inter"}
+    heading_font: {google: "Inter"}
+    code_font: {google: "JetBrains Mono"}
+    font-size-base: 1rem
+    line-height-base: 1.65
+    headings-font-weight: 700
+    link-color: "#13857B"
+    navbar-bg: "#0E2A47"
+    border-radius: 0.5rem
+
+# Every figure, including reference-page examples, on an opaque white
+# background so no plot ever shows the dark theme through it.
+figures:
+  bg: white
+  dev.args:
+    bg: white
+
+navbar:
+  bg: dark
+  structure:
+    left: [intro, articles, reference, news]
+    right: [search, github, lightswitch]
+  components:
+    intro:
+      text: Get started
+      href: articles/tidymapr.html
+    articles:
+      text: Articles
+      menu:
+        - text: Geospatial diversity workflows
+          href: articles/geospatial.html
+
+reference:
+  - title: Sites and occurrences
+    contents:
+      - geo_as_sf
+      - geo_extract
+      - geo_clean
+      - geo_gbif
+      - geo-map-interop
+      - geo_as_features
+  - title: Example data
+    contents:
+      - geo_example_sites
+      - geo_example_stems
+      - geo_example_dem
+      - geo_example_censuses
+  - title: Distances and spatial statistics
+    contents:
+      - geo_distance
+      - geo_decay
+      - geo_moran
+      - geo_mem
+      - geo_rarefy_spatial
+      - geo_grain
+      - geo_middomain
+  - title: Maps
+    contents:
+      - plot_sites
+      - plot_geo
+      - plot_topo
+      - geo_basemap
+      - geo_save
+      - theme_tidymapr
+      - ggplot_add.tmr_geo_basemap
+  - title: Vector, raster and file verbs
+    contents:
+      - geo-io
+      - geo-vector
+      - geo-raster
+  - title: Environmental layers
+    contents:
+      - geo-bioclim
+      - geo_elevation
+      - geo_gadm
+  - title: Species distribution models
+    contents:
+      - sdm
+  - title: Package
+    contents:
+      - tidymapr-package
+      - geo
+
+articles:
+  - title: Get started
+    navbar: ~
+    contents:
+      - tidymapr
+  - title: Guides
+    contents:
+      - articles/geospatial

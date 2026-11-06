@@ -3,18 +3,26 @@
 Tidy mapping verbs for biodiversity and spatial ecology, designed to work
 with [tidydiversity](https://github.com/jmozez/tidydiversity).
 
-This repository reserves the package name. Mapping features now in
-tidydiversity will move here. The two packages will stay compatible in
-the same way `dplyr` and `ggplot2` work with tidydiversity: load them
-together and keep a single tidy workflow. tidydiversity will re-export
-the mapping verbs users need, so existing pipelines keep working.
+tidymapr holds the mapping, geospatial and spatial-ecology verbs that used
+to live in tidydiversity: study-site maps, sites as `sf` tables, raster
+extraction, occurrence cleaning, geographic and environmental distances,
+Moran's I, dbMEM, spatial rarefaction, bioclim, elevation and GADM layers,
+vector and raster I/O, stem maps over topography and tidy species
+distribution models. It works with tidydiversity in the same way `dplyr`
+and `ggplot2` do: load them together and keep a single tidy workflow.
 
 ```r
 library(tidydiversity)
 library(tidymapr)
-library(dplyr)
-library(ggplot2)
+
+sites <- geo_example_sites("wilhelm")
+est <- div_estimate(png_ants, q = 0, nboot = 0, .by = season)
+est <- dplyr::left_join(est, sites[c("site", "lon", "lat")], by = "site")
+plot_geo(est[est$season == "dry", ], estimate, lon, lat, label = site)
 ```
+
+**sf**, **terra** and the other spatial packages are Suggests, so install
+the ones you need (`install.packages(c("sf", "terra"))`).
 
 ## Installation
 
