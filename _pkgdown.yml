@@ -126,6 +126,11 @@ reference:
       - geo-bioclim
       - geo_elevation
       - geo_gadm
+  - title: Forest plot stem maps
+    desc: Quadrats, habitat joins, neighbourhoods and torus-translation tests in local plot coordinates.
+    contents:
+      - stems_spatial
+      - stems_habitat_test
   - title: Species distribution models
     contents:
       - sdm

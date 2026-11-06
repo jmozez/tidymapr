@@ -36,6 +36,12 @@ test_that("geo_raster_read/write round-trips via GDAL", {
 
 test_that("geo_gadm respects download = FALSE and path", {
   skip_if_not_installed("sf")
+  old <- Sys.getenv("R_USER_CACHE_DIR", NA)
+  Sys.setenv(R_USER_CACHE_DIR = tempfile("cache"))
+  on.exit(
+    if (is.na(old)) Sys.unsetenv("R_USER_CACHE_DIR") else Sys.setenv(R_USER_CACHE_DIR = old),
+    add = TRUE
+  )
   expect_error(geo_gadm("PNG", level = 0, download = FALSE), "download")
   # path round-trip pretending to be a cached GADM file
   poly <- sf::st_sf(

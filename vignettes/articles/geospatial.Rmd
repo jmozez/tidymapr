@@ -255,16 +255,19 @@ plot_topo(
 
 Forest dynamics plots (ForestGEO / CTFS) map every stem in local metres and
 repeat the census about every five years (Condit 1998; Anderson-Teixeira
-et al. 2015). tidydiversity keeps that workflow tidy:
+et al. 2015). tidymapr handles the spatial steps and tidydiversity the census
+summaries:
 
 1. `tidydiversity::stems_as_trees()` picks the main stem per tree.
-2. `tidydiversity::stems_quadrat()` assigns 20 m x 20 m quadrats from `gx` / `gy`.
+2. [stems_quadrat()] assigns 20 m x 20 m quadrats from `gx` / `gy`.
 3. `tidydiversity::stems_abundance()` and `tidydiversity::stems_basal_area()` summarise counts and
    basal area (`pi/4 * dbh^2`).
 4. `tidydiversity::stems_size_class()` bins DBH.
 5. `tidydiversity::stems_demography()` estimates mortality, recruitment and growth between
    two censuses.
-6. `tidydiversity::stems_habitat()` joins quadrat topography or habitat.
+6. [stems_habitat()] joins quadrat topography or habitat,
+   [stems_neighbours()] counts neighbours within a radius and
+   [stems_habitat_test()] runs the torus-translation habitat test.
 7. `tidydiversity::stems_as_community()` feeds `tidydiversity::div_hill()` and friends.
 8. [plot_topo()] maps stems on hillshade and contours.
 

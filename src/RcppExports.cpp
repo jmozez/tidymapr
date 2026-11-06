@@ -59,6 +59,34 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// geo_neighbour_count_cpp
+IntegerVector geo_neighbour_count_cpp(NumericVector x, NumericVector y, double radius);
+RcppExport SEXP _tidymapr_geo_neighbour_count_cpp(SEXP xSEXP, SEXP ySEXP, SEXP radiusSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type radius(radiusSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_neighbour_count_cpp(x, y, radius));
+    return rcpp_result_gen;
+END_RCPP
+}
+// geo_torus_shift_cpp
+IntegerVector geo_torus_shift_cpp(IntegerVector grid, int nrow, int ncol, int dx, int dy);
+RcppExport SEXP _tidymapr_geo_torus_shift_cpp(SEXP gridSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP dxSEXP, SEXP dySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type grid(gridSEXP);
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
+    Rcpp::traits::input_parameter< int >::type dx(dxSEXP);
+    Rcpp::traits::input_parameter< int >::type dy(dySEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_torus_shift_cpp(grid, nrow, ncol, dx, dy));
+    return rcpp_result_gen;
+END_RCPP
+}
 // geo_spatial_rarefy_cpp
 IntegerVector geo_spatial_rarefy_cpp(NumericVector dist_to_seed, IntegerMatrix incidence);
 RcppExport SEXP _tidymapr_geo_spatial_rarefy_cpp(SEXP dist_to_seedSEXP, SEXP incidenceSEXP) {
@@ -111,6 +139,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_geo_haversine_matrix_cpp", (DL_FUNC) &_tidymapr_geo_haversine_matrix_cpp, 2},
     {"_tidymapr_geo_euclidean_pair_cpp", (DL_FUNC) &_tidymapr_geo_euclidean_pair_cpp, 2},
     {"_tidymapr_geo_euclidean_matrix_cpp", (DL_FUNC) &_tidymapr_geo_euclidean_matrix_cpp, 1},
+    {"_tidymapr_geo_neighbour_count_cpp", (DL_FUNC) &_tidymapr_geo_neighbour_count_cpp, 3},
+    {"_tidymapr_geo_torus_shift_cpp", (DL_FUNC) &_tidymapr_geo_torus_shift_cpp, 5},
     {"_tidymapr_geo_spatial_rarefy_cpp", (DL_FUNC) &_tidymapr_geo_spatial_rarefy_cpp, 2},
     {"_tidymapr_sdm_cloglog_cpp", (DL_FUNC) &_tidymapr_sdm_cloglog_cpp, 1},
     {"_tidymapr_sdm_logistic_cpp", (DL_FUNC) &_tidymapr_sdm_logistic_cpp, 1},

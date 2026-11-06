@@ -17,6 +17,14 @@ geo_euclidean_matrix_cpp <- function(x) {
     .Call(`_tidymapr_geo_euclidean_matrix_cpp`, x)
 }
 
+geo_neighbour_count_cpp <- function(x, y, radius) {
+    .Call(`_tidymapr_geo_neighbour_count_cpp`, x, y, radius)
+}
+
+geo_torus_shift_cpp <- function(grid, nrow, ncol, dx, dy) {
+    .Call(`_tidymapr_geo_torus_shift_cpp`, grid, nrow, ncol, dx, dy)
+}
+
 geo_spatial_rarefy_cpp <- function(dist_to_seed, incidence) {
     .Call(`_tidymapr_geo_spatial_rarefy_cpp`, dist_to_seed, incidence)
 }

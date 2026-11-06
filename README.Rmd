@@ -103,6 +103,7 @@ with your own GPS before publication.
 |---|---|
 | Sites and occurrences | `geo_as_sf()`, `geo_drop_geometry()`, `geo_extract()`, `geo_clean()`, `geo_gbif()`, `as_sf()`, `as_spat_raster()`, `geo_as_features()` |
 | Distances and spatial statistics | `geo_distance()`, `geo_decay()`, `geo_moran()`, `geo_mem()`, `geo_rarefy_spatial()`, `geo_grain()`, `geo_middomain()` |
+| Forest plot stem maps | `stems_quadrat()`, `stems_habitat()`, `stems_neighbours()`, `stems_habitat_test()` |
 | Maps | `plot_sites()`, `plot_geo()`, `plot_topo()`, `geo_basemap()`, `geo_save()`, `theme_tidymapr()` |
 | Vector and raster | `geo_read()`, `geo_write()`, `geo_vector_*()`, `geo_raster_*()`, `geo_buffer()`, `geo_crop()`, `geo_union()`, `geo_area()`, `geo_join()` |
 | Environmental layers | `geo_bioclim()`, `geo_worldclim()`, `geo_chelsa()`, `geo_elevation()`, `geo_gadm()` |

@@ -165,7 +165,7 @@ geo_legend_npc <- function(corner) {
 #' @param position `"auto"`, `"outside"`, or a corner `"bl"`/`"br"`/`"tl"`/`"tr"`.
 #' @param frame Draw a frame around the legend?
 #' @param title Legend title (passed through by callers to scales).
-#' @param decor Optional layout list from [geo_pick_decoration_corner()].
+#' @param decor Optional layout list from `geo_pick_decoration_corner()`.
 #' @keywords internal
 #' @noRd
 geo_legend_theme <- function(position = "auto",

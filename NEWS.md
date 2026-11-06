@@ -17,6 +17,9 @@
   * Environmental layers: `geo_bioclim()`, `geo_worldclim()`,
     `geo_chelsa()`, `geo_elevation()`, `geo_gadm()`, cached under
     `tools::R_user_dir("tidymapr", "cache")`.
+  * Forest plot stem maps: `stems_quadrat()`, `stems_habitat()`,
+    `stems_neighbours()` and the torus-translation `stems_habitat_test()`;
+    census summaries stay in tidydiversity.
   * Species distribution models: `sdm_fit()`, `sdm_predict()`,
     `sdm_evaluate()`, `plot_sdm()`.
   * Example data: `geo_example_sites()`, `geo_example_stems()`,

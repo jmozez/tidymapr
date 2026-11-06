@@ -108,6 +108,57 @@ NumericMatrix geo_euclidean_matrix_cpp(NumericMatrix x) {
   return out;
 }
 
+// Count neighbours within radius for each point (local metre or planar coords).
+// [[Rcpp::export]]
+IntegerVector geo_neighbour_count_cpp(NumericVector x, NumericVector y,
+                                      double radius) {
+  const int n = x.size();
+  if (y.size() != n) stop("`x` and `y` must have the same length.");
+  if (!(radius >= 0.0)) stop("`radius` must be non-negative.");
+  const double r2 = radius * radius;
+  IntegerVector out(n);
+  for (int i = 0; i < n; ++i) {
+    int c = 0;
+    if (!R_finite(x[i]) || !R_finite(y[i])) {
+      out[i] = NA_INTEGER;
+      continue;
+    }
+    for (int j = 0; j < n; ++j) {
+      if (i == j) continue;
+      if (!R_finite(x[j]) || !R_finite(y[j])) continue;
+      const double dx = x[i] - x[j];
+      const double dy = y[i] - y[j];
+      if (dx * dx + dy * dy <= r2) ++c;
+    }
+    out[i] = c;
+  }
+  return out;
+}
+
+// Torus-shift a rectangular habitat grid by (dx, dy) cells with wrap-around.
+// grid is nrow*ncol integers in row-major order (row 0 = top).
+// [[Rcpp::export]]
+IntegerVector geo_torus_shift_cpp(IntegerVector grid, int nrow, int ncol,
+                                  int dx, int dy) {
+  if (grid.size() != nrow * ncol) {
+    stop("`grid` length must equal nrow * ncol.");
+  }
+  IntegerVector out(nrow * ncol);
+  // Normalise shifts into [0, ncol) / [0, nrow)
+  int sx = dx % ncol;
+  if (sx < 0) sx += ncol;
+  int sy = dy % nrow;
+  if (sy < 0) sy += nrow;
+  for (int r = 0; r < nrow; ++r) {
+    for (int c = 0; c < ncol; ++c) {
+      const int rr = (r + sy) % nrow;
+      const int cc = (c + sx) % ncol;
+      out[rr * ncol + cc] = grid[r * ncol + c];
+    }
+  }
+  return out;
+}
+
 // Spatially ordered accumulation: given distance-to-seed for each sample and
 // species incidence (n_samples x n_species 0/1), return cumulative richness
 // after adding samples in increasing distance order.
