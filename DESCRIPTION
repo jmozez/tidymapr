@@ -1,0 +1,20 @@
+Package: tidymapr
+Title: Tidy Mapping Verbs for Biodiversity and Spatial Ecology
+Version: 0.0.0.9000
+Authors@R: 
+    person("Jimmy", "Moses", , "jimmy.moses@pnguot.ac.pg", role = c("aut", "cre", "cph"))
+Description: Tidy, pipe-friendly mapping verbs for biodiversity and
+    spatial ecology. Designed to work with 'tidydiversity' in the same way
+    that 'dplyr' and 'ggplot2' do: load both packages and keep a single
+    workflow. Mapping features now in 'tidydiversity' will move here, and
+    'tidydiversity' will re-export the verbs users need so existing
+    pipelines keep working.
+License: MIT + file LICENSE
+URL: https://github.com/jmozez/tidymapr
+BugReports: https://github.com/jmozez/tidymapr/issues
+Depends: 
+    R (>= 4.1.0)
+Encoding: UTF-8
+Language: en-NZ
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
