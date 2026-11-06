@@ -17,16 +17,16 @@ template:
       alt: "tidymapr hex logo"
   light-switch: true
   bslib:
-    primary: "#1A9E93"
-    secondary: "#0E2A47"
+    primary: "#349295"
+    secondary: "#11376B"
     base_font: {google: "Inter"}
     heading_font: {google: "Inter"}
     code_font: {google: "JetBrains Mono"}
     font-size-base: 1rem
     line-height-base: 1.65
     headings-font-weight: 700
-    link-color: "#13857B"
-    navbar-bg: "#0E2A47"
+    link-color: "#2A7F82"
+    navbar-bg: "#11376B"
     border-radius: 0.5rem
 
 # Every figure, including reference-page examples, on an opaque white
@@ -39,17 +39,49 @@ figures:
 navbar:
   bg: dark
   structure:
-    left: [intro, articles, reference, news]
-    right: [search, github, lightswitch]
+    left: [intro, tutorials, guides, gallery, reference, news]
+    right: [tidydiversity, search, github, lightswitch]
   components:
     intro:
       text: Get started
       href: articles/tidymapr.html
-    articles:
-      text: Articles
+    tutorials:
+      text: Tutorials
+      menu:
+        - text: Overview
+          href: articles/tutorials.html
+        - text: -------
+        - text: Papua New Guinea
+        - text: Ants along Mt Wilhelm, from sites to maps
+          href: articles/case-png-wilhelm.html
+        - text: Stems over topography at Wanang
+          href: articles/case-wanang-stems.html
+    guides:
+      text: Guides
       menu:
         - text: Geospatial diversity workflows
           href: articles/geospatial.html
+    gallery:
+      text: Gallery
+      href: articles/gallery.html
+    news:
+      text: News
+      href: news/index.html
+    tidydiversity:
+      text: tidydiversity
+      icon: fa-leaf
+      aria-label: tidydiversity, the companion package for diversity estimation
+      href: https://jmozez.github.io/tidydiversity/
+
+home:
+  title: "tidymapr: tidy mapping verbs for biodiversity and spatial ecology"
+  description: >
+    Study-site maps, rasters joined as columns, occurrence cleaning,
+    geographic and environmental distance decay, Hill numbers on maps, stem
+    maps over topography, bioclim layers and tidy species distribution
+    models, in one tidy R workflow with tidydiversity.
+  sidebar:
+    structure: [links, license, community, citation, authors, dev]
 
 reference:
   - title: Sites and occurrences
@@ -107,6 +139,14 @@ articles:
     navbar: ~
     contents:
       - tidymapr
+  - title: Papua New Guinea case studies
+    contents:
+      - articles/tutorials
+      - articles/case-png-wilhelm
+      - articles/case-wanang-stems
   - title: Guides
     contents:
       - articles/geospatial
+  - title: Gallery
+    contents:
+      - articles/gallery

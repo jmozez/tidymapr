@@ -1,0 +1,74 @@
+---
+title: "Case study: ants along Mt Wilhelm, from sites to maps"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  dev.args = list(bg = "white"),
+  collapse = TRUE, comment = "#>", out.width = "100%",
+  dpi = 150, fig.width = 7, fig.height = 4.5
+)
+```
+
+`png_ants` (in tidydiversity) records ground-foraging ants at nutrient
+baits at elevations from 200 to 2200 m on Mt Wilhelm, Papua New Guinea, in
+the dry and the wet season (Moses et al. 2023,
+[doi:10.5281/zenodo.8191946](https://doi.org/10.5281/zenodo.8191946)).
+tidydiversity estimates diversity; tidymapr maps it.
+
+```{r setup, message = FALSE}
+library(tidymapr)
+library(tidydiversity)
+library(dplyr)
+library(ggplot2)
+```
+
+## Study sites
+
+The example table records elevation but not GPS, so `geo_example_sites()`
+supplies illustrative WGS84 positions. Replace them with your own
+coordinates before publication.
+
+```{r sites, fig.height = 5, fig.alt = "Study sites along Mt Wilhelm coloured by elevation band"}
+sites <- geo_example_sites("wilhelm") |>
+  filter(elevation <= 2200)
+plot_sites(sites, lon, lat, colour = elevation_band, label = site, basemap = "coast") +
+  labs(title = "Ant sampling sites on Mt Wilhelm")
+```
+
+## Diversity on a map
+
+```{r map, fig.height = 5, fig.alt = "Observed ant richness on a map, one panel per season"}
+est <- div_estimate(png_ants, q = 0, nboot = 0, .by = season) |>
+  left_join(sites[c("site", "lon", "lat")], by = "site")
+plot_geo(filter(est, season == "wet"), estimate, lon, lat, label = site, basemap = "coast") +
+  labs(title = "Observed richness, wet season", colour = "Species")
+```
+
+## Distance decay
+
+`geo_decay()` computes pairwise dissimilarity with
+`tidydiversity::beta_pair()` and joins geographic or elevational distance.
+
+```{r decay, fig.alt = "Ant dissimilarity against geographic distance by season"}
+com <- left_join(png_ants, sites[c("site", "lon", "lat")], by = "site")
+decay <- geo_decay(com, lon, lat, .by = season, method = "haversine")
+autoplot(decay)
+beta_decay_model(decay)
+```
+
+## Spatial autocorrelation
+
+```{r moran}
+wet <- filter(est, season == "wet")
+geo_moran(wet, estimate, lon, lat, nperm = 199, seed = 1)
+```
+
+## Save the figure
+
+`geo_save()` writes maps at journal sizes:
+
+```r
+p <- plot_sites(sites, lon, lat, colour = elevation_band, label = site)
+geo_save(p, "fig1-sites.pdf", width = 170, height = 120, units = "mm")
+```
