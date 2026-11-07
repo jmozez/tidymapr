@@ -9,10 +9,9 @@
 #' a continuous fill still use [plot_geo()]; this verb is for the study-site
 #' map that papers usually need first.
 #'
-#' The Papua New Guinea example tables in tidydiversity (`png_ants`,
-#' `png_frogs`, `png_tree_ants`) carry elevation but not GPS. Use [geo_example_sites()]
-#' for illustrative WGS84 coordinates near those study areas when trying the
-#' workflow, and replace them with your own GPS before publication.
+#' The Mt Wilhelm ant data ([tidydiversity::png_ants]) come with published bait GPS
+#' positions in [png_ants_sites]; [geo_example_sites()] returns them as one
+#' point per elevation band, ready to join by `site`.
 #'
 #' SDM tools such as biomod2 and Maxent are out of scope here; they can be
 #' rebuilt later as tidy verbs.
@@ -560,53 +559,39 @@ geo_annotation_north_arrow <- function(bb, facet = NULL, data = NULL,
   )
 }
 
-#' Demonstration coordinates for the package PNG example sites
+#' Published GPS coordinates for the Mt Wilhelm study sites
 #'
-#' Returns a small tibble of WGS84 longitude and latitude laid out along the
-#' elevational bands used by [tidydiversity::png_ants] and
-#' [tidydiversity::png_frogs], or for the three canopy plots in
-#' [tidydiversity::png_tree_ants]. Those community tables carry
-#' elevation but not GPS, so these coordinates are **demonstration only**
-#' (approximate corridor near Mt Wilhelm / northern PNG). Do not treat them
-#' as surveyed station locations in a publication; replace them with your
-#' own GPS records and cite the source.
+#' Returns one row per elevation band of the Mt Wilhelm ant survey
+#' ([tidydiversity::png_ants]), with WGS84 longitude and latitude averaged from the bait
+#' GPS positions published by Mottl, Moses and Klimes (2023). These are real
+#' field coordinates; see [png_ants_sites] for the two transects per band.
 #'
-#' @param which `"wilhelm"` (elevational-band demo) or `"wanang"`
-#'   (Wanang, Numba and Yawan canopy-plot demo).
-#' @return A tibble with `site`, `lon`, `lat`, `elevation`,
-#'   `elevation_band` (ordered factor) and `coordinate_note`.
+#' @param which Study area. Only `"wilhelm"` (the eight elevation bands from
+#'   200 to 3700 m) is available: the package has no published coordinates
+#'   for other areas, so none are invented.
+#' @return A tibble with `site`, `lon`, `lat`, `elevation` (nominal band in
+#'   metres), `elevation_band` (ordered factor) and `coordinate_note`.
+#' @source Mottl, O., Moses, J. and Klimes, P. (2023). Zenodo.
+#'   \doi{10.5281/zenodo.8191946}
 #' @export
 #' @examples
-#' geo_example_sites("wilhelm")
-#' geo_example_sites("wanang")
-geo_example_sites <- function(which = c("wilhelm", "wanang")) {
-  which <- rlang::arg_match(which)
-  if (which == "wilhelm") {
-    out <- tibble::tibble(
-      site = c(
-        "MW0200", "MW0700", "MW1200", "MW1700",
-        "MW2200", "MW2700", "MW3200", "MW3700"
-      ),
-      lon = c(
-        145.23, 145.18, 145.12, 145.06,
-        145.01, 144.97, 144.94, 144.92
-      ),
-      lat = c(
-        -5.72, -5.74, -5.78, -5.81,
-        -5.85, -5.88, -5.90, -5.92
-      ),
-      elevation = c(200L, 700L, 1200L, 1700L, 2200L, 2700L, 3200L, 3700L)
-    )
-  } else {
-    out <- tibble::tibble(
-      site = c("Wanang", "Numba", "Yawan"),
-      lon = c(145.08, 145.77, 146.30),
-      lat = c(-5.23, -5.95, -6.15),
-      elevation = c(200L, 900L, 1800L)
-    )
-  }
-  bands <- paste0(out$elevation, " m")
-  out$elevation_band <- factor(bands, levels = bands)
-  out$coordinate_note <- "demonstration coordinates (not surveyed GPS)"
+#' geo_example_sites()
+geo_example_sites <- function(which = "wilhelm") {
+  which <- rlang::arg_match(which, "wilhelm")
+  src <- png_ants_sites
+  bands <- sort(unique(src$elevation_band))
+  out <- tibble::tibble(
+    site = sprintf("MW%04d", bands),
+    lon = round(vapply(bands, function(b) {
+      mean(src$lon[src$elevation_band == b])
+    }, numeric(1)), 5),
+    lat = round(vapply(bands, function(b) {
+      mean(src$lat[src$elevation_band == b])
+    }, numeric(1)), 5),
+    elevation = as.integer(bands)
+  )
+  labs <- paste0(out$elevation, " m")
+  out$elevation_band <- factor(labs, levels = labs)
+  out$coordinate_note <- "published bait GPS, doi:10.5281/zenodo.8191946"
   out
 }

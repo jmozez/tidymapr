@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot-topo.R
 \name{geo_example_stems}
 \alias{geo_example_stems}
-\title{Illustrative ForestGEO-style stem table}
+\title{Simulated ForestGEO-style stem table for tests}
 \usage{
 geo_example_stems(n = 120, seed = 1)
 }
@@ -18,9 +18,9 @@ A tibble.
 Returns a small stem inventory in local metre coordinates (\code{gx}, \code{gy})
 for trying \code{\link[=plot_topo]{plot_topo()}}. Columns follow the ForestGEO convention
 (\code{plot}, \code{treeID}, \code{stemID}, \code{gx}, \code{gy}, \code{dbh}, \code{species}, \code{status}).
-Positions are simulated on a 100 m x 100 m plot for examples only; they
-are not real Wanang or ForestGEO coordinates. Replace with your own
-inventory for publication.
+Positions, sizes and species are simulated on a 100 m x 100 m plot to
+check code only. They are not real Wanang or ForestGEO trees: do not
+present maps or results from this table as field data.
 }
 \examples{
 geo_example_stems()
