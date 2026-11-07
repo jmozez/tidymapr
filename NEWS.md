@@ -1,5 +1,15 @@
 # tidymapr 0.0.0.9000
 
+* Maps use real, published records only. New dataset `png_ants_sites`
+  holds the published bait GPS of the 16 Mt Wilhelm ant transects (Mottl,
+  Moses and Klimes 2023, doi:10.5281/zenodo.8191946), and
+  `geo_example_sites()` returns their band centroids. The invented Wanang
+  coordinates and the simulated Wanang stem case study are gone.
+* The Gallery now shows the real-data site, Hill-number, SRTM elevation
+  and *Oecophylla smaragdina* species distribution maps (GBIF CC0/CC BY
+  records in `inst/extdata`, WorldClim 2.1), rendered by
+  `data-raw/gallery_maps.R`. Basemap tiles are drawn in the right
+  projection and their zoom follows the map extent.
 * First version. All mapping, geospatial and spatial-ecology verbs move here
   from tidydiversity, which stays the home of diversity estimation. The two
   packages are designed to be loaded together:

@@ -40,7 +40,7 @@ test_that("online basemap falls back offline without error", {
 
 test_that("vector verbs match sf on a simple case", {
   skip_if_not_installed("sf")
-  sites <- geo_as_sf(geo_example_sites("wanang"), lon, lat)
+  sites <- geo_as_sf(geo_example_sites("wilhelm"), lon, lat)
   buf <- geo_buffer(sites, dist = 1000)
   expect_s3_class(buf, "sf")
   expect_true(all(sf::st_geometry_type(buf) %in% c("POLYGON", "MULTIPOLYGON")))

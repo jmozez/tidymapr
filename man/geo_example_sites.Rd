@@ -2,29 +2,29 @@
 % Please edit documentation in R/plot-sites.R
 \name{geo_example_sites}
 \alias{geo_example_sites}
-\title{Demonstration coordinates for the package PNG example sites}
+\title{Published GPS coordinates for the Mt Wilhelm study sites}
+\source{
+Mottl, O., Moses, J. and Klimes, P. (2023). Zenodo.
+\doi{10.5281/zenodo.8191946}
+}
 \usage{
-geo_example_sites(which = c("wilhelm", "wanang"))
+geo_example_sites(which = "wilhelm")
 }
 \arguments{
-\item{which}{\code{"wilhelm"} (elevational-band demo) or \code{"wanang"}
-(Wanang, Numba and Yawan canopy-plot demo).}
+\item{which}{Study area. Only \code{"wilhelm"} (the eight elevation bands from
+200 to 3700 m) is available: the package has no published coordinates
+for other areas, so none are invented.}
 }
 \value{
-A tibble with \code{site}, \code{lon}, \code{lat}, \code{elevation},
-\code{elevation_band} (ordered factor) and \code{coordinate_note}.
+A tibble with \code{site}, \code{lon}, \code{lat}, \code{elevation} (nominal band in
+metres), \code{elevation_band} (ordered factor) and \code{coordinate_note}.
 }
 \description{
-Returns a small tibble of WGS84 longitude and latitude laid out along the
-elevational bands used by \link[tidydiversity:png_ants]{tidydiversity::png_ants} and
-\link[tidydiversity:png_frogs]{tidydiversity::png_frogs}, or for the three canopy plots in
-\link[tidydiversity:png_tree_ants]{tidydiversity::png_tree_ants}. Those community tables carry
-elevation but not GPS, so these coordinates are \strong{demonstration only}
-(approximate corridor near Mt Wilhelm / northern PNG). Do not treat them
-as surveyed station locations in a publication; replace them with your
-own GPS records and cite the source.
+Returns one row per elevation band of the Mt Wilhelm ant survey
+(\link[tidydiversity:png_ants]{tidydiversity::png_ants}), with WGS84 longitude and latitude averaged from the bait
+GPS positions published by Mottl, Moses and Klimes (2023). These are real
+field coordinates; see \link{png_ants_sites} for the two transects per band.
 }
 \examples{
-geo_example_sites("wilhelm")
-geo_example_sites("wanang")
+geo_example_sites()
 }

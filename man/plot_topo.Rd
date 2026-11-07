@@ -75,10 +75,9 @@ Expected columns for a ForestGEO-like table: \code{plot}, \code{treeID}, \code{s
 \code{gx}, \code{gy} (metres from the plot origin), \code{dbh}, \code{species}, \code{status}.
 Geographic inventories may use \code{lon} / \code{lat} instead of \code{gx} / \code{gy}.
 
-Use \code{\link[=geo_example_stems]{geo_example_stems()}} for a small illustrative stem table when you
-do not yet have GPS or plot coordinates. Replace it with your own
-inventory before publication. SDM tools such as biomod2 and Maxent stay
-out of scope here.
+Pass your own stem inventory. \code{\link[=geo_example_stems]{geo_example_stems()}} is simulated test
+data for checking code, not a real plot, so do not publish maps drawn
+from it.
 }
 \examples{
 \dontshow{if (requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}

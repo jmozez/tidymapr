@@ -32,11 +32,3 @@ sites <- geo_example_sites("wilhelm")
 plot_sites(sites, lon, lat, colour = elevation_band, label = site, basemap = "coast")
 ```
 
-### Wanang stems
-
-A ForestGEO-style plot: stems over hillshade and contours, and terrain
-variables from the DEM. [Full tutorial](case-wanang-stems.html).
-
-```{r wanang, fig.alt = "Illustrative stem map over topography", fig.height = 5.5}
-plot_topo(geo_example_stems(), colour = species, size = dbh, dem = geo_example_dem())
-```

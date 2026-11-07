@@ -32,11 +32,11 @@ tidydiversity.
 
 ## Study-site map (publication figure)
 
-Papers almost always need a map of the sampling sites. The Papua New Guinea
-example tables (`png_ants`, `png_frogs`, `png_tree_ants`) record elevation
-but not GPS, so [geo_example_sites()] supplies illustrative WGS84 positions
-near Mt Wilhelm and the Wanang canopy plots. Replace them with your own GPS
-before publication.
+Papers almost always need a map of the sampling sites. The Mt Wilhelm ant
+survey behind `tidydiversity::png_ants` comes with published bait GPS
+positions ([png_ants_sites]; Mottl, Moses and Klimes 2023,
+[doi:10.5281/zenodo.8191946](https://doi.org/10.5281/zenodo.8191946)), and
+[geo_example_sites()] returns them as one point per elevation band.
 
 ```{r study-sites-map, fig.width = 7, fig.height = 5.2, eval = requireNamespace("ggplot2", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)}
 sites <- geo_example_sites("wilhelm")

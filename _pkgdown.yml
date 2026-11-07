@@ -54,8 +54,6 @@ navbar:
         - text: Papua New Guinea
         - text: Ants along Mt Wilhelm, from sites to maps
           href: articles/case-png-wilhelm.html
-        - text: Stems over topography at Wanang
-          href: articles/case-wanang-stems.html
     guides:
       text: Guides
       menu:
@@ -94,6 +92,7 @@ reference:
       - geo_as_features
   - title: Example data
     contents:
+      - png_ants_sites
       - geo_example_sites
       - geo_example_stems
       - geo_example_dem
@@ -148,7 +147,6 @@ articles:
     contents:
       - articles/tutorials
       - articles/case-png-wilhelm
-      - articles/case-wanang-stems
   - title: Guides
     contents:
       - articles/geospatial

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot-topo.R
 \name{geo_example_dem}
 \alias{geo_example_dem}
-\title{Illustrative DEM for local metre stem maps}
+\title{Simulated DEM for testing local metre stem maps}
 \usage{
 geo_example_dem(res = 2)
 }
@@ -14,7 +14,9 @@ A \code{terra::SpatRaster}.
 }
 \description{
 Builds a small elevation raster in the same 0-100 m local coordinates as
-\code{\link[=geo_example_stems]{geo_example_stems()}}, for topographic backdrops in \code{\link[=plot_topo]{plot_topo()}}.
+\code{\link[=geo_example_stems]{geo_example_stems()}}, for testing topographic backdrops in
+\code{\link[=plot_topo]{plot_topo()}}. The surface is a formula, not a survey: use a real DEM
+(for example \code{\link[=geo_elevation]{geo_elevation()}}) for figures.
 }
 \examples{
 \dontshow{if (requireNamespace("terra", quietly = TRUE)) withAutoprint(\{ # examplesIf}

@@ -239,12 +239,24 @@ test_that("plot_sites() errors on empty coordinates", {
   expect_error(plot_sites(bad, lon, lat), "finite coordinates")
 })
 
-test_that("geo_example_sites() covers Wilhelm and Wanang", {
+test_that("geo_example_sites() returns published Mt Wilhelm GPS", {
   w <- geo_example_sites("wilhelm")
   expect_true(all(c("site", "lon", "lat", "elevation") %in% names(w)))
   expect_equal(nrow(w), 8)
-  a <- geo_example_sites("wanang")
-  expect_equal(a$site, c("Wanang", "Numba", "Yawan"))
+  skip_if_not_installed("tidydiversity")
+  expect_true(all(unique(tidydiversity::png_ants$site) %in% w$site))
+  # Band centroids are the means of the two published transects
+  t200 <- png_ants_sites[png_ants_sites$site == "MW0200", ]
+  expect_equal(w$lon[1], round(mean(t200$lon), 5))
+  expect_true(all(w$lon > 145 & w$lon < 145.4))
+  expect_true(all(w$lat > -5.9 & w$lat < -5.7))
+  expect_error(geo_example_sites("wanang"))
+})
+
+test_that("png_ants_sites has two transects per band", {
+  expect_equal(nrow(png_ants_sites), 16)
+  expect_equal(as.vector(table(png_ants_sites$site)), rep(2L, 8))
+  expect_true(all(png_ants_sites$baits > 0))
 })
 
 

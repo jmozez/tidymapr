@@ -148,7 +148,7 @@ geo_basemap_layers <- function(bbox,
           alpha = alpha
         ),
         ggplot2::scale_fill_viridis_c(
-          name = zname, option = "C",
+          name = geo_pretty_label(zname), option = "C",
           guide = ggplot2::guide_colourbar(order = 1)
         )
       ),
@@ -316,6 +316,7 @@ geo_default_land_poly <- function(bbox, crs = 4326) {
 }
 
 geo_fetch_tiles <- function(bbox, provider, zoom = NULL, crs = 4326) {
+  zoom <- zoom %||% geo_auto_zoom(bbox)
   # Prefer maptiles when available; otherwise try a minimal XYZ fetch.
   if (requireNamespace("maptiles", quietly = TRUE) &&
         requireNamespace("terra", quietly = TRUE)) {
@@ -333,7 +334,7 @@ geo_fetch_tiles <- function(bbox, provider, zoom = NULL, crs = 4326) {
           provider = provider,
           zoom = zoom,
           crop = TRUE,
-          project = FALSE,
+          project = TRUE,
           cachedir = cache,
           verbose = FALSE
         )
@@ -375,20 +376,7 @@ geo_fetch_tiles_xyz <- function(bbox, provider, zoom = NULL, crs = 4326) {
   xmax <- unname(bbox["xmax"])
   ymin <- unname(bbox["ymin"])
   ymax <- unname(bbox["ymax"])
-  if (is.null(zoom)) {
-    span <- max(xmax - xmin, ymax - ymin)
-    zoom <- if (span > 40) {
-      3
-    } else if (span > 10) {
-      5
-    } else if (span > 2) {
-      7
-    } else if (span > 0.5) {
-      9
-    } else {
-      11
-    }
-  }
+  zoom <- zoom %||% geo_auto_zoom(bbox)
   # Limit tile count for safety
   tiles <- geo_xyz_tile_index(xmin, ymin, xmax, ymax, zoom)
   if (nrow(tiles) > 64) {
@@ -478,9 +466,9 @@ geo_tile_layers <- function(tiles, alpha = 0.9) {
     if (is.finite(alpha) && alpha < 1) {
       arr <- alpha * arr + (1 - alpha) * 1
     }
+    # terra arrays run north to south by row, as annotation_raster expects
     img <- grDevices::rgb(arr[, , 1], arr[, , 2], arr[, , 3])
     dim(img) <- dim(arr)[1:2]
-    img <- t(img)[, rev(seq_len(nrow(img))), drop = FALSE] # annotation_raster
     list(ggplot2::annotation_raster(
       img,
       xmin = e$xmin, xmax = e$xmax,
@@ -495,5 +483,25 @@ geo_tile_layers <- function(tiles, alpha = 0.9) {
       ggplot2::aes(.data$x, .data$y, fill = .data[[zname]]),
       alpha = alpha
     ))
+  }
+}
+
+# Tile zoom from the extent in degrees: sharp enough for a 180 mm figure
+# without fetching more tiles than needed.
+geo_auto_zoom <- function(bbox) {
+  span <- max(
+    unname(bbox["xmax"] - bbox["xmin"]),
+    unname(bbox["ymax"] - bbox["ymin"])
+  )
+  if (span > 40) {
+    3
+  } else if (span > 10) {
+    5
+  } else if (span > 2) {
+    8
+  } else if (span > 0.5) {
+    10
+  } else {
+    11
   }
 }

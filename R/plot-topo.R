@@ -12,10 +12,9 @@
 #' `gx`, `gy` (metres from the plot origin), `dbh`, `species`, `status`.
 #' Geographic inventories may use `lon` / `lat` instead of `gx` / `gy`.
 #'
-#' Use [geo_example_stems()] for a small illustrative stem table when you
-#' do not yet have GPS or plot coordinates. Replace it with your own
-#' inventory before publication. SDM tools such as biomod2 and Maxent stay
-#' out of scope here.
+#' Pass your own stem inventory. [geo_example_stems()] is simulated test
+#' data for checking code, not a real plot, so do not publish maps drawn
+#' from it.
 #'
 #' @param data A data frame of stems/trees, or an `sf` object.
 #' @param x,y <[`data-masking`][dplyr::dplyr_data_masking]> Local metre
@@ -425,14 +424,14 @@ plot_topo_scales <- function(p, data, col_nm, size_nm, palette, aes = "colour") 
   p
 }
 
-#' Illustrative ForestGEO-style stem table
+#' Simulated ForestGEO-style stem table for tests
 #'
 #' Returns a small stem inventory in local metre coordinates (`gx`, `gy`)
 #' for trying [plot_topo()]. Columns follow the ForestGEO convention
 #' (`plot`, `treeID`, `stemID`, `gx`, `gy`, `dbh`, `species`, `status`).
-#' Positions are simulated on a 100 m x 100 m plot for examples only; they
-#' are not real Wanang or ForestGEO coordinates. Replace with your own
-#' inventory for publication.
+#' Positions, sizes and species are simulated on a 100 m x 100 m plot to
+#' check code only. They are not real Wanang or ForestGEO trees: do not
+#' present maps or results from this table as field data.
 #'
 #' @param n Number of stems.
 #' @param seed RNG seed for reproducibility.
@@ -466,10 +465,12 @@ geo_example_stems <- function(n = 120, seed = 1) {
   )
 }
 
-#' Illustrative DEM for local metre stem maps
+#' Simulated DEM for testing local metre stem maps
 #'
 #' Builds a small elevation raster in the same 0-100 m local coordinates as
-#' [geo_example_stems()], for topographic backdrops in [plot_topo()].
+#' [geo_example_stems()], for testing topographic backdrops in
+#' [plot_topo()]. The surface is a formula, not a survey: use a real DEM
+#' (for example [geo_elevation()]) for figures.
 #'
 #' @param res Grid resolution in metres.
 #' @return A `terra::SpatRaster`.
@@ -492,10 +493,11 @@ geo_example_dem <- function(res = 2) {
   r
 }
 
-#' Two illustrative censuses for demography demos
+#' Two simulated censuses for testing demography code
 #'
 #' Builds a pair of ForestGEO-style tree tables five years apart, with
-#' mortality, recruitment and growth, for trying [tidydiversity::stems_demography()].
+#' simulated mortality, recruitment and growth, for testing
+#' [tidydiversity::stems_demography()]. Not real census data.
 #'
 #' @param n Number of trees in census 1.
 #' @param seed RNG seed.

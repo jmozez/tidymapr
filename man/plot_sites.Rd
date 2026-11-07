@@ -112,10 +112,9 @@ ggplot object, so further layers can be added. Diversity values mapped as
 a continuous fill still use \code{\link[=plot_geo]{plot_geo()}}; this verb is for the study-site
 map that papers usually need first.
 
-The Papua New Guinea example tables in tidydiversity (\code{png_ants},
-\code{png_frogs}, \code{png_tree_ants}) carry elevation but not GPS. Use \code{\link[=geo_example_sites]{geo_example_sites()}}
-for illustrative WGS84 coordinates near those study areas when trying the
-workflow, and replace them with your own GPS before publication.
+The Mt Wilhelm ant data (\link[tidydiversity:png_ants]{tidydiversity::png_ants}) come with published bait GPS
+positions in \link{png_ants_sites}; \code{\link[=geo_example_sites]{geo_example_sites()}} returns them as one
+point per elevation band, ready to join by \code{site}.
 
 SDM tools such as biomod2 and Maxent are out of scope here; they can be
 rebuilt later as tidy verbs.

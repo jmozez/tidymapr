@@ -25,9 +25,10 @@ library(ggplot2)
 
 ## Study sites
 
-The example table records elevation but not GPS, so `geo_example_sites()`
-supplies illustrative WGS84 positions. Replace them with your own
-coordinates before publication.
+`geo_example_sites()` returns the published bait GPS of the survey
+(`png_ants_sites`; Mottl, Moses and Klimes 2023,
+[doi:10.5281/zenodo.8191946](https://doi.org/10.5281/zenodo.8191946)),
+averaged to one point per elevation band.
 
 ```{r sites, fig.height = 5, fig.alt = "Study sites along Mt Wilhelm coloured by elevation band"}
 sites <- geo_example_sites("wilhelm") |>

@@ -29,9 +29,11 @@ library(tidymapr)
 
 ## Study sites
 
-`geo_example_sites()` supplies illustrative WGS84 positions for the Papua
-New Guinea example data in tidydiversity. Replace them with your own GPS
-before publication.
+`geo_example_sites()` returns the published bait GPS of the Mt Wilhelm
+ant survey behind `tidydiversity::png_ants` (`png_ants_sites`; Mottl,
+Moses and Klimes 2023,
+[doi:10.5281/zenodo.8191946](https://doi.org/10.5281/zenodo.8191946)),
+one point per elevation band.
 
 ```{r sites}
 sites <- geo_example_sites("wilhelm")

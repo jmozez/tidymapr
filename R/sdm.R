@@ -345,7 +345,7 @@ plot_sdm_raster <- function(r, basemap = "esri", ...) {
     ) +
     ggplot2::labs(
       x = NULL, y = NULL,
-      subtitle = dots$subtitle %||% "Demonstration suitability surface (not a published model)"
+      subtitle = dots$subtitle
     )
   attr(p, "tmr_decoration") <- decor
   p

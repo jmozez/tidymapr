@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot-topo.R
 \name{geo_example_censuses}
 \alias{geo_example_censuses}
-\title{Two illustrative censuses for demography demos}
+\title{Two simulated censuses for testing demography code}
 \usage{
 geo_example_censuses(n = 80, seed = 1, time = 5)
 }
@@ -18,7 +18,8 @@ A list with \code{census1} and \code{census2} tibbles.
 }
 \description{
 Builds a pair of ForestGEO-style tree tables five years apart, with
-mortality, recruitment and growth, for trying \code{\link[tidydiversity:stems_demography]{tidydiversity::stems_demography()}}.
+simulated mortality, recruitment and growth, for testing
+\code{\link[tidydiversity:stems_demography]{tidydiversity::stems_demography()}}. Not real census data.
 }
 \examples{
 \dontshow{if (requireNamespace("tidydiversity", quietly = TRUE)) withAutoprint(\{ # examplesIf}

@@ -94,8 +94,9 @@ div_estimate(png_ants, q = 0, nboot = 0, .by = season) |>
   plot_geo(estimate, lon, lat, label = site, basemap = "coast")
 ```
 
-Site coordinates from `geo_example_sites()` are illustrative; replace them
-with your own GPS before publication.
+Site coordinates from `geo_example_sites()` are the published bait GPS of
+the Mt Wilhelm ant survey (`png_ants_sites`; Mottl, Moses and Klimes 2023,
+[doi:10.5281/zenodo.8191946](https://doi.org/10.5281/zenodo.8191946)).
 
 ## Functions
 
@@ -108,7 +109,7 @@ with your own GPS before publication.
 | Vector and raster | `geo_read()`, `geo_write()`, `geo_vector_*()`, `geo_raster_*()`, `geo_buffer()`, `geo_crop()`, `geo_union()`, `geo_area()`, `geo_join()` |
 | Environmental layers | `geo_bioclim()`, `geo_worldclim()`, `geo_chelsa()`, `geo_elevation()`, `geo_gadm()` |
 | Species distribution models | `sdm_fit()`, `sdm_predict()`, `sdm_evaluate()`, `plot_sdm()` |
-| Example data | `geo_example_sites()`, `geo_example_stems()`, `geo_example_dem()`, `geo_example_censuses()` |
+| Example data | `png_ants_sites` and `geo_example_sites()` (published Mt Wilhelm GPS); `geo_example_stems()`, `geo_example_dem()` and `geo_example_censuses()` (simulated, for tests only) |
 
 ## Gallery
 
