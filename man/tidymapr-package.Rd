@@ -15,8 +15,8 @@ ggplot, so diversity estimates and maps stay in one tidy workflow.
 Useful links:
 \itemize{
   \item \url{https://tidymapr-e72c18.gitlab.io/}
-  \item \url{https://gitlab.com/jimmy.moses/tidymapr}
-  \item Report bugs at \url{https://gitlab.com/jimmy.moses/tidymapr/issues}
+  \item \url{https://codeberg.org/jmoses/tidymapr}
+  \item Report bugs at \url{https://codeberg.org/jmoses/tidymapr/issues}
 }
 
 }
