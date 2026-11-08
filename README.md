@@ -56,12 +56,14 @@ models.
 
 ## Installation
 
-Install the development version from GitHub:
+Install the development version from GitLab:
 
 ``` r
 # install.packages("pak")
 pak::pak("gitlab::jimmy.moses/tidymapr")
 ```
+
+The source code lives on GitLab, <https://gitlab.com/jimmy.moses/tidymapr>, with a full mirror on Codeberg, <https://codeberg.org/jmoses/tidymapr>.
 
 **sf**, **terra** and the other spatial packages are optional; install
 the ones you need with `install.packages(c("sf", "terra"))`.
