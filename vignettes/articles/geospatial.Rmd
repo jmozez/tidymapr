@@ -399,8 +399,8 @@ plot_sites(
   geo_example_sites("wilhelm"), lon, lat,
   colour = elevation_band, admin = png_prov, inset = "png"
 )
-# Clip a raster to the country outline (GDAL warp via terra):
-# dem <- geo_raster_mask(dem, geo_gadm("PNG", level = 0))
+# Clip an elevation raster to the country outline (GDAL warp via terra):
+dem <- geo_raster_mask(dem, geo_gadm("PNG", level = 0))
 ```
 
 Raster and vector files are read and written through **GDAL** (via terra and
