@@ -1,0 +1,72 @@
+# R package CI for GitLab: R CMD check, lint and spelling on every push and
+# merge request; the pkgdown website is built and published to GitLab Pages
+# from the default branch.
+image: rocker/geospatial:4.5
+
+variables:
+  NOT_CRAN: "true"
+  R_KEEP_PKG_SOURCE: "yes"
+  _R_CHECK_FORCE_SUGGESTS_: "false"
+  R_LIBS_USER: "$CI_PROJECT_DIR/.R-lib"
+  PAK_CACHE_DIR: "$CI_PROJECT_DIR/.pak-cache"
+
+cache:
+  key: "r-$CI_COMMIT_REF_SLUG"
+  paths:
+    - .R-lib/
+    - .pak-cache/
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
+default:
+  before_script:
+    - mkdir -p "$R_LIBS_USER"
+    - Rscript -e 'if (!requireNamespace("pak", quietly = TRUE)) install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))'
+
+stages:
+  - check
+  - website
+
+check:
+  stage: check
+  script:
+    - Rscript -e 'pak::local_install_dev_deps(upgrade = FALSE); pak::pkg_install("rcmdcheck")'
+    - Rscript -e 'rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), build_args = "--no-manual", error_on = "warning", check_dir = "check")'
+  artifacts:
+    when: always
+    paths:
+      - check/*.Rcheck/00check.log
+      - check/*.Rcheck/tests/
+    expire_in: 2 weeks
+
+lint:
+  stage: check
+  script:
+    - Rscript -e 'pak::local_install_dev_deps(upgrade = FALSE); pak::pkg_install(c("lintr", "spelling", "local::."))'
+    - LINTR_ERROR_ON_LINT=true Rscript -e 'lintr::lint_package()'
+    # spelling has no en-NZ dictionary, so check against en-GB.
+    - >-
+      Rscript -e 'files <- c(list.files("man", "\\.Rd$", full.names = TRUE),
+      list.files("vignettes", "\\.Rmd$", full.names = TRUE, recursive = TRUE),
+      "README.Rmd", "NEWS.md", "DESCRIPTION");
+      bad <- spelling::spell_check_files(files,
+      ignore = readLines("inst/WORDLIST", encoding = "UTF-8"), lang = "en_GB");
+      print(bad); if (nrow(bad) > 0) stop("Fix the spelling or add the words to inst/WORDLIST.")'
+
+pages:
+  stage: website
+  needs: []
+  script:
+    - Rscript -e 'pak::local_install_dev_deps(upgrade = FALSE); pak::pkg_install(c("pkgdown", "local::."))'
+    - Rscript -e 'pkgdown::build_site(new_process = FALSE, install = FALSE, override = list(destination = "public"))'
+  artifacts:
+    paths:
+      - public
+    expire_in: 2 weeks
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

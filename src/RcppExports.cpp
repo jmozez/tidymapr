@@ -133,6 +133,99 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// geo_jenks_cpp
+NumericVector geo_jenks_cpp(NumericVector x, int k);
+RcppExport SEXP _tidymapr_geo_jenks_cpp(SEXP xSEXP, SEXP kSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_jenks_cpp(x, k));
+    return rcpp_result_gen;
+END_RCPP
+}
+// geo_idw_cpp
+NumericVector geo_idw_cpp(NumericVector xs, NumericVector ys, NumericVector zs, NumericVector xp, NumericVector yp, double power, bool lonlat, double maxdist);
+RcppExport SEXP _tidymapr_geo_idw_cpp(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP xpSEXP, SEXP ypSEXP, SEXP powerSEXP, SEXP lonlatSEXP, SEXP maxdistSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type xs(xsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ys(ysSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type zs(zsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type xp(xpSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type yp(ypSEXP);
+    Rcpp::traits::input_parameter< double >::type power(powerSEXP);
+    Rcpp::traits::input_parameter< bool >::type lonlat(lonlatSEXP);
+    Rcpp::traits::input_parameter< double >::type maxdist(maxdistSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_idw_cpp(xs, ys, zs, xp, yp, power, lonlat, maxdist));
+    return rcpp_result_gen;
+END_RCPP
+}
+// geo_krige_cpp
+List geo_krige_cpp(NumericVector xs, NumericVector ys, NumericVector zs, NumericVector xp, NumericVector yp, int model, double nugget, double psill, double range, bool lonlat);
+RcppExport SEXP _tidymapr_geo_krige_cpp(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP xpSEXP, SEXP ypSEXP, SEXP modelSEXP, SEXP nuggetSEXP, SEXP psillSEXP, SEXP rangeSEXP, SEXP lonlatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type xs(xsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ys(ysSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type zs(zsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type xp(xpSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type yp(ypSEXP);
+    Rcpp::traits::input_parameter< int >::type model(modelSEXP);
+    Rcpp::traits::input_parameter< double >::type nugget(nuggetSEXP);
+    Rcpp::traits::input_parameter< double >::type psill(psillSEXP);
+    Rcpp::traits::input_parameter< double >::type range(rangeSEXP);
+    Rcpp::traits::input_parameter< bool >::type lonlat(lonlatSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_krige_cpp(xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// geo_d8_cpp
+IntegerVector geo_d8_cpp(NumericVector z, int nrow, int ncol, double xres, double yres);
+RcppExport SEXP _tidymapr_geo_d8_cpp(SEXP zSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP xresSEXP, SEXP yresSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
+    Rcpp::traits::input_parameter< double >::type xres(xresSEXP);
+    Rcpp::traits::input_parameter< double >::type yres(yresSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_d8_cpp(z, nrow, ncol, xres, yres));
+    return rcpp_result_gen;
+END_RCPP
+}
+// geo_flowacc_cpp
+NumericVector geo_flowacc_cpp(IntegerVector dir, int nrow, int ncol, NumericVector weight);
+RcppExport SEXP _tidymapr_geo_flowacc_cpp(SEXP dirSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP weightSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type dir(dirSEXP);
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type weight(weightSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_flowacc_cpp(dir, nrow, ncol, weight));
+    return rcpp_result_gen;
+END_RCPP
+}
+// geo_watershed_cpp
+IntegerVector geo_watershed_cpp(IntegerVector dir, int nrow, int ncol, IntegerVector outlets);
+RcppExport SEXP _tidymapr_geo_watershed_cpp(SEXP dirSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP outletsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type dir(dirSEXP);
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type outlets(outletsSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_watershed_cpp(dir, nrow, ncol, outlets));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_geo_haversine_pair_cpp", (DL_FUNC) &_tidymapr_geo_haversine_pair_cpp, 4},
@@ -145,6 +238,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_sdm_cloglog_cpp", (DL_FUNC) &_tidymapr_sdm_cloglog_cpp, 1},
     {"_tidymapr_sdm_logistic_cpp", (DL_FUNC) &_tidymapr_sdm_logistic_cpp, 1},
     {"_tidymapr_sdm_linear_predict_cpp", (DL_FUNC) &_tidymapr_sdm_linear_predict_cpp, 2},
+    {"_tidymapr_geo_jenks_cpp", (DL_FUNC) &_tidymapr_geo_jenks_cpp, 2},
+    {"_tidymapr_geo_idw_cpp", (DL_FUNC) &_tidymapr_geo_idw_cpp, 8},
+    {"_tidymapr_geo_krige_cpp", (DL_FUNC) &_tidymapr_geo_krige_cpp, 10},
+    {"_tidymapr_geo_d8_cpp", (DL_FUNC) &_tidymapr_geo_d8_cpp, 5},
+    {"_tidymapr_geo_flowacc_cpp", (DL_FUNC) &_tidymapr_geo_flowacc_cpp, 4},
+    {"_tidymapr_geo_watershed_cpp", (DL_FUNC) &_tidymapr_geo_watershed_cpp, 4},
     {NULL, NULL, 0}
 };
 

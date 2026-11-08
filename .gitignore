@@ -11,3 +11,7 @@ src/*.so
 src/*.dll
 figure/
 tests/testthat/Rplots.pdf
+.R-lib/
+.pak-cache/
+check/
+public/

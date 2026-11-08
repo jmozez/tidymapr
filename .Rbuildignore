@@ -17,3 +17,8 @@
 ^vignettes/articles$
 ^figure$
 ^data-raw$
+^\.gitlab-ci\.yml$
+^\.R-lib$
+^\.pak-cache$
+^check$
+^public$

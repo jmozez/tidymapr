@@ -1,4 +1,3 @@
-url: https://jmozez.github.io/tidymapr/
 
 template:
   bootstrap: 5
@@ -40,7 +39,7 @@ navbar:
   bg: dark
   structure:
     left: [intro, tutorials, guides, gallery, reference, news]
-    right: [tidydiversity, search, github, lightswitch]
+    right: [tidydiversity, search, gitlab, lightswitch]
   components:
     intro:
       text: Get started
@@ -69,7 +68,7 @@ navbar:
       text: tidydiversity
       icon: fa-leaf
       aria-label: tidydiversity, the companion package for diversity estimation
-      href: https://jmozez.github.io/tidydiversity/
+      href: https://gitlab.com/jimmy.moses/tidydiversity
 
 home:
   title: "tidymapr: tidy mapping verbs for biodiversity and spatial ecology"
@@ -102,6 +101,7 @@ reference:
       - geo_distance
       - geo_decay
       - geo_moran
+      - geo_breaks
       - geo_mem
       - geo_rarefy_spatial
       - geo_grain
