@@ -1,3 +1,4 @@
+url: https://tidymapr-e72c18.gitlab.io/
 
 template:
   bootstrap: 5
@@ -68,7 +69,7 @@ navbar:
       text: tidydiversity
       icon: fa-leaf
       aria-label: tidydiversity, the companion package for diversity estimation
-      href: https://gitlab.com/jimmy.moses/tidydiversity
+      href: https://tidydiversity-033f3f.gitlab.io/
 
 home:
   title: "tidymapr: tidy mapping verbs for biodiversity and spatial ecology"
