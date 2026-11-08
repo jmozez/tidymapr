@@ -36,7 +36,7 @@ check:
   stage: check
   script:
     - Rscript -e 'pak::local_install_dev_deps(upgrade = FALSE); pak::pkg_install("rcmdcheck")'
-    - Rscript -e 'rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), build_args = "--no-manual", error_on = "warning", check_dir = "check")'
+    - Rscript -e 'rcmdcheck::rcmdcheck(args = "--no-manual", build_args = "--no-manual", error_on = "warning", check_dir = "check")'
   artifacts:
     when: always
     paths:

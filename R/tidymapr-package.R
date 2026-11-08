@@ -14,3 +14,6 @@
 #' @importFrom Rcpp sourceCpp
 ## usethis namespace: end
 NULL
+
+# Lazy-loaded package data used inside functions.
+utils::globalVariables("png_ants_sites")
