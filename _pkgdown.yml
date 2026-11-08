@@ -3,19 +3,19 @@ url: https://tidymapr-e72c18.gitlab.io/
 template:
   bootstrap: 5
   includes:
-    # Tell browsers the site has its own light and dark themes, so their
-    # automatic dark mode does not invert (darken) the figures.
+    # Light theme only: white pages and plots, and browsers must not apply
+    # their own automatic dark mode either.
     # The CSP allows only the site's own scripts; GitHub Pages cannot send
     # security headers, so they are set as meta tags.
     in_header: |
-      <meta name="color-scheme" content="light dark">
+      <meta name="color-scheme" content="only light">
       <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
       <meta name="referrer" content="strict-origin-when-cross-origin">
   opengraph:
     image:
       src: man/figures/logo.png
       alt: "tidymapr hex logo"
-  light-switch: true
+  light-switch: false
   bslib:
     primary: "#349295"
     secondary: "#11376B"
@@ -40,7 +40,7 @@ navbar:
   bg: dark
   structure:
     left: [intro, tutorials, guides, gallery, reference, news]
-    right: [tidydiversity, search, gitlab, lightswitch]
+    right: [tidydiversity, search, gitlab]
   components:
     intro:
       text: Get started
