@@ -160,7 +160,7 @@ plot_sites(
 
 Habitat suitability of the green tree ant *Oecophylla smaragdina* across
 Papua New Guinea. Presences are GBIF records released under CC0 or
-CC BY 4.0 (GBIF.org occurrence search, 6 November 2026; dataset keys in
+CC BY 4.0 (GBIF occurrence search, 6 November 2026; dataset keys in
 the table), and the predictors are WorldClim 2.1 mean annual temperature
 (bio1) and annual rainfall (bio12) at 5 arc-minutes (Fick and Hijmans
 2017, [doi:10.1002/joc.5086](https://doi.org/10.1002/joc.5086)). The
