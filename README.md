@@ -1,12 +1,12 @@
 
-# tidymapr <a href="https://codeberg.org/jmoses/tidymapr"><img src="man/figures/logo.png" align="right" height="139" alt="tidymapr website" /></a>
+# tidymapr <a href="https://gitlab.com/jimmy.moses/tidymapr"><img src="man/figures/logo.png" align="right" height="139" alt="tidymapr website" /></a>
 
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![License:
-MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://codeberg.org/jmoses/tidymapr/src/branch/main/LICENSE.md)
+MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitlab.com/jimmy.moses/tidymapr/-/blob/main/LICENSE.md)
 <!-- badges: end -->
 
 <div class="tmr-hero">
@@ -14,7 +14,7 @@ MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://codeberg.org/jm
 **Tidy mapping verbs for biodiversity and spatial ecology.**
 
 tidymapr is the mapping companion to
-[tidydiversity](https://codeberg.org/jmoses/tidydiversity).
+[tidydiversity](https://gitlab.com/jimmy.moses/tidydiversity).
 tidydiversity estimates diversity, tidymapr puts it on a map, and the
 two work together the way dplyr and ggplot2 do. Every verb takes a data
 frame and returns a tibble, an `sf` table, a `SpatRaster` or a ggplot.
@@ -55,14 +55,14 @@ models.
 
 ## Installation
 
-Install the development version from Codeberg:
+Install the development version from GitLab:
 
 ``` r
 # install.packages("pak")
-pak::pak("git::https://codeberg.org/jmoses/tidymapr")
+pak::pak("gitlab::jimmy.moses/tidymapr")
 ```
 
-The source code lives on Codeberg, <https://codeberg.org/jmoses/tidymapr>.
+The source code lives on GitLab, <https://gitlab.com/jimmy.moses/tidymapr>.
 
 **sf**, **terra** and the other spatial packages are optional; install
 the ones you need with `install.packages(c("sf", "terra"))`.
@@ -126,7 +126,7 @@ of the Mt Wilhelm ant survey (`png_ants_sites`; Mottl, Moses and Klimes
 <img src="man/figures/README-geo-decay-1.png" alt="Ant dissimilarity against great-circle distance by season" width="100%" />
 
 See the
-[gallery](https://jmoses.codeberg.page/tidymapr/articles/gallery.html)
+[gallery](https://tidymapr-e72c18.gitlab.io/articles/gallery.html)
 for every map with its table and code.
 
 ## Licence

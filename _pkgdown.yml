@@ -1,4 +1,4 @@
-url: https://jmoses.codeberg.page/tidymapr/
+url: https://tidymapr-e72c18.gitlab.io/
 
 template:
   bootstrap: 5
@@ -38,22 +38,22 @@ figures:
 
 repo:
   url:
-    home: https://codeberg.org/jmoses/tidymapr/
-    source: https://codeberg.org/jmoses/tidymapr/src/branch/main/
-    issue: https://codeberg.org/jmoses/tidymapr/issues/
-    user: https://codeberg.org/
+    home: https://gitlab.com/jimmy.moses/tidymapr/
+    source: https://gitlab.com/jimmy.moses/tidymapr/-/blob/main/
+    issue: https://gitlab.com/jimmy.moses/tidymapr/-/issues/
+    user: https://gitlab.com/
   branch: main
 
 navbar:
   bg: dark
   structure:
     left: [intro, tutorials, guides, gallery, reference, news]
-    right: [tidydiversity, search, codeberg]
+    right: [tidydiversity, search, gitlab]
   components:
-    codeberg:
-      icon: fa-code-branch
-      aria-label: Source code on Codeberg
-      href: https://codeberg.org/jmoses/tidymapr
+    gitlab:
+      icon: fa-gitlab
+      aria-label: Source code on GitLab
+      href: https://gitlab.com/jimmy.moses/tidymapr
     intro:
       text: Get started
       href: articles/tidymapr.html
@@ -81,7 +81,7 @@ navbar:
       text: tidydiversity
       icon: fa-leaf
       aria-label: tidydiversity, the companion package for diversity estimation
-      href: https://jmoses.codeberg.page/tidydiversity/
+      href: https://tidydiversity-033f3f.gitlab.io/
 
 home:
   title: "tidymapr: tidy mapping verbs for biodiversity and spatial ecology"
