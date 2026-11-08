@@ -1,5 +1,14 @@
 # tidymapr 0.0.0.9000
 
+* New `geo_interpolate()` predicts a numeric column at raster cells or
+  points by inverse-distance weighting or ordinary kriging (exponential,
+  spherical or Gaussian variogram, fitted with gstat when not given).
+  Results equal `gstat::idw()` and `gstat::krige()` to numerical precision.
+* New terrain hydrology verbs: `geo_flow_direction()` (D8),
+  `geo_flow_accumulation()`, `geo_watershed()` (with outlet snapping) and
+  `geo_twi()` (topographic wetness index). Accumulation and watersheds equal
+  `terra::flowAccumulation()` and `terra::watershed()` for the same flow
+  directions.
 * Maps use real, published records only. New dataset `png_ants_sites`
   holds the published bait GPS of the 16 Mt Wilhelm ant transects (Mottl,
   Moses and Klimes 2023, doi:10.5281/zenodo.8191946), and
