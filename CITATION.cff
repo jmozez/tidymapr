@@ -11,8 +11,8 @@ authors:
 version: "0.0.0.9000"
 date-released: "2026-11-08"
 license: MIT
-repository-code: "https://gitlab.com/jimmy.moses/tidymapr"
-url: "https://gitlab.com/jimmy.moses/tidymapr"
+repository-code: "https://codeberg.org/jmoses/tidymapr"
+url: "https://codeberg.org/jmoses/tidymapr"
 keywords:
   - R
   - biodiversity

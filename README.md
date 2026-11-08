@@ -1,13 +1,12 @@
 
-# tidymapr <a href="https://gitlab.com/jimmy.moses/tidymapr"><img src="man/figures/logo.png" align="right" height="139" alt="tidymapr website" /></a>
+# tidymapr <a href="https://codeberg.org/jmoses/tidymapr"><img src="man/figures/logo.png" align="right" height="139" alt="tidymapr website" /></a>
 
 <!-- badges: start -->
-[![pipeline](https://gitlab.com/jimmy.moses/tidymapr/badges/main/pipeline.svg)](https://gitlab.com/jimmy.moses/tidymapr/-/pipelines)
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![License:
-MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitlab.com/jimmy.moses/tidymapr/-/blob/main/LICENSE.md)
+MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://codeberg.org/jmoses/tidymapr/src/branch/main/LICENSE.md)
 <!-- badges: end -->
 
 <div class="tmr-hero">
@@ -15,7 +14,7 @@ MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitlab.com/jimm
 **Tidy mapping verbs for biodiversity and spatial ecology.**
 
 tidymapr is the mapping companion to
-[tidydiversity](https://gitlab.com/jimmy.moses/tidydiversity).
+[tidydiversity](https://codeberg.org/jmoses/tidydiversity).
 tidydiversity estimates diversity, tidymapr puts it on a map, and the
 two work together the way dplyr and ggplot2 do. Every verb takes a data
 frame and returns a tibble, an `sf` table, a `SpatRaster` or a ggplot.
@@ -56,14 +55,14 @@ models.
 
 ## Installation
 
-Install the development version from GitLab:
+Install the development version from Codeberg:
 
 ``` r
 # install.packages("pak")
-pak::pak("gitlab::jimmy.moses/tidymapr")
+pak::pak("git::https://codeberg.org/jmoses/tidymapr")
 ```
 
-The source code lives on GitLab, <https://gitlab.com/jimmy.moses/tidymapr>, with a full mirror on Codeberg, <https://codeberg.org/jmoses/tidymapr>.
+The source code lives on Codeberg, <https://codeberg.org/jmoses/tidymapr>.
 
 **sf**, **terra** and the other spatial packages are optional; install
 the ones you need with `install.packages(c("sf", "terra"))`.

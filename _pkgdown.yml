@@ -36,12 +36,24 @@ figures:
   dev.args:
     bg: white
 
+repo:
+  url:
+    home: https://codeberg.org/jmoses/tidymapr/
+    source: https://codeberg.org/jmoses/tidymapr/src/branch/main/
+    issue: https://codeberg.org/jmoses/tidymapr/issues/
+    user: https://codeberg.org/
+  branch: main
+
 navbar:
   bg: dark
   structure:
     left: [intro, tutorials, guides, gallery, reference, news]
-    right: [tidydiversity, search, gitlab]
+    right: [tidydiversity, search, codeberg]
   components:
+    codeberg:
+      icon: fa-code-branch
+      aria-label: Source code on Codeberg
+      href: https://codeberg.org/jmoses/tidymapr
     intro:
       text: Get started
       href: articles/tidymapr.html
