@@ -136,7 +136,7 @@ png_ants |>
   autoplot()
 ```
 
-See the [gallery](https://tidymapr-e72c18.gitlab.io/articles/gallery.html)
+See the [gallery](https://jmoses.codeberg.page/tidymapr/articles/gallery.html)
 for every map with its table and code.
 
 ## Licence
