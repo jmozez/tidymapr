@@ -107,6 +107,11 @@ reference:
       - geo_rarefy_spatial
       - geo_grain
       - geo_middomain
+      - geo_interpolate
+  - title: Terrain hydrology
+    desc: D8 flow direction, flow accumulation, watersheds and the topographic wetness index, computed in C++.
+    contents:
+      - geo-hydrology
   - title: Maps
     contents:
       - plot_sites

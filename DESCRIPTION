@@ -38,6 +38,7 @@ Suggests:
     geodata,
     ggplot2 (>= 3.5.0),
     ggrepel,
+    gstat,
     knitr,
     leaflet,
     maptiles,
