@@ -14,7 +14,7 @@ Description: Tidy, pipe-friendly mapping and geospatial verbs for
     way that 'dplyr' and 'ggplot2' do: every verb takes a data frame and
     returns a tibble or a 'ggplot', so the two packages share one workflow.
 License: MIT + file LICENSE
-URL: https://tidymapr-e72c18.gitlab.io/, https://codeberg.org/jmoses/tidymapr
+URL: https://jmoses.codeberg.page/tidymapr/, https://codeberg.org/jmoses/tidymapr
 BugReports: https://codeberg.org/jmoses/tidymapr/issues
 Depends: 
     R (>= 4.1.0)

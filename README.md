@@ -126,7 +126,7 @@ of the Mt Wilhelm ant survey (`png_ants_sites`; Mottl, Moses and Klimes
 <img src="man/figures/README-geo-decay-1.png" alt="Ant dissimilarity against great-circle distance by season" width="100%" />
 
 See the
-[gallery](https://tidymapr-e72c18.gitlab.io/articles/gallery.html)
+[gallery](https://jmoses.codeberg.page/tidymapr/articles/gallery.html)
 for every map with its table and code.
 
 ## Licence
