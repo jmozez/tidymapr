@@ -102,6 +102,7 @@ reference:
       - geo_distance
       - geo_decay
       - geo_moran
+      - geo-local
       - geo_breaks
       - geo_mem
       - geo_rarefy_spatial

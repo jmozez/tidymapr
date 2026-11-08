@@ -1,5 +1,9 @@
 # tidymapr 0.0.0.9000
 
+* New local spatial statistics: `geo_hotspot()` (Getis-Ord Gi*) and
+  `geo_lisa()` (local Moran's I with cluster types, analytical or
+  permutation p-values) on k-nearest or distance-band neighbours. Results
+  equal `spdep::localG()` and `spdep::localmoran()`.
 * New `geo_interpolate()` predicts a numeric column at raster cells or
   points by inverse-distance weighting or ordinary kriging (exponential,
   spherical or Gaussian variogram, fitted with gstat when not given).
