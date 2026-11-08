@@ -41,3 +41,27 @@ sdm_linear_predict_cpp <- function(x, beta) {
     .Call(`_tidymapr_sdm_linear_predict_cpp`, x, beta)
 }
 
+geo_jenks_cpp <- function(x, k) {
+    .Call(`_tidymapr_geo_jenks_cpp`, x, k)
+}
+
+geo_idw_cpp <- function(xs, ys, zs, xp, yp, power, lonlat, maxdist) {
+    .Call(`_tidymapr_geo_idw_cpp`, xs, ys, zs, xp, yp, power, lonlat, maxdist)
+}
+
+geo_krige_cpp <- function(xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat) {
+    .Call(`_tidymapr_geo_krige_cpp`, xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat)
+}
+
+geo_d8_cpp <- function(z, nrow, ncol, xres, yres) {
+    .Call(`_tidymapr_geo_d8_cpp`, z, nrow, ncol, xres, yres)
+}
+
+geo_flowacc_cpp <- function(dir, nrow, ncol, weight) {
+    .Call(`_tidymapr_geo_flowacc_cpp`, dir, nrow, ncol, weight)
+}
+
+geo_watershed_cpp <- function(dir, nrow, ncol, outlets) {
+    .Call(`_tidymapr_geo_watershed_cpp`, dir, nrow, ncol, outlets)
+}
+

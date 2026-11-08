@@ -8,8 +8,10 @@
 #' * `"quantile"`: equal numbers of observations per class;
 #' * `"equal"`: equal-width classes over the range;
 #' * `"jenks"`: Fisher-Jenks natural breaks, which minimise the
-#'   within-class sum of squares exactly (Fisher 1958; computed in C++, so
-#'   it matches classInt's `"fisher"` style);
+#'   within-class sum of squares exactly (Fisher 1958; computed in C++).
+#'   The breaks equal classInt's `"jenks"` style; classInt's `"fisher"`
+#'   style gives the same classes with breaks halfway between neighbouring
+#'   values;
 #' * `"pretty"`: rounded breaks from [base::pretty()];
 #' * `"sd"`: breaks at the mean plus or minus whole standard deviations;
 #' * `"fixed"`: the `breaks` you give.
