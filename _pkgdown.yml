@@ -132,6 +132,7 @@ reference:
       - plot_sites
       - plot_geo
       - plot_topo
+      - geo_automap
       - thematic-maps
       - map-furniture
       - map-projection
