@@ -12,7 +12,9 @@ geo_basemap(
   lat = lat,
   zoom = NULL,
   alpha = 0.9,
-  crs = 4326
+  crs = 4326,
+  dem = NULL,
+  contour_breaks = NULL
 )
 }
 \arguments{
@@ -20,9 +22,9 @@ geo_basemap(
 \code{c(xmin, ymin, xmax, ymax)}, or a data frame with lon/lat used only to
 set the extent.}
 
-\item{basemap}{Basemap specification: \code{"esri"} (default; World Imagery),
-\code{"esri_topo"}, \code{"osm"}, \code{"carto"}, \code{"carto_dark"}, \code{"coast"} (Natural
-Earth land), \code{"none"}, a \code{SpatRaster}, or a file path.}
+\item{basemap}{Basemap specification: one of the tile names in the
+table above, \code{"hillshade"}, \code{"contour"}, \code{"terrain"}, \code{"coast"},
+\code{"none"}, a \code{SpatRaster}, or a file path.}
 
 \item{coastline}{Optional \code{sf} polygons/lines used when
 \code{basemap = "coast"}.}
@@ -34,6 +36,13 @@ Earth land), \code{"none"}, a \code{SpatRaster}, or a file path.}
 \item{alpha}{Opacity of raster / tile layers.}
 
 \item{crs}{Target CRS (default EPSG:4326).}
+
+\item{dem}{For \code{"hillshade"}, \code{"contour"} and \code{"terrain"}: an elevation
+\code{SpatRaster} or file path. When \code{NULL}, one is downloaded with
+\code{\link[=geo_elevation]{geo_elevation()}}.}
+
+\item{contour_breaks}{Contour interval (one number, in metres) or a
+vector of contour levels. When \code{NULL}, about eight pretty levels.}
 }
 \value{
 A list with class \code{tmr_geo_basemap} containing ggplot2 layers and
@@ -43,19 +52,47 @@ metadata (\code{provider}, \code{offline}). Add it to a ggplot with \code{+} via
 }
 \description{
 \code{geo_basemap()} prepares a basemap for \code{\link[=plot_sites]{plot_sites()}} and \code{\link[=plot_geo]{plot_geo()}}
-without sending users to ggmap or other non-tidy tools. The default
-\code{"esri"} fetches ESRI World Imagery tiles for the study bbox (cached on
-disk). Other tile providers: \code{"osm"}, \code{"carto"}, \code{"carto_dark"},
-\code{"esri_topo"}. \code{"coast"} draws Natural Earth land polygons over an ocean
-fill (offline). Pass a \code{SpatRaster} or file path for a custom DEM /
-hillshade. Online tiles use \strong{maptiles} when installed, otherwise a
-small XYZ downloader. If tiles cannot be fetched, the function falls
-back to \code{"coast"} with a message. Attribution stays with the tile provider.
+without sending users to ggmap or other non-tidy tools.
+
+\strong{Online tiles} (free, no API key; cached on disk):\tabular{ll}{
+   \code{basemap} \tab Style \cr
+   \code{"esri"} (default) \tab Esri World Imagery (satellite) \cr
+   \code{"esri_topo"} \tab Esri World Topographic Map \cr
+   \code{"esri_street"} \tab Esri World Street Map \cr
+   \code{"esri_relief"} \tab Esri World Shaded Relief \cr
+   \code{"esri_terrain"} \tab Esri World Terrain Base \cr
+   \code{"esri_natgeo"} \tab Esri National Geographic World Map \cr
+   \code{"topo"} \tab OpenTopoMap (contours and hillshade from OpenStreetMap and SRTM) \cr
+   \code{"osm"} \tab OpenStreetMap standard \cr
+   \code{"osm_hot"} \tab OpenStreetMap Humanitarian style \cr
+   \code{"carto"}, \code{"carto_voyager"}, \code{"carto_dark"} \tab CARTO Positron, Voyager and Dark Matter \cr
+}
+
+
+\strong{Built from an elevation model} (offline when you pass \code{dem}):
+\code{"hillshade"} (multi-directional hillshade), \code{"contour"} (labelled
+contour lines) and \code{"terrain"} (both). Without \code{dem}, the elevation
+model is downloaded with \code{\link[=geo_elevation]{geo_elevation()}} for the map extent.
+
+\strong{Other:} \code{"coast"} draws Natural Earth land polygons over an ocean fill
+(offline), \code{"none"} draws nothing, and a \code{SpatRaster} or file path draws
+that raster. Online tiles use \strong{maptiles} when installed, otherwise a
+small XYZ downloader. If tiles cannot be fetched, the function falls back
+to \code{"coast"} with a message. Tile maps carry the provider's required
+attribution (for example "© OpenStreetMap contributors") as the plot
+caption.
 }
 \examples{
 \dontshow{if (requireNamespace("sf", quietly = TRUE) && requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 sites <- geo_example_sites("wilhelm")
-bm <- geo_basemap(sites, basemap = "esri", lon = lon, lat = lat)
-plot_sites(sites, lon, lat, basemap = "esri", colour = elevation_band)
+# Offline: Natural Earth coastline
+plot_sites(sites, lon, lat, basemap = "coast", colour = elevation_band)
+\donttest{
+# Online tiles (need internet)
+plot_sites(sites, lon, lat, basemap = "topo", colour = elevation_band)
+plot_sites(sites, lon, lat, basemap = "osm", colour = elevation_band)
+# Hillshade and contours from an elevation model
+plot_sites(sites, lon, lat, basemap = "terrain", colour = elevation_band)
+}
 \dontshow{\}) # examplesIf}
 }

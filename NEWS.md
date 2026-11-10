@@ -1,5 +1,37 @@
 # tidymapr 0.0.0.9000
 
+Install the latest version with `pak::pak("gitlab::jimmy.moses/tidymapr")`.
+
+## New maps (November 2026)
+
+* New `plot_choropleth()` shades polygons by a numeric column, grouped into
+  classes with `geo_classify()` (quantile, equal, Fisher-Jenks, pretty,
+  standard deviation or fixed breaks). It uses colour-blind-safe sequential
+  palettes from `grDevices::hcl.colors()` (default `"YlGnBu"`, light for
+  low values and dark for high). The breaks, counts per class and goodness
+  of variance fit are kept with the plot.
+* New `plot_bubble()` draws proportional-area circles for counts such as
+  species richness or abundance, from an `sf` point table or a lon/lat data
+  frame, optionally coloured by group and over a background layer. Sites
+  with a value of zero (sampled, nothing found) are shown as small open
+  circles, so absences stay on the map. The example maps ant species on the
+  16 Mt Wilhelm transects, where no ants were found above 2,200 m.
+* `geo_basemap()`, `plot_sites()`, `plot_geo()`, `plot_topo()` and
+  `plot_sdm()` gain new basemaps, all free and needing no API key:
+  - topographic and street tiles: `"topo"` (OpenTopoMap, with contours and
+    hillshade), `"osm_hot"` (OpenStreetMap Humanitarian), `"carto_voyager"`,
+    `"esri_street"`, `"esri_relief"` (shaded relief), `"esri_terrain"` and
+    `"esri_natgeo"` (National Geographic), alongside the existing
+    `"esri"`, `"esri_topo"`, `"osm"`, `"carto"` and `"carto_dark"`;
+  - built from an elevation model: `"hillshade"`, `"contour"` (labelled
+    contour lines) and `"terrain"` (both). Pass your own DEM with `dem`
+    (works offline), or let `geo_elevation()` download one for the map
+    extent; set the contour interval with `contour_breaks`.
+* Tile maps now carry each provider's required attribution (for example
+  "© OpenStreetMap contributors") as the plot caption.
+
+## Earlier additions
+
 * New local spatial statistics: `geo_hotspot()` (Getis-Ord Gi*) and
   `geo_lisa()` (local Moran's I with cluster types, analytical or
   permutation p-values) on k-nearest or distance-band neighbours. Results

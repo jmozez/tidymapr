@@ -130,6 +130,7 @@ reference:
       - plot_sites
       - plot_geo
       - plot_topo
+      - thematic-maps
       - geo_basemap
       - geo_save
       - theme_tidymapr
