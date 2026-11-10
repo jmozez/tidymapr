@@ -1,5 +1,24 @@
 # tidymapr 0.0.0.9000
 
+## Multi-panel figures (November 2026)
+
+* `map_zoom()` zooms a `geo_map()` in or out (`zoom = 2` is twice as
+  close), on the centre or on a `centre = c(lon, lat)`, or shows an exact
+  `extent`; the scale bar follows the zoom.
+* `geo_panels()` arranges maps from `geo_map()`, `geo_automap()` or any
+  ggplot in a grid, tagged (a), (b), ..., with matching legends collected
+  into one and a figure title and caption.
+* `geo_facet_map()` draws small multiples (by a grouping column, or one
+  panel per value column) with one classification shared by all panels,
+  one legend, and the scale bar and north arrow in the first panel only.
+* `geo_inset()` places a locator map on a larger map. By default
+  (`location = "auto"`) it takes a corner free of the scale bar, north arrow
+  and any legend inside the map, and of those the one hiding the least of
+  the mapped features; a corner name or any `c(x, y)` position also works.
+* `geo_map(legend = "inside")` puts the legend in a framed box on the map,
+  in a corner chosen the same way (or set with `legend_corner`).
+  `map_legend(position = "inside")` does the same for any map.
+
 ## Layered maps (November 2026)
 
 * New layered-map builder in the style of a desktop GIS layout: start with
