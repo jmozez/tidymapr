@@ -380,7 +380,10 @@ tmr_scale_bar_grob <- function(m_npc, style, location, units, bar_length,
     r = if (style == "pill") grid::unit(0.5, "snpc") else u(1),
     gp = grid::gpar(fill = "white", alpha = 0.88, col = NA)
   )
+  # On a short bar the middle label would collide with its neighbours
+  short <- len < 0.22
   lab <- function(f, txt, bold = FALSE) {
+    if (short && isTRUE(all.equal(f, 0.5))) return(grid::nullGrob())
     grid::textGrob(txt,
       x = xs(f), y = y_base + bar_h + u(1.2), just = c("centre", "bottom"),
       gp = grid::gpar(

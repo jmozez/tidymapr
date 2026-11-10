@@ -46,6 +46,31 @@ Install the latest version with `pak::pak("gitlab::jimmy.moses/tidymapr")`.
 * Tile maps now carry each provider's required attribution (for example
   "© OpenStreetMap contributors") as the plot caption.
 
+## Automatic publication maps (November 2026)
+
+* New `geo_automap()` draws a finished map from one call and explains every
+  choice; `geo_automap_explain()` returns the decisions as a table for a
+  methods section. Following GeoSpaX's AutoMap and ArcGIS/QGIS practice:
+  - projection by extent: Equal Earth for world data, Lambert equal-area
+    for regions, the local UTM zone for study areas (longitude/latitude
+    when raster tiles or a surface are drawn);
+  - numbers on points, lines and polygons get graduated colours in classes
+    (a classed legend, never a continuous ramp): equal intervals when
+    roughly symmetric, natural breaks when skewed, quantiles when
+    heavy-tailed; 5 classes for 30 or more features, fewer for small
+    samples; the colour ramp follows the field's meaning (blues for water,
+    greens for vegetation, viridis for elevation, diverging across zero);
+  - small counts on points get proportional circles, categories get
+    Okabe-Ito colours, plain sites a single symbol;
+  - a continuous surface (a raster, or a new `background` such as a DEM
+    under the sites) gets a stretched ramp with a gradient legend, while
+    the sites keep their own symbol legend;
+  - topographic tiles as muted context for study areas; graticule and
+    world outline on world maps; scale bar and north arrow in the emptiest
+    corners on regional and local maps.
+* Scale bars drop the middle label when the bar is short, so labels never
+  collide.
+
 ## Diversity surfaces with uncertainty (November 2026)
 
 * New `geo_diversity_surface()` turns a community table into continuous
