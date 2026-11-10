@@ -62,3 +62,49 @@ test_that("map_zoom narrows or widens the view", {
   expect_error(map_zoom(m, extent = "x"), "extent")
   expect_error(map_zoom(m, centre = 1), "centre")
 })
+
+test_that("curved labels follow lines, polygons and points", {
+  skip_if_not_installed("geomtextpath")
+  cantons <- lux()
+  bnd <- sf::st_cast(sf::st_boundary(cantons[1:3, ]), "MULTILINESTRING")
+  pts <- suppressWarnings(sf::st_point_on_surface(cantons[1:3, ]))
+  m <- geo_map(scale_bar = FALSE, north_arrow = FALSE) |>
+    map_polygons(cantons, fill = "grey90", label = "Cantons") |>
+    map_curved_labels(cantons, text = NAME_2) |>
+    map_curved_labels(cantons[1:2, ], text = NAME_2, polygon = "outline") |>
+    map_line_labels(bnd, text = NAME_2) |>
+    map_curved_labels(pts, text = NAME_2)
+  geoms <- vapply(m$layers[-1], function(l) l$geom, "")
+  expect_equal(geoms, c("polygon", "polygon", "line", "point"))
+  p <- map_build(m)
+  n_text <- sum(vapply(p$layers, function(l) inherits(l$geom, "GeomTextSf"), TRUE))
+  expect_equal(n_text, 4)
+  # Label paths are lines, left to right
+  crs <- tidymapr:::tmr_map_crs(m)
+  ax <- tidymapr:::tmr_polygon_label_path(sf::st_transform(cantons, crs), "axis")
+  expect_true(all(sf::st_geometry_type(ax) == "LINESTRING"))
+  xy <- sf::st_coordinates(ax[1, ])
+  expect_lt(xy[1, "X"], xy[nrow(xy), "X"])
+  arcs <- tidymapr:::tmr_point_arcs(sf::st_transform(pts, crs), 1000)
+  expect_equal(nrow(arcs), 3)
+  expect_error(map_curved_labels(geo_map(), sf::st_sf(geometry = c(
+    sf::st_geometry(pts)[1], sf::st_geometry(bnd)[1]
+  )), text = 1), "one kind")
+})
+
+test_that("contours are drawn and labelled", {
+  skip_if_not_installed("geomtextpath")
+  elev <- terra::rast(system.file("ex/elev.tif", package = "terra"))
+  m <- geo_map() |> map_contours(elev, interval = 100)
+  expect_true(length(m$layers) %in% 1:2)
+  lab <- m$layers[[length(m$layers)]]
+  expect_true(all(lab$data$level %% 200 == 100 | lab$data$level %% 200 == 0))
+  expect_s3_class(map_build(m), "ggplot")
+  expect_error(geo_map() |> map_contours(elev, breaks = 9999), "No contour")
+  # Chaikin keeps the ends and adds points
+  g <- sf::st_sfc(sf::st_linestring(rbind(c(0, 0), c(1, 1), c(2, 0))))
+  s <- tidymapr:::tmr_chaikin(g, 2)[[1]]
+  expect_equal(unclass(s)[1, ], c(0, 0))
+  expect_gt(nrow(unclass(s)), 3)
+  expect_equal(tidymapr:::tmr_straightest(sf::st_linestring(rbind(c(0, 0), c(1, 0)))), 0.5)
+})

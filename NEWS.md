@@ -1,5 +1,16 @@
 # tidymapr 0.0.0.9000
 
+## Curved labels (November 2026)
+
+* `map_curved_labels()` writes labels that follow the shape of any
+  feature: along lines (road and river names), along the long axis or the
+  outline of polygons, or on an arc above points. Text stays upright, jagged
+  paths are smoothed, and labels that do not fit are left out.
+  `map_line_labels()` is the same for lines. Needs the suggested package
+  geomtextpath.
+* `map_contours()` draws contour lines of a raster, with every second
+  contour thicker and labelled with its height at its straightest stretch.
+
 ## Multi-panel figures (November 2026)
 
 * `map_zoom()` zooms a `geo_map()` in or out (`zoom = 2` is twice as

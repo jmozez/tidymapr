@@ -8,6 +8,9 @@
 \alias{map_lines}
 \alias{map_points}
 \alias{map_labels}
+\alias{map_curved_labels}
+\alias{map_line_labels}
+\alias{map_contours}
 \alias{map_zoom}
 \alias{map_build}
 \title{Layered maps, built one layer at a time}
@@ -86,6 +89,34 @@ map_labels(
   fontface = "plain"
 )
 
+map_curved_labels(
+  map,
+  data,
+  text,
+  size = 3,
+  colour = "grey15",
+  draw_line = NULL,
+  linewidth_label = 0.4,
+  position = 0.5,
+  polygon = c("axis", "outline"),
+  radius = NULL,
+  smooth = 3,
+  fontface = "plain"
+)
+
+map_line_labels(map, data, text, ...)
+
+map_contours(
+  map,
+  x,
+  interval = NULL,
+  breaks = NULL,
+  colour = "grey30",
+  label_every = 2,
+  size = 2.6,
+  linewidth = 0.25
+)
+
 map_zoom(map, zoom = 1, centre = NULL, extent = NULL)
 
 map_build(map)
@@ -153,6 +184,33 @@ size.}
 \item{fontface}{Font face of the labels, for example \code{"italic"} for
 rivers or \code{"bold"} for towns.}
 
+\item{draw_line}{For curved labels, also draw the path (cut where the
+text sits)? Default \code{TRUE} for lines and \code{FALSE} otherwise; with
+\code{FALSE} the text sits just above the path.}
+
+\item{linewidth_label}{Width of the lines drawn by \code{map_line_labels()}.}
+
+\item{position}{Where along each line the label sits, from 0 (start) to
+1 (end); default the middle.}
+
+\item{polygon}{For polygons, write along the shape's long \code{"axis"}
+(bent with the shape) or along its \code{"outline"}, just inside the edge.}
+
+\item{radius}{For points, radius of the label arc in map units; by
+default 3.5\% of the map width. Point labels are always drawn.}
+
+\item{smooth}{Rounds of corner smoothing of the label path, so text
+reads evenly along jagged lines (0 for none).}
+
+\item{...}{For \code{map_line_labels()}, arguments passed to
+\code{map_curved_labels()}.}
+
+\item{interval, breaks}{Contour spacing in the raster's units, or the
+exact contour levels. By default about eight levels at round numbers.}
+
+\item{label_every}{Label every nth contour (default every second one,
+as on topographic maps).}
+
 \item{zoom}{Zoom factor for \code{map_zoom()}: 2 shows half the width and
 height (closer), 0.5 shows twice as much around the data.}
 
@@ -182,6 +240,14 @@ layer gets its own legend section: polygon swatches, line keys or point
 symbols.
 \item \code{map_labels()} writes feature names with a white halo, so they stay
 readable over any background.
+\item \code{map_curved_labels()} writes text that follows the shape of any
+feature: along lines (roads, rivers, contours), along the long axis or
+the outline of polygons (lakes, valleys, regions), or around an arc
+above points. The text stays upright and labels longer than their path
+are left out. \code{map_line_labels()} is the same for lines.
+\code{map_contours()} draws contour lines of a raster with their
+heights written along them, set straight and aligned with the line
+as on topographic maps.
 \item \code{map_zoom()} zooms in or out, on the centre or on a point, or shows an
 exact extent; the scale bar follows.
 }
