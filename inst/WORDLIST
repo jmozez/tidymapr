@@ -42,6 +42,7 @@ Callaghan
 Canoco
 Carmona
 Carto
+Catalog
 Chaetodipus
 Chao
 Chihuahuan
@@ -227,6 +228,7 @@ SEs
 SLA
 SQLite
 SRTM
+STAC
 SWIR
 Sauer
 Smilauer
@@ -235,6 +237,7 @@ SpadeR
 SpatRaster
 SpatRasters
 SpatiaLite
+SpatioTemporal
 Srivastava
 Swire
 TD
@@ -290,6 +293,7 @@ bioclim
 biomod
 btp
 caddisflies
+catalogue's
 catchability
 cati
 ch
@@ -363,6 +367,7 @@ hexbins
 hillR
 hillshade
 ht
+httr
 hyperspectral
 iNEXT
 indicspecies

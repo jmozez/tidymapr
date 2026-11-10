@@ -117,7 +117,7 @@ geo_map(title = "Luxembourg", caption = "Data: terra package") |>
 | Figures and furniture | `geo_panels()`, `geo_facet_map()`, `geo_inset()`, `annotation_scale_bar()`, `annotation_north_arrow()`, `map_legend()`, `map_graticule()`, `coord_projection()`, `theme_tidymapr()`, `geo_save()` |
 | GeoSpaX recipes | `geo_recipe_read()`, `geo_recipe_validate()`, `geo_recipe_run()`, `geo_recipe_write()`, `geo_recipe()`, `recipe_step()` |
 | Spatial analysis | `geo_interpolate()` (kriging with measurement error, IDW), `geo_hotspot()`, `geo_lisa()`, `geo_moran()`, `geo_distance()`, `geo_decay()`, `geo_mem()` |
-| Terrain and remote sensing | `geo_flow_direction()` and other hydrology tools, `geo_spectral_index()`, `geo_spectral_diversity()` |
+| Terrain and remote sensing | `geo_flow_direction()` and other hydrology tools, `geo_stac_search()`, `geo_stac_read()`, `geo_spectral_index()`, `geo_spectral_diversity()` |
 | Data input and output | `geo_read()`, `geo_write()`, `geo_layers()`, `geo_raster_read()`, `geo_as_sf()`, `geo_extract()`, `geo_basemap()` |
 | Ecology with tidydiversity | `geo_diversity_surface()`, `plot_diversity_surface()`, `geo_clean()`, `geo_gbif()`, `geo_rarefy_spatial()`, `sdm_fit()`, `stems_habitat_test()` |
 
@@ -154,6 +154,23 @@ NDVI with an Otsu threshold and spectral diversity in Hill numbers from a
 Sentinel-2 Level-2A scene of Luxembourg (shipped with terra).
 
 <img src="man/figures/readme-spectral-diversity.png" alt="Two maps of Luxembourg: NDVI from Sentinel-2 and spectral diversity, q = 1" width="100%">
+
+### Satellite imagery from STAC catalogues
+
+`geo_stac_search()` and `geo_stac_read()` find and stream Sentinel-2,
+Landsat or Copernicus DEM data from STAC catalogues, reading only your
+area and taking the median of the clearest scenes. Here, NDVI of
+Luxembourg City in summer 2024.
+
+```r
+city   <- c(6.08, 49.57, 6.18, 49.65)
+scenes <- geo_stac_search("sentinel-2-l2a", city,
+  datetime = c("2024-06-01", "2024-08-31"), cloud_cover = 10)
+ndvi   <- geo_stac_read(scenes, c("red", "nir"), area = city, n = 4) |>
+  geo_spectral_index("NDVI")
+```
+
+<img src="man/figures/readme-stac-ndvi.png" alt="NDVI of Luxembourg City in summer 2024 from Sentinel-2: built-up areas brown, parks, valleys and forest green, with main roads" width="80%">
 
 ### Labels that follow the feature
 
