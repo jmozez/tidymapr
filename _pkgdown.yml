@@ -55,6 +55,7 @@ reference:
     contents:
       - geo_automap
       - geo-map
+      - map_presets
       - geo-panels
       - geo_map3d
       - thematic-maps
