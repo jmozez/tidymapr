@@ -58,6 +58,7 @@ reference:
       - map_presets
       - geo-panels
       - geo_map3d
+      - geo_webmap
       - thematic-maps
       - plot_sites
       - plot_geo
