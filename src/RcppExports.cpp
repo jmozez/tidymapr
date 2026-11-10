@@ -165,8 +165,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // geo_krige_cpp
-List geo_krige_cpp(NumericVector xs, NumericVector ys, NumericVector zs, NumericVector xp, NumericVector yp, int model, double nugget, double psill, double range, bool lonlat, bool variance, int threads);
-RcppExport SEXP _tidymapr_geo_krige_cpp(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP xpSEXP, SEXP ypSEXP, SEXP modelSEXP, SEXP nuggetSEXP, SEXP psillSEXP, SEXP rangeSEXP, SEXP lonlatSEXP, SEXP varianceSEXP, SEXP threadsSEXP) {
+List geo_krige_cpp(NumericVector xs, NumericVector ys, NumericVector zs, NumericVector xp, NumericVector yp, int model, double nugget, double psill, double range, bool lonlat, bool variance, int threads, Nullable<NumericVector> err_var);
+RcppExport SEXP _tidymapr_geo_krige_cpp(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP xpSEXP, SEXP ypSEXP, SEXP modelSEXP, SEXP nuggetSEXP, SEXP psillSEXP, SEXP rangeSEXP, SEXP lonlatSEXP, SEXP varianceSEXP, SEXP threadsSEXP, SEXP err_varSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -182,7 +182,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type lonlat(lonlatSEXP);
     Rcpp::traits::input_parameter< bool >::type variance(varianceSEXP);
     Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(geo_krige_cpp(xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat, variance, threads));
+    Rcpp::traits::input_parameter< Nullable<NumericVector> >::type err_var(err_varSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_krige_cpp(xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat, variance, threads, err_var));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -286,7 +287,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_sdm_linear_predict_cpp", (DL_FUNC) &_tidymapr_sdm_linear_predict_cpp, 2},
     {"_tidymapr_geo_jenks_cpp", (DL_FUNC) &_tidymapr_geo_jenks_cpp, 2},
     {"_tidymapr_geo_idw_cpp", (DL_FUNC) &_tidymapr_geo_idw_cpp, 9},
-    {"_tidymapr_geo_krige_cpp", (DL_FUNC) &_tidymapr_geo_krige_cpp, 12},
+    {"_tidymapr_geo_krige_cpp", (DL_FUNC) &_tidymapr_geo_krige_cpp, 13},
     {"_tidymapr_geo_d8_cpp", (DL_FUNC) &_tidymapr_geo_d8_cpp, 5},
     {"_tidymapr_geo_flowacc_cpp", (DL_FUNC) &_tidymapr_geo_flowacc_cpp, 4},
     {"_tidymapr_geo_watershed_cpp", (DL_FUNC) &_tidymapr_geo_watershed_cpp, 4},
