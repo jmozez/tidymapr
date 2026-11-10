@@ -201,83 +201,11 @@ plot_topo_dem_layers <- function(p, dem, contours, hillshade,
   if (is.null(dem)) {
     return(p)
   }
-  rlang::check_installed("terra")
-  r <- geo_as_raster(dem)[[1]]
-  if (isTRUE(hillshade)) {
-    slope <- terra::terrain(r, v = "slope", unit = "radians")
-    aspect <- terra::terrain(r, v = "aspect", unit = "radians")
-    # Multi-direction hillshade (smoother, less harsh than a single light)
-    dirs <- c(315, 045, 270, 135)
-    shades <- lapply(dirs, function(d) {
-      terra::shade(slope, aspect, angle = 40, direction = d)
-    })
-    hs <- shades[[1]]
-    for (i in 2:length(shades)) {
-      hs <- hs + shades[[i]]
-    }
-    hs <- hs / length(shades)
-    hdf <- terra::as.data.frame(hs, xy = TRUE, na.rm = TRUE)
-    z <- setdiff(names(hdf), c("x", "y"))[1]
-    p <- p + ggplot2::geom_raster(
-      data = hdf,
-      ggplot2::aes(.data$x, .data$y, fill = .data[[z]]),
-      alpha = 1
-    ) +
-      ggplot2::scale_fill_gradient(
-        low = "#2b2b2b", high = "#f4f1ea",
-        guide = "none"
-      )
-  }
-  if (isTRUE(contours)) {
-    # Contour via terra then fortify, avoiding extra packages
-    if (is.null(contour_breaks)) {
-      v <- terra::values(r)
-      v <- v[is.finite(v)]
-      contour_breaks <- pretty(range(v), n = 8)
-    } else if (length(contour_breaks) == 1) {
-      v <- terra::values(r)
-      v <- v[is.finite(v)]
-      contour_breaks <- seq(
-        floor(min(v) / contour_breaks) * contour_breaks,
-        ceiling(max(v) / contour_breaks) * contour_breaks,
-        by = contour_breaks
-      )
-    }
-    cdf <- tryCatch(
-      {
-        # densify for smoother lines
-        xyz <- terra::as.data.frame(r, xy = TRUE, na.rm = TRUE)
-        names(xyz)[3] <- "z"
-        xyz
-      },
-      error = function(e) NULL
-    )
-    if (!is.null(cdf)) {
-      p <- p + ggplot2::geom_contour(
-        data = cdf,
-        ggplot2::aes(.data$x, .data$y, z = .data$z),
-        breaks = contour_breaks,
-        colour = "grey20",
-        linewidth = 0.35,
-        alpha = 0.85
-      )
-      # Label a subset of contours (metres)
-      if (requireNamespace("metR", quietly = TRUE)) {
-        p <- p + metR::geom_text_contour(
-          data = cdf,
-          ggplot2::aes(.data$x, .data$y, z = .data$z),
-          breaks = contour_breaks,
-          size = 2.4,
-          colour = "grey15",
-          skip = 1,
-          label.placer = metR::label_placer_n(1)
-        )
-      }
-    }
-  }
-  p
+  p + geo_dem_layers(dem,
+    hillshade = hillshade, contours = contours,
+    contour_breaks = contour_breaks
+  )
 }
-
 
 plot_topo_boundary <- function(p, boundary, geographic = FALSE, crs = NULL) {
   if (is.null(boundary)) {

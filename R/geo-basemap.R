@@ -2,21 +2,47 @@
 #'
 #' @description
 #' `geo_basemap()` prepares a basemap for [plot_sites()] and [plot_geo()]
-#' without sending users to ggmap or other non-tidy tools. The default
-#' `"esri"` fetches ESRI World Imagery tiles for the study bbox (cached on
-#' disk). Other tile providers: `"osm"`, `"carto"`, `"carto_dark"`,
-#' `"esri_topo"`. `"coast"` draws Natural Earth land polygons over an ocean
-#' fill (offline). Pass a `SpatRaster` or file path for a custom DEM /
-#' hillshade. Online tiles use **maptiles** when installed, otherwise a
-#' small XYZ downloader. If tiles cannot be fetched, the function falls
-#' back to `"coast"` with a message. Attribution stays with the tile provider.
+#' without sending users to ggmap or other non-tidy tools.
+#'
+#' **Online tiles** (free, no API key; cached on disk):
+#'
+#' | `basemap` | Style |
+#' |---|---|
+#' | `"esri"` (default) | Esri World Imagery (satellite) |
+#' | `"esri_topo"` | Esri World Topographic Map |
+#' | `"esri_street"` | Esri World Street Map |
+#' | `"esri_relief"` | Esri World Shaded Relief |
+#' | `"esri_terrain"` | Esri World Terrain Base |
+#' | `"esri_natgeo"` | Esri National Geographic World Map |
+#' | `"topo"` | OpenTopoMap (contours and hillshade from OpenStreetMap and SRTM) |
+#' | `"osm"` | OpenStreetMap standard |
+#' | `"osm_hot"` | OpenStreetMap Humanitarian style |
+#' | `"carto"`, `"carto_voyager"`, `"carto_dark"` | CARTO Positron, Voyager and Dark Matter |
+#'
+#' **Built from an elevation model** (offline when you pass `dem`):
+#' `"hillshade"` (multi-directional hillshade), `"contour"` (labelled
+#' contour lines) and `"terrain"` (both). Without `dem`, the elevation
+#' model is downloaded with [geo_elevation()] for the map extent.
+#'
+#' **Other:** `"coast"` draws Natural Earth land polygons over an ocean fill
+#' (offline), `"none"` draws nothing, and a `SpatRaster` or file path draws
+#' that raster. Online tiles use **maptiles** when installed, otherwise a
+#' small XYZ downloader. If tiles cannot be fetched, the function falls back
+#' to `"coast"` with a message. Tile maps carry the provider's required
+#' attribution (for example "© OpenStreetMap contributors") as the plot
+#' caption.
 #'
 #' @param x An `sf` object, a bbox numeric vector
 #'   `c(xmin, ymin, xmax, ymax)`, or a data frame with lon/lat used only to
 #'   set the extent.
-#' @param basemap Basemap specification: `"esri"` (default; World Imagery),
-#'   `"esri_topo"`, `"osm"`, `"carto"`, `"carto_dark"`, `"coast"` (Natural
-#'   Earth land), `"none"`, a `SpatRaster`, or a file path.
+#' @param basemap Basemap specification: one of the tile names in the
+#'   table above, `"hillshade"`, `"contour"`, `"terrain"`, `"coast"`,
+#'   `"none"`, a `SpatRaster`, or a file path.
+#' @param dem For `"hillshade"`, `"contour"` and `"terrain"`: an elevation
+#'   `SpatRaster` or file path. When `NULL`, one is downloaded with
+#'   [geo_elevation()].
+#' @param contour_breaks Contour interval (one number, in metres) or a
+#'   vector of contour levels. When `NULL`, about eight pretty levels.
 #' @param coastline Optional `sf` polygons/lines used when
 #'   `basemap = "coast"`.
 #' @param lon,lat Coordinate columns when `x` is a plain data frame.
@@ -30,8 +56,15 @@
 #' @export
 #' @examplesIf requireNamespace("sf", quietly = TRUE) && requireNamespace("ggplot2", quietly = TRUE)
 #' sites <- geo_example_sites("wilhelm")
-#' bm <- geo_basemap(sites, basemap = "esri", lon = lon, lat = lat)
-#' plot_sites(sites, lon, lat, basemap = "esri", colour = elevation_band)
+#' # Offline: Natural Earth coastline
+#' plot_sites(sites, lon, lat, basemap = "coast", colour = elevation_band)
+#' \donttest{
+#' # Online tiles (need internet)
+#' plot_sites(sites, lon, lat, basemap = "topo", colour = elevation_band)
+#' plot_sites(sites, lon, lat, basemap = "osm", colour = elevation_band)
+#' # Hillshade and contours from an elevation model
+#' plot_sites(sites, lon, lat, basemap = "terrain", colour = elevation_band)
+#' }
 geo_basemap <- function(x,
                         basemap = "esri",
                         coastline = NULL,
@@ -39,7 +72,9 @@ geo_basemap <- function(x,
                         lat = lat,
                         zoom = NULL,
                         alpha = 0.9,
-                        crs = 4326) {
+                        crs = 4326,
+                        dem = NULL,
+                        contour_breaks = NULL) {
   rlang::check_installed("sf")
   rlang::check_installed("ggplot2")
   extent <- geo_basemap_extent(x, enquo(lon), enquo(lat), crs = crs)
@@ -49,13 +84,16 @@ geo_basemap <- function(x,
     coastline = coastline,
     zoom = zoom,
     alpha = alpha,
-    crs = extent$crs
+    crs = extent$crs,
+    dem = dem,
+    contour_breaks = contour_breaks
   )
   structure(
     list(
       layers = layers$layers,
       provider = layers$provider,
       offline = layers$offline,
+      attribution = layers$attribution,
       bbox = extent$bbox,
       uses_fill = layers$uses_fill
     ),
@@ -128,12 +166,14 @@ geo_basemap_layers <- function(bbox,
                                coastline = NULL,
                                zoom = NULL,
                                alpha = 0.9,
-                               crs = 4326) {
+                               crs = 4326,
+                               dem = NULL,
+                               contour_breaks = NULL) {
   # User raster / path
   if (inherits(basemap, "SpatRaster") ||
     (is.character(basemap) && length(basemap) == 1 &&
-      !basemap %in% c(
-        "none", "coast", "osm", "carto", "carto_dark", "esri", "esri_topo"
+      !tolower(basemap) %in% c(
+        "none", "coast", names(geo_tile_providers()), geo_dem_basemaps()
       ) &&
       (file.exists(basemap) || grepl("\\.(tif|tiff|nc|grd)$", basemap, ignore.case = TRUE)))) {
     rlang::check_installed("terra")
@@ -179,19 +219,34 @@ geo_basemap_layers <- function(bbox,
     ))
   }
 
-  tile_providers <- c(
-    osm = "OpenStreetMap",
-    carto = "CartoDB.Positron",
-    carto_dark = "CartoDB.DarkMatter",
-    esri = "Esri.WorldImagery",
-    esri_topo = "Esri.WorldTopoMap"
-  )
+  if (basemap %in% geo_dem_basemaps()) {
+    rlang::check_installed("terra")
+    r <- if (is.null(dem)) {
+      geo_elevation(bbox = as.numeric(bbox[c("xmin", "ymin", "xmax", "ymax")]))
+    } else {
+      geo_as_raster(dem)[[1]][[1]]
+    }
+    return(list(
+      layers = geo_dem_layers(
+        r,
+        hillshade = basemap %in% c("hillshade", "terrain"),
+        contours = basemap %in% c("contour", "terrain"),
+        contour_breaks = contour_breaks
+      ),
+      provider = basemap,
+      offline = !is.null(dem),
+      attribution = NULL,
+      uses_fill = basemap %in% c("hillshade", "terrain")
+    ))
+  }
+
+  tile_providers <- geo_tile_providers()
   if (!basemap %in% names(tile_providers)) {
-    cli::cli_abort(
-      "Unknown basemap {.val {basemap}}. Use {.val none}, {.val coast},
-      {.val osm}, {.val carto}, {.val carto_dark}, {.val esri},
-      {.val esri_topo}, a raster, or a file path."
-    )
+    cli::cli_abort(c(
+      "Unknown basemap {.val {basemap}}.",
+      "i" = "Use one of {.val {c(names(tile_providers), geo_dem_basemaps(), 'coast', 'none')}},
+      a raster, or a file path."
+    ))
   }
 
   tiles <- geo_fetch_tiles(
@@ -211,12 +266,110 @@ geo_basemap_layers <- function(bbox,
       uses_fill = FALSE
     ))
   }
+  attribution <- geo_tile_attribution(tile_providers[[basemap]])
   list(
-    layers = geo_tile_layers(tiles, alpha = alpha),
+    layers = c(
+      geo_tile_layers(tiles, alpha = alpha),
+      list(ggplot2::labs(caption = attribution))
+    ),
     provider = basemap,
     offline = FALSE,
+    attribution = attribution,
     uses_fill = FALSE
   )
+}
+
+# Free tile services that need no API key: tidymapr name -> maptiles name
+geo_tile_providers <- function() {
+  c(
+    esri = "Esri.WorldImagery",
+    esri_topo = "Esri.WorldTopoMap",
+    esri_street = "Esri.WorldStreetMap",
+    esri_relief = "Esri.WorldShadedRelief",
+    esri_terrain = "Esri.WorldTerrain",
+    esri_natgeo = "Esri.NatGeoWorldMap",
+    topo = "OpenTopoMap",
+    osm = "OpenStreetMap",
+    osm_hot = "OpenStreetMap.HOT",
+    carto = "CartoDB.Positron",
+    carto_voyager = "CartoDB.Voyager",
+    carto_dark = "CartoDB.DarkMatter"
+  )
+}
+
+geo_dem_basemaps <- function() c("hillshade", "contour", "terrain")
+
+# Attribution each provider asks for on maps that show its tiles
+geo_tile_attribution <- function(provider) {
+  osm <- "\u00a9 OpenStreetMap contributors"
+  switch(provider,
+    OpenStreetMap = osm,
+    OpenStreetMap.HOT = paste(osm, "\u00b7 Humanitarian OpenStreetMap Team"),
+    OpenTopoMap = paste(osm, "\u00b7 SRTM \u00b7 \u00a9 OpenTopoMap (CC BY-SA)"),
+    CartoDB.Positron = ,
+    CartoDB.Voyager = ,
+    CartoDB.DarkMatter = paste(osm, "\u00b7 \u00a9 CARTO"),
+    Esri.WorldImagery = "Tiles \u00a9 Esri, Maxar, Earthstar Geographics",
+    Esri.NatGeoWorldMap = "Tiles \u00a9 Esri, National Geographic",
+    paste("Tiles \u00a9 Esri")
+  )
+}
+
+# Hillshade and/or contour layers from an elevation raster
+geo_dem_layers <- function(dem, hillshade = TRUE, contours = TRUE,
+                           contour_breaks = NULL) {
+  rlang::check_installed("terra")
+  r <- geo_as_raster(dem)[[1]][[1]]
+  layers <- list()
+  if (isTRUE(hillshade)) {
+    slope <- terra::terrain(r, v = "slope", unit = "radians")
+    aspect <- terra::terrain(r, v = "aspect", unit = "radians")
+    # Multi-direction hillshade (smoother, less harsh than a single light)
+    shades <- lapply(c(315, 45, 270, 135), function(d) {
+      terra::shade(slope, aspect, angle = 40, direction = d)
+    })
+    hs <- Reduce(`+`, shades) / length(shades)
+    hdf <- terra::as.data.frame(hs, xy = TRUE, na.rm = TRUE)
+    z <- setdiff(names(hdf), c("x", "y"))[1]
+    layers <- c(layers, list(
+      ggplot2::geom_raster(
+        data = hdf,
+        ggplot2::aes(.data$x, .data$y, fill = .data[[z]])
+      ),
+      ggplot2::scale_fill_gradient(
+        low = "#2b2b2b", high = "#f4f1ea", guide = "none"
+      )
+    ))
+  }
+  if (isTRUE(contours)) {
+    xyz <- terra::as.data.frame(r, xy = TRUE, na.rm = TRUE)
+    names(xyz)[3] <- "z"
+    v <- xyz$z
+    if (is.null(contour_breaks)) {
+      contour_breaks <- pretty(range(v), n = 8)
+    } else if (length(contour_breaks) == 1) {
+      contour_breaks <- seq(
+        floor(min(v) / contour_breaks) * contour_breaks,
+        ceiling(max(v) / contour_breaks) * contour_breaks,
+        by = contour_breaks
+      )
+    }
+    layers <- c(layers, list(ggplot2::geom_contour(
+      data = xyz,
+      ggplot2::aes(.data$x, .data$y, z = .data$z),
+      breaks = contour_breaks, colour = "grey20",
+      linewidth = 0.35, alpha = 0.85
+    )))
+    if (requireNamespace("metR", quietly = TRUE)) {
+      layers <- c(layers, list(metR::geom_text_contour(
+        data = xyz,
+        ggplot2::aes(.data$x, .data$y, z = .data$z),
+        breaks = contour_breaks, size = 2.4, colour = "grey15",
+        skip = 1, label.placer = metR::label_placer_n(1)
+      )))
+    }
+  }
+  layers
 }
 
 geo_coast_layers <- function(bbox, coastline = NULL, crs = 4326) {
@@ -366,7 +519,27 @@ geo_fetch_tiles_xyz <- function(bbox, provider, zoom = NULL, crs = 4326) {
     `Esri.WorldTopoMap` = paste0(
       "https://server.arcgisonline.com/ArcGIS/rest/services/",
       "World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
-    )
+    ),
+    `Esri.WorldStreetMap` = paste0(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/",
+      "World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+    ),
+    `Esri.WorldShadedRelief` = paste0(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/",
+      "World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}"
+    ),
+    `Esri.WorldTerrain` = paste0(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/",
+      "World_Terrain_Base/MapServer/tile/{z}/{y}/{x}"
+    ),
+    `Esri.NatGeoWorldMap` = paste0(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/",
+      "NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}"
+    ),
+    OpenTopoMap = "https://tile.opentopomap.org/{z}/{x}/{y}.png",
+    `OpenStreetMap.HOT` = "https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+    `CartoDB.Voyager` =
+      "https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
   )
   if (!provider %in% names(templates)) {
     return(NULL)
