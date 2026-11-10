@@ -493,7 +493,12 @@ tmr_map_crs <- function(map) {
     return(data_crs)
   }
   if (is.character(crs) && !grepl("^(EPSG|ESRI):|^\\+proj|^PROJCRS|^GEOGCRS", crs)) {
-    sfx <- if (inherits(first, "SpatRaster")) NULL else first
+    # Centre named projections on the data, rasters included
+    sfx <- if (inherits(first, "SpatRaster")) {
+      sf::st_as_sf(terra::as.polygons(terra::ext(first), crs = terra::crs(first)))
+    } else {
+      first
+    }
     return(geo_crs(crs, data = sfx))
   }
   sf::st_crs(crs)

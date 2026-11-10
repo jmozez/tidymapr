@@ -41,6 +41,18 @@ sdm_linear_predict_cpp <- function(x, beta) {
     .Call(`_tidymapr_sdm_linear_predict_cpp`, x, beta)
 }
 
+sdm_lasso_logit_cpp <- function(x0, y, w, penalty, lambda, maxit = 100000L, thresh = 1e-7, pmin = 1e-8, threads = 1L) {
+    .Call(`_tidymapr_sdm_lasso_logit_cpp`, x0, y, w, penalty, lambda, maxit, thresh, pmin, threads)
+}
+
+sdm_rf_fit_cpp <- function(x, y, ntree = 500L, mtry = 2L, min_node = 1L, max_depth = 1000L, balanced = TRUE, seed = 1L, threads = 1L) {
+    .Call(`_tidymapr_sdm_rf_fit_cpp`, x, y, ntree, mtry, min_node, max_depth, balanced, seed, threads)
+}
+
+sdm_rf_predict_cpp <- function(forest, x, threads = 1L) {
+    .Call(`_tidymapr_sdm_rf_predict_cpp`, forest, x, threads)
+}
+
 geo_jenks_cpp <- function(x, k) {
     .Call(`_tidymapr_geo_jenks_cpp`, x, k)
 }

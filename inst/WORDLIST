@@ -2,8 +2,10 @@ Albers
 Alekseyenko
 Annales
 Anselin
+Araujo
 Aravo
 ArcGIS
+Arroita
 Asner
 Auda
 AutoMap
@@ -22,6 +24,7 @@ Blanchet
 Bonebrake
 Borcard
 Braak
+Bradypus
 BugReports
 Butterill
 CANOCO
@@ -68,6 +71,7 @@ DataCite
 Dipodomys
 Donoso
 Drapeau
+Dudik
 Dufour
 Dufrene
 Dungan
@@ -76,6 +80,8 @@ ENVI
 EPSG
 ERDAS
 Ecography
+Elith
+Engler
 Esri
 FD
 FDR
@@ -89,6 +95,7 @@ Fick
 FileGDB
 Filip
 Filip's
+Fithian
 FlatGeobuf
 ForestGEO
 Fortin
@@ -116,12 +123,17 @@ Gillet
 GitLab
 Gotelli
 Gro
+Guillera
+Guisan
 Götzenberger
 HDF
 HOM
 Hamidi
+Hastie
 Hau
+Helfer
 Hijmans
+Hirzel
 Hsieh
 Hubbell
 IDRISI
@@ -129,7 +141,9 @@ IDW
 Idigel
 IndVal
 Isaaks
+JJ
 Jaccard
+Jiguet
 Jost
 KML
 KMZ
@@ -141,6 +155,8 @@ Kongnoo
 Kubota
 Kusumoto
 LUREF
+Lafourcade
+Lahoz
 Laliberte
 Landsat
 LazyData
@@ -156,6 +172,7 @@ MNDWI
 MODIS
 Madang
 MapInfo
+Massin
 Maxent
 McFeeters
 McGlinn
@@ -213,6 +230,7 @@ Prim's
 QGIS
 RDA
 Ramu
+Randin
 RaoQ
 Rcpp
 Rebins
@@ -225,12 +243,14 @@ SDM
 SDMs
 SES
 SEs
+SJ
 SLA
 SQLite
 SRTM
 STAC
 SWIR
 Sauer
+Schapire
 Smilauer
 Sokal
 SpadeR
@@ -245,6 +265,7 @@ TPD
 TPDs
 TSS
 TWI
+Thuiller
 Théâtre
 Tiede
 TopoJSON
@@ -257,6 +278,7 @@ USGS
 Usseglio
 VIIRS
 VRT
+Valavi
 Valone
 VignetteBuilder
 Villeger
@@ -354,6 +376,7 @@ github
 gitlab
 glm
 glmmTMB
+glmnet
 grDevices
 graticules
 gray
@@ -389,12 +412,14 @@ lon
 lumineux
 maptiles
 maxnet
+maxnet's
 mem
 mesotopographical
 metR
 metrix
 mgcv
 middomain
+modeling
 morphospecies
 moses
 multipolygons
@@ -423,6 +448,7 @@ quadrat
 quadrats
 quasibinomial
 rOpenSci
+randomForest's
 rd
 rebins
 reprojecting

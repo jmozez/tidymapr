@@ -119,7 +119,7 @@ geo_map(title = "Luxembourg", caption = "Data: terra package") |>
 | Spatial analysis | `geo_interpolate()` (kriging with measurement error, IDW), `geo_hotspot()`, `geo_lisa()`, `geo_moran()`, `geo_distance()`, `geo_decay()`, `geo_mem()` |
 | Terrain and remote sensing | `geo_flow_direction()` and other hydrology tools, `geo_stac_search()`, `geo_stac_read()`, `geo_spectral_index()`, `geo_spectral_diversity()` |
 | Data input and output | `geo_read()`, `geo_write()`, `geo_layers()`, `geo_raster_read()`, `geo_as_sf()`, `geo_extract()`, `geo_basemap()` |
-| Ecology with tidydiversity | `geo_diversity_surface()`, `plot_diversity_surface()`, `geo_clean()`, `geo_gbif()`, `geo_rarefy_spatial()`, `sdm_fit()`, `stems_habitat_test()` |
+| Ecology with tidydiversity | `geo_diversity_surface()`, `plot_diversity_surface()`, `geo_clean()`, `geo_gbif()`, `geo_rarefy_spatial()`, `sdm_maxent()`, `sdm_ensemble()`, `sdm_fit()`, `stems_habitat_test()` |
 
 ## Gallery
 
@@ -147,6 +147,21 @@ each plot's estimation error (Barro Colorado Island 50-ha plot, vegan
 `BCI`).
 
 <img src="man/figures/readme-diversity-surface.png" alt="Kriged tree diversity for q = 0, 1 and 2 across the Barro Colorado Island plot, with maps of the width of the 95% interval" width="100%">
+
+### Species distribution ensembles, with Maxent in C++
+
+`sdm_maxent()` fits Maxent in C++ with the same answers as maxnet (no
+Java, no glmnet), but standardises predictors first, so results do not
+depend on units or on where zero lies. `sdm_ensemble()` combines Maxent,
+GLM, GAM and a C++ random forest with spatial block cross-validation and
+TSS weights, and maps where the algorithms disagree.
+
+```r
+ens <- sdm_ensemble(presence, climate, coords = xy)
+predict(ens, bioclim_raster, what = "all")
+```
+
+<img src="man/figures/readme-sdm-ensemble.png" alt="Ensemble habitat suitability of the brown-throated sloth across Central and South America with its 116 records, and a map of disagreement between the four algorithms" width="100%">
 
 ### Spectral indices and spectral diversity
 
