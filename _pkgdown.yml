@@ -131,6 +131,7 @@ reference:
       - plot_geo
       - plot_topo
       - thematic-maps
+      - map-furniture
       - geo_basemap
       - geo_save
       - theme_tidymapr
