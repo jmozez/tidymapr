@@ -256,12 +256,24 @@ geo_globe_outline <- function(n = 361) {
 
 geo_crs_centre <- function(data) {
   if (is.null(data)) return(NULL)
-  bb <- if (is.numeric(data) && length(data) == 4) {
-    stats::setNames(as.numeric(data), c("xmin", "ymin", "xmax", "ymax"))
-  } else {
-    sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(data)), 4326))
+  if (is.numeric(data) && length(data) == 4) {
+    bb <- stats::setNames(as.numeric(data), c("xmin", "ymin", "xmax", "ymax"))
+    return(round(c(mean(bb[c("xmin", "xmax")]), mean(bb[c("ymin", "ymax")])), 4))
   }
-  round(c(mean(bb[c("xmin", "xmax")]), mean(bb[c("ymin", "ymax")])), 4)
+  bb <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(data)), 4326))
+  lat <- mean(bb[c("ymin", "ymax")])
+  lon <- mean(bb[c("xmin", "xmax")])
+  # Data crossing the antimeridian have a bbox spanning about -180..180, whose
+  # middle (0) is on the wrong side of the Earth: use the circular mean of
+  # the coordinates instead
+  if (inherits(data, c("sf", "sfc")) && bb[["xmax"]] - bb[["xmin"]] > 300) {
+    g <- sf::st_transform(sf::st_geometry(data), 4326)
+    xy <- sf::st_coordinates(suppressWarnings(sf::st_centroid(g)))
+    a <- xy[, 1] * pi / 180
+    lon <- atan2(mean(sin(a)), mean(cos(a))) * 180 / pi
+    lat <- mean(range(xy[, 2]))
+  }
+  round(c(lon, lat), 4)
 }
 
 geo_crs_lat_range <- function(data, lat0) {
