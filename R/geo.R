@@ -884,8 +884,11 @@ geo_decay <- function(data,
 #' @param coastline Optional coastline `sf` for a coast basemap.
 #' @param size Point size when not mapping size to `value`.
 #' @param label Optional column of site labels.
-#' @param scale_bar,north_arrow Draw a scale bar and north arrow?
+#' @param scale_bar,north_arrow Draw a scale bar and north arrow? `TRUE`
+#'   uses the default style, `FALSE` none, or name a style (see
+#'   [annotation_scale_bar()]).
 #' @param scale_bar_km Length of the scale bar in kilometres.
+#' @param scale_units Scale bar units: `"metric"`, `"imperial"` or `"both"`.
 #' @param legend_title Optional legend title (defaults to the value column).
 #' @param legend_position `"auto"` (collision-aware inside corner),
 #'   `"outside"`, or a corner `"bl"` / `"br"` / `"tl"` / `"tr"`.
@@ -921,6 +924,7 @@ plot_geo <- function(data,
                      scale_bar = TRUE,
                      north_arrow = TRUE,
                      scale_bar_km = NULL,
+                     scale_units = c("metric", "imperial", "both"),
                      legend_title = NULL,
                      legend_position = "auto",
                      legend_frame = TRUE,
@@ -930,6 +934,9 @@ plot_geo <- function(data,
                      admin_fill = FALSE) {
   rlang::check_installed("ggplot2")
   rlang::check_installed("sf")
+  scale_units <- rlang::arg_match(scale_units)
+  sb_style <- tmr_furniture_style(scale_bar, "scale")
+  na_style <- tmr_furniture_style(north_arrow, "north")
   tmr_check_data(data)
   val_q <- enquo(value)
   if (rlang::quo_is_null(val_q)) {
@@ -1062,8 +1069,8 @@ plot_geo <- function(data,
   want_inset <- !isFALSE(inset) && !is.null(inset)
   decor <- geo_pick_decoration_corner(
     data, bb,
-    scale_bar = isTRUE(scale_bar),
-    north_arrow = isTRUE(north_arrow),
+    scale_bar = !is.null(sb_style),
+    north_arrow = !is.null(na_style),
     inset = want_inset,
     legend_inside = legend_inside
   )
@@ -1074,20 +1081,15 @@ plot_geo <- function(data,
     decor$legend_justification <- lj$justification
     decor$legend_box <- geo_decoration_box(bb, legend_position)
   }
-  if (isTRUE(scale_bar) && !is.null(decor$scale_box)) {
-    for (ly in geo_annotation_scale_bar(
-      bb, length_km = scale_bar_km, crs = sf::st_crs(data),
-      corner = decor$scale_corner, box = decor$scale_box
-    )) {
-      p <- p + ly
-    }
+  if (!is.null(sb_style) && !is.null(decor$scale_box)) {
+    p <- p + annotation_scale_bar(
+      sb_style,
+      location = decor$scale_corner, units = scale_units,
+      length = if (!is.null(scale_bar_km)) scale_bar_km * 1000
+    )
   }
-  if (isTRUE(north_arrow) && !is.null(decor$north_box)) {
-    for (ly in geo_annotation_north_arrow(
-      bb, corner = decor$north_corner, box = decor$north_box
-    )) {
-      p <- p + ly
-    }
+  if (!is.null(na_style) && !is.null(decor$north_box)) {
+    p <- p + annotation_north_arrow(na_style, location = decor$north_corner)
   }
   if (want_inset && !is.null(decor$inset_box)) {
     for (ly in geo_annotation_inset(
@@ -1097,7 +1099,10 @@ plot_geo <- function(data,
     }
   }
   p <- p +
-    ggplot2::coord_sf(expand = FALSE) +
+    ggplot2::coord_sf(
+      expand = FALSE,
+      xlim = unname(bb[c("xmin", "xmax")]), ylim = unname(bb[c("ymin", "ymax")])
+    ) +
     theme_tidymapr(grid = "none") +
     ggplot2::theme(
       panel.background = ggplot2::element_rect(fill = "white", colour = NA),

@@ -21,6 +21,7 @@ plot_sites(
   scale_bar = TRUE,
   north_arrow = TRUE,
   scale_bar_km = NULL,
+  scale_units = c("metric", "imperial", "both"),
   palette = c("okabe_ito", "grey"),
   legend_title = NULL,
   legend_position = "auto",
@@ -66,11 +67,16 @@ same coordinate columns, drawn as smaller points underneath the sites.}
 
 \item{occurrence_size}{Point size for occurrence records.}
 
-\item{scale_bar, north_arrow}{Draw a scale bar and north arrow?}
+\item{scale_bar, north_arrow}{Draw a scale bar and north arrow? \code{TRUE}
+uses the default style, \code{FALSE} none, or name a style: scale bars
+\code{"pill"}, \code{"checker"}, \code{"line"}, \code{"ruler"}; north arrows \code{"needle"},
+\code{"compass"}, \code{"rose"}, \code{"minimal"} (see \code{\link[=annotation_scale_bar]{annotation_scale_bar()}}).}
 
 \item{scale_bar_km}{Length of the scale bar in kilometres. When \code{NULL},
 a round length is chosen from the map extent (true metres via a local
 UTM projection when the map CRS is geographic).}
+
+\item{scale_units}{Scale bar units: \code{"metric"}, \code{"imperial"} or \code{"both"}.}
 
 \item{palette}{Discrete palette: \code{"okabe_ito"} or \code{"grey"}.}
 

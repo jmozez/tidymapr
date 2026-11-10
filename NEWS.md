@@ -27,6 +27,22 @@ Install the latest version with `pak::pak("gitlab::jimmy.moses/tidymapr")`.
     contour lines) and `"terrain"` (both). Pass your own DEM with `dem`
     (works offline), or let `geo_elevation()` download one for the map
     extent; set the contour interval with `contour_breaks`.
+* Map furniture in the GeoSpaX styles, for any ggplot map with
+  `coord_sf()`. You pick the style:
+  - `annotation_scale_bar()`: `"pill"`, `"checker"`, `"line"` or `"ruler"`,
+    in `"metric"`, `"imperial"` or `"both"` units. Its length is measured on
+    the ground when the map is drawn, so it is right on longitude/latitude
+    and projected maps and in every facet.
+  - `annotation_north_arrow()`: `"needle"`, `"compass"`, `"rose"` or
+    `"minimal"`.
+  - `map_legend()`: legend `"right"`, `"bottom"`, `"inside"` a chosen
+    corner or `"none"`, with its title, renamed entries (`labels`), hidden
+    legends (`hide`), frame, text, title and key sizes, columns, direction
+    and order.
+* `plot_sites()`, `plot_geo()` and `plot_sdm()` accept these style names in
+  `scale_bar` and `north_arrow` (`TRUE` keeps the default, `FALSE` turns
+  them off), and `plot_sites()` and `plot_geo()` gain `scale_units`. Their
+  maps keep the full planned extent around the sites.
 * Tile maps now carry each provider's required attribution (for example
   "© OpenStreetMap contributors") as the plot caption.
 

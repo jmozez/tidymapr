@@ -17,6 +17,7 @@ plot_geo(
   scale_bar = TRUE,
   north_arrow = TRUE,
   scale_bar_km = NULL,
+  scale_units = c("metric", "imperial", "both"),
   legend_title = NULL,
   legend_position = "auto",
   legend_frame = TRUE,
@@ -50,9 +51,13 @@ with \code{value} like tmap size + col, e.g. Hill number and elevation).}
 
 \item{label}{Optional column of site labels.}
 
-\item{scale_bar, north_arrow}{Draw a scale bar and north arrow?}
+\item{scale_bar, north_arrow}{Draw a scale bar and north arrow? \code{TRUE}
+uses the default style, \code{FALSE} none, or name a style (see
+\code{\link[=annotation_scale_bar]{annotation_scale_bar()}}).}
 
 \item{scale_bar_km}{Length of the scale bar in kilometres.}
+
+\item{scale_units}{Scale bar units: \code{"metric"}, \code{"imperial"} or \code{"both"}.}
 
 \item{legend_title}{Optional legend title (defaults to the value column).}
 

@@ -309,6 +309,8 @@ plot_sdm_raster <- function(r, basemap = "esri", ...) {
 
   scale_bar <- dots$scale_bar %||% TRUE
   north_arrow <- dots$north_arrow %||% TRUE
+  sb_style <- tmr_furniture_style(scale_bar, "scale")
+  na_style <- tmr_furniture_style(north_arrow, "north")
   # Dummy points at corners so decoration picker has coordinates
   corners <- tibble::tibble(
     lon = c(bb["xmin"], bb["xmax"], bb["xmin"], bb["xmax"]),
@@ -316,20 +318,16 @@ plot_sdm_raster <- function(r, basemap = "esri", ...) {
   )
   decor <- geo_pick_decoration_corner(
     corners, bb,
-    scale_bar = isTRUE(scale_bar),
-    north_arrow = isTRUE(north_arrow),
+    scale_bar = !is.null(sb_style),
+    north_arrow = !is.null(na_style),
     inset = FALSE,
     legend_inside = FALSE
   )
-  if (isTRUE(scale_bar) && !is.null(decor$scale_box)) {
-    for (ly in geo_annotation_scale_bar(
-      bb, crs = sf::st_crs(bb), corner = decor$scale_corner, box = decor$scale_box
-    )) p <- p + ly
+  if (!is.null(sb_style) && !is.null(decor$scale_box)) {
+    p <- p + annotation_scale_bar(sb_style, location = decor$scale_corner)
   }
-  if (isTRUE(north_arrow) && !is.null(decor$north_box)) {
-    for (ly in geo_annotation_north_arrow(
-      bb, corner = decor$north_corner, box = decor$north_box
-    )) p <- p + ly
+  if (!is.null(na_style) && !is.null(decor$north_box)) {
+    p <- p + annotation_north_arrow(na_style, location = decor$north_corner)
   }
   p <- p +
     ggplot2::coord_sf(

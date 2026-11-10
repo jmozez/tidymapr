@@ -38,7 +38,11 @@
 #'   same coordinate columns, drawn as smaller points underneath the sites.
 #' @param size Point size for sites.
 #' @param occurrence_size Point size for occurrence records.
-#' @param scale_bar,north_arrow Draw a scale bar and north arrow?
+#' @param scale_bar,north_arrow Draw a scale bar and north arrow? `TRUE`
+#'   uses the default style, `FALSE` none, or name a style: scale bars
+#'   `"pill"`, `"checker"`, `"line"`, `"ruler"`; north arrows `"needle"`,
+#'   `"compass"`, `"rose"`, `"minimal"` (see [annotation_scale_bar()]).
+#' @param scale_units Scale bar units: `"metric"`, `"imperial"` or `"both"`.
 #' @param scale_bar_km Length of the scale bar in kilometres. When `NULL`,
 #'   a round length is chosen from the map extent (true metres via a local
 #'   UTM projection when the map CRS is geographic).
@@ -90,6 +94,7 @@ plot_sites <- function(data,
                        scale_bar = TRUE,
                        north_arrow = TRUE,
                        scale_bar_km = NULL,
+                       scale_units = c("metric", "imperial", "both"),
                        palette = c("okabe_ito", "grey"),
                        legend_title = NULL,
                        legend_position = "auto",
@@ -100,6 +105,9 @@ plot_sites <- function(data,
                        admin_fill = FALSE) {
   rlang::check_installed("ggplot2")
   rlang::check_installed("sf")
+  scale_units <- rlang::arg_match(scale_units)
+  sb_style <- tmr_furniture_style(scale_bar, "scale")
+  na_style <- tmr_furniture_style(north_arrow, "north")
   palette <- rlang::arg_match(palette)
   tmr_check_data(data)
 
@@ -292,8 +300,8 @@ plot_sites <- function(data,
   want_inset <- !isFALSE(inset) && !is.null(inset)
   decor <- geo_pick_decoration_corner(
     sites, bb,
-    scale_bar = isTRUE(scale_bar),
-    north_arrow = isTRUE(north_arrow),
+    scale_bar = !is.null(sb_style),
+    north_arrow = !is.null(na_style),
     inset = want_inset,
     legend_inside = legend_inside && (!is.null(col_nm) || !is.null(shp_nm) || !is.null(size_aes))
   )
@@ -305,17 +313,18 @@ plot_sites <- function(data,
     decor$legend_justification <- lj$justification
     decor$legend_box <- geo_decoration_box(bb, legend_position)
   }
-  if (isTRUE(scale_bar) && !is.null(decor$scale_box)) {
-    p <- p + geo_annotation_scale_bar(
-      bb, length_km = scale_bar_km, facet = fac_nm, data = sites,
-      crs = sf::st_crs(sites), corner = decor$scale_corner,
-      box = decor$scale_box
+  if (!is.null(sb_style) && !is.null(decor$scale_box)) {
+    p <- p + annotation_scale_bar(
+      sb_style,
+      location = decor$scale_corner, units = scale_units,
+      length = if (!is.null(scale_bar_km)) scale_bar_km * 1000,
+      data = tmr_facet_first(sites, fac_nm)
     )
   }
-  if (isTRUE(north_arrow) && !is.null(decor$north_box)) {
-    p <- p + geo_annotation_north_arrow(
-      bb, facet = fac_nm, data = sites, corner = decor$north_corner,
-      box = decor$north_box
+  if (!is.null(na_style) && !is.null(decor$north_box)) {
+    p <- p + annotation_north_arrow(
+      na_style,
+      location = decor$north_corner, data = tmr_facet_first(sites, fac_nm)
     )
   }
   if (want_inset && !is.null(decor$inset_box)) {
@@ -326,7 +335,10 @@ plot_sites <- function(data,
     }
   }
   p <- p +
-    ggplot2::coord_sf(crs = sf::st_crs(sites), expand = FALSE) +
+    ggplot2::coord_sf(
+      crs = sf::st_crs(sites), expand = FALSE,
+      xlim = unname(bb[c("xmin", "xmax")]), ylim = unname(bb[c("ymin", "ymax")])
+    ) +
     theme_tidymapr(grid = "none") +
     ggplot2::theme(
       panel.background = ggplot2::element_rect(fill = "white", colour = NA),
