@@ -42,7 +42,7 @@ repo:
   title: "tidymapr: tidy mapping, spatial analysis and publication cartography"
   description: >
     Publication-quality maps and spatial analysis in R, in the style of a
-    desktop GIS and compatible with GeoSpaX: automatic, explained map
+    desktop GIS and compatible with GeoSpaX (geospax.in4metrix.dev): automatic, explained map
     design, projections, legends and map furniture, GIS, CAD and remote
     sensing formats, fast C++ spatial statistics, terrain hydrology,
     spectral indices and diversity surfaces with tidydiversity.
@@ -110,6 +110,10 @@ reference:
       - sdm
       - stems_spatial
       - stems_habitat_test
+  - title: Recipes
+    desc: Read, write, check and run GeoSpaX recipes, shareable YAML workflows from data to map and report.
+    contents:
+      - geo-recipe
   - title: Example data
     contents:
       - png_ants_sites

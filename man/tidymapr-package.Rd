@@ -10,6 +10,7 @@ Publication-quality maps and spatial analysis in R, in the style of a
 desktop GIS: automatic, explained map design (\code{\link[=geo_automap]{geo_automap()}}),
 projections, legends and map furniture, GIS, CAD and remote sensing
 formats, and fast C++ spatial statistics. Compatible with the GeoSpaX
+(\url{https://geospax.in4metrix.dev})
 desktop GIS, whose cartographic conventions it follows. For ecology it
 works with tidydiversity in the same way dplyr and ggplot2 do: every
 verb takes a data frame and returns a tibble, an \code{sf} table, a

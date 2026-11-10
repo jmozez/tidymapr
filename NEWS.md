@@ -1,5 +1,24 @@
 # tidymapr 0.0.0.9000
 
+## Recipe exchange with GeoSpaX (November 2026)
+
+* New `geo_recipe_read()`, `geo_recipe_write()`, `geo_recipe_validate()` and
+  `geo_recipe_run()` read, write, check and run GeoSpaX recipes (version 1 and
+  2 YAML), so a workflow built in GeoSpaX runs in R and the other way round.
+  `geo_recipe()`, `recipe_input()` and `recipe_step()` build recipes in R.
+* Supported steps: `io.open`, `interpolate.idw`, `interpolate.auto` (kriging
+  against IDW by leave-one-out error, with a standard-error map),
+  `aggregate.hexbin`, `stats.hotspots` (Getis-Ord Gi* with FDR-corrected
+  90/95/99% classes), `automap.style`, `style.apply`, `layout.auto`,
+  `terrain.derive`, `rs.index`, `export.map`/`png`/`svg`/`pdf`, `export.data`
+  and `export.report` (an HTML report with the maps, decisions and run log).
+  Steps that only GeoSpaX can run are reported by `geo_recipe_validate()`.
+* Three GeoSpaX recipes ship in `inst/recipes`: interpolate-samples,
+  points-to-hotspots and points-to-hexbins.
+* Hot spot maps use the conventional diverging colours (reds for hot, blues
+  for cold, grey for not significant).
+* GeoSpaX is now linked: <https://geospax.in4metrix.dev>.
+
 ## A wider scope (November 2026)
 
 * tidymapr is now a general toolkit for mapping, spatial analysis and

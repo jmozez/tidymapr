@@ -4,6 +4,7 @@
 #' desktop GIS: automatic, explained map design ([geo_automap()]),
 #' projections, legends and map furniture, GIS, CAD and remote sensing
 #' formats, and fast C++ spatial statistics. Compatible with the GeoSpaX
+#' (<https://geospax.in4metrix.dev>)
 #' desktop GIS, whose cartographic conventions it follows. For ecology it
 #' works with tidydiversity in the same way dplyr and ggplot2 do: every
 #' verb takes a data frame and returns a tibble, an `sf` table, a
