@@ -2,6 +2,9 @@
 
 ## Curved labels (November 2026)
 
+* The README shows a new gallery of maps made from real data: layered maps,
+  automatic world maps, diversity surfaces, spectral diversity, curved
+  labels, contours, insets, small multiples and GeoSpaX recipes.
 * `map_curved_labels()` writes labels that follow the shape of any
   feature: along lines (road and river names), along the long axis or the
   outline of polygons, or on an arc above points. Text stays upright, jagged

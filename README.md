@@ -75,65 +75,111 @@ the ones you need with `install.packages(c("sf", "terra"))`.
 
 ## Example
 
-`png_ants` (from tidydiversity) records ground ants at baits along the
-Mt Wilhelm elevational gradient in Papua New Guinea. Estimate richness
-with tidydiversity and map it with tidymapr in one pipeline:
+A layered map in the style of a desktop GIS layout: each layer gets its
+own legend section with the symbol for its geometry, and the scale bar,
+north arrow and projection are set for you. Real data shipped with terra:
 
-``` r
-library(tidydiversity)
+```r
 library(tidymapr)
-library(dplyr)
 
-sites <- geo_example_sites("wilhelm")
+elev    <- terra::rast(system.file("ex/elev.tif", package = "terra"))
+cantons <- sf::st_read(system.file("ex/lux.shp", package = "terra"), quiet = TRUE)
+roads   <- sf::st_as_sf(terra::unwrap(
+  readRDS(system.file("ex/lux_highways.rds", package = "terra"))
+))
 
-div_estimate(png_ants, q = 0, nboot = 0, .by = season) |>
-  left_join(sites, by = "site") |>
-  filter(season == "dry") |>
-  plot_geo(estimate, lon, lat, label = site, basemap = "coast")
-#> Warning: No Natural Earth land data available; install rnaturalearth.
-#> i Returning an empty land layer. Pass `coastline` or use a tile basemap.
+geo_map(title = "Luxembourg", caption = "Data: terra package") |>
+  map_raster(elev, name = "Elevation (m)", palette = "Terrain 2", hillshade = TRUE) |>
+  map_polygons(cantons, fill = NA, label = "Cantons") |>
+  map_lines(roads, colour = highway, palette = c("#B2182B", "#F4A582"), group = "Roads") |>
+  map_labels(cantons, text = NAME_2)
 ```
 
-<img src="man/figures/README-example-1.png" alt="Observed ant richness at each Mt Wilhelm site in the dry season" width="100%" />
-
-Site coordinates from `geo_example_sites()` are the published bait GPS
-of the Mt Wilhelm ant survey (`png_ants_sites`; Mottl, Moses and Klimes
-2023,
-[doi:10.5281/zenodo.8191946](https://doi.org/10.5281/zenodo.8191946)).
+<img src="man/figures/readme-layered-map.png" alt="Layered map of Luxembourg: elevation over a hillshade, canton boundaries, roads by class and canton names, with scale bar, north arrow and a legend section for each layer" width="80%">
 
 ## Functions
 
-| Family                           | Functions                                                                                                                                                                  |
-|----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Sites and occurrences            | `geo_as_sf()`, `geo_drop_geometry()`, `geo_extract()`, `geo_clean()`, `geo_gbif()`, `as_sf()`, `as_spat_raster()`, `geo_as_features()`                                     |
-| Distances and spatial statistics | `geo_distance()`, `geo_decay()`, `geo_moran()`, `geo_mem()`, `geo_rarefy_spatial()`, `geo_grain()`, `geo_middomain()`                                                      |
-| Forest plot stem maps            | `stems_quadrat()`, `stems_habitat()`, `stems_neighbours()`, `stems_habitat_test()`                                                                                         |
-| Maps                             | `plot_sites()`, `plot_geo()`, `plot_topo()`, `geo_basemap()`, `geo_save()`, `theme_tidymapr()`                                                                             |
-| Vector and raster                | `geo_read()`, `geo_write()`, `geo_vector_*()`, `geo_raster_*()`, `geo_buffer()`, `geo_crop()`, `geo_union()`, `geo_area()`, `geo_join()`                                   |
-| Environmental layers             | `geo_bioclim()`, `geo_worldclim()`, `geo_chelsa()`, `geo_elevation()`, `geo_gadm()`                                                                                        |
-| Species distribution models      | `sdm_fit()`, `sdm_predict()`, `sdm_evaluate()`, `plot_sdm()`                                                                                                               |
-| Example data                     | `png_ants_sites` and `geo_example_sites()` (published Mt Wilhelm GPS); `geo_example_stems()`, `geo_example_dem()` and `geo_example_censuses()` (simulated, for tests only) |
+| Family | Functions |
+|---|---|
+| Layered maps | `geo_map()`, `map_raster()`, `map_polygons()`, `map_lines()`, `map_points()`, `map_labels()`, `map_curved_labels()`, `map_contours()`, `map_zoom()`, `map_build()` |
+| Automatic maps | `geo_automap()`, `geo_automap_explain()`, `plot_choropleth()`, `plot_bubble()`, `geo_classify()` |
+| Figures and furniture | `geo_panels()`, `geo_facet_map()`, `geo_inset()`, `annotation_scale_bar()`, `annotation_north_arrow()`, `map_legend()`, `map_graticule()`, `coord_projection()`, `theme_tidymapr()`, `geo_save()` |
+| GeoSpaX recipes | `geo_recipe_read()`, `geo_recipe_validate()`, `geo_recipe_run()`, `geo_recipe_write()`, `geo_recipe()`, `recipe_step()` |
+| Spatial analysis | `geo_interpolate()` (kriging with measurement error, IDW), `geo_hotspot()`, `geo_lisa()`, `geo_moran()`, `geo_distance()`, `geo_decay()`, `geo_mem()` |
+| Terrain and remote sensing | `geo_flow_direction()` and other hydrology tools, `geo_spectral_index()`, `geo_spectral_diversity()` |
+| Data input and output | `geo_read()`, `geo_write()`, `geo_layers()`, `geo_raster_read()`, `geo_as_sf()`, `geo_extract()`, `geo_basemap()` |
+| Ecology with tidydiversity | `geo_diversity_surface()`, `plot_diversity_surface()`, `geo_clean()`, `geo_gbif()`, `geo_rarefy_spatial()`, `sdm_fit()`, `stems_habitat_test()` |
 
 ## Gallery
 
-### Study-site map
+Every map below is made with tidymapr from real, openly licensed data.
 
-    #> Warning: No Natural Earth land data available; install rnaturalearth.
-    #> i Returning an empty land layer. Pass `coastline` or use a tile basemap.
+### Every geometry gets its own legend symbol
 
-<img src="man/figures/README-geo-sites-1.png" alt="Study-site map with coast basemap, labels, scale bar and north arrow" width="100%" />
+Rasters get a colour bar; polygons, lines and points get swatches, line
+keys and point symbols, each layer in its own legend section.
 
-### Stems over topography
+<img src="man/figures/readme-legend-symbols.png" alt="Luxembourg map with an elevation raster, district outlines, roads by class and canton centres, each with its own legend symbol" width="80%">
 
-<img src="man/figures/README-geo-topo-1.png" alt="Stem map over hillshade and contours" width="100%" />
+### Automatic, explained map design
 
-### Distance decay
+`geo_automap()` chooses the projection, classification, colour ramp and
+map furniture from the data, and `geo_automap_explain()` says why. Here,
+world life expectancy on Equal Earth (spData `world`).
 
-<img src="man/figures/README-geo-decay-1.png" alt="Ant dissimilarity against great-circle distance by season" width="100%" />
+<img src="man/figures/readme-automap-world.png" alt="World life expectancy on the Equal Earth projection with five classes and a graticule" width="100%">
 
-See the
-[gallery](https://tidymapr-e72c18.gitlab.io/articles/gallery.html)
-for every map with its table and code.
+### Diversity surfaces with uncertainty
+
+`geo_diversity_surface()` krigs coverage-standardised Hill numbers with
+each plot's estimation error (Barro Colorado Island 50-ha plot, vegan
+`BCI`).
+
+<img src="man/figures/readme-diversity-surface.png" alt="Kriged tree diversity for q = 0, 1 and 2 across the Barro Colorado Island plot, with maps of the width of the 95% interval" width="100%">
+
+### Spectral indices and spectral diversity
+
+NDVI with an Otsu threshold and spectral diversity in Hill numbers from a
+Sentinel-2 Level-2A scene of Luxembourg (shipped with terra).
+
+<img src="man/figures/readme-spectral-diversity.png" alt="Two maps of Luxembourg: NDVI from Sentinel-2 and spectral diversity, q = 1" width="100%">
+
+### Labels that follow the feature
+
+`map_curved_labels()` writes names along lines, across the long axis or
+along the outline of polygons, and on an arc above points.
+`map_contours()` labels contours at their straightest stretch.
+
+<p>
+<img src="man/figures/readme-curved-labels.png" alt="Luxembourg canton names curved across each canton, along boundaries and over points" width="49%">
+<img src="man/figures/readme-contours.png" alt="Labelled 50 m contours over shaded relief in northern Luxembourg" width="49%">
+</p>
+
+### Insets, inside legends and small multiples
+
+`geo_inset()` and `geo_map(legend = "inside")` find corners that do not
+hide the scale bar, the north arrow or the data. `geo_facet_map()` draws
+small multiples with one classification shared by every panel (sudden
+infant deaths in North Carolina, sf `nc`).
+
+<p>
+<img src="man/figures/readme-inset-legend.png" alt="Population of Luxembourg's cantons with the legend inside the map and a locator inset of Europe" width="42%">
+<img src="man/figures/readme-small-multiples.png" alt="Two North Carolina county maps, 1974-78 and 1979-84, sharing one set of classes" width="56%">
+</p>
+
+### GeoSpaX recipes in R
+
+`geo_recipe_run()` runs GeoSpaX recipes unchanged: kriging against IDW by
+cross-validation with its standard error, and Getis-Ord hot spots (Meuse
+soil samples, shipped with terra).
+
+<p>
+<img src="man/figures/readme-recipe-kriging.png" alt="Zinc in Meuse floodplain soils, kriged with an exponential variogram, with the sample sites" width="49%">
+<img src="man/figures/readme-recipe-hotspots.png" alt="Getis-Ord hot and cold spots of zinc at the Meuse sample sites over a topographic basemap" width="49%">
+</p>
+
+See the [gallery](https://tidymapr-e72c18.gitlab.io/articles/gallery.html)
+for more maps with their code.
 
 ## Licence
 
