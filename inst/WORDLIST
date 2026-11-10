@@ -54,6 +54,8 @@ Curtin
 DBH
 DCA
 DEM
+DGN
+DWG
 DaPhnE
 Damen
 DataCite
@@ -64,7 +66,9 @@ Dufour
 Dufrene
 Dungan
 Durka
+ENVI
 EPSG
+ERDAS
 Ecography
 Esri
 FD
@@ -78,13 +82,18 @@ Fick
 FileGDB
 Filip
 Filip's
+FlatGeobuf
 ForestGEO
 Fortin
 GADM
 GBIF
 GDAL
+GDAL's
 GDB
+GEDI
 GML
+GPX
+GRIB
 GVF
 GeoJSON
 GeoPackage
@@ -99,12 +108,14 @@ GitLab
 Gotelli
 Gro
 Götzenberger
+HDF
 HOM
 Hamidi
 Hau
 Hijmans
 Hsieh
 Hubbell
+IDRISI
 IDW
 Idigel
 IndVal
@@ -122,6 +133,7 @@ Kubota
 Kusumoto
 LUREF
 Laliberte
+Landsat
 LazyData
 Lepidoptera
 Leps
@@ -130,10 +142,13 @@ Limnologie
 LinkingTo
 Luk
 MAUP
+MODIS
 Madang
+MapInfo
 Maxent
 McGlinn
 Michalski
+MicroStation
 Mogador
 Moretti
 Morisita
@@ -186,6 +201,7 @@ SDMs
 SES
 SEs
 SLA
+SQLite
 SRTM
 Sauer
 Smilauer
@@ -193,6 +209,7 @@ Sokal
 SpadeR
 SpatRaster
 SpatRasters
+SpatiaLite
 Srivastava
 Swire
 TD
@@ -202,6 +219,7 @@ TSS
 TWI
 Théâtre
 Tiede
+TopoJSON
 Traitbase
 Trichoptera
 Trophic
@@ -209,6 +227,8 @@ Tw
 UNDP
 USGS
 Usseglio
+VIIRS
+VRT
 Valone
 VignetteBuilder
 Villeger
@@ -222,6 +242,7 @@ WorldClim
 Yasuhara
 Yawan
 Yenni
+Zarr
 Zeleny
 Zenodo
 Zizka
@@ -308,6 +329,7 @@ heatmaps
 hillR
 hillshade
 ht
+hyperspectral
 iNEXT
 indicspecies
 io
@@ -378,6 +400,8 @@ smaragdina
 snowbeds
 snowmelt
 spdep
+subdataset
+subdatasets
 sur
 tabset
 tb

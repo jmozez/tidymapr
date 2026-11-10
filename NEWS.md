@@ -46,6 +46,27 @@ Install the latest version with `pak::pak("gitlab::jimmy.moses/tidymapr")`.
 * Tile maps now carry each provider's required attribution (for example
   "© OpenStreetMap contributors") as the plot caption.
 
+## Reading GIS, CAD and remote sensing files (November 2026)
+
+* `geo_read()` now reads many more formats through GDAL:
+  - remote sensing and climate rasters: netCDF (`.nc`, `.nc4`, `.cdf`),
+    HDF4/HDF5 (MODIS, VIIRS, GEDI), GRIB weather files, Sentinel-2 `.SAFE`
+    folders and zips, JPEG 2000, ENVI cubes (a `.dat`/`.bin` with its
+    `.hdr`), ERDAS Imagine, Zarr, VRT, IDRISI, SAGA and ER Mapper;
+  - several band files at once (for example Landsat or Sentinel-2 bands),
+    stacked into one multi-band raster;
+  - CAD drawings: AutoCAD `.dxf` and `.dwg` and MicroStation `.dgn`, with
+    `cad_layer` to keep chosen AutoCAD layers (DGN levels) and `crs` to set
+    the coordinate system CAD files do not store;
+  - vector formats: FlatGeobuf, GPX, MapInfo, SpatiaLite, TopoJSON,
+    OpenStreetMap `.osm`/`.pbf`, S-57 nautical charts and spreadsheets
+    (`.xlsx`, `.xls`, `.ods`).
+* New `var` argument to pick netCDF, HDF and GRIB variables by name or
+  number; several variables are combined into one raster, and time steps
+  stay in `terra::time()`.
+* New `geo_layers()` shows what a file holds before you read it: vector
+  layers, netCDF/HDF variables and subdatasets, CAD layers or raster bands.
+
 ## Earlier additions
 
 * New local spatial statistics: `geo_hotspot()` (Getis-Ord Gi*) and

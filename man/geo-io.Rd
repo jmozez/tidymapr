@@ -18,6 +18,8 @@ geo_read(
   lat = NULL,
   layer = NULL,
   crs = 4326,
+  var = NULL,
+  cad_layer = NULL,
   ...
 )
 
@@ -27,11 +29,12 @@ geo_vector_read(
   lon = NULL,
   lat = NULL,
   layer = NULL,
-  crs = 4326,
+  crs = NULL,
+  cad_layer = NULL,
   ...
 )
 
-geo_raster_read(path, driver = NULL, ...)
+geo_raster_read(path, driver = NULL, var = NULL, ...)
 
 geo_write(
   x,
@@ -73,9 +76,18 @@ auto-detects.}
 non-\code{sf} table. Defaults try \code{lon}/\code{lat}, then \code{longitude}/\code{latitude},
 then \code{x}/\code{y}.}
 
-\item{layer}{Layer name for multi-layer containers (GeoPackage, GDB).}
+\item{layer}{Layer name for multi-layer containers (GeoPackage, GDB,
+GPX, OSM).}
 
-\item{crs}{CRS assigned to lon/lat tables (default WGS84).}
+\item{crs}{CRS assigned to lon/lat tables (default WGS84) and to CAD
+drawings, which store none (for example \code{32755} for UTM zone 55S).}
+
+\item{var}{For netCDF, HDF and GRIB rasters: variable or subdataset
+names (or numbers) to read, as listed by \code{\link[=geo_layers]{geo_layers()}}. \code{NULL} reads
+them all.}
+
+\item{cad_layer}{For AutoCAD (\code{.dxf}, \code{.dwg}) and MicroStation (\code{.dgn})
+files: CAD layers (or DGN levels) to keep. \code{NULL} keeps all.}
 
 \item{...}{Passed to \code{sf::st_read()} / \code{sf::st_write()} or
 \code{terra::rast()} / \code{terra::writeRaster()}.}
@@ -107,25 +119,42 @@ and \code{\link[=geo_raster_read]{geo_raster_read()}} / \code{\link[=geo_raster_
 already know the type. All I/O goes through \strong{sf} and \strong{terra} (GDAL /
 OGR under the hood). Do not use the retired \strong{rgdal} package.
 
-Supported formats (read unless noted):\tabular{llll}{
+Supported formats (read unless noted; anything else GDAL reads also
+works, with \code{type} set):\tabular{llll}{
    Format \tab Extensions \tab Type \tab Notes \cr
    GeoTIFF / COG \tab \code{.tif}, \code{.tiff} \tab raster \tab write supported \cr
-   NetCDF \tab \code{.nc}, \code{.nc4} \tab raster \tab write when terra/GDAL allow \cr
-   ASCII grid \tab \code{.asc}, \code{.grd} \tab raster \tab  \cr
+   netCDF \tab \code{.nc}, \code{.nc4}, \code{.cdf} \tab raster \tab climate and ocean data; pick variables with \code{var}, time kept in \code{terra::time()} \cr
+   HDF4 / HDF5 \tab \code{.hdf}, \code{.h4}, \code{.he4}, \code{.h5}, \code{.hdf5}, \code{.he5} \tab raster \tab MODIS, VIIRS, GEDI; pick subdatasets with \code{var} \cr
+   GRIB \tab \code{.grib}, \code{.grb}, \code{.grib2}, \code{.grb2} \tab raster \tab weather model output \cr
+   Sentinel-2 \tab \code{.SAFE} folder, \code{.zip}, \code{MTD_*.xml} \tab raster \tab Level-1C and Level-2A products \cr
+   JPEG 2000 \tab \code{.jp2} \tab raster \tab Sentinel-2 band files \cr
+   ENVI \tab \code{.dat}/\code{.bin} with \code{.hdr}, \code{.envi} \tab raster \tab hyperspectral cubes \cr
+   ERDAS Imagine \tab \code{.img} \tab raster \tab  \cr
+   Zarr \tab \code{.zarr} \tab raster \tab cloud-native arrays \cr
+   Other rasters \tab \code{.asc}, \code{.grd}, \code{.vrt}, \code{.rst}, \code{.sdat}, \code{.ers}, \code{.bil}, \code{.bip}, \code{.bsq} \tab raster \tab ASCII grid, VRT, IDRISI, SAGA, ER Mapper \cr
+   Band files \tab several paths \tab raster \tab stacked into one multi-band raster \cr
    GeoPackage \tab \code{.gpkg} \tab vector (or raster) \tab preferred vector write \cr
    Shapefile \tab \code{.shp} (+ sidecars) \tab vector \tab write supported \cr
-   GeoJSON \tab \code{.geojson}, \code{.json} \tab vector \tab write supported \cr
+   GeoJSON / TopoJSON \tab \code{.geojson}, \code{.json}, \code{.topojson} \tab vector \tab write supported \cr
+   FlatGeobuf \tab \code{.fgb} \tab vector \tab write supported \cr
    KML / KMZ \tab \code{.kml}, \code{.kmz} \tab vector \tab KMZ unzipped to KML \cr
-   GML \tab \code{.gml} \tab vector \tab  \cr
+   GPS exchange \tab \code{.gpx} \tab vector \tab waypoints, tracks, routes (\code{layer}) \cr
+   AutoCAD \tab \code{.dxf}, \code{.dwg} \tab vector \tab pick CAD layers with \code{cad_layer}; DWG needs GDAL's CAD driver \cr
+   MicroStation \tab \code{.dgn} \tab vector \tab \code{cad_layer} filters by level \cr
+   MapInfo \tab \code{.tab}, \code{.mif} \tab vector \tab  \cr
+   GML, SQLite / SpatiaLite \tab \code{.gml}, \code{.sqlite} \tab vector \tab  \cr
+   OpenStreetMap \tab \code{.osm}, \code{.pbf} \tab vector \tab \code{layer} = \code{"points"}, \code{"lines"}, \code{"multipolygons"} \cr
+   Nautical charts (S-57) \tab \code{.000} \tab vector \tab  \cr
    FileGDB \tab \code{.gdb} \tab vector \tab when GDAL has OpenFileGDB/FileGDB \cr
+   Spreadsheets \tab \code{.xlsx}, \code{.xls}, \code{.ods} \tab vector \tab through GDAL; needs lon/lat columns \cr
    CSV / text \tab \code{.csv}, \code{.tsv}, \code{.txt} \tab vector \tab needs lon/lat columns \cr
-   Occurrence tables \tab \code{.csv} etc. \tab vector \tab same as CSV via \code{\link[=geo_as_sf]{geo_as_sf()}} \cr
 }
 
 
-Excel (\code{.xlsx}) is not supported here to avoid a heavy dependency; export
-CSV first. GADM downloads use these writers for the on-disk cache; see
-\code{\link[=geo_gadm]{geo_gadm()}} for license notes (do not redistribute the full GADM database).
+Use \code{\link[=geo_layers]{geo_layers()}} to see what a file holds (vector layers, netCDF/HDF
+variables and subdatasets, or AutoCAD layers) before reading it. GADM
+downloads use these writers for the on-disk cache; see \code{\link[=geo_gadm]{geo_gadm()}} for
+license notes (do not redistribute the full GADM database).
 
 Map figures from \code{\link[=plot_sites]{plot_sites()}}, \code{\link[=plot_geo]{plot_geo()}}, \code{\link[=plot_sdm]{plot_sdm()}} and
 \code{\link[=plot_topo]{plot_topo()}} are saved with \code{\link[=geo_save]{geo_save()}} (or \code{\link[tidydiversity:plot_save]{tidydiversity::plot_save()}}).
