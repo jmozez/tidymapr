@@ -139,6 +139,7 @@ reference:
   - title: Vector, raster and file verbs
     contents:
       - geo-io
+      - geo_layers
       - geo-vector
       - geo-raster
   - title: Environmental layers
