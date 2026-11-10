@@ -10,6 +10,20 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// dbscan_cpp
+List dbscan_cpp(NumericVector x, NumericVector y, double eps, int min_pts);
+RcppExport SEXP _tidymapr_dbscan_cpp(SEXP xSEXP, SEXP ySEXP, SEXP epsSEXP, SEXP min_ptsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
+    Rcpp::traits::input_parameter< int >::type min_pts(min_ptsSEXP);
+    rcpp_result_gen = Rcpp::wrap(dbscan_cpp(x, y, eps, min_pts));
+    return rcpp_result_gen;
+END_RCPP
+}
 // geo_haversine_pair_cpp
 NumericVector geo_haversine_pair_cpp(NumericVector lon1, NumericVector lat1, NumericVector lon2, NumericVector lat2);
 RcppExport SEXP _tidymapr_geo_haversine_pair_cpp(SEXP lon1SEXP, SEXP lat1SEXP, SEXP lon2SEXP, SEXP lat2SEXP) {
@@ -386,6 +400,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_tidymapr_dbscan_cpp", (DL_FUNC) &_tidymapr_dbscan_cpp, 4},
     {"_tidymapr_geo_haversine_pair_cpp", (DL_FUNC) &_tidymapr_geo_haversine_pair_cpp, 4},
     {"_tidymapr_geo_haversine_matrix_cpp", (DL_FUNC) &_tidymapr_geo_haversine_matrix_cpp, 2},
     {"_tidymapr_geo_euclidean_pair_cpp", (DL_FUNC) &_tidymapr_geo_euclidean_pair_cpp, 2},

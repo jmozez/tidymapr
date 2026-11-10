@@ -73,6 +73,8 @@ reference:
     contents:
       - geo_interpolate
       - geo-local
+      - geo_dbscan
+      - geo_landscape
       - geo_moran
       - geo_distance
       - geo_decay

@@ -9,6 +9,7 @@ Arroita
 Asner
 Auda
 AutoMap
+BJ
 Barro
 Baselga
 Basemap
@@ -60,6 +61,7 @@ Cressie
 Crossref
 Curtin
 DBH
+DBSCAN
 DCA
 DEM
 DEMs
@@ -69,6 +71,7 @@ DXF
 DaPhnE
 Damen
 DataCite
+DeZonia
 Dipodomys
 Donoso
 Drapeau
@@ -89,6 +92,7 @@ FDR
 FDis
 FDiv
 FEve
+FRAGSTATS
 FRic
 Farwig
 Fayle
@@ -129,6 +133,7 @@ Guisan
 Götzenberger
 HDF
 HOM
+HS
 Hamidi
 Hastie
 Hau
@@ -146,6 +151,7 @@ JJ
 Jaccard
 Jiguet
 Jost
+KDD
 KML
 KMZ
 Karger
@@ -153,6 +159,7 @@ Kirkby
 Kleyer
 Klimes
 Kongnoo
+Kriegel
 Kubota
 Kusumoto
 LUREF
@@ -176,10 +183,12 @@ MapInfo
 Massin
 Maxent
 McFeeters
+McGarigal
 McGlinn
 Meuse
 Michalski
 MicroStation
+Mladenoff
 Mogador
 Moretti
 Morisita
@@ -218,6 +227,7 @@ PCNM
 PCoA
 PERMANOVA
 PNAS
+PNW
 Pagel
 Pagel's
 Partialling
@@ -301,8 +311,10 @@ Zizka
 ac
 ade
 adespatial
+ai
 analyze
 annurev
+antimeridian
 aods
 aravo
 aut
@@ -336,6 +348,7 @@ cre
 db
 dbMEM
 dbh
+dbscan
 dem
 des
 dismo
@@ -345,6 +358,7 @@ dplyr
 ecm
 ecog
 ecolsys
+ed
 edn
 elevatr
 envfit
@@ -406,11 +420,13 @@ kable
 knitr
 krigs
 ks
+landscapemetrics
 lat
 les
 lm
 lme
 lon
+lpi
 lumineux
 maptiles
 maxnet
@@ -421,6 +437,7 @@ metR
 metrix
 mgcv
 middomain
+mn
 modeling
 morphospecies
 moses
@@ -431,6 +448,7 @@ neotropical
 nestedness
 netCDF
 nonlinear
+np
 org
 overfitted
 penicillatus
@@ -441,6 +459,7 @@ phytools
 picante
 piégeage
 pkgdown
+pland
 plotmo
 png
 pnguot

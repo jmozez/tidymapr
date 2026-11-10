@@ -116,7 +116,7 @@ geo_map(title = "Luxembourg", caption = "Data: terra package") |>
 | Automatic maps | `geo_automap()`, `geo_automap_explain()`, `plot_choropleth()`, `plot_bubble()`, `geo_classify()` |
 | Figures and furniture | `geo_panels()`, `geo_facet_map()`, `geo_inset()`, `annotation_scale_bar()`, `annotation_north_arrow()`, `map_legend()`, `map_graticule()`, `coord_projection()`, `theme_tidymapr()`, `geo_save()` |
 | GeoSpaX recipes | `geo_recipe_read()`, `geo_recipe_validate()`, `geo_recipe_run()`, `geo_recipe_write()`, `geo_recipe()`, `recipe_step()` |
-| Spatial analysis | `geo_interpolate()` (kriging with measurement error, IDW), `geo_hotspot()`, `geo_lisa()`, `geo_moran()`, `geo_distance()`, `geo_decay()`, `geo_mem()` |
+| Spatial analysis | `geo_interpolate()` (kriging with measurement error, IDW), `geo_hotspot()`, `geo_lisa()`, `geo_moran()`, `geo_dbscan()`, `geo_landscape()`, `geo_distance()`, `geo_decay()`, `geo_mem()` |
 | Terrain and remote sensing | `geo_flow_direction()` and other hydrology tools, `geo_stac_search()`, `geo_stac_read()`, `geo_spectral_index()`, `geo_spectral_diversity()` |
 | Data input and output | `geo_read()`, `geo_write()`, `geo_layers()`, `geo_raster_read()`, `geo_as_sf()`, `geo_extract()`, `geo_basemap()` |
 | Ecology with tidydiversity | `geo_diversity_surface()`, `plot_diversity_surface()`, `geo_clean()`, `geo_gbif()`, `geo_rarefy_spatial()`, `sdm_maxent()`, `sdm_ensemble()`, `sdm_fit()`, `stems_habitat_test()` |
@@ -211,6 +211,16 @@ along the outline of polygons, and on an arc above points.
 <img src="man/figures/readme-curved-labels.png" alt="Luxembourg canton names curved across each canton, along boundaries and over points" width="49%">
 <img src="man/figures/readme-contours.png" alt="Labelled 50 m contours over shaded relief in northern Luxembourg" width="49%">
 </p>
+
+### Clusters and fragmentation
+
+`geo_dbscan()` finds clusters of points in C++, with distances in metres
+anywhere on Earth; `geo_landscape()` measures habitat fragmentation with
+the FRAGSTATS metrics, matching landscapemetrics and also working on
+rasters in degrees. Here, earthquake clusters along the Tonga-Kermadec
+and Vanuatu arcs (`datasets::quakes`).
+
+<img src="man/figures/readme-dbscan.png" alt="Earthquake clusters near Fiji found with DBSCAN, coloured by cluster with outlines, along the Tonga-Kermadec trench and the Vanuatu arc" width="70%">
 
 ### Insets, inside legends and small multiples
 

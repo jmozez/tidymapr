@@ -1,5 +1,18 @@
 # tidymapr 0.0.0.9000
 
+## GeoSpaX plug-in tools (November 2026)
+
+* `geo_dbscan()` clusters points with DBSCAN in C++ (grid index), with
+  `eps` in metres on the ground for geographic data and a convex-hull
+  outline per cluster. It gives the same partition as the dbscan package.
+* `geo_landscape()` computes FRAGSTATS fragmentation metrics by class (np,
+  ca, pland, lpi, area_mn, ed, ai, mesh) and for the landscape (with
+  Shannon's and Simpson's diversity). They match landscapemetrics on
+  projected rasters to machine precision, and unlike landscapemetrics they
+  measure geographic (degree) rasters in true hectares and metres.
+* Projections chosen from data that cross the antimeridian (Fiji, New
+  Zealand, Kiribati) now centre on the data, not on longitude 0.
+
 ## 3D terrain maps (November 2026)
 
 * `geo_map3d()` renders a DEM as a 3D block diagram with sun lighting and
