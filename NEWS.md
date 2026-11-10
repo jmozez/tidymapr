@@ -1,5 +1,15 @@
 # tidymapr 0.0.0.9000
 
+## Interactive web maps (November 2026)
+
+* `geo_webmap()` turns a `geo_map()` (or one `sf` or raster layer) into a
+  self-contained interactive web page built on Leaflet: pan and zoom, four
+  basemaps, layers that switch on and off, attribute pop-ups, permanent
+  labels, a scale bar and a legend with the same symbols, classes and presets
+  as the printed map. Features are embedded as GeoJSON and rasters as images,
+  so the single HTML file can be emailed or published; Leaflet is loaded with
+  Subresource Integrity.
+
 ## Symbology presets (November 2026)
 
 * `map_polygons()`, `map_lines()` and `map_points()` take `preset`, a

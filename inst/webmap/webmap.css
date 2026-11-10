@@ -1,0 +1,21 @@
+html, body { margin: 0; height: 100%; background: #fff; color: #222;
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif; }
+#map { position: absolute; inset: 0; }
+.panel { background: rgba(255, 255, 255, .94); border: 1px solid #bbb; border-radius: 4px;
+  padding: 8px 10px; box-shadow: 0 1px 4px rgba(0, 0, 0, .15); }
+.ttl { font-size: 17px; font-weight: 600; }
+.sub { font-size: 12.5px; color: #555; margin-top: 2px; }
+.legend { max-height: 60vh; overflow: auto; font-size: 12px; min-width: 120px; }
+.lg-sec { margin-bottom: 6px; }
+.lg-title { font-weight: 600; margin: 2px 0 4px; }
+.lg-row { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
+.sw { display: inline-block; width: 16px; height: 12px; box-sizing: border-box; }
+.lg-bar { display: flex; gap: 6px; height: 110px; }
+.bar { width: 14px; border: 1px solid #999; }
+.ticks { display: flex; flex-direction: column; justify-content: space-between; }
+.lbl { background: none; border: none; box-shadow: none; font-size: 11.5px; font-weight: 500;
+  color: #111; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff; }
+.leaflet-popup-content table { border-collapse: collapse; font-size: 12px; }
+.leaflet-popup-content td { padding: 1px 6px; border-bottom: 1px solid #eee; }
+.leaflet-popup-content td:first-child { color: #666; }
+.cap { font-size: 11px; color: #555; }

@@ -112,7 +112,7 @@ geo_map(title = "Luxembourg", caption = "Data: terra package") |>
 
 | Family | Functions |
 |---|---|
-| Layered maps | `geo_map()`, `map_raster()`, `map_polygons()`, `map_lines()`, `map_points()`, `map_labels()`, `map_curved_labels()`, `map_contours()`, `map_zoom()`, `map_build()`, `geo_map3d()` |
+| Layered maps | `geo_map()`, `map_raster()`, `map_polygons()`, `map_lines()`, `map_points()`, `map_labels()`, `map_curved_labels()`, `map_contours()`, `map_zoom()`, `map_build()`, `geo_map3d()`, `geo_webmap()` |
 | Automatic maps | `geo_automap()`, `geo_automap_explain()`, `plot_choropleth()`, `plot_bubble()`, `geo_classify()` |
 | Figures and furniture | `geo_panels()`, `geo_facet_map()`, `geo_inset()`, `annotation_scale_bar()`, `annotation_north_arrow()`, `map_legend()`, `map_graticule()`, `coord_projection()`, `theme_tidymapr()`, `geo_save()` |
 | GeoSpaX recipes | `geo_recipe_read()`, `geo_recipe_validate()`, `geo_recipe_run()`, `geo_recipe_write()`, `geo_recipe()`, `recipe_step()` |
@@ -124,6 +124,17 @@ geo_map(title = "Luxembourg", caption = "Data: terra package") |>
 ## Gallery
 
 Every map below is made with tidymapr from real, openly licensed data.
+
+### Interactive web maps
+
+`geo_webmap()` turns the same layered map into one interactive HTML page
+with basemaps, switchable layers, pop-ups and a matching legend.
+
+```r
+geo_webmap(m, file = "luxembourg.html")
+```
+
+<img src="man/figures/readme-webmap.png" alt="Interactive web map of Luxembourg in a browser: cantons classed by population over an Esri topographic basemap, main roads, canton centres and labels, a layer menu and a legend" width="100%">
 
 ### 3D terrain maps
 
