@@ -74,6 +74,8 @@ geo_spectral_index <- function(x,
   a <- r[[map[[pair[1]]]]]
   b <- r[[map[[pair[2]]]]]
   out <- (a - b) / (a + b)
+  # A zero or negative denominator (no signal) gives no index
+  out <- terra::ifel(abs(a + b) < 1e-6 | out < -1 | out > 1, NA, out)
   names(out) <- index
   if (is.null(threshold)) return(out)
   v <- terra::values(out, mat = FALSE)
@@ -192,6 +194,15 @@ geo_spectral_diversity <- function(x,
 tmr_band_map <- function(layers, bands = NULL) {
   s2 <- c(green = "B03", red = "B04", rededge = "B05", nir = "B08", swir1 = "B11", swir2 = "B12")
   map <- as.list(s2[s2 %in% layers])
+  # STAC asset names (Earth Search Sentinel-2 and Landsat)
+  stac <- c(
+    green = "green", red = "red", rededge = "rededge1", nir = "nir",
+    swir1 = "swir16", swir2 = "swir22"
+  )
+  for (k in names(stac)) {
+    if (is.null(map[[k]]) && stac[[k]] %in% layers) map[[k]] <- stac[[k]]
+  }
+  if (is.null(map$nir) && "nir08" %in% layers) map$nir <- "nir08"
   if (!is.null(bands)) {
     bad <- setdiff(unname(bands), layers)
     if (length(bad)) cli::cli_abort("Band{?s} {.val {bad}} not found in the raster.")

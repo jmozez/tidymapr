@@ -1,5 +1,19 @@
 # tidymapr 0.0.0.9000
 
+## Satellite imagery from STAC (November 2026)
+
+* `geo_stac_search()` finds scenes in any STAC catalogue (default: Element
+  84 Earth Search: Sentinel-2, Landsat, Copernicus DEM) by area, period and
+  cloud cover, and returns their footprints as an `sf` table.
+* `geo_stac_read()` reads chosen bands over an area only (windowed reads of
+  cloud-optimised GeoTIFFs), applies the catalogue's scale and offset
+  (skipping it where Earth Search has already applied it), mosaics tiles and
+  takes the per-pixel median of several scenes to remove clouds.
+  `geo_stac_collections()` lists a catalogue's collections. Needs the
+  suggested package httr2.
+* `geo_spectral_index()` recognises STAC band names (`red`, `nir`, ...) and
+  returns `NA` where a normalised difference has no signal.
+
 ## Curved labels (November 2026)
 
 * The README shows a new gallery of maps made from real data: layered maps,

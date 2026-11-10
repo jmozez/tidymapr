@@ -47,6 +47,7 @@ Suggests:
     ggplot2 (>= 3.5.0),
     ggrepel,
     gstat,
+    httr2,
     knitr,
     leaflet,
     maptiles,
