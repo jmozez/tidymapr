@@ -8,6 +8,7 @@
 \alias{map_lines}
 \alias{map_points}
 \alias{map_labels}
+\alias{map_zoom}
 \alias{map_build}
 \title{Layered maps, built one layer at a time}
 \usage{
@@ -19,7 +20,8 @@ geo_map(
   scale_bar = "checker",
   north_arrow = "needle",
   graticule = FALSE,
-  legend = c("right", "bottom", "none")
+  legend = c("right", "bottom", "inside", "none"),
+  legend_corner = "auto"
 )
 
 map_raster(
@@ -84,6 +86,8 @@ map_labels(
   fontface = "plain"
 )
 
+map_zoom(map, zoom = 1, centre = NULL, extent = NULL)
+
 map_build(map)
 }
 \arguments{
@@ -102,7 +106,12 @@ leave them out.}
 \item{graticule}{Draw a labelled graticule? Default \code{FALSE}: coordinates
 appear on the axes.}
 
-\item{legend}{Legend position, \code{"right"}, \code{"bottom"} or \code{"none"}.}
+\item{legend}{Legend position: \code{"right"}, \code{"bottom"}, \code{"inside"} (in a
+framed box on the map) or \code{"none"}.}
+
+\item{legend_corner}{For \code{legend = "inside"}, the corner: \code{"auto"}
+(default) picks one free of the scale bar and north arrow that hides
+the least of the mapped features, or \code{"tr"}, \code{"tl"}, \code{"br"}, \code{"bl"}.}
 
 \item{map}{A map started with \code{geo_map()}.}
 
@@ -143,6 +152,15 @@ size.}
 
 \item{fontface}{Font face of the labels, for example \code{"italic"} for
 rivers or \code{"bold"} for towns.}
+
+\item{zoom}{Zoom factor for \code{map_zoom()}: 2 shows half the width and
+height (closer), 0.5 shows twice as much around the data.}
+
+\item{centre}{Point to zoom on, \code{c(longitude, latitude)}; by default
+the centre of the extent.}
+
+\item{extent}{Area to show: an \code{sf} object, a bbox, a terra object, or
+\code{c(xmin, ymin, xmax, ymax)} in degrees. By default all layers.}
 }
 \value{
 \code{geo_map()} and the \verb{map_*()} functions return a \code{tmr_map}; it
@@ -164,6 +182,8 @@ layer gets its own legend section: polygon swatches, line keys or point
 symbols.
 \item \code{map_labels()} writes feature names with a white halo, so they stay
 readable over any background.
+\item \code{map_zoom()} zooms in or out, on the centre or on a point, or shows an
+exact extent; the scale bar follows.
 }
 
 Layers are drawn in the order they are added (the first at the bottom).

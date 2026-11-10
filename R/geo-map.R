@@ -15,6 +15,8 @@
 #'   symbols.
 #' * `map_labels()` writes feature names with a white halo, so they stay
 #'   readable over any background.
+#' * `map_zoom()` zooms in or out, on the centre or on a point, or shows an
+#'   exact extent; the scale bar follows.
 #'
 #' Layers are drawn in the order they are added (the first at the bottom).
 #' The legend lists them the other way round, top layer first, as in GeoSpaX,
@@ -32,7 +34,11 @@
 #'   leave them out.
 #' @param graticule Draw a labelled graticule? Default `FALSE`: coordinates
 #'   appear on the axes.
-#' @param legend Legend position, `"right"`, `"bottom"` or `"none"`.
+#' @param legend Legend position: `"right"`, `"bottom"`, `"inside"` (in a
+#'   framed box on the map) or `"none"`.
+#' @param legend_corner For `legend = "inside"`, the corner: `"auto"`
+#'   (default) picks one free of the scale bar and north arrow that hides
+#'   the least of the mapped features, or `"tr"`, `"tl"`, `"br"`, `"bl"`.
 #' @param map A map started with `geo_map()`.
 #' @param x For `map_raster()`, a `SpatRaster` (the first layer is drawn).
 #' @param data An `sf` table.
@@ -58,6 +64,12 @@
 #' @param halo Draw a white halo behind the labels?
 #' @param fontface Font face of the labels, for example `"italic"` for
 #'   rivers or `"bold"` for towns.
+#' @param zoom Zoom factor for `map_zoom()`: 2 shows half the width and
+#'   height (closer), 0.5 shows twice as much around the data.
+#' @param centre Point to zoom on, `c(longitude, latitude)`; by default
+#'   the centre of the extent.
+#' @param extent Area to show: an `sf` object, a bbox, a terra object, or
+#'   `c(xmin, ymin, xmax, ymax)` in degrees. By default all layers.
 #' @return `geo_map()` and the `map_*()` functions return a `tmr_map`; it
 #'   prints as a map. `map_build()` turns it into an ordinary ggplot, to
 #'   which you can add ggplot2 layers, scales and themes.
@@ -91,13 +103,15 @@ geo_map <- function(title = NULL,
                     scale_bar = "checker",
                     north_arrow = "needle",
                     graticule = FALSE,
-                    legend = c("right", "bottom", "none")) {
+                    legend = c("right", "bottom", "inside", "none"),
+                    legend_corner = "auto") {
   legend <- rlang::arg_match(legend)
+  legend_corner <- rlang::arg_match(legend_corner, c("auto", "tr", "tl", "br", "bl"))
   structure(
     list(
       layers = list(), title = title, subtitle = subtitle, caption = caption,
       crs = crs, scale_bar = scale_bar, north_arrow = north_arrow,
-      graticule = graticule, legend = legend
+      graticule = graticule, legend = legend, legend_corner = legend_corner
     ),
     class = "tmr_map"
   )
@@ -206,6 +220,25 @@ map_labels <- function(map,
 
 #' @rdname geo-map
 #' @export
+map_zoom <- function(map, zoom = 1, centre = NULL, extent = NULL) {
+  tmr_check_map(map)
+  tmr_check_number(zoom, "zoom", 0.05, 1000)
+  if (!is.null(centre) && !(is.numeric(centre) && length(centre) == 2)) {
+    cli::cli_abort("{.arg centre} must be {.code c(longitude, latitude)}.")
+  }
+  ok_extent <- inherits(extent, c("sf", "sfc", "bbox", "SpatRaster", "SpatVector")) ||
+    (is.numeric(extent) && length(extent) == 4)
+  if (!is.null(extent) && !ok_extent) {
+    cli::cli_abort(
+      "{.arg extent} must be an sf object, a bbox, or {.code c(xmin, ymin, xmax, ymax)} in degrees."
+    )
+  }
+  map$zoom <- list(zoom = zoom, centre = centre, extent = extent)
+  map
+}
+
+#' @rdname geo-map
+#' @export
 map_build <- function(map) {
   tmr_check_map(map)
   rlang::check_installed(c("ggplot2", "sf", "ggnewscale"))
@@ -226,23 +259,36 @@ map_build <- function(map) {
       p <- p + ggnewscale::new_scale_fill() + ggnewscale::new_scale_colour()
     }
   }
-  p <- p + ggplot2::coord_sf(crs = crs, default_crs = crs, expand = FALSE)
+  lims <- tmr_map_limits(map, crs)
+  p <- p + ggplot2::coord_sf(
+    crs = crs, default_crs = crs, expand = FALSE,
+    xlim = lims$x, ylim = lims$y
+  )
   sb <- tmr_furniture_style(map$scale_bar, "scale")
   na <- tmr_furniture_style(map$north_arrow, "north")
   if (!is.null(sb)) p <- p + annotation_scale_bar(style = sb, location = "bl")
   if (!is.null(na)) p <- p + annotation_north_arrow(style = na, location = "tr")
   if (isTRUE(map$graticule)) p <- p + map_graticule()
-  p +
+  p <- p +
     ggplot2::labs(
       title = map$title, subtitle = map$subtitle, caption = map$caption,
       x = NULL, y = NULL
     ) +
-    theme_tidymapr(grid = "none", legend_position = map$legend) +
+    theme_tidymapr(
+      grid = "none",
+      legend_position = if (map$legend == "inside") "right" else map$legend
+    ) +
     ggplot2::theme(
       legend.key = ggplot2::element_rect(fill = "white", colour = NA),
       legend.spacing.y = ggplot2::unit(2, "mm"),
       panel.border = ggplot2::element_rect(fill = NA, colour = "grey30", linewidth = 0.4)
     )
+  if (identical(map$legend, "inside")) {
+    corner <- map$legend_corner %||% "auto"
+    if (corner == "auto") corner <- tmr_inset_corner(p, 0.3, 0.02)
+    p <- p + map_legend(position = "inside", corner = corner)
+  }
+  p
 }
 
 #' @export
@@ -490,4 +536,49 @@ tmr_map_tiles <- function(df, col, r, alpha = 1) {
     width = res[1] * 1.03, height = res[2] * 1.03, colour = NA,
     alpha = alpha, inherit.aes = FALSE
   )
+}
+
+# Map limits in the map CRS from map_zoom(): the extent (or all layers),
+# then zoomed about its centre (or a given centre)
+tmr_map_limits <- function(map, crs) {
+  z <- map$zoom
+  if (is.null(z)) return(list(x = NULL, y = NULL))
+  to_box <- function(x) {
+    if (inherits(x, c("SpatRaster", "SpatVector"))) {
+      x <- sf::st_as_sfc(sf::st_bbox(
+        stats::setNames(as.vector(terra::ext(x))[c(1, 3, 2, 4)], c("xmin", "ymin", "xmax", "ymax")),
+        crs = sf::st_crs(terra::crs(x))
+      ))
+    } else if (is.numeric(x) && !inherits(x, "bbox")) {
+      x <- sf::st_as_sfc(sf::st_bbox(
+        stats::setNames(x, c("xmin", "ymin", "xmax", "ymax")),
+        crs = sf::st_crs(4326)
+      ))
+    } else if (inherits(x, "bbox")) {
+      x <- sf::st_as_sfc(x)
+    }
+    sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(x)), crs))
+  }
+  bb <- if (!is.null(z$extent)) {
+    to_box(z$extent)
+  } else {
+    boxes <- lapply(Filter(function(l) l$kind != "labels", map$layers), function(l) to_box(l$data))
+    m <- do.call(rbind, lapply(boxes, as.numeric))
+    stats::setNames(
+      c(min(m[, 1]), min(m[, 2]), max(m[, 3]), max(m[, 4])),
+      c("xmin", "ymin", "xmax", "ymax")
+    )
+  }
+  cx <- (bb[["xmin"]] + bb[["xmax"]]) / 2
+  cy <- (bb[["ymin"]] + bb[["ymax"]]) / 2
+  if (!is.null(z$centre)) {
+    pt <- sf::st_coordinates(sf::st_transform(
+      sf::st_sfc(sf::st_point(z$centre), crs = 4326), crs
+    ))
+    cx <- pt[1, 1]
+    cy <- pt[1, 2]
+  }
+  hw <- (bb[["xmax"]] - bb[["xmin"]]) / 2 / z$zoom
+  hh <- (bb[["ymax"]] - bb[["ymin"]]) / 2 / z$zoom
+  list(x = c(cx - hw, cx + hw), y = c(cy - hh, cy + hh))
 }

@@ -55,6 +55,7 @@ reference:
     contents:
       - geo_automap
       - geo-map
+      - geo-panels
       - thematic-maps
       - plot_sites
       - plot_geo
