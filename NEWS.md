@@ -46,6 +46,25 @@ Install the latest version with `pak::pak("gitlab::jimmy.moses/tidymapr")`.
 * Tile maps now carry each provider's required attribution (for example
   "© OpenStreetMap contributors") as the plot caption.
 
+## Projections and graticules (November 2026)
+
+* New `coord_projection()` draws any tidymapr or ggplot map in a named
+  projection, added with `+`: `"equal_earth"` (true areas, recommended for
+  world choropleths), `"mercator"` (World Mercator), `"web_mercator"`
+  (matches online tiles), `"robinson"`, `"mollweide"`, `"winkel_tripel"`,
+  `"lonlat"`, `"utm"` (zone picked from your data), and `"laea"`,
+  `"albers"` and `"orthographic"` centred on your data. Any EPSG code or
+  PROJ string also works, and world projections take `lon0`, for example
+  `lon0 = 150` for a Pacific-centred map.
+* New `geo_crs()` returns the CRS for those names, for reprojecting data.
+* New `map_graticule()` sets the latitude/longitude grid interval and line
+  style, labels latitudes, longitudes, both or neither (on curved world
+  projections it labels latitudes only, so longitude labels do not crowd
+  the pole line), and can draw the edge of the world or, on orthographic
+  maps, the horizon circle.
+* Examples use `spData::world` (Natural Earth and World Bank, free to use)
+  for world maps.
+
 ## Reading GIS, CAD and remote sensing files (November 2026)
 
 * `geo_read()` now reads many more formats through GDAL:

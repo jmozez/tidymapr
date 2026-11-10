@@ -1,3 +1,4 @@
+Albers
 Alekseyenko
 Annales
 Anselin
@@ -269,6 +270,7 @@ cati
 ch
 chelsa
 choropleth
+choropleths
 chull
 classInt
 classInt's
@@ -320,6 +322,7 @@ gitlab
 glm
 glmmTMB
 grDevices
+graticules
 gstat
 gstat's
 gt
@@ -383,6 +386,7 @@ quasibinomial
 rOpenSci
 rd
 rebins
+reprojecting
 rgbif
 rgdal
 rgee
@@ -399,6 +403,7 @@ sdm
 smaragdina
 snowbeds
 snowmelt
+spData
 spdep
 subdataset
 subdatasets
@@ -430,3 +435,4 @@ weimea
 worldclim
 zenodo
 zoogenic
+Šavrič

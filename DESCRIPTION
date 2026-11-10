@@ -49,6 +49,7 @@ Suggests:
     rnaturalearth,
     rnaturalearthdata,
     sf,
+    spData,
     spdep,
     terra,
     testthat (>= 3.0.0),
