@@ -1,5 +1,13 @@
 # tidymapr 0.0.0.9000
 
+## Symbology presets (November 2026)
+
+* `map_polygons()`, `map_lines()` and `map_points()` take `preset`, a
+  standard cartographic symbol by name (water, forest, protected area,
+  administrative unit, river, main road, railway, boundary, contour, town,
+  peak, sample site and more); arguments you set yourself override it.
+  `map_presets()` lists them. Polygons gain `linetype` for dashed outlines.
+
 ## GeoSpaX plug-in tools (November 2026)
 
 * `geo_dbscan()` clusters points with DBSCAN in C++ (grid index), with

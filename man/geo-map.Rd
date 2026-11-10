@@ -47,7 +47,9 @@ map_polygons(
   style = "jenks",
   border = "grey35",
   linewidth = 0.25,
-  alpha = 1
+  linetype = "solid",
+  alpha = 1,
+  preset = NULL
 )
 
 map_lines(
@@ -61,7 +63,8 @@ map_lines(
   style = "jenks",
   linewidth = 0.6,
   linetype = "solid",
-  alpha = 1
+  alpha = 1,
+  preset = NULL
 )
 
 map_points(
@@ -76,7 +79,8 @@ map_points(
   shape = 21,
   size = 2.5,
   border = "grey15",
-  alpha = 1
+  alpha = 1,
+  preset = NULL
 )
 
 map_labels(
@@ -173,6 +177,12 @@ classification style, passed to \code{\link[=geo_classify]{geo_classify()}}.}
 
 \item{border, linewidth, linetype, alpha}{Outline colour, line width (mm),
 line type and transparency.}
+
+\item{preset}{A standard cartographic symbol by name, such as
+\code{"water"}, \code{"forest"}, \code{"protected_area"} (polygons), \code{"river"},
+\code{"road_major"}, \code{"railway"}, \code{"boundary"} (lines) or \code{"town"},
+\code{"peak"}, \code{"sample_site"} (points); see \code{\link[=map_presets]{map_presets()}}. Arguments you
+give yourself override the preset.}
 
 \item{shape, size}{Point symbol (a number from \code{\link[graphics:points]{graphics::points()}}) and
 size.}

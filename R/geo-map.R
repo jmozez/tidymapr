@@ -88,6 +88,11 @@
 #'   exact contour levels. By default about eight levels at round numbers.
 #' @param label_every Label every nth contour (default every second one,
 #'   as on topographic maps).
+#' @param preset A standard cartographic symbol by name, such as
+#'   `"water"`, `"forest"`, `"protected_area"` (polygons), `"river"`,
+#'   `"road_major"`, `"railway"`, `"boundary"` (lines) or `"town"`,
+#'   `"peak"`, `"sample_site"` (points); see [map_presets()]. Arguments you
+#'   give yourself override the preset.
 #' @param fontface Font face of the labels, for example `"italic"` for
 #'   rivers or `"bold"` for towns.
 #' @param zoom Zoom factor for `map_zoom()`: 2 shows half the width and
@@ -174,12 +179,23 @@ map_polygons <- function(map,
                          style = "jenks",
                          border = "grey35",
                          linewidth = 0.25,
-                         alpha = 1) {
+                         linetype = "solid",
+                         alpha = 1,
+                         preset = NULL) {
   tmr_check_map(map)
+  fill_q <- rlang::enquo(fill)
+  if (!is.null(preset)) {
+    ps <- tmr_preset(preset, "polygon")
+    if (missing(fill)) fill_q <- rlang::quo(!!ps$fill)
+    if (missing(border)) border <- ps$border
+    if (missing(linewidth)) linewidth <- ps$linewidth
+    if (missing(linetype)) linetype <- ps$linetype
+    if (is.null(label)) label <- ps$label
+  }
   tmr_map_add(map, tmr_map_feature(
-    "polygon", data, rlang::enquo(fill), label %||% rlang::as_label(rlang::enquo(data)),
+    "polygon", data, fill_q, label %||% rlang::as_label(rlang::enquo(data)),
     group, palette, n, style,
-    list(border = border, linewidth = linewidth, alpha = alpha)
+    list(border = border, linewidth = linewidth, linetype = linetype, alpha = alpha)
   ))
 }
 
@@ -195,10 +211,19 @@ map_lines <- function(map,
                       style = "jenks",
                       linewidth = 0.6,
                       linetype = "solid",
-                      alpha = 1) {
+                      alpha = 1,
+                      preset = NULL) {
   tmr_check_map(map)
+  colour_q <- rlang::enquo(colour)
+  if (!is.null(preset)) {
+    ps <- tmr_preset(preset, "line")
+    if (missing(colour)) colour_q <- rlang::quo(!!ps$colour)
+    if (missing(linewidth)) linewidth <- ps$linewidth
+    if (missing(linetype)) linetype <- ps$linetype
+    if (is.null(label)) label <- ps$label
+  }
   tmr_map_add(map, tmr_map_feature(
-    "line", data, rlang::enquo(colour), label %||% rlang::as_label(rlang::enquo(data)),
+    "line", data, colour_q, label %||% rlang::as_label(rlang::enquo(data)),
     group, palette, n, style,
     list(linewidth = linewidth, linetype = linetype, alpha = alpha)
   ))
@@ -217,10 +242,20 @@ map_points <- function(map,
                        shape = 21,
                        size = 2.5,
                        border = "grey15",
-                       alpha = 1) {
+                       alpha = 1,
+                       preset = NULL) {
   tmr_check_map(map)
+  fill_q <- rlang::enquo(fill)
+  if (!is.null(preset)) {
+    ps <- tmr_preset(preset, "point")
+    if (missing(fill)) fill_q <- rlang::quo(!!ps$fill)
+    if (missing(shape)) shape <- ps$shape
+    if (missing(size)) size <- ps$size
+    if (missing(border)) border <- ps$border
+    if (is.null(label)) label <- ps$label
+  }
   tmr_map_add(map, tmr_map_feature(
-    "point", data, rlang::enquo(fill), label %||% rlang::as_label(rlang::enquo(data)),
+    "point", data, fill_q, label %||% rlang::as_label(rlang::enquo(data)),
     group, palette, n, style,
     list(shape = shape, size = size, border = border, alpha = alpha)
   ))
@@ -574,11 +609,13 @@ tmr_map_draw_feature <- function(p, ly, crs, ord) {
     polygon = if (aes_name == "colour") {
       ggplot2::geom_sf(
         data = d, mapping, fill = NA, linewidth = lk$linewidth,
+        linetype = lk$linetype %||% "solid",
         alpha = lk$alpha, key_glyph = "polygon", inherit.aes = FALSE
       )
     } else {
       ggplot2::geom_sf(
         data = d, mapping, colour = lk$border, linewidth = lk$linewidth,
+        linetype = lk$linetype %||% "solid",
         alpha = lk$alpha, key_glyph = "polygon", inherit.aes = FALSE
       )
     },
