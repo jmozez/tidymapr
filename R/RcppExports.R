@@ -77,3 +77,7 @@ geo_mst_max_edge_cpp <- function(d) {
     .Call(`_tidymapr_geo_mst_max_edge_cpp`, d)
 }
 
+geo_window_hill_cpp <- function(cls, nrow, ncol, h, k, q, min_cells, threads = 1L) {
+    .Call(`_tidymapr_geo_window_hill_cpp`, cls, nrow, ncol, h, k, q, min_cells, threads)
+}
+

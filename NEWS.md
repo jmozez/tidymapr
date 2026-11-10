@@ -46,6 +46,21 @@ Install the latest version with `pak::pak("gitlab::jimmy.moses/tidymapr")`.
 * Tile maps now carry each provider's required attribution (for example
   "© OpenStreetMap contributors") as the plot caption.
 
+## Spectral diversity and spectral indices (November 2026)
+
+* New `geo_spectral_diversity()` maps diversity from satellite or drone
+  imagery in Hill numbers (q = 0, 1, 2), on the same scale as species
+  diversity: bands are reduced by principal components, pixels grouped
+  into spectral species by k-means (Féret and Asner 2014), and Hill
+  numbers computed in a moving window in C++ on several cores. Results
+  equal direct Hill-number calculations to machine precision.
+* New `geo_spectral_index()` computes NDVI, GNDVI, NDRE, NDWI, MNDWI,
+  NDMI, NBR and NDBI (Sentinel-2 bands recognised automatically), with an
+  optional Otsu threshold that reports the area above the cut, as in
+  GeoSpaX's Forestry plug-in.
+* Examples use the Sentinel-2 Level-2A scene of Luxembourg shipped with
+  terra.
+
 ## Automatic publication maps (November 2026)
 
 * New `geo_automap()` draws a finished map from one call and explains every
@@ -68,6 +83,10 @@ Install the latest version with `pak::pak("gitlab::jimmy.moses/tidymapr")`.
   - topographic tiles as muted context for study areas; graticule and
     world outline on world maps; scale bar and north arrow in the emptiest
     corners on regional and local maps.
+* `geo_automap()` takes `palette` and `background_palette`: `"auto"`, any
+  `grDevices::hcl.pals()` name (for example `"viridis"`, `"Blues 3"`,
+  `"Terrain 2"`) or your own colours. Every map is also a ggplot, so any
+  `scale_fill_*()` or `scale_colour_*()` can replace a ramp with `+`.
 * Scale bars drop the middle label when the bar is short, so labels never
   collide.
 

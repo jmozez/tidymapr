@@ -273,6 +273,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// geo_window_hill_cpp
+NumericMatrix geo_window_hill_cpp(IntegerVector cls, int nrow, int ncol, int h, int k, NumericVector q, int min_cells, int threads);
+RcppExport SEXP _tidymapr_geo_window_hill_cpp(SEXP clsSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP hSEXP, SEXP kSEXP, SEXP qSEXP, SEXP min_cellsSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type cls(clsSEXP);
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
+    Rcpp::traits::input_parameter< int >::type h(hSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type q(qSEXP);
+    Rcpp::traits::input_parameter< int >::type min_cells(min_cellsSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_window_hill_cpp(cls, nrow, ncol, h, k, q, min_cells, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_geo_haversine_pair_cpp", (DL_FUNC) &_tidymapr_geo_haversine_pair_cpp, 4},
@@ -294,6 +312,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_geo_knn_cpp", (DL_FUNC) &_tidymapr_geo_knn_cpp, 5},
     {"_tidymapr_geo_lisa_perm_cpp", (DL_FUNC) &_tidymapr_geo_lisa_perm_cpp, 7},
     {"_tidymapr_geo_mst_max_edge_cpp", (DL_FUNC) &_tidymapr_geo_mst_max_edge_cpp, 1},
+    {"_tidymapr_geo_window_hill_cpp", (DL_FUNC) &_tidymapr_geo_window_hill_cpp, 8},
     {NULL, NULL, 0}
 };
 

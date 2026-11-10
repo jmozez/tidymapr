@@ -4,6 +4,7 @@ Annales
 Anselin
 Aravo
 ArcGIS
+Asner
 Auda
 AutoMap
 Barro
@@ -88,6 +89,7 @@ Filip's
 FlatGeobuf
 ForestGEO
 Fortin
+Féret
 GADM
 GBIF
 GDAL
@@ -95,6 +97,7 @@ GDAL's
 GDB
 GEDI
 GML
+GNDVI
 GPX
 GRIB
 GVF
@@ -145,10 +148,12 @@ Limnologie
 LinkingTo
 Luk
 MAUP
+MNDWI
 MODIS
 Madang
 MapInfo
 Maxent
+McFeeters
 McGlinn
 Michalski
 MicroStation
@@ -158,6 +163,13 @@ Morisita
 Mottl
 Mouillot
 Mungkaje
+NBR
+NDBI
+NDMI
+NDRE
+NDVI
+NDWI
+NIR
 NMDS
 Nekola
 NetCDF
@@ -177,6 +189,8 @@ OpenMP
 OpenStreetMap
 OpenTopoMap
 Orme
+Otsu
+Otsu's
 PCNM
 PCoA
 PERMANOVA
@@ -209,6 +223,7 @@ SEs
 SLA
 SQLite
 SRTM
+SWIR
 Sauer
 Smilauer
 Sokal
