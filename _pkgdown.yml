@@ -54,6 +54,7 @@ reference:
     desc: Automatic, explained maps, thematic maps, projections, graticules, basemaps and GeoSpaX-style map furniture.
     contents:
       - geo_automap
+      - geo-map
       - thematic-maps
       - plot_sites
       - plot_geo

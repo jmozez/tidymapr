@@ -506,7 +506,15 @@ tmr_ramp <- function(palette, gr, n, call = caller_env()) {
     return(grDevices::hcl.colors(max(n, 2), gr$palette, rev = gr$rev)[seq_len(n)])
   }
   if (length(palette) == 1 && tolower(palette) %in% tolower(grDevices::hcl.pals())) {
-    return(grDevices::hcl.colors(max(n, 2), palette)[seq_len(n)])
+    # Sequential ramps run light (low) to dark (high), as GeoSpaX; terrain
+    # and viridis-type ramps keep their own order
+    keep <- c(
+      "terrain", "terrain 2", "viridis", "plasma", "inferno", "magma",
+      "cividis", "rocket", "mako", "batlow", "lajolla", "turku", "hawaii"
+    )
+    seq_pal <- tolower(palette) %in% tolower(grDevices::hcl.pals("sequential")) &&
+      !tolower(palette) %in% keep
+    return(grDevices::hcl.colors(max(n, 2), palette, rev = seq_pal)[seq_len(n)])
   }
   ok <- tryCatch(
     {
