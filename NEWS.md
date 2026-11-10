@@ -1,6 +1,33 @@
 # tidymapr 0.0.0.9000
 
-## Satellite imagery from STAC (November 2026)
+## Maxent and ensemble models in C++ (November 2026)
+
+* `sdm_maxent()` fits Maxent as maxnet does (infinitely weighted logistic
+  regression with the lasso, the same feature classes and default
+  regularisation), with the lasso path solved in C++ (coordinate descent
+  with strong rules and active sets, on several cores): no Java and no
+  glmnet. It agrees with maxnet to a correlation of 0.999 or more on the
+  Bradypus data (Phillips et al. 2006). It fixes three weaknesses of
+  maxnet:
+  * predictors are standardised to 0-1 before features are built (as in the
+    original Java Maxent), so quadratic and product features no longer
+    depend on where zero lies: in maxnet, temperatures in Kelvin instead of
+    Celsius change predicted suitability by up to 0.13 on the Bradypus data;
+    here they change nothing. `standardize = FALSE` reproduces maxnet;
+  * the duplicated outermost hinge feature that maxnet builds for every
+    predictor is kept once;
+  * the solver centres features internally, which makes it converge reliably
+    where unscaled features stall coordinate descent.
+* `sdm_ensemble()` combines Maxent, GLM, GAM and a C++ random forest in the
+  spirit of biomod2: spatial block cross-validation with folds balanced for
+  presences and background, AUC, TSS and the continuous Boyce index,
+  weights from cross-validated TSS above `min_tss`, balanced weighting of
+  presences and background for every algorithm, and predictions of the
+  weighted mean and the weighted disagreement (SD) between algorithms. The
+  C++ random forest matches randomForest's accuracy and is about 18 times
+  faster.
+* `geo_map(crs = "laea")` and other named projections now centre on raster
+  layers too.
 
 * `geo_stac_search()` finds scenes in any STAC catalogue (default: Element
   84 Earth Search: Sentinel-2, Landsat, Copernicus DEM) by area, period and

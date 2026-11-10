@@ -111,6 +111,8 @@ reference:
       - geo_grain
       - geo_middomain
       - sdm
+      - sdm_maxent
+      - sdm_ensemble
       - stems_spatial
       - stems_habitat_test
   - title: Recipes

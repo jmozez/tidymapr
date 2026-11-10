@@ -133,6 +133,57 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sdm_lasso_logit_cpp
+List sdm_lasso_logit_cpp(NumericMatrix x0, NumericVector y, NumericVector w, NumericVector penalty, NumericVector lambda, int maxit, double thresh, double pmin, int threads);
+RcppExport SEXP _tidymapr_sdm_lasso_logit_cpp(SEXP x0SEXP, SEXP ySEXP, SEXP wSEXP, SEXP penaltySEXP, SEXP lambdaSEXP, SEXP maxitSEXP, SEXP threshSEXP, SEXP pminSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x0(x0SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w(wSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type penalty(penaltySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< int >::type maxit(maxitSEXP);
+    Rcpp::traits::input_parameter< double >::type thresh(threshSEXP);
+    Rcpp::traits::input_parameter< double >::type pmin(pminSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(sdm_lasso_logit_cpp(x0, y, w, penalty, lambda, maxit, thresh, pmin, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sdm_rf_fit_cpp
+List sdm_rf_fit_cpp(NumericMatrix x, NumericVector y, int ntree, int mtry, int min_node, int max_depth, bool balanced, int seed, int threads);
+RcppExport SEXP _tidymapr_sdm_rf_fit_cpp(SEXP xSEXP, SEXP ySEXP, SEXP ntreeSEXP, SEXP mtrySEXP, SEXP min_nodeSEXP, SEXP max_depthSEXP, SEXP balancedSEXP, SEXP seedSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type ntree(ntreeSEXP);
+    Rcpp::traits::input_parameter< int >::type mtry(mtrySEXP);
+    Rcpp::traits::input_parameter< int >::type min_node(min_nodeSEXP);
+    Rcpp::traits::input_parameter< int >::type max_depth(max_depthSEXP);
+    Rcpp::traits::input_parameter< bool >::type balanced(balancedSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(sdm_rf_fit_cpp(x, y, ntree, mtry, min_node, max_depth, balanced, seed, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sdm_rf_predict_cpp
+NumericVector sdm_rf_predict_cpp(List forest, NumericMatrix x, int threads);
+RcppExport SEXP _tidymapr_sdm_rf_predict_cpp(SEXP forestSEXP, SEXP xSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type forest(forestSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(sdm_rf_predict_cpp(forest, x, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
 // geo_jenks_cpp
 NumericVector geo_jenks_cpp(NumericVector x, int k);
 RcppExport SEXP _tidymapr_geo_jenks_cpp(SEXP xSEXP, SEXP kSEXP) {
@@ -303,6 +354,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_sdm_cloglog_cpp", (DL_FUNC) &_tidymapr_sdm_cloglog_cpp, 1},
     {"_tidymapr_sdm_logistic_cpp", (DL_FUNC) &_tidymapr_sdm_logistic_cpp, 1},
     {"_tidymapr_sdm_linear_predict_cpp", (DL_FUNC) &_tidymapr_sdm_linear_predict_cpp, 2},
+    {"_tidymapr_sdm_lasso_logit_cpp", (DL_FUNC) &_tidymapr_sdm_lasso_logit_cpp, 9},
+    {"_tidymapr_sdm_rf_fit_cpp", (DL_FUNC) &_tidymapr_sdm_rf_fit_cpp, 9},
+    {"_tidymapr_sdm_rf_predict_cpp", (DL_FUNC) &_tidymapr_sdm_rf_predict_cpp, 3},
     {"_tidymapr_geo_jenks_cpp", (DL_FUNC) &_tidymapr_geo_jenks_cpp, 2},
     {"_tidymapr_geo_idw_cpp", (DL_FUNC) &_tidymapr_geo_idw_cpp, 9},
     {"_tidymapr_geo_krige_cpp", (DL_FUNC) &_tidymapr_geo_krige_cpp, 13},
