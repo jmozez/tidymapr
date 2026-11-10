@@ -52,6 +52,12 @@
 #'   sites (single symbol, or classes when `value` is given) and no tile
 #'   basemap is added.
 #' @param background_title Legend title for the background.
+#' @param palette,background_palette Colour ramp for the features and for
+#'   the background surface: `"auto"` (chosen from the field's meaning),
+#'   any palette name from [grDevices::hcl.pals()] (for example
+#'   `"viridis"`, `"Blues 3"`, `"YlOrRd"`, `"Terrain 2"`, `"RdYlBu"`), or a
+#'   vector of colours. For categories, a vector of colours replaces the
+#'   Okabe-Ito colours.
 #' @param title,legend_title Map and legend titles.
 #' @param scale_bar,north_arrow `"auto"`, `FALSE`, or a style name (see
 #'   [annotation_scale_bar()]).
@@ -75,6 +81,10 @@
 #' sites <- geo_as_sf(png_ants_sites, lon, lat)
 #' geo_automap(sites, elevation, legend_title = "Elevation (m)")
 #'
+#' # Choose your own ramps: an hcl palette name or any colours
+#' geo_automap(nc, sids_rate, palette = "Purples 3")
+#' geo_automap(nc, sids_rate, palette = c("white", "orange", "darkred"))
+#'
 #' # Sites over a continuous surface: the surface gets the gradient legend
 #' # (here Luxembourg's elevation, shipped with terra, under its cantons)
 #' if (rlang::is_installed("terra")) {
@@ -91,6 +101,8 @@ geo_automap <- function(x,
                         basemap = "auto",
                         background = NULL,
                         background_title = NULL,
+                        palette = "auto",
+                        background_palette = "auto",
                         title = NULL,
                         legend_title = NULL,
                         scale_bar = "auto",
@@ -151,7 +163,8 @@ geo_automap <- function(x,
     rdf <- terra::as.data.frame(rr, xy = TRUE, na.rm = TRUE)
     p <- tmr_add_surface(
       ggplot2::ggplot() + theme_tidymapr(grid = "none", legend_position = "right"),
-      rdf, names(rdf)[3], legend_title %||% names(rdf)[3]
+      rdf, names(rdf)[3], legend_title %||% names(rdf)[3],
+      palette = palette
     )
     note("symbology", "stretched colour ramp", paste(
       "A continuous surface: stretched colour ramp with a gradient legend",
@@ -163,8 +176,10 @@ geo_automap <- function(x,
     sty <- if (identical(style, "auto")) gr$style else style
     cls <- geo_classify(x, !!rlang::sym(col), n = k, style = sty, name = ".class")
     levs <- levels(cls$.class)
-    pal <- grDevices::hcl.colors(max(length(levs), 2), gr$palette, rev = gr$rev)[seq_along(levs)]
-    pal <- stats::setNames(pal, levs)
+    pal <- stats::setNames(tmr_ramp(palette, gr, length(levs)), levs)
+    if (!identical(palette, "auto")) {
+      gr$palette <- if (length(palette) == 1) palette else "custom colours"
+    }
     info <- attr(cls, "classification")
     p <- ggplot2::ggplot(cls) +
       tmr_feature_layer(geom_kind, ".class", feat_aes) +
@@ -184,7 +199,12 @@ geo_automap <- function(x,
     )
   } else if (!is.null(col)) {
     lev <- sort(unique(as.character(vals)))
-    pal <- stats::setNames(tmr_palette(length(lev)), lev)
+    pal <- if (identical(palette, "auto")) {
+      tmr_palette(length(lev))
+    } else {
+      tmr_ramp(palette, NULL, length(lev))
+    }
+    pal <- stats::setNames(pal, lev)
     x$.class <- factor(as.character(vals), levels = lev)
     p <- ggplot2::ggplot(x) +
       tmr_feature_layer(geom_kind, ".class", feat_aes) +
@@ -215,7 +235,10 @@ geo_automap <- function(x,
     bg <- terra::project(geo_as_raster(background)[[1]][[1]], "EPSG:4326")
     bdf <- terra::as.data.frame(bg, xy = TRUE, na.rm = TRUE)
     btitle <- background_title %||% names(bdf)[3]
-    p <- tmr_add_surface(p, bdf, names(bdf)[3], btitle, under = TRUE)
+    p <- tmr_add_surface(p, bdf, names(bdf)[3], btitle,
+      under = TRUE,
+      palette = background_palette
+    )
     note("background", paste("stretched colour ramp:", btitle), paste(
       "A continuous surface under the features: gradient legend for the surface,",
       "while the sites on top keep their own symbol legend."
@@ -428,7 +451,7 @@ tmr_manual_scale <- function(geom_kind, how, values, name) {
 
 # A continuous surface: stretched ramp with a gradient legend; `under` puts
 # it below the existing layers
-tmr_add_surface <- function(p, df, nm, title, under = FALSE) {
+tmr_add_surface <- function(p, df, nm, title, under = FALSE, palette = "auto") {
   gr <- tmr_graduated(df[[nm]], title)
   layer <- ggplot2::geom_raster(
     data = df, ggplot2::aes(.data$x, .data$y, fill = .data[[nm]]),
@@ -436,7 +459,7 @@ tmr_add_surface <- function(p, df, nm, title, under = FALSE) {
   )
   p$layers <- if (under) c(list(layer), p$layers) else c(p$layers, list(layer))
   p + ggplot2::scale_fill_gradientn(
-    colours = grDevices::hcl.colors(9, gr$palette, rev = gr$rev),
+    colours = tmr_ramp(palette, gr, 9),
     name = title, guide = ggplot2::guide_colourbar(order = 99)
   )
 }
@@ -473,4 +496,30 @@ tmr_automap_corners <- function(x) {
   rest <- setdiff(ord, ord[1])
   arrow <- rest[order(count[rest], -match(rest, corners))][1]
   c(ord[1], arrow)
+}
+
+# Colours from "auto" (the GeoSpaX ramp in `gr`), an hcl palette name, or a
+# vector of colours (interpolated to n)
+tmr_ramp <- function(palette, gr, n, call = caller_env()) {
+  n <- max(n, 1)
+  if (identical(palette, "auto")) {
+    return(grDevices::hcl.colors(max(n, 2), gr$palette, rev = gr$rev)[seq_len(n)])
+  }
+  if (length(palette) == 1 && palette %in% grDevices::hcl.pals()) {
+    return(grDevices::hcl.colors(max(n, 2), palette)[seq_len(n)])
+  }
+  ok <- tryCatch(
+    {
+      grDevices::col2rgb(palette)
+      TRUE
+    },
+    error = function(e) FALSE
+  )
+  if (!ok) {
+    cli::cli_abort(
+      "{.arg palette} must be {.val auto}, a name from {.fn grDevices::hcl.pals}, or colours.",
+      call = call
+    )
+  }
+  if (length(palette) == n) palette else grDevices::colorRampPalette(palette)(n)
 }

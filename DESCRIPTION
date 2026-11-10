@@ -21,6 +21,7 @@ Depends:
 Imports: 
     cli (>= 3.6.0),
     dplyr (>= 1.1.0),
+    graphics,
     grDevices,
     parallel,
     Rcpp,

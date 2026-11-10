@@ -439,3 +439,69 @@ double geo_mst_max_edge_cpp(NumericMatrix d) {
   }
   return max_edge;
 }
+
+// Hill numbers of class abundances in a square moving window. `cls` holds
+// class ids 1..k (NA_INTEGER = no data), row-major nrow x ncol. For each
+// cell, the classes in the (2h+1) x (2h+1) window are counted and Hill
+// numbers of order q are computed (q = 1 as the limit, exp(Shannon)).
+// Windows with fewer than `min_cells` valid cells give NA.
+// [[Rcpp::export]]
+NumericMatrix geo_window_hill_cpp(IntegerVector cls, int nrow, int ncol, int h,
+                                  int k, NumericVector q, int min_cells,
+                                  int threads = 1) {
+  const int n = nrow * ncol, nq = q.size();
+  NumericMatrix out(n, nq);
+  const int *C = cls.begin();
+  const double *Q = q.begin();
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(tmr_threads(threads)) schedule(dynamic, 32)
+#endif
+  for (int r = 0; r < nrow; ++r) {
+    std::vector<int> cnt(k + 1, 0);
+    for (int c = 0; c < ncol; ++c) {
+      const int i = r * ncol + c;
+      if (C[i] == NA_INTEGER) {
+        for (int j = 0; j < nq; ++j) out(i, j) = NA_REAL;
+        continue;
+      }
+      std::fill(cnt.begin(), cnt.end(), 0);
+      int tot = 0;
+      for (int rr = std::max(0, r - h); rr <= std::min(nrow - 1, r + h); ++rr) {
+        for (int cc = std::max(0, c - h); cc <= std::min(ncol - 1, c + h); ++cc) {
+          const int v = C[rr * ncol + cc];
+          if (v == NA_INTEGER || v < 1 || v > k) continue;
+          ++cnt[v];
+          ++tot;
+        }
+      }
+      if (tot < min_cells) {
+        for (int j = 0; j < nq; ++j) out(i, j) = NA_REAL;
+        continue;
+      }
+      for (int j = 0; j < nq; ++j) {
+        const double qq = Q[j];
+        double d;
+        if (std::fabs(qq - 1.0) < 1e-12) {
+          double hsh = 0.0;
+          for (int s = 1; s <= k; ++s) if (cnt[s] > 0) {
+            const double p = static_cast<double>(cnt[s]) / tot;
+            hsh -= p * std::log(p);
+          }
+          d = std::exp(hsh);
+        } else if (std::fabs(qq) < 1e-12) {
+          int rich = 0;
+          for (int s = 1; s <= k; ++s) if (cnt[s] > 0) ++rich;
+          d = rich;
+        } else {
+          double sm = 0.0;
+          for (int s = 1; s <= k; ++s) if (cnt[s] > 0) {
+            sm += std::pow(static_cast<double>(cnt[s]) / tot, qq);
+          }
+          d = std::pow(sm, 1.0 / (1.0 - qq));
+        }
+        out(i, j) = d;
+      }
+    }
+  }
+  return out;
+}

@@ -14,6 +14,8 @@ geo_automap(
   basemap = "auto",
   background = NULL,
   background_title = NULL,
+  palette = "auto",
+  background_palette = "auto",
   title = NULL,
   legend_title = NULL,
   scale_bar = "auto",
@@ -44,6 +46,13 @@ sites (single symbol, or classes when \code{value} is given) and no tile
 basemap is added.}
 
 \item{background_title}{Legend title for the background.}
+
+\item{palette, background_palette}{Colour ramp for the features and for
+the background surface: \code{"auto"} (chosen from the field's meaning),
+any palette name from \code{\link[grDevices:hcl.pals]{grDevices::hcl.pals()}} (for example
+\code{"viridis"}, \code{"Blues 3"}, \code{"YlOrRd"}, \code{"Terrain 2"}, \code{"RdYlBu"}), or a
+vector of colours. For categories, a vector of colours replaces the
+Okabe-Ito colours.}
 
 \item{title, legend_title}{Map and legend titles.}
 
@@ -112,6 +121,10 @@ geo_automap(nc, sids_rate, legend_title = "SIDS per 1000 births")
 # Study area: the 16 Mt Wilhelm ant transects, classed by elevation
 sites <- geo_as_sf(png_ants_sites, lon, lat)
 geo_automap(sites, elevation, legend_title = "Elevation (m)")
+
+# Choose your own ramps: an hcl palette name or any colours
+geo_automap(nc, sids_rate, palette = "Purples 3")
+geo_automap(nc, sids_rate, palette = c("white", "orange", "darkred"))
 
 # Sites over a continuous surface: the surface gets the gradient legend
 # (here Luxembourg's elevation, shipped with terra, under its cantons)

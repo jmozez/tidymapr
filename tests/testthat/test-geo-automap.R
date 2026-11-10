@@ -61,3 +61,16 @@ test_that("bbox falls back when a datum shift cannot be computed", {
   b <- tidymapr:::tmr_bbox_lonlat(nc)
   expect_true(all(is.finite(b)) && b["ymax"] > b["ymin"])
 })
+
+test_that("users can choose their own colour ramps", {
+  nc <- nc_sids()
+  a <- geo_automap(nc, sids_rate, palette = "Purples 3")
+  expect_match(geo_automap_explain(a)$choice[2], "Purples 3")
+  cols <- c("white", "orange", "darkred")
+  b <- geo_automap(nc, sids_rate, palette = cols)
+  fill <- ggplot2::ggplot_build(b)$data[[1]]$fill
+  expect_true(all(fill %in% grDevices::colorRampPalette(cols)(4)))
+  expect_identical(tidymapr:::tmr_ramp(cols, NULL, 3), cols)
+  expect_length(tidymapr:::tmr_ramp("viridis", NULL, 7), 7)
+  expect_error(geo_automap(nc, sids_rate, palette = "notapalette"), "hcl.pals")
+})
