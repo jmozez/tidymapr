@@ -9,9 +9,11 @@ Description: A tidyverse toolkit for making publication-quality maps and
     legends, scale bars and north arrows); reading of GIS, CAD and remote
     sensing formats; fast C++ spatial statistics (kriging with measurement
     error, local Moran's I, Getis-Ord hotspots), terrain hydrology and
-    spectral indices. Compatible with the 'GeoSpaX' desktop GIS: it follows
+    spectral indices. Compatible with the 'GeoSpaX' desktop GIS
+    (<https://geospax.in4metrix.dev>): it follows
     the same cartographic conventions and reads and writes the same formats
-    through 'GDAL', so maps and data move between the two. For ecology, it
+    through 'GDAL', and runs its recipes, so maps, data and workflows
+    move between the two. For ecology, it
     maps coverage-standardised diversity surfaces with uncertainty and
     spectral diversity, and works with the companion package
     'tidydiversity'.
@@ -60,7 +62,8 @@ Suggests:
     testthat (>= 3.0.0),
     tidydiversity,
     tmap,
-    vegan
+    vegan,
+    yaml
 Remotes: 
     gitlab::jimmy.moses/tidydiversity
 VignetteBuilder: knitr

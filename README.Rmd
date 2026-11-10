@@ -28,8 +28,9 @@ tidymapr makes publication-quality maps and does spatial analysis in R, in
 the style of a desktop GIS: one call can choose the projection,
 classification, colour ramps, legends, scale bar and north arrow, and
 explain each choice. It is compatible with the
-GeoSpaX desktop GIS, following the
-same cartographic conventions and reading and writing the same formats.
+[GeoSpaX](https://geospax.in4metrix.dev) desktop GIS, following the
+same cartographic conventions, reading and writing the same formats and
+running the same recipes.
 For ecology, it is the mapping companion to
 [tidydiversity](https://gitlab.com/jimmy.moses/tidydiversity):
 tidydiversity estimates diversity, tidymapr puts it on a map. Every verb
