@@ -1,5 +1,17 @@
 # tidymapr 0.0.0.9000
 
+## Layered maps (November 2026)
+
+* New layered-map builder in the style of a desktop GIS layout: start with
+  `geo_map()` and add `map_raster()` (gradient legend, optional hillshade),
+  `map_polygons()`, `map_lines()`, `map_points()` and `map_labels()` (labels
+  with a white halo). Each layer gets its own legend section with the right
+  symbol for its geometry, listed top layer first; numbers are classed with
+  `geo_classify()`. `map_build()` returns an ordinary ggplot. Needs the
+  suggested package ggnewscale.
+* Named sequential palettes now run light (low) to dark (high), except
+  terrain and viridis-type ramps, which keep their own order.
+
 ## Recipe exchange with GeoSpaX (November 2026)
 
 * New `geo_recipe_read()`, `geo_recipe_write()`, `geo_recipe_validate()` and
