@@ -45,12 +45,12 @@ geo_jenks_cpp <- function(x, k) {
     .Call(`_tidymapr_geo_jenks_cpp`, x, k)
 }
 
-geo_idw_cpp <- function(xs, ys, zs, xp, yp, power, lonlat, maxdist) {
-    .Call(`_tidymapr_geo_idw_cpp`, xs, ys, zs, xp, yp, power, lonlat, maxdist)
+geo_idw_cpp <- function(xs, ys, zs, xp, yp, power, lonlat, maxdist, threads = 1L) {
+    .Call(`_tidymapr_geo_idw_cpp`, xs, ys, zs, xp, yp, power, lonlat, maxdist, threads)
 }
 
-geo_krige_cpp <- function(xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat) {
-    .Call(`_tidymapr_geo_krige_cpp`, xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat)
+geo_krige_cpp <- function(xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat, variance = TRUE, threads = 1L) {
+    .Call(`_tidymapr_geo_krige_cpp`, xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat, variance, threads)
 }
 
 geo_d8_cpp <- function(z, nrow, ncol, xres, yres) {
@@ -63,5 +63,17 @@ geo_flowacc_cpp <- function(dir, nrow, ncol, weight) {
 
 geo_watershed_cpp <- function(dir, nrow, ncol, outlets) {
     .Call(`_tidymapr_geo_watershed_cpp`, dir, nrow, ncol, outlets)
+}
+
+geo_knn_cpp <- function(x, y, k, lonlat, threads = 1L) {
+    .Call(`_tidymapr_geo_knn_cpp`, x, y, k, lonlat, threads)
+}
+
+geo_lisa_perm_cpp <- function(z, nb, w, nnb, kmax, nperm, threads = 1L) {
+    .Call(`_tidymapr_geo_lisa_perm_cpp`, z, nb, w, nnb, kmax, nperm, threads)
+}
+
+geo_mst_max_edge_cpp <- function(d) {
+    .Call(`_tidymapr_geo_mst_max_edge_cpp`, d)
 }
 

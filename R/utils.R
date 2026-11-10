@@ -60,3 +60,13 @@ tmr_check_number <- function(x, arg, min = 0, max = Inf, whole = FALSE,
 tmr_new <- function(x, class) {
   tibble::new_tibble(x, class = class)
 }
+
+# Cores for tidymapr's C++ kernels: options(tidymapr.threads = n) wins;
+# otherwise all cores but one, and at most 2 under R CMD check (CRAN policy)
+tmr_threads <- function() {
+  opt <- getOption("tidymapr.threads")
+  if (!is.null(opt)) return(max(1L, as.integer(opt)))
+  if (nzchar(Sys.getenv("_R_CHECK_LIMIT_CORES_"))) return(2L)
+  cores <- tryCatch(parallel::detectCores(logical = FALSE), error = function(e) NA)
+  if (is.na(cores)) 1L else max(1L, as.integer(cores) - 1L)
+}

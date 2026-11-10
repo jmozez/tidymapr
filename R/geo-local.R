@@ -120,14 +120,21 @@ geo_lisa <- function(data,
   zi <- (ii - ei) / sqrt(vi)
   p <- if (nperm > 0) {
     if (!is.null(seed)) set.seed(seed)
-    vapply(seq_len(n), function(i) {
-      others <- z[-i]
-      nb <- which(w[i, ] > 0)
-      wv <- w[i, nb]
-      sims <- replicate(nperm, sum(wv * sample(others, length(nb))))
-      obs <- lag[i]
-      (1 + min(sum(sims >= obs), sum(sims <= obs))) * 2 / (nperm + 1)
-    }, numeric(1))
+    # Neighbour lists (row-major, padded) for the C++ permutation test
+    nbl <- lapply(seq_len(n), function(i) which(w[i, ] > 0))
+    kmax <- max(1L, lengths(nbl))
+    nb_mat <- matrix(0L, n, kmax)
+    w_mat <- matrix(0, n, kmax)
+    for (i in seq_len(n)) {
+      if (length(nbl[[i]])) {
+        nb_mat[i, seq_along(nbl[[i]])] <- nbl[[i]]
+        w_mat[i, seq_along(nbl[[i]])] <- w[i, nbl[[i]]]
+      }
+    }
+    geo_lisa_perm_cpp(
+      z, as.vector(t(nb_mat)), as.vector(t(w_mat)), lengths(nbl),
+      as.integer(kmax), as.integer(nperm), tmr_threads()
+    )
   } else {
     2 * stats::pnorm(-abs(zi))
   }
@@ -165,17 +172,15 @@ tmr_local_prep <- function(data, value, lon, lat, k, dist,
   if (n < 3) {
     cli::cli_abort("Local statistics need at least three complete sites.", call = call)
   }
-  d <- geo_haversine_matrix_cpp(lo[ok], la[ok])
-  diag(d) <- Inf
   if (is.null(dist)) {
     tmr_check_number(k, "k", 1, n - 1, whole = TRUE, call = call)
-    nb <- t(apply(d, 1, function(r) {
-      v <- numeric(n)
-      v[order(r)[seq_len(k)]] <- 1
-      v
-    }))
+    idx <- geo_knn_cpp(lo[ok], la[ok], as.integer(k), TRUE, tmr_threads())
+    nb <- matrix(0, n, n)
+    nb[cbind(rep(seq_len(n), k), as.vector(idx))] <- 1
     desc <- paste(k, "nearest neighbours")
   } else {
+    d <- geo_haversine_matrix_cpp(lo[ok], la[ok])
+    diag(d) <- Inf
     tmr_check_number(dist, "dist", 0, call = call)
     nb <- (d <= dist) * 1
     lonely <- sum(rowSums(nb) == 0)

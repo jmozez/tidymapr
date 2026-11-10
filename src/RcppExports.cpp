@@ -146,8 +146,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // geo_idw_cpp
-NumericVector geo_idw_cpp(NumericVector xs, NumericVector ys, NumericVector zs, NumericVector xp, NumericVector yp, double power, bool lonlat, double maxdist);
-RcppExport SEXP _tidymapr_geo_idw_cpp(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP xpSEXP, SEXP ypSEXP, SEXP powerSEXP, SEXP lonlatSEXP, SEXP maxdistSEXP) {
+NumericVector geo_idw_cpp(NumericVector xs, NumericVector ys, NumericVector zs, NumericVector xp, NumericVector yp, double power, bool lonlat, double maxdist, int threads);
+RcppExport SEXP _tidymapr_geo_idw_cpp(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP xpSEXP, SEXP ypSEXP, SEXP powerSEXP, SEXP lonlatSEXP, SEXP maxdistSEXP, SEXP threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -159,13 +159,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type power(powerSEXP);
     Rcpp::traits::input_parameter< bool >::type lonlat(lonlatSEXP);
     Rcpp::traits::input_parameter< double >::type maxdist(maxdistSEXP);
-    rcpp_result_gen = Rcpp::wrap(geo_idw_cpp(xs, ys, zs, xp, yp, power, lonlat, maxdist));
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_idw_cpp(xs, ys, zs, xp, yp, power, lonlat, maxdist, threads));
     return rcpp_result_gen;
 END_RCPP
 }
 // geo_krige_cpp
-List geo_krige_cpp(NumericVector xs, NumericVector ys, NumericVector zs, NumericVector xp, NumericVector yp, int model, double nugget, double psill, double range, bool lonlat);
-RcppExport SEXP _tidymapr_geo_krige_cpp(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP xpSEXP, SEXP ypSEXP, SEXP modelSEXP, SEXP nuggetSEXP, SEXP psillSEXP, SEXP rangeSEXP, SEXP lonlatSEXP) {
+List geo_krige_cpp(NumericVector xs, NumericVector ys, NumericVector zs, NumericVector xp, NumericVector yp, int model, double nugget, double psill, double range, bool lonlat, bool variance, int threads);
+RcppExport SEXP _tidymapr_geo_krige_cpp(SEXP xsSEXP, SEXP ysSEXP, SEXP zsSEXP, SEXP xpSEXP, SEXP ypSEXP, SEXP modelSEXP, SEXP nuggetSEXP, SEXP psillSEXP, SEXP rangeSEXP, SEXP lonlatSEXP, SEXP varianceSEXP, SEXP threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -179,7 +180,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type psill(psillSEXP);
     Rcpp::traits::input_parameter< double >::type range(rangeSEXP);
     Rcpp::traits::input_parameter< bool >::type lonlat(lonlatSEXP);
-    rcpp_result_gen = Rcpp::wrap(geo_krige_cpp(xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat));
+    Rcpp::traits::input_parameter< bool >::type variance(varianceSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_krige_cpp(xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat, variance, threads));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -226,6 +229,49 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// geo_knn_cpp
+IntegerMatrix geo_knn_cpp(NumericVector x, NumericVector y, int k, bool lonlat, int threads);
+RcppExport SEXP _tidymapr_geo_knn_cpp(SEXP xSEXP, SEXP ySEXP, SEXP kSEXP, SEXP lonlatSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    Rcpp::traits::input_parameter< bool >::type lonlat(lonlatSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_knn_cpp(x, y, k, lonlat, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// geo_lisa_perm_cpp
+NumericVector geo_lisa_perm_cpp(NumericVector z, IntegerVector nb, NumericVector w, IntegerVector nnb, int kmax, int nperm, int threads);
+RcppExport SEXP _tidymapr_geo_lisa_perm_cpp(SEXP zSEXP, SEXP nbSEXP, SEXP wSEXP, SEXP nnbSEXP, SEXP kmaxSEXP, SEXP npermSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type nb(nbSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w(wSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type nnb(nnbSEXP);
+    Rcpp::traits::input_parameter< int >::type kmax(kmaxSEXP);
+    Rcpp::traits::input_parameter< int >::type nperm(npermSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_lisa_perm_cpp(z, nb, w, nnb, kmax, nperm, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// geo_mst_max_edge_cpp
+double geo_mst_max_edge_cpp(NumericMatrix d);
+RcppExport SEXP _tidymapr_geo_mst_max_edge_cpp(SEXP dSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type d(dSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_mst_max_edge_cpp(d));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_geo_haversine_pair_cpp", (DL_FUNC) &_tidymapr_geo_haversine_pair_cpp, 4},
@@ -239,11 +285,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_sdm_logistic_cpp", (DL_FUNC) &_tidymapr_sdm_logistic_cpp, 1},
     {"_tidymapr_sdm_linear_predict_cpp", (DL_FUNC) &_tidymapr_sdm_linear_predict_cpp, 2},
     {"_tidymapr_geo_jenks_cpp", (DL_FUNC) &_tidymapr_geo_jenks_cpp, 2},
-    {"_tidymapr_geo_idw_cpp", (DL_FUNC) &_tidymapr_geo_idw_cpp, 8},
-    {"_tidymapr_geo_krige_cpp", (DL_FUNC) &_tidymapr_geo_krige_cpp, 10},
+    {"_tidymapr_geo_idw_cpp", (DL_FUNC) &_tidymapr_geo_idw_cpp, 9},
+    {"_tidymapr_geo_krige_cpp", (DL_FUNC) &_tidymapr_geo_krige_cpp, 12},
     {"_tidymapr_geo_d8_cpp", (DL_FUNC) &_tidymapr_geo_d8_cpp, 5},
     {"_tidymapr_geo_flowacc_cpp", (DL_FUNC) &_tidymapr_geo_flowacc_cpp, 4},
     {"_tidymapr_geo_watershed_cpp", (DL_FUNC) &_tidymapr_geo_watershed_cpp, 4},
+    {"_tidymapr_geo_knn_cpp", (DL_FUNC) &_tidymapr_geo_knn_cpp, 5},
+    {"_tidymapr_geo_lisa_perm_cpp", (DL_FUNC) &_tidymapr_geo_lisa_perm_cpp, 7},
+    {"_tidymapr_geo_mst_max_edge_cpp", (DL_FUNC) &_tidymapr_geo_mst_max_edge_cpp, 1},
     {NULL, NULL, 0}
 };
 

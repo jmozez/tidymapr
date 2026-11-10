@@ -15,6 +15,7 @@ geo_interpolate(
   nugget = 0,
   psill = NULL,
   range = NULL,
+  variance = TRUE,
   name = "prediction"
 )
 }
@@ -41,6 +42,9 @@ centre is predicted) or an \code{sf} point table.}
 \code{psill} and \code{range} default to a fit with gstat. \code{range} is in metres
 on longitude/latitude data and in map units otherwise.}
 
+\item{variance}{For kriging, also return the kriging variance? Skipping
+it (\code{FALSE}) makes large grids much faster.}
+
 \item{name}{Name of the prediction layer or column.}
 }
 \value{
@@ -59,6 +63,9 @@ or leave \code{psill} and \code{range} as \code{NULL} to fit it from the data wi
 \strong{gstat} (\code{gstat::fit.variogram()}). The predictions and kriging
 variances match \code{gstat::krige()} for the same variogram. The fitted or
 given variogram is stored in attribute \code{"variogram"}.
+
+Both methods run in C++ on several cores; set the number with
+\code{options(tidymapr.threads = n)}.
 }
 \examples{
 \dontshow{if (requireNamespace("terra", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)) withAutoprint(\{ # examplesIf}
