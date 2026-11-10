@@ -505,7 +505,7 @@ tmr_ramp <- function(palette, gr, n, call = caller_env()) {
   if (identical(palette, "auto")) {
     return(grDevices::hcl.colors(max(n, 2), gr$palette, rev = gr$rev)[seq_len(n)])
   }
-  if (length(palette) == 1 && palette %in% grDevices::hcl.pals()) {
+  if (length(palette) == 1 && tolower(palette) %in% tolower(grDevices::hcl.pals())) {
     return(grDevices::hcl.colors(max(n, 2), palette)[seq_len(n)])
   }
   ok <- tryCatch(

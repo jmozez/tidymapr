@@ -100,7 +100,7 @@ plot_choropleth <- function(data,
       "{.arg data} must contain polygons, not {.val {geom}}; use {.fn plot_bubble} for points."
     )
   }
-  if (!palette %in% grDevices::hcl.pals()) {
+  if (!tolower(palette) %in% tolower(grDevices::hcl.pals())) {
     cli::cli_abort(
       "{.arg palette} must be a palette from {.fn grDevices::hcl.pals}, not {.val {palette}}."
     )
