@@ -46,6 +46,25 @@ Install the latest version with `pak::pak("gitlab::jimmy.moses/tidymapr")`.
 * Tile maps now carry each provider's required attribution (for example
   "© OpenStreetMap contributors") as the plot caption.
 
+## Diversity surfaces with uncertainty (November 2026)
+
+* New `geo_diversity_surface()` turns a community table into continuous
+  maps of Hill-number diversity (q = 0, 1, 2) with 95% intervals:
+  1. each site's diversity is standardised to a common sample coverage
+     with `tidydiversity::div_standardise()` (Chao and Jost 2012), keeping
+     its bootstrap standard error;
+  2. each order q is interpolated by kriging with measurement error
+     (Cressie 1993) on the log scale, so poorly sampled sites count for
+     less and the map shows the underlying diversity rather than sampling
+     noise;
+  3. the interval combines spatial and estimation uncertainty.
+  The example maps tree diversity across the 50-ha Barro Colorado Island
+  forest plot (`vegan::BCI`).
+* New `plot_diversity_surface()` draws the surfaces with a matching row of
+  uncertainty maps and the sampled sites.
+* Kriging now accepts per-site measurement-error variances (C++); with a
+  common error it equals gstat's `"Err"` variogram model.
+
 ## Faster: C++ and multi-core (November 2026)
 
 * The most demanding calculations now run in C++ and use several CPU

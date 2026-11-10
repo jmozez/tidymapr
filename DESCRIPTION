@@ -45,6 +45,7 @@ Suggests:
     maptiles,
     metR,
     mgcv,
+    patchwork,
     rgbif,
     rmarkdown,
     rnaturalearth,
@@ -55,7 +56,8 @@ Suggests:
     terra,
     testthat (>= 3.0.0),
     tidydiversity,
-    tmap
+    tmap,
+    vegan
 Remotes: 
     gitlab::jimmy.moses/tidydiversity
 VignetteBuilder: knitr

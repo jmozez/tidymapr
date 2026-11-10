@@ -132,7 +132,8 @@ static double vario(double h, int model, double nugget, double psill,
 List geo_krige_cpp(NumericVector xs, NumericVector ys, NumericVector zs,
                    NumericVector xp, NumericVector yp, int model,
                    double nugget, double psill, double range, bool lonlat,
-                   bool variance = true, int threads = 1) {
+                   bool variance = true, int threads = 1,
+                   Nullable<NumericVector> err_var = R_NilValue) {
   const int n = xs.size(), np = xp.size();
   const int m = n + 1;
   NumericMatrix A(m, m);
@@ -140,6 +141,13 @@ List geo_krige_cpp(NumericVector xs, NumericVector ys, NumericVector zs,
     for (int j = 0; j < n; ++j) {
       A(i, j) = i == j ? 0.0 :
         vario(dist_xy(xs[i], ys[i], xs[j], ys[j], lonlat), model, nugget, psill, range);
+    }
+    // Measurement error (Cressie 1993, sec. 3.2.1): known error variance of
+    // each observation enters the diagonal as -sigma_i^2, so noisy sites
+    // get less weight and the prediction is the error-free surface
+    if (err_var.isNotNull()) {
+      NumericVector e(err_var);
+      A(i, i) = -e[i];
     }
     A(i, n) = 1.0;
     A(n, i) = 1.0;

@@ -49,8 +49,8 @@ geo_idw_cpp <- function(xs, ys, zs, xp, yp, power, lonlat, maxdist, threads = 1L
     .Call(`_tidymapr_geo_idw_cpp`, xs, ys, zs, xp, yp, power, lonlat, maxdist, threads)
 }
 
-geo_krige_cpp <- function(xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat, variance = TRUE, threads = 1L) {
-    .Call(`_tidymapr_geo_krige_cpp`, xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat, variance, threads)
+geo_krige_cpp <- function(xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat, variance = TRUE, threads = 1L, err_var = NULL) {
+    .Call(`_tidymapr_geo_krige_cpp`, xs, ys, zs, xp, yp, model, nugget, psill, range, lonlat, variance, threads, err_var)
 }
 
 geo_d8_cpp <- function(z, nrow, ncol, xres, yres) {
