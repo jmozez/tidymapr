@@ -41,6 +41,14 @@ sdm_linear_predict_cpp <- function(x, beta) {
     .Call(`_tidymapr_sdm_linear_predict_cpp`, x, beta)
 }
 
+render_dem_cpp <- function(z, dx, dy, cr, cg, cb, theta, phi, zscale, width, height, sun_azimuth, sun_elevation, shadow, ambient, base_frac, threads = 1L) {
+    .Call(`_tidymapr_render_dem_cpp`, z, dx, dy, cr, cg, cb, theta, phi, zscale, width, height, sun_azimuth, sun_elevation, shadow, ambient, base_frac, threads)
+}
+
+project_points_cpp <- function(x, y, z, view, height) {
+    .Call(`_tidymapr_project_points_cpp`, x, y, z, view, height)
+}
+
 sdm_lasso_logit_cpp <- function(x0, y, w, penalty, lambda, maxit = 100000L, thresh = 1e-7, pmin = 1e-8, threads = 1L) {
     .Call(`_tidymapr_sdm_lasso_logit_cpp`, x0, y, w, penalty, lambda, maxit, thresh, pmin, threads)
 }

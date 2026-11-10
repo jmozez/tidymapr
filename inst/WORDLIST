@@ -62,6 +62,7 @@ Curtin
 DBH
 DCA
 DEM
+DEMs
 DGN
 DWG
 DXF
@@ -392,6 +393,7 @@ hillshade
 ht
 httr
 hyperspectral
+hypsometric
 iNEXT
 indicspecies
 inset's
@@ -449,12 +451,15 @@ quadrats
 quasibinomial
 rOpenSci
 randomForest's
+rayshader
 rd
 rebins
 reprojecting
+reprojection
 rgbif
 rgdal
 rgee
+rgl
 rlang
 rmarkdown
 rnaturalearth

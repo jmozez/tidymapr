@@ -101,7 +101,7 @@ geo_map(title = "Luxembourg", caption = "Data: terra package") |>
 
 | Family | Functions |
 |---|---|
-| Layered maps | `geo_map()`, `map_raster()`, `map_polygons()`, `map_lines()`, `map_points()`, `map_labels()`, `map_curved_labels()`, `map_contours()`, `map_zoom()`, `map_build()` |
+| Layered maps | `geo_map()`, `map_raster()`, `map_polygons()`, `map_lines()`, `map_points()`, `map_labels()`, `map_curved_labels()`, `map_contours()`, `map_zoom()`, `map_build()`, `geo_map3d()` |
 | Automatic maps | `geo_automap()`, `geo_automap_explain()`, `plot_choropleth()`, `plot_bubble()`, `geo_classify()` |
 | Figures and furniture | `geo_panels()`, `geo_facet_map()`, `geo_inset()`, `annotation_scale_bar()`, `annotation_north_arrow()`, `map_legend()`, `map_graticule()`, `coord_projection()`, `theme_tidymapr()`, `geo_save()` |
 | GeoSpaX recipes | `geo_recipe_read()`, `geo_recipe_validate()`, `geo_recipe_run()`, `geo_recipe_write()`, `geo_recipe()`, `recipe_step()` |
@@ -113,6 +113,20 @@ geo_map(title = "Luxembourg", caption = "Data: terra package") |>
 ## Gallery
 
 Every map below is made with tidymapr from real, openly licensed data.
+
+### 3D terrain maps
+
+`geo_map3d()` renders a DEM as a lit, shaded 3D block in C++ (no OpenGL),
+with sites placed on the terrain. Here, the Mt Wilhelm ant survey
+transect on the Copernicus 30 m DEM, fetched with `geo_stac_read()`.
+
+```r
+dem <- geo_stac_search("cop-dem-glo-30", area, cloud_cover = NULL) |>
+  geo_stac_read("data", area = area, n = 2)
+geo_map3d(dem, theta = 190, phi = 30, points = sites, label = "site")
+```
+
+<img src="man/figures/readme-map3d.png" alt="3D block diagram of Mt Wilhelm, Papua New Guinea, from the Copernicus 30 m DEM with the eight ant survey sites from 200 m to 3700 m labelled on the terrain" width="100%">
 
 ### Every geometry gets its own legend symbol
 
