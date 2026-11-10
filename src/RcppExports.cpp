@@ -133,6 +133,48 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// render_dem_cpp
+List render_dem_cpp(NumericMatrix z, double dx, double dy, NumericMatrix cr, NumericMatrix cg, NumericMatrix cb, double theta, double phi, double zscale, int width, int height, double sun_azimuth, double sun_elevation, bool shadow, double ambient, double base_frac, int threads);
+RcppExport SEXP _tidymapr_render_dem_cpp(SEXP zSEXP, SEXP dxSEXP, SEXP dySEXP, SEXP crSEXP, SEXP cgSEXP, SEXP cbSEXP, SEXP thetaSEXP, SEXP phiSEXP, SEXP zscaleSEXP, SEXP widthSEXP, SEXP heightSEXP, SEXP sun_azimuthSEXP, SEXP sun_elevationSEXP, SEXP shadowSEXP, SEXP ambientSEXP, SEXP base_fracSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type z(zSEXP);
+    Rcpp::traits::input_parameter< double >::type dx(dxSEXP);
+    Rcpp::traits::input_parameter< double >::type dy(dySEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type cr(crSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type cg(cgSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type cb(cbSEXP);
+    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< double >::type phi(phiSEXP);
+    Rcpp::traits::input_parameter< double >::type zscale(zscaleSEXP);
+    Rcpp::traits::input_parameter< int >::type width(widthSEXP);
+    Rcpp::traits::input_parameter< int >::type height(heightSEXP);
+    Rcpp::traits::input_parameter< double >::type sun_azimuth(sun_azimuthSEXP);
+    Rcpp::traits::input_parameter< double >::type sun_elevation(sun_elevationSEXP);
+    Rcpp::traits::input_parameter< bool >::type shadow(shadowSEXP);
+    Rcpp::traits::input_parameter< double >::type ambient(ambientSEXP);
+    Rcpp::traits::input_parameter< double >::type base_frac(base_fracSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(render_dem_cpp(z, dx, dy, cr, cg, cb, theta, phi, zscale, width, height, sun_azimuth, sun_elevation, shadow, ambient, base_frac, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// project_points_cpp
+NumericMatrix project_points_cpp(NumericVector x, NumericVector y, NumericVector z, NumericVector view, int height);
+RcppExport SEXP _tidymapr_project_points_cpp(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP viewSEXP, SEXP heightSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type view(viewSEXP);
+    Rcpp::traits::input_parameter< int >::type height(heightSEXP);
+    rcpp_result_gen = Rcpp::wrap(project_points_cpp(x, y, z, view, height));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sdm_lasso_logit_cpp
 List sdm_lasso_logit_cpp(NumericMatrix x0, NumericVector y, NumericVector w, NumericVector penalty, NumericVector lambda, int maxit, double thresh, double pmin, int threads);
 RcppExport SEXP _tidymapr_sdm_lasso_logit_cpp(SEXP x0SEXP, SEXP ySEXP, SEXP wSEXP, SEXP penaltySEXP, SEXP lambdaSEXP, SEXP maxitSEXP, SEXP threshSEXP, SEXP pminSEXP, SEXP threadsSEXP) {
@@ -354,6 +396,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_sdm_cloglog_cpp", (DL_FUNC) &_tidymapr_sdm_cloglog_cpp, 1},
     {"_tidymapr_sdm_logistic_cpp", (DL_FUNC) &_tidymapr_sdm_logistic_cpp, 1},
     {"_tidymapr_sdm_linear_predict_cpp", (DL_FUNC) &_tidymapr_sdm_linear_predict_cpp, 2},
+    {"_tidymapr_render_dem_cpp", (DL_FUNC) &_tidymapr_render_dem_cpp, 17},
+    {"_tidymapr_project_points_cpp", (DL_FUNC) &_tidymapr_project_points_cpp, 5},
     {"_tidymapr_sdm_lasso_logit_cpp", (DL_FUNC) &_tidymapr_sdm_lasso_logit_cpp, 9},
     {"_tidymapr_sdm_rf_fit_cpp", (DL_FUNC) &_tidymapr_sdm_rf_fit_cpp, 9},
     {"_tidymapr_sdm_rf_predict_cpp", (DL_FUNC) &_tidymapr_sdm_rf_predict_cpp, 3},

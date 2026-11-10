@@ -1,5 +1,15 @@
 # tidymapr 0.0.0.9000
 
+## 3D terrain maps (November 2026)
+
+* `geo_map3d()` renders a DEM as a 3D block diagram with sun lighting and
+  cast shadows, any viewing direction and angle, automatic vertical
+  exaggeration, hypsometric tints or any raster draped on the surface, and
+  sites or routes placed on the terrain and hidden behind hills. The
+  renderer is written in C++ (no OpenGL, rgl or rayshader), so it runs on
+  servers and in reports and returns an ordinary ggplot. Empty wedges left
+  by reprojection are trimmed so the block has clean sides.
+
 ## Maxent and ensemble models in C++ (November 2026)
 
 * `sdm_maxent()` fits Maxent as maxnet does (infinitely weighted logistic
