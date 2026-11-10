@@ -15,6 +15,14 @@
 #'   symbols.
 #' * `map_labels()` writes feature names with a white halo, so they stay
 #'   readable over any background.
+#' * `map_curved_labels()` writes text that follows the shape of any
+#'   feature: along lines (roads, rivers, contours), along the long axis or
+#'   the outline of polygons (lakes, valleys, regions), or around an arc
+#'   above points. The text stays upright and labels longer than their path
+#'   are left out. `map_line_labels()` is the same for lines.
+#'   `map_contours()` draws contour lines of a raster with their
+#'   heights written along them, set straight and aligned with the line
+#'   as on topographic maps.
 #' * `map_zoom()` zooms in or out, on the centre or on a point, or shows an
 #'   exact extent; the scale bar follows.
 #'
@@ -40,6 +48,8 @@
 #'   (default) picks one free of the scale bar and north arrow that hides
 #'   the least of the mapped features, or `"tr"`, `"tl"`, `"br"`, `"bl"`.
 #' @param map A map started with `geo_map()`.
+#' @param ... For `map_line_labels()`, arguments passed to
+#'   `map_curved_labels()`.
 #' @param x For `map_raster()`, a `SpatRaster` (the first layer is drawn).
 #' @param data An `sf` table.
 #' @param fill,colour A column name (quoted or not) to colour features by,
@@ -62,6 +72,22 @@
 #'   size.
 #' @param text Column with the label text.
 #' @param halo Draw a white halo behind the labels?
+#' @param draw_line For curved labels, also draw the path (cut where the
+#'   text sits)? Default `TRUE` for lines and `FALSE` otherwise; with
+#'   `FALSE` the text sits just above the path.
+#' @param polygon For polygons, write along the shape's long `"axis"`
+#'   (bent with the shape) or along its `"outline"`, just inside the edge.
+#' @param radius For points, radius of the label arc in map units; by
+#'   default 3.5% of the map width. Point labels are always drawn.
+#' @param smooth Rounds of corner smoothing of the label path, so text
+#'   reads evenly along jagged lines (0 for none).
+#' @param linewidth_label Width of the lines drawn by `map_line_labels()`.
+#' @param position Where along each line the label sits, from 0 (start) to
+#'   1 (end); default the middle.
+#' @param interval,breaks Contour spacing in the raster's units, or the
+#'   exact contour levels. By default about eight levels at round numbers.
+#' @param label_every Label every nth contour (default every second one,
+#'   as on topographic maps).
 #' @param fontface Font face of the labels, for example `"italic"` for
 #'   rivers or `"bold"` for towns.
 #' @param zoom Zoom factor for `map_zoom()`: 2 shows half the width and
@@ -220,6 +246,103 @@ map_labels <- function(map,
 
 #' @rdname geo-map
 #' @export
+map_curved_labels <- function(map,
+                              data,
+                              text,
+                              size = 3,
+                              colour = "grey15",
+                              draw_line = NULL,
+                              linewidth_label = 0.4,
+                              position = 0.5,
+                              polygon = c("axis", "outline"),
+                              radius = NULL,
+                              smooth = 3,
+                              fontface = "plain") {
+  tmr_check_map(map)
+  tmr_check_sf(data)
+  rlang::check_installed("geomtextpath")
+  tmr_check_number(position, "position", 0, 1)
+  polygon <- rlang::arg_match(polygon)
+  col <- tmr_pick(rlang::enquo(text), data, "text")
+  g <- unique(as.character(sf::st_geometry_type(data)))
+  kind <- if (all(g %in% c("LINESTRING", "MULTILINESTRING"))) {
+    "line"
+  } else if (all(g %in% c("POLYGON", "MULTIPOLYGON"))) {
+    "polygon"
+  } else if (all(g %in% c("POINT", "MULTIPOINT"))) {
+    "point"
+  } else {
+    cli::cli_abort("{.arg data} must hold one kind of geometry, not {.val {g}}.")
+  }
+  tmr_map_add(map, list(
+    kind = "linelabels", data = data, col = col, size = size,
+    colour = colour, geom = kind, polygon = polygon, radius = radius,
+    draw_line = draw_line %||% (kind == "line"), smooth = smooth,
+    linewidth = linewidth_label, hjust = position, fontface = fontface
+  ))
+}
+
+#' @rdname geo-map
+#' @export
+map_line_labels <- function(map, data, text, ...) {
+  map_curved_labels(map, data, {{ text }}, ...)
+}
+
+#' @rdname geo-map
+#' @export
+map_contours <- function(map,
+                         x,
+                         interval = NULL,
+                         breaks = NULL,
+                         colour = "grey30",
+                         label_every = 2,
+                         size = 2.6,
+                         linewidth = 0.25) {
+  tmr_check_map(map)
+  rlang::check_installed(c("terra", "geomtextpath"))
+  if (!inherits(x, "SpatRaster")) cli::cli_abort("{.arg x} must be a {.cls SpatRaster}.")
+  rng <- as.numeric(terra::global(x[[1]], "range", na.rm = TRUE))
+  levels <- if (!is.null(breaks)) {
+    sort(breaks)
+  } else if (!is.null(interval)) {
+    tmr_check_number(interval, "interval", 0)
+    seq(ceiling(rng[1] / interval) * interval, rng[2], by = interval)
+  } else {
+    pretty(rng, n = 8)
+  }
+  levels <- levels[levels > rng[1] & levels < rng[2]]
+  if (!length(levels)) cli::cli_abort("No contour levels fall inside the raster's range.")
+  cl <- sf::st_as_sf(terra::as.contour(x[[1]], levels = levels))
+  names(cl)[1] <- "level"
+  cl$label <- format(cl$level, big.mark = ",", trim = TRUE)
+  # Label every nth level (index contours), starting with the lowest
+  is_index <- (match(cl$level, levels) - 1) %% max(1, label_every) == 0
+  cl <- suppressWarnings(sf::st_cast(cl, "LINESTRING"))
+  is_index <- (match(cl$level, levels) - 1) %% max(1, label_every) == 0
+  # Only pieces long enough to carry a label get one
+  bb <- sf::st_bbox(cl)
+  diag <- sqrt(diff(bb[c(1, 3)])^2 + diff(bb[c(2, 4)])^2)
+  long <- as.numeric(sf::st_length(cl)) > 0.15 * as.numeric(diag)
+  cl$label[!(is_index & long)] <- NA
+  lab <- cl[is_index & long, ]
+  plain <- cl[!(is_index & long), ]
+  if (nrow(plain)) {
+    map <- tmr_map_add(map, list(
+      kind = "linelabels", data = plain, col = NULL, size = size, geom = "line", smooth = 3,
+      colour = colour, draw_line = TRUE, linewidth = linewidth,
+      hjust = 0.5, fontface = "plain"
+    ))
+  }
+  tmr_map_add(map, list(
+    kind = "linelabels", data = lab, col = "label", size = size, geom = "line", smooth = 3,
+    text_smoothing = 80, hjust = "straight", straight = TRUE,
+    colour = colour, draw_line = TRUE, linewidth = linewidth * 1.6,
+    fontface = "plain"
+  ))
+}
+
+#' @rdname geo-map
+#' @export
 map_zoom <- function(map, zoom = 1, centre = NULL, extent = NULL) {
   tmr_check_map(map)
   tmr_check_number(zoom, "zoom", 0.05, 1000)
@@ -253,6 +376,7 @@ map_build <- function(map) {
     p <- switch(ly$kind,
       raster = tmr_map_draw_raster(p, ly, crs, ord),
       labels = tmr_map_draw_labels(p, ly, crs),
+      linelabels = tmr_map_draw_line_labels(p, ly, crs, ord),
       tmr_map_draw_feature(p, ly, crs, ord)
     )
     if (i < n_layers) {
@@ -581,4 +705,152 @@ tmr_map_limits <- function(map, crs) {
   hw <- (bb[["xmax"]] - bb[["xmin"]]) / 2 / z$zoom
   hh <- (bb[["ymax"]] - bb[["ymin"]]) / 2 / z$zoom
   list(x = c(cx - hw, cx + hw), y = c(cy - hh, cy + hh))
+}
+
+tmr_map_draw_line_labels <- function(p, ly, crs, ord) {
+  d <- sf::st_transform(ly$data, crs)
+  geom <- ly$geom %||% "line"
+  if (geom == "line") {
+    d <- suppressWarnings(sf::st_cast(d, "LINESTRING"))
+  } else if (geom == "polygon") {
+    d <- tmr_polygon_label_path(d, ly$polygon %||% "axis")
+  } else {
+    span <- diff(sf::st_bbox(d)[c("xmin", "xmax")])
+    d <- tmr_point_arcs(d, ly$radius %||% max(as.numeric(span) * 0.035, 1))
+  }
+  if ((ly$smooth %||% 0) > 0) {
+    sf::st_geometry(d) <- tmr_chaikin(sf::st_geometry(d), ly$smooth)
+  }
+  if (is.null(ly$col)) {
+    return(p + ggplot2::geom_sf(
+      data = d, colour = ly$colour, linewidth = ly$linewidth, inherit.aes = FALSE
+    ))
+  }
+  d$.label <- as.character(d[[ly$col]])
+  # "straight": each label at the straightest stretch of its line
+  d$.hjust <- if (identical(ly$hjust, "straight")) {
+    vapply(sf::st_geometry(d), tmr_straightest, numeric(1))
+  } else {
+    ly$hjust
+  }
+  p + geomtextpath::geom_textsf(
+    data = d, ggplot2::aes(label = .data$.label, hjust = .data$.hjust),
+    colour = ly$colour,
+    linecolour = if (isTRUE(ly$draw_line)) ly$colour else NA,
+    linewidth = ly$linewidth, size = ly$size, fontface = ly$fontface,
+    vjust = if (isTRUE(ly$draw_line)) 0.5 else -0.2,
+    straight = isTRUE(ly$straight),
+    text_smoothing = ly$text_smoothing %||% 30, remove_long = geom != "point", inherit.aes = FALSE
+  )
+}
+
+# Chaikin corner cutting: each round replaces every corner by two points at
+# 1/4 and 3/4 along its edges, rounding jagged lines while keeping the ends
+tmr_chaikin <- function(g, n) {
+  one <- function(xy) {
+    for (k in seq_len(n)) {
+      if (nrow(xy) < 3) break
+      a <- xy[-nrow(xy), , drop = FALSE]
+      b <- xy[-1, , drop = FALSE]
+      q <- 0.75 * a + 0.25 * b
+      r <- 0.25 * a + 0.75 * b
+      mid <- matrix(t(cbind(q, r)), ncol = 2, byrow = TRUE)
+      xy <- rbind(xy[1, ], mid, xy[nrow(xy), ])
+    }
+    xy
+  }
+  out <- lapply(g, function(x) {
+    if (inherits(x, "LINESTRING")) {
+      sf::st_linestring(one(unclass(x)[, 1:2, drop = FALSE]))
+    } else {
+      x
+    }
+  })
+  sf::st_sfc(out, crs = sf::st_crs(g))
+}
+
+# A label path for each polygon: its long axis (the longest chord through
+# the centre along the main direction, bent through the middle of the shape)
+# or its outline pulled slightly inside
+tmr_polygon_label_path <- function(d, how) {
+  geoms <- lapply(seq_len(nrow(d)), function(i) {
+    poly <- sf::st_geometry(d)[i]
+    if (how == "outline") {
+      span <- sqrt(as.numeric(sf::st_area(poly)))
+      inner <- suppressWarnings(sf::st_buffer(poly, -0.04 * span))
+      if (sf::st_is_empty(inner[1])) inner <- poly
+      ring <- suppressWarnings(sf::st_cast(sf::st_boundary(inner), "LINESTRING"))
+      lens <- as.numeric(sf::st_length(ring))
+      # Start the outline at its top so text runs across the top first
+      xy <- sf::st_coordinates(ring[which.max(lens)])[, 1:2]
+      top <- which.max(xy[, 2])
+      xy <- rbind(xy[top:nrow(xy), ], xy[seq_len(top), ])
+      return(sf::st_linestring(xy))
+    }
+    xy <- sf::st_coordinates(poly)[, 1:2]
+    ctr <- colMeans(xy)
+    ev <- eigen(stats::cov(xy))$vectors[, 1]
+    half <- max(abs(sweep(xy, 2, ctr) %*% ev)) * 1.2
+    # Sample across the main axis and take the midpoint of each cross
+    # section, so the path bends with the shape
+    ts <- seq(-half, half, length.out = 25)
+    perp <- c(-ev[2], ev[1])
+    mids <- t(vapply(ts, function(t0) {
+      c0 <- ctr + t0 * ev
+      cut <- sf::st_linestring(rbind(c0 - perp * half * 3, c0 + perp * half * 3))
+      hit <- suppressWarnings(sf::st_intersection(
+        sf::st_sfc(cut, crs = sf::st_crs(poly)), poly
+      ))
+      if (!length(hit) || sf::st_is_empty(hit[1])) return(c(NA_real_, NA_real_))
+      hx <- sf::st_coordinates(hit)[, 1:2, drop = FALSE]
+      colMeans(hx)
+    }, numeric(2)))
+    ok <- stats::complete.cases(mids)
+    if (sum(ok) < 4) {
+      path <- rbind(ctr - ev * half / 2, ctr + ev * half / 2)
+    } else {
+      # A gentle bend: the sideways offset of the cross-section midpoints,
+      # fitted as a quadratic along the axis, over the middle of the shape
+      tt <- ts[ok]
+      off <- as.vector(sweep(mids[ok, , drop = FALSE], 2, ctr) %*% perp)
+      fit <- stats::lm(off ~ stats::poly(tt, 2, raw = TRUE))
+      tin <- seq(min(tt) * 0.75, max(tt) * 0.75, length.out = 40)
+      ofs <- stats::predict(fit, data.frame(tt = tin))
+      path <- t(vapply(seq_along(tin), function(k) ctr + tin[k] * ev + ofs[k] * perp, numeric(2)))
+    }
+    # Run left to right so the text reads upright
+    if (path[1, 1] > path[nrow(path), 1]) path <- path[rev(seq_len(nrow(path))), ]
+    sf::st_linestring(path)
+  })
+  sf::st_set_geometry(d, sf::st_sfc(geoms, crs = sf::st_crs(d)))
+}
+
+# An arc above each point, from 150 to 30 degrees, for text curving over it
+tmr_point_arcs <- function(d, r) {
+  pts <- sf::st_coordinates(suppressWarnings(sf::st_centroid(sf::st_geometry(d))))
+  a <- seq(150, 30, length.out = 30) * pi / 180
+  geoms <- lapply(seq_len(nrow(pts)), function(i) {
+    sf::st_linestring(cbind(pts[i, 1] + r * cos(a), pts[i, 2] + r * sin(a)))
+  })
+  sf::st_set_geometry(d, sf::st_sfc(geoms, crs = sf::st_crs(d)))
+}
+
+# Position (0 to 1 along the line) of the straightest stretch: the least
+# total turning over a window of a fifth of the line
+tmr_straightest <- function(g) {
+  xy <- unclass(g)[, 1:2, drop = FALSE]
+  n <- nrow(xy)
+  if (n < 5) return(0.5)
+  seg <- diff(xy)
+  len <- sqrt(rowSums(seg^2))
+  ang <- atan2(seg[, 2], seg[, 1])
+  turn <- abs(atan2(sin(diff(ang)), cos(diff(ang))))
+  pos <- cumsum(len) / sum(len)
+  w <- 0.2
+  centres <- seq(w / 2 + 0.05, 1 - w / 2 - 0.05, by = 0.02)
+  if (!length(centres)) return(0.5)
+  cost <- vapply(centres, function(cc) {
+    sum(turn[abs(pos[-length(pos)] - cc) <= w / 2])
+  }, numeric(1))
+  centres[which.min(cost)]
 }
