@@ -1,5 +1,17 @@
 # tidymapr 0.0.0.9000
 
+## A wider scope (November 2026)
+
+* tidymapr is now a general toolkit for mapping, spatial analysis and
+  publication cartography, not only for biodiversity: new title "Tidy
+  Mapping, Spatial Analysis and Publication Cartography". It is compatible
+  with the GeoSpaX desktop GIS (same cartographic conventions, same formats
+  through GDAL) and remains the mapping companion to tidydiversity for
+  ecology. No functions were renamed.
+* The reference is regrouped into Maps and cartography, Spatial analysis,
+  Terrain and hydrology, Remote sensing, Data input and output, and
+  Ecology with tidydiversity.
+
 Install the latest version with `pak::pak("gitlab::jimmy.moses/tidymapr")`.
 
 ## New maps (November 2026)

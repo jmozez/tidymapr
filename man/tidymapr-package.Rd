@@ -4,12 +4,16 @@
 \name{tidymapr-package}
 \alias{tidymapr}
 \alias{tidymapr-package}
-\title{tidymapr: Tidy Mapping Verbs for Biodiversity and Spatial Ecology}
+\title{tidymapr: Tidy Mapping, Spatial Analysis and Publication Cartography}
 \description{
-Mapping and geospatial verbs for biodiversity data. tidymapr works with
-tidydiversity in the same way dplyr and ggplot2 do: every verb takes a
-data frame and returns a tibble, an \code{sf} table, a \code{SpatRaster} or a
-ggplot, so diversity estimates and maps stay in one tidy workflow.
+Publication-quality maps and spatial analysis in R, in the style of a
+desktop GIS: automatic, explained map design (\code{\link[=geo_automap]{geo_automap()}}),
+projections, legends and map furniture, GIS, CAD and remote sensing
+formats, and fast C++ spatial statistics. Compatible with the GeoSpaX
+desktop GIS, whose cartographic conventions it follows. For ecology it
+works with tidydiversity in the same way dplyr and ggplot2 do: every
+verb takes a data frame and returns a tibble, an \code{sf} table, a
+\code{SpatRaster} or a ggplot.
 }
 \seealso{
 Useful links:

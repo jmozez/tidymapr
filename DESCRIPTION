@@ -1,18 +1,20 @@
 Package: tidymapr
-Title: Tidy Mapping Verbs for Biodiversity and Spatial Ecology
+Title: Tidy Mapping, Spatial Analysis and Publication Cartography
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R:
     person("Jimmy", "Moses", , "jimmy.moses@pnguot.ac.pg", role = c("aut", "cre", "cph"))
-Description: Tidy, pipe-friendly mapping and geospatial verbs for
-    biodiversity and spatial ecology. Turns site tables into 'sf' objects,
-    joins raster values as columns, cleans occurrence records, computes
-    geographic, elevational and environmental distances, draws
-    publication-ready study-site, diversity and stem maps with 'ggplot2',
-    reads and writes common vector and raster formats, downloads bioclim,
-    elevation and administrative boundary layers, and fits simple species
-    distribution models. Designed to work with 'tidydiversity' in the same
-    way that 'dplyr' and 'ggplot2' do: every verb takes a data frame and
-    returns a tibble or a 'ggplot', so the two packages share one workflow.
+Description: A tidyverse toolkit for making publication-quality maps and
+    doing spatial analysis in R, in the style of a desktop GIS. Automatic,
+    explained map design (projection, classification, colour ramps,
+    legends, scale bars and north arrows); reading of GIS, CAD and remote
+    sensing formats; fast C++ spatial statistics (kriging with measurement
+    error, local Moran's I, Getis-Ord hotspots), terrain hydrology and
+    spectral indices. Compatible with the 'GeoSpaX' desktop GIS: it follows
+    the same cartographic conventions and reads and writes the same formats
+    through 'GDAL', so maps and data move between the two. For ecology, it
+    maps coverage-standardised diversity surfaces with uncertainty and
+    spectral diversity, and works with the companion package
+    'tidydiversity'.
 License: MIT + file LICENSE
 URL: https://tidymapr-e72c18.gitlab.io/, https://gitlab.com/jimmy.moses/tidymapr
 BugReports: https://gitlab.com/jimmy.moses/tidymapr/-/issues

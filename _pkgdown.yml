@@ -38,70 +38,78 @@ figures:
 
 repo:
   url:
-    home: https://gitlab.com/jimmy.moses/tidymapr/
-    source: https://gitlab.com/jimmy.moses/tidymapr/-/blob/main/
-    issue: https://gitlab.com/jimmy.moses/tidymapr/-/issues/
-    user: https://gitlab.com/
-  branch: main
-
-navbar:
-  bg: dark
-  structure:
-    left: [intro, tutorials, guides, gallery, reference, news]
-    right: [tidydiversity, search, gitlab]
-  components:
-    gitlab:
-      icon: fa-gitlab
-      aria-label: Source code on GitLab
-      href: https://gitlab.com/jimmy.moses/tidymapr
-    intro:
-      text: Get started
-      href: articles/tidymapr.html
-    tutorials:
-      text: Tutorials
-      menu:
-        - text: Overview
-          href: articles/tutorials.html
-        - text: -------
-        - text: Papua New Guinea
-        - text: Ants along Mt Wilhelm, from sites to maps
-          href: articles/case-png-wilhelm.html
-    guides:
-      text: Guides
-      menu:
-        - text: Geospatial diversity workflows
-          href: articles/geospatial.html
-    gallery:
-      text: Gallery
-      href: articles/gallery.html
-    news:
-      text: News
-      href: news/index.html
-    tidydiversity:
-      text: tidydiversity
-      icon: fa-leaf
-      aria-label: tidydiversity, the companion package for diversity estimation
-      href: https://tidydiversity-033f3f.gitlab.io/
-
-home:
-  title: "tidymapr: tidy mapping verbs for biodiversity and spatial ecology"
+    home:
+  title: "tidymapr: tidy mapping, spatial analysis and publication cartography"
   description: >
-    Study-site maps, rasters joined as columns, occurrence cleaning,
-    geographic and environmental distance decay, Hill numbers on maps, stem
-    maps over topography, bioclim layers and tidy species distribution
-    models, in one tidy R workflow with tidydiversity.
+    Publication-quality maps and spatial analysis in R, in the style of a
+    desktop GIS and compatible with GeoSpaX: automatic, explained map
+    design, projections, legends and map furniture, GIS, CAD and remote
+    sensing formats, fast C++ spatial statistics, terrain hydrology,
+    spectral indices and diversity surfaces with tidydiversity.
   sidebar:
     structure: [links, license, community, citation, authors, dev]
 
 reference:
-  - title: Sites and occurrences
+  - title: Maps and cartography
+    desc: Automatic, explained maps, thematic maps, projections, graticules, basemaps and GeoSpaX-style map furniture.
     contents:
+      - geo_automap
+      - thematic-maps
+      - plot_sites
+      - plot_geo
+      - plot_topo
+      - map-projection
+      - map-furniture
+      - geo_basemap
+      - geo_breaks
+      - geo_save
+      - theme_tidymapr
+      - ggplot_add.tmr_geo_basemap
+  - title: Spatial analysis
+    desc: Interpolation and kriging, spatial autocorrelation and hotspots, distances, computed in C++ on several cores.
+    contents:
+      - geo_interpolate
+      - geo-local
+      - geo_moran
+      - geo_distance
+      - geo_decay
+      - geo_mem
+  - title: Terrain and hydrology
+    desc: D8 flow direction, flow accumulation, watersheds, the topographic wetness index and terrain derivatives.
+    contents:
+      - geo-hydrology
+      - geo_elevation
+  - title: Remote sensing
+    desc: Spectral indices with Otsu thresholds and spectral diversity in Hill numbers.
+    contents:
+      - geo_spectral_index
+      - geo_spectral_diversity
+  - title: Data input and output
+    desc: GIS, CAD and remote sensing formats through GDAL, rasters and vectors as tidy objects, and environmental layers.
+    contents:
+      - geo-io
+      - geo_layers
+      - geo-vector
+      - geo-raster
       - geo_as_sf
       - geo_extract
+      - geo-map-interop
+      - geo-bioclim
+      - geo_gadm
+  - title: Ecology with tidydiversity
+    desc: Diversity surfaces, occurrence records, spatial diversity patterns, species distribution models and forest plot maps.
+    contents:
+      - geo_diversity_surface
+      - plot_diversity_surface
       - geo_clean
       - geo_gbif
-      - geo-map-interop
       - geo_as_features
+      - geo_rarefy_spatial
+      - geo_grain
+      - geo_middomain
+      - sdm
+      - stems_spatial
+      - stems_habitat_test
   - title: Example data
     contents:
       - png_ants_sites
@@ -109,58 +117,6 @@ reference:
       - geo_example_stems
       - geo_example_dem
       - geo_example_censuses
-  - title: Distances and spatial statistics
-    contents:
-      - geo_distance
-      - geo_decay
-      - geo_moran
-      - geo-local
-      - geo_breaks
-      - geo_mem
-      - geo_rarefy_spatial
-      - geo_grain
-      - geo_middomain
-      - geo_interpolate
-      - geo_diversity_surface
-      - geo_spectral_diversity
-      - geo_spectral_index
-      - plot_diversity_surface
-  - title: Terrain hydrology
-    desc: D8 flow direction, flow accumulation, watersheds and the topographic wetness index, computed in C++.
-    contents:
-      - geo-hydrology
-  - title: Maps
-    contents:
-      - plot_sites
-      - plot_geo
-      - plot_topo
-      - geo_automap
-      - thematic-maps
-      - map-furniture
-      - map-projection
-      - geo_basemap
-      - geo_save
-      - theme_tidymapr
-      - ggplot_add.tmr_geo_basemap
-  - title: Vector, raster and file verbs
-    contents:
-      - geo-io
-      - geo_layers
-      - geo-vector
-      - geo-raster
-  - title: Environmental layers
-    contents:
-      - geo-bioclim
-      - geo_elevation
-      - geo_gadm
-  - title: Forest plot stem maps
-    desc: Quadrats, habitat joins, neighbourhoods and torus-translation tests in local plot coordinates.
-    contents:
-      - stems_spatial
-      - stems_habitat_test
-  - title: Species distribution models
-    contents:
-      - sdm
   - title: Package
     contents:
       - tidymapr-package
