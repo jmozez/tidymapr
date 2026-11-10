@@ -22,39 +22,49 @@ knitr::opts_chunk$set(
 
 <div class="tmr-hero">
 
-**Tidy mapping verbs for biodiversity and spatial ecology.**
+**Tidy mapping, spatial analysis and publication cartography.**
 
-tidymapr is the mapping companion to
-[tidydiversity](https://gitlab.com/jimmy.moses/tidydiversity). tidydiversity
-estimates diversity, tidymapr puts it on a map, and the two work together
-the way dplyr and ggplot2 do. Every verb takes a data frame and returns a
-tibble, an `sf` table, a `SpatRaster` or a ggplot.
+tidymapr makes publication-quality maps and does spatial analysis in R, in
+the style of a desktop GIS: one call can choose the projection,
+classification, colour ramps, legends, scale bar and north arrow, and
+explain each choice. It is compatible with the
+GeoSpaX desktop GIS, following the
+same cartographic conventions and reading and writing the same formats.
+For ecology, it is the mapping companion to
+[tidydiversity](https://gitlab.com/jimmy.moses/tidydiversity):
+tidydiversity estimates diversity, tidymapr puts it on a map. Every verb
+takes a data frame and returns a tibble, an `sf` table, a `SpatRaster` or a
+ggplot.
 
 </div>
 
 <div class="tmr-cards">
 <div class="tmr-card">
 
-### Sites and rasters
+### Maps and cartography
 
-Sites as `sf` tables, raster values joined as columns, occurrence
-cleaning and GBIF records, vector and raster verbs, GDAL-backed I/O.
-
-</div>
-<div class="tmr-card">
-
-### Publication maps
-
-Study-site maps, Hill numbers on maps and stems over topography, with
-basemaps, scale bars and north arrows, saved at journal sizes.
+Automatic, explained maps with `geo_automap()`; choropleth, bubble and
+layered maps; Equal Earth, Mercator, UTM and other projections; graticules;
+GeoSpaX-style scale bars, north arrows and legends; topographic and DEM
+basemaps.
 
 </div>
 <div class="tmr-card">
 
-### Spatial ecology
+### Spatial analysis and remote sensing
 
-Geographic and environmental distance decay, Moran's I, dbMEM, spatial
-rarefaction, grain, mid-domain nulls and tidy species distribution models.
+Kriging with measurement error, inverse-distance weighting, Getis-Ord
+hotspots, local Moran's I, terrain hydrology, NDVI and other spectral
+indices, spectral diversity, all in fast multi-core C++.
+
+</div>
+<div class="tmr-card">
+
+### Data and ecology
+
+GIS, CAD and remote sensing formats (netCDF, HDF, Sentinel-2, AutoCAD
+DXF and more); diversity surfaces with uncertainty, distance decay,
+species distribution models and forest plot maps with tidydiversity.
 
 </div>
 </div>

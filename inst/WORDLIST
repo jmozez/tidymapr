@@ -60,6 +60,7 @@ DCA
 DEM
 DGN
 DWG
+DXF
 DaPhnE
 Damen
 DataCite
@@ -343,6 +344,7 @@ glm
 glmmTMB
 grDevices
 graticules
+gray
 gstat
 gstat's
 gt
