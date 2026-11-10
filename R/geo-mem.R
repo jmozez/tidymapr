@@ -105,28 +105,7 @@ geo_mem <- function(data,
   tmr_new(out, "tmr_geo_mem")
 }
 
+# Truncation distance: the longest edge of the minimum spanning tree (C++)
 geo_mem_mst_thresh <- function(d) {
-  n <- nrow(d)
-  in_tree <- rep(FALSE, n)
-  in_tree[1] <- TRUE
-  max_edge <- 0
-  for (k in seq_len(n - 1)) {
-    best <- Inf
-    best_j <- NA_integer_
-    idx_in <- which(in_tree)
-    idx_out <- which(!in_tree)
-    for (i in idx_in) {
-      for (j in idx_out) {
-        dij <- d[i, j]
-        if (is.finite(dij) && dij < best) {
-          best <- dij
-          best_j <- j
-        }
-      }
-    }
-    if (!is.finite(best)) break
-    in_tree[best_j] <- TRUE
-    if (best > max_edge) max_edge <- best
-  }
-  max_edge
+  geo_mst_max_edge_cpp(d)
 }

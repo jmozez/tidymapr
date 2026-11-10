@@ -3,7 +3,20 @@
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <random>
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 using namespace Rcpp;
+
+static inline int tmr_threads(int threads) {
+#ifdef _OPENMP
+  return threads > 0 ? threads : 1;
+#else
+  (void) threads;
+  return 1;
+#endif
+}
 
 static inline double hav_m(double lon1, double lat1, double lon2, double lat2) {
   const double r = M_PI / 180.0;
@@ -72,21 +85,27 @@ NumericVector geo_jenks_cpp(NumericVector x, int k) {
 // [[Rcpp::export]]
 NumericVector geo_idw_cpp(NumericVector xs, NumericVector ys, NumericVector zs,
                           NumericVector xp, NumericVector yp, double power,
-                          bool lonlat, double maxdist) {
+                          bool lonlat, double maxdist, int threads = 1) {
   const int ns = xs.size(), np = xp.size();
   NumericVector out(np);
+  const double *X = xs.begin(), *Y = ys.begin(), *Z = zs.begin();
+  const double *PX = xp.begin(), *PY = yp.begin();
+  double *O = out.begin();
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(tmr_threads(threads)) schedule(static)
+#endif
   for (int p = 0; p < np; ++p) {
     double num = 0.0, den = 0.0;
     bool exact = false;
     for (int s = 0; s < ns; ++s) {
-      const double d = dist_xy(xs[s], ys[s], xp[p], yp[p], lonlat);
+      const double d = dist_xy(X[s], Y[s], PX[p], PY[p], lonlat);
       if (maxdist > 0 && d > maxdist) continue;
-      if (d < 1e-12) { out[p] = zs[s]; exact = true; break; }
-      const double w = 1.0 / std::pow(d, power);
-      num += w * zs[s];
+      if (d < 1e-12) { O[p] = Z[s]; exact = true; break; }
+      const double w = power == 2.0 ? 1.0 / (d * d) : 1.0 / std::pow(d, power);
+      num += w * Z[s];
       den += w;
     }
-    if (!exact) out[p] = den > 0 ? num / den : NA_REAL;
+    if (!exact) O[p] = den > 0 ? num / den : NA_REAL;
   }
   return out;
 }
@@ -112,7 +131,8 @@ static double vario(double h, int model, double nugget, double psill,
 // [[Rcpp::export]]
 List geo_krige_cpp(NumericVector xs, NumericVector ys, NumericVector zs,
                    NumericVector xp, NumericVector yp, int model,
-                   double nugget, double psill, double range, bool lonlat) {
+                   double nugget, double psill, double range, bool lonlat,
+                   bool variance = true, int threads = 1) {
   const int n = xs.size(), np = xp.size();
   const int m = n + 1;
   NumericMatrix A(m, m);
@@ -156,22 +176,41 @@ List geo_krige_cpp(NumericVector xs, NumericVector ys, NumericVector zs,
     }
   }
   NumericVector pred(np), var(np);
-  std::vector<double> b(m), w(m);
+  // Prediction is b . (A^-1 z): precompute alpha = A^-1 [z, 0] once, so each
+  // target costs O(n) instead of O(n^2). A^-1 is symmetric.
+  std::vector<double> alpha(m, 0.0);
+  for (int i = 0; i < m; ++i) {
+    double s2 = 0.0;
+    for (int j = 0; j < n; ++j) s2 += inv[i * m + j] * zs[j];
+    alpha[i] = s2;
+  }
+  const double *XS = xs.begin(), *YS = ys.begin(), *XP = xp.begin(), *YP = yp.begin();
+  double *PR = pred.begin(), *VA = var.begin();
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(tmr_threads(threads)) schedule(static)
+#endif
   for (int p = 0; p < np; ++p) {
+    std::vector<double> b(m);
     for (int i = 0; i < n; ++i) {
-      b[i] = vario(dist_xy(xs[i], ys[i], xp[p], yp[p], lonlat), model, nugget, psill, range);
+      b[i] = vario(dist_xy(XS[i], YS[i], XP[p], YP[p], lonlat), model, nugget, psill, range);
     }
     b[n] = 1.0;
-    for (int i = 0; i < m; ++i) {
-      double s = 0.0;
-      for (int j = 0; j < m; ++j) s += inv[i * m + j] * b[j];
-      w[i] = s;
+    double z = 0.0;
+    for (int i = 0; i < m; ++i) z += b[i] * alpha[i];
+    PR[p] = z;
+    if (variance) {
+      // sigma^2 = b' A^-1 b, using symmetry of A^-1
+      double v = 0.0;
+      for (int i = 0; i < m; ++i) {
+        const double *row = &inv[i * m];
+        double s2 = 0.0;
+        for (int j = 0; j < m; ++j) s2 += row[j] * b[j];
+        v += b[i] * s2;
+      }
+      VA[p] = v;
+    } else {
+      VA[p] = NA_REAL;
     }
-    double z = 0.0, v = 0.0;
-    for (int i = 0; i < n; ++i) { z += w[i] * zs[i]; v += w[i] * b[i]; }
-    v += w[n]; // Lagrange multiplier
-    pred[p] = z;
-    var[p] = v;
   }
   return List::create(_["prediction"] = pred, _["variance"] = var);
 }
@@ -291,4 +330,104 @@ IntegerVector geo_watershed_cpp(IntegerVector dir, int nrow, int ncol,
     }
   }
   return lab;
+}
+
+
+// k nearest neighbours by great-circle (or planar) distance. Returns a
+// 1-based n x k index matrix, nearest first. Partial sort per row: O(n log k).
+// [[Rcpp::export]]
+IntegerMatrix geo_knn_cpp(NumericVector x, NumericVector y, int k, bool lonlat,
+                          int threads = 1) {
+  const int n = x.size();
+  IntegerMatrix out(n, k);
+  const double *X = x.begin(), *Y = y.begin();
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(tmr_threads(threads)) schedule(dynamic, 64)
+#endif
+  for (int i = 0; i < n; ++i) {
+    std::vector<std::pair<double, int>> d;
+    d.reserve(n - 1);
+    for (int j = 0; j < n; ++j) {
+      if (j == i) continue;
+      d.emplace_back(dist_xy(X[i], Y[i], X[j], Y[j], lonlat), j);
+    }
+    std::partial_sort(d.begin(), d.begin() + k, d.end());
+    for (int r = 0; r < k; ++r) out(i, r) = d[r].second + 1;
+  }
+  return out;
+}
+
+// Conditional permutation p-values for local Moran's I (Anselin 1995):
+// for site i, its neighbours' values are drawn at random from the other
+// n - 1 sites. nb and w are row-major n x kmax (0 = no neighbour). Each
+// site gets its own generator seeded from R, so results follow set.seed()
+// and do not depend on the number of threads.
+// [[Rcpp::export]]
+NumericVector geo_lisa_perm_cpp(NumericVector z, IntegerVector nb,
+                                NumericVector w, IntegerVector nnb, int kmax,
+                                int nperm, int threads = 1) {
+  const int n = z.size();
+  NumericVector p(n);
+  std::vector<unsigned int> seeds(n);
+  for (int i = 0; i < n; ++i) {
+    seeds[i] = static_cast<unsigned int>(R::unif_rand() * 4294967295.0);
+  }
+  const double *Z = z.begin(), *W = w.begin();
+  const int *NB = nb.begin(), *NN = nnb.begin();
+  double *P = p.begin();
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(tmr_threads(threads)) schedule(dynamic, 16)
+#endif
+  for (int i = 0; i < n; ++i) {
+    const int k = NN[i];
+    double obs = 0.0;
+    for (int r = 0; r < k; ++r) obs += W[i * kmax + r] * Z[NB[i * kmax + r] - 1];
+    std::vector<int> pool;
+    pool.reserve(n - 1);
+    for (int j = 0; j < n; ++j) if (j != i) pool.push_back(j);
+    std::mt19937 gen(seeds[i]);
+    int ge = 0, le = 0;
+    const int m = n - 1;
+    for (int b = 0; b < nperm; ++b) {
+      double sim = 0.0;
+      for (int r = 0; r < k; ++r) {
+        std::uniform_int_distribution<int> pick(r, m - 1);
+        const int q = pick(gen);
+        std::swap(pool[r], pool[q]);
+        sim += W[i * kmax + r] * Z[pool[r]];
+      }
+      if (sim >= obs) ++ge;
+      if (sim <= obs) ++le;
+    }
+    P[i] = std::min(1.0, (1.0 + std::min(ge, le)) * 2.0 / (nperm + 1.0));
+  }
+  return p;
+}
+
+// Longest edge of the minimum spanning tree of a distance matrix (Prim's
+// algorithm, O(n^2)): the truncation distance used by geo_mem().
+// [[Rcpp::export]]
+double geo_mst_max_edge_cpp(NumericMatrix d) {
+  const int n = d.nrow();
+  if (n < 2) return 0.0;
+  std::vector<double> best(n, std::numeric_limits<double>::infinity());
+  std::vector<bool> in(n, false);
+  in[0] = true;
+  for (int j = 1; j < n; ++j) if (std::isfinite(d(0, j))) best[j] = d(0, j);
+  double max_edge = 0.0;
+  for (int step = 1; step < n; ++step) {
+    int pick = -1;
+    double val = std::numeric_limits<double>::infinity();
+    for (int j = 0; j < n; ++j) {
+      if (!in[j] && best[j] < val) { val = best[j]; pick = j; }
+    }
+    if (pick < 0) break;  // disconnected (infinite distances)
+    in[pick] = true;
+    if (val > max_edge) max_edge = val;
+    for (int j = 0; j < n; ++j) {
+      const double dj = d(pick, j);
+      if (!in[j] && std::isfinite(dj) && dj < best[j]) best[j] = dj;
+    }
+  }
+  return max_edge;
 }

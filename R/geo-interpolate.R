@@ -12,6 +12,9 @@
 #' variances match `gstat::krige()` for the same variogram. The fitted or
 #' given variogram is stored in attribute `"variogram"`.
 #'
+#' Both methods run in C++ on several cores; set the number with
+#' `options(tidymapr.threads = n)`.
+#'
 #' @param data An `sf` point table.
 #' @param value <[`data-masking`][dplyr::dplyr_data_masking]> Numeric
 #'   column to interpolate.
@@ -26,6 +29,8 @@
 #' @param nugget,psill,range Variogram nugget, partial sill and range.
 #'   `psill` and `range` default to a fit with gstat. `range` is in metres
 #'   on longitude/latitude data and in map units otherwise.
+#' @param variance For kriging, also return the kriging variance? Skipping
+#'   it (`FALSE`) makes large grids much faster.
 #' @param name Name of the prediction layer or column.
 #' @return For a raster `grid`, a `SpatRaster` with layer `name` (and
 #'   `"variance"` for kriging). For an `sf` `grid`, the same table with
@@ -56,6 +61,7 @@ geo_interpolate <- function(data,
                             nugget = 0,
                             psill = NULL,
                             range = NULL,
+                            variance = TRUE,
                             name = "prediction") {
   rlang::check_installed("sf")
   method <- rlang::arg_match(method)
@@ -83,7 +89,8 @@ geo_interpolate <- function(data,
     tmr_check_number(maxdist, "maxdist", 0)
     pred <- geo_idw_cpp(
       xs[, 1], xs[, 2], z, target$xy[, 1], target$xy[, 2], power, lonlat,
-      if (is.finite(maxdist)) maxdist else 0
+      if (is.finite(maxdist)) maxdist else 0,
+      threads = tmr_threads()
     )
     res <- stats::setNames(list(pred), name)
     vg <- NULL
@@ -95,9 +102,14 @@ geo_interpolate <- function(data,
     k <- geo_krige_cpp(
       xs[, 1], xs[, 2], z, target$xy[, 1], target$xy[, 2],
       match(model, c("Exp", "Sph", "Gau")), vg$nugget, vg$psill, vg$range,
-      lonlat
+      lonlat,
+      variance = isTRUE(variance), threads = tmr_threads()
     )
-    res <- stats::setNames(list(k$prediction, k$variance), c(name, "variance"))
+    res <- if (isTRUE(variance)) {
+      stats::setNames(list(k$prediction, k$variance), c(name, "variance"))
+    } else {
+      stats::setNames(list(k$prediction), name)
+    }
   }
   out <- target$finish(res)
   attr(out, "variogram") <- vg

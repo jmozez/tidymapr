@@ -46,6 +46,24 @@ Install the latest version with `pak::pak("gitlab::jimmy.moses/tidymapr")`.
 * Tile maps now carry each provider's required attribution (for example
   "© OpenStreetMap contributors") as the plot caption.
 
+## Faster: C++ and multi-core (November 2026)
+
+* The most demanding calculations now run in C++ and use several CPU
+  cores (OpenMP). Set the number with `options(tidymapr.threads = n)`; by
+  default tidymapr uses all cores but one. Timings on 4 cores:
+  - `geo_lisa()` permutation test (500 sites, 999 permutations): 5 s to
+    0.05 s;
+  - kriging in `geo_interpolate()` (300 points to 40,000 cells): 20 s to
+    0.9 s; new `variance = FALSE` skips the kriging variance for even
+    larger grids;
+  - inverse-distance weighting: 0.8 s to 0.04 s;
+  - nearest-neighbour search for `geo_hotspot()` and `geo_lisa()`: about
+    4 times faster;
+  - `geo_mem()` minimum spanning tree (Prim's algorithm): about 10 times
+    faster and now scales to thousands of sites.
+* Results are unchanged: they still equal spdep and gstat, and permutation
+  p-values are the same for a given seed whatever the number of cores.
+
 ## Projections and graticules (November 2026)
 
 * New `coord_projection()` draws any tidymapr or ggplot map in a named
