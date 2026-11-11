@@ -79,14 +79,14 @@ sites <- tibble::tibble(
   elevation = c(200, 700, 1200)
 )
 geo_distance(sites, lon, lat, method = "haversine")
-#> # A tibble: 3 × 3
+#> # A tibble: 3 x 3
 #>   site_1 site_2 distance
 #>   <chr>  <chr>     <dbl>
 #> 1 a      b        15619.
 #> 2 a      c        31236.
 #> 3 b      c        15617.
 geo_distance(sites, elevation = elevation, method = "elevation")
-#> # A tibble: 3 × 3
+#> # A tibble: 3 x 3
 #>   site_1 site_2 distance
 #>   <chr>  <chr>     <dbl>
 #> 1 a      b           500

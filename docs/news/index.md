@@ -1,6 +1,8 @@
 # Changelog
 
-## tidymapr 0.0.0.9000
+## tidymapr 0.1.0
+
+- First CRAN release.
 
 ### New documentation (November 2026)
 
@@ -19,6 +21,17 @@
 - `geo_panels(guides = "keep")` no longer overrides each map’s own
   legend position (including `legend = "none"`).
 - Web map legends round their labels to the precision of the data.
+- World maps from
+  [`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md)
+  are centred on Greenwich again, features crossing the date line
+  (Russia, Fiji) are split there instead of being stretched across the
+  map, and the frame shows the whole globe.
+- Coordinate labels that would overlap on narrow maps and panels are
+  dropped.
+- tidymapr ships a 90 m Copernicus elevation model of Mt Wilhelm, Papua
+  New Guinea (`inst/extdata/wilhelm-dem.tif`), used in the 3D examples.
+- The case studies and README explain how to read the uncertainty and
+  disagreement maps.
 
 ### Interactive web maps (November 2026)
 

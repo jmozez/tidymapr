@@ -76,8 +76,8 @@ set.seed(1)
 g <- expand.grid(x = 1:6, y = 1:6)
 g$val <- g$x + 0.3 * rnorm(nrow(g))
 geo_moran(g, val, lon = x, lat = y, nperm = 199)
-#> # A tibble: 1 × 7
+#> # A tibble: 1 x 7
 #>   statistic expectation variance p.value     n nperm method                     
 #>       <dbl>       <dbl>    <dbl>   <dbl> <int> <dbl> <chr>                      
-#> 1     0.267     -0.0286 0.000530   0.005    36   199 Moran's I (inverse-distanc…
+#> 1     0.267     -0.0286 0.000530   0.005    36   199 Moran's I (inverse-distanc~
 ```

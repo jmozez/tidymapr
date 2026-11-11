@@ -94,12 +94,12 @@ names(r) <- "elev"
 sites <- geo_as_sf(geo_example_sites("wilhelm"), lon, lat)
 sites <- sites[sites$elevation <= 2200, ]
 geo_raster_zonal(r, geo_buffer(sites, dist = 2000), fun = "mean")
-#> # A tibble: 5 × 7
+#> # A tibble: 5 x 7
 #>   site     lon   lat elevation elevation_band coordinate_note               elev
 #>   <chr>  <dbl> <dbl>     <int> <fct>          <chr>                        <dbl>
-#> 1 MW0200  145. -5.74       200 200 m          published bait GPS, doi:10.…   198
-#> 2 MW0700  145. -5.73       700 700 m          published bait GPS, doi:10.…   196
-#> 3 MW1200  145. -5.72      1200 1200 m         published bait GPS, doi:10.…   186
-#> 4 MW1700  145. -5.76      1700 1700 m         published bait GPS, doi:10.…   215
-#> 5 MW2200  145. -5.76      2200 2200 m         published bait GPS, doi:10.…   213
+#> 1 MW0200  145. -5.74       200 200 m          published bait GPS, doi:10.~   198
+#> 2 MW0700  145. -5.73       700 700 m          published bait GPS, doi:10.~   196
+#> 3 MW1200  145. -5.72      1200 1200 m         published bait GPS, doi:10.~   186
+#> 4 MW1700  145. -5.76      1700 1700 m         published bait GPS, doi:10.~   215
+#> 5 MW2200  145. -5.76      2200 2200 m         published bait GPS, doi:10.~   213
 ```

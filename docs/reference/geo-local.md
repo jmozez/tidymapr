@@ -119,7 +119,7 @@ Analysis*, 27, 286-306.
 ``` r
 # The 16 real Mt Wilhelm ant transects (Mottl, Moses and Klimes 2023)
 geo_hotspot(png_ants_sites, elevation, k = 3)
-#> # A tibble: 16 × 10
+#> # A tibble: 16 x 10
 #>    site   transect elevation_band elevation   lon   lat baits gi_star p_value
 #>    <chr>     <int>          <int>     <int> <dbl> <dbl> <int>   <dbl>   <dbl>
 #>  1 MW0200        1            200       216  145. -5.74    60 -2.49   0.0127 
@@ -138,9 +138,9 @@ geo_hotspot(png_ants_sites, elevation, k = 3)
 #> 14 MW3200        2           3200      3259  145. -5.81    60  2.97   0.00296
 #> 15 MW3700        1           3700      3825  145. -5.79    60  2.97   0.00296
 #> 16 MW3700        2           3700      3916  145. -5.78    60  2.97   0.00296
-#> # ℹ 1 more variable: hotspot <fct>
+#> # i 1 more variable: hotspot <fct>
 geo_lisa(png_ants_sites, elevation, k = 3)
-#> # A tibble: 16 × 13
+#> # A tibble: 16 x 13
 #>    site   transect elevation_band elevation   lon   lat baits    lisa
 #>    <chr>     <int>          <int>     <int> <dbl> <dbl> <int>   <dbl>
 #>  1 MW0200        1            200       216  145. -5.74    60  1.48  
@@ -159,6 +159,6 @@ geo_lisa(png_ants_sites, elevation, k = 3)
 #> 14 MW3200        2           3200      3259  145. -5.81    60  1.49  
 #> 15 MW3700        1           3700      3825  145. -5.79    60  1.92  
 #> 16 MW3700        2           3700      3916  145. -5.78    60  1.98  
-#> # ℹ 5 more variables: lisa_expected <dbl>, lisa_variance <dbl>, lisa_z <dbl>,
+#> # i 5 more variables: lisa_expected <dbl>, lisa_variance <dbl>, lisa_z <dbl>,
 #> #   p_value <dbl>, cluster <fct>
 ```

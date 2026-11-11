@@ -116,14 +116,12 @@ plot_sites(sites, lon, lat, basemap = "coast", colour = elevation_band)
 # \donttest{
 # Online tiles (need internet)
 plot_sites(sites, lon, lat, basemap = "topo", colour = elevation_band)
-#> Could not fetch "topo" tiles; falling back to "coast".
 
 plot_sites(sites, lon, lat, basemap = "osm", colour = elevation_band)
-#> Could not fetch "osm" tiles; falling back to "coast".
 
 # Hillshade and contours from an elevation model
-plot_sites(sites, lon, lat, basemap = "terrain", colour = elevation_band)
-#> Error in geo_elevation_download(bb, cache_dir = cache_dir, z = z): Could not download elevation data.
-#> ℹ Install geodata or elevatr, or pass `path`.
+if (rlang::is_installed("geodata") || rlang::is_installed("elevatr")) {
+  plot_sites(sites, lon, lat, basemap = "terrain", colour = elevation_band)
+}
 # }
 ```

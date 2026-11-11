@@ -156,14 +156,14 @@ m <- geo_automap(spData::world, lifeExp, legend_title = "Life expectancy")
 m
 
 geo_automap_explain(m)
-#> # A tibble: 5 × 3
+#> # A tibble: 5 x 3
 #>   element    choice                                       reason                
 #>   <chr>      <chr>                                        <chr>                 
-#> 1 projection equal_earth                                  Data span 360 degrees…
-#> 2 symbology  graduated colours (jenks, 5 classes, YlOrRd) 'lifeExp' is numeric …
-#> 3 basemap    none                                         Polygons, rasters and…
-#> 4 graticule  30 degrees, world outline                    World map: graticule …
-#> 5 scale bar  none                                         Scale varies across a…
+#> 1 projection equal_earth                                  Data span 360 degrees~
+#> 2 symbology  graduated colours (jenks, 5 classes, YlOrRd) 'lifeExp' is numeric ~
+#> 3 basemap    none                                         Polygons, rasters and~
+#> 4 graticule  30 degrees, world outline                    World map: graticule ~
+#> 5 scale bar  none                                         Scale varies across a~
 
 # Region: North Carolina SIDS rate 1974-78 (shipped with sf)
 nc <- st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)

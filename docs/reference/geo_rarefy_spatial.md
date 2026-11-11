@@ -69,7 +69,7 @@ com <- expand.grid(site = pts$site, species = paste0("sp", 1:5),
 com$abundance <- rpois(nrow(com), 1)
 com <- dplyr::left_join(com, pts, by = "site")
 geo_rarefy_spatial(com, lon = x, lat = y, nperm = 19)
-#> # A tibble: 12 × 4
+#> # A tibble: 12 x 4
 #>    n_sites richness_spatial richness_random richness_random_sd
 #>      <int>            <dbl>           <dbl>              <dbl>
 #>  1       1                5               5                  0

@@ -64,7 +64,7 @@ gbif_like <- tibble::tibble(
   countryCode = "PG"
 )
 geo_gbif(gbif_like, clean = FALSE, as_sf = FALSE)
-#> # A tibble: 1 × 4
+#> # A tibble: 1 x 4
 #>   species      lon   lat countryCode
 #>   <chr>      <dbl> <dbl> <chr>      
 #> 1 Camponotus  147.  -9.4 PG         

@@ -82,15 +82,15 @@ geo_distance_to(data, to, lon = lon, lat = lat, ...)
 sites <- geo_as_sf(geo_example_sites("wilhelm"), lon, lat)
 buf <- geo_buffer(sites, dist = 5000)
 geo_area(buf)
-#> # A tibble: 8 × 7
+#> # A tibble: 8 x 7
 #>   site     lon   lat elevation elevation_band coordinate_note            area_m2
 #>   <chr>  <dbl> <dbl>     <int> <fct>          <chr>                        <dbl>
-#> 1 MW0200  145. -5.74       200 200 m          published bait GPS, doi:1…  7.85e7
-#> 2 MW0700  145. -5.73       700 700 m          published bait GPS, doi:1…  7.85e7
-#> 3 MW1200  145. -5.72      1200 1200 m         published bait GPS, doi:1…  7.85e7
-#> 4 MW1700  145. -5.76      1700 1700 m         published bait GPS, doi:1…  7.85e7
-#> 5 MW2200  145. -5.76      2200 2200 m         published bait GPS, doi:1…  7.85e7
-#> 6 MW2700  145. -5.81      2700 2700 m         published bait GPS, doi:1…  7.85e7
-#> 7 MW3200  145. -5.80      3200 3200 m         published bait GPS, doi:1…  7.85e7
-#> 8 MW3700  145. -5.78      3700 3700 m         published bait GPS, doi:1…  7.85e7
+#> 1 MW0200  145. -5.74       200 200 m          published bait GPS, doi:1~  7.85e7
+#> 2 MW0700  145. -5.73       700 700 m          published bait GPS, doi:1~  7.85e7
+#> 3 MW1200  145. -5.72      1200 1200 m         published bait GPS, doi:1~  7.85e7
+#> 4 MW1700  145. -5.76      1700 1700 m         published bait GPS, doi:1~  7.85e7
+#> 5 MW2200  145. -5.76      2200 2200 m         published bait GPS, doi:1~  7.85e7
+#> 6 MW2700  145. -5.81      2700 2700 m         published bait GPS, doi:1~  7.85e7
+#> 7 MW3200  145. -5.80      3200 3200 m         published bait GPS, doi:1~  7.85e7
+#> 8 MW3700  145. -5.78      3700 3700 m         published bait GPS, doi:1~  7.85e7
 ```

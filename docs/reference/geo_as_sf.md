@@ -56,9 +56,9 @@ geo_as_sf(sites, lon, lat, site = site)
 #> Dimension:     XY
 #> Bounding box:  xmin: 147.1 ymin: -9.5 xmax: 147.2 ymax: -9.4
 #> Geodetic CRS:  WGS 84
-#> # A tibble: 2 × 5
-#>   site    lon   lat elevation     geometry
-#> * <chr> <dbl> <dbl>     <dbl>  <POINT [°]>
-#> 1 a      147.  -9.4       200 (147.1 -9.4)
-#> 2 b      147.  -9.5       700 (147.2 -9.5)
+#> # A tibble: 2 x 5
+#>   site    lon   lat elevation             geometry
+#> * <chr> <dbl> <dbl>     <dbl> <POINT [arc_degree]>
+#> 1 a      147.  -9.4       200         (147.1 -9.4)
+#> 2 b      147.  -9.5       700         (147.2 -9.5)
 ```

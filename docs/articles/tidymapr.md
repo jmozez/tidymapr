@@ -60,14 +60,14 @@ north arrow](tidymapr_files/figure-html/automap-1.png)
 
 ``` r
 geo_automap_explain(m)
-#> # A tibble: 5 × 3
+#> # A tibble: 5 x 3
 #>   element     choice                                       reason               
 #>   <chr>       <chr>                                        <chr>                
-#> 1 projection  utm                                          Data span 1.5 degree…
-#> 2 symbology   graduated colours (jenks, 4 classes, YlOrRd) 'POP' is numeric and…
-#> 3 basemap     none                                         Polygons, rasters an…
-#> 4 scale bar   pill at tr                                   Distances matter at …
-#> 5 north arrow needle at tl                                 Second-emptiest corn…
+#> 1 projection  utm                                          Data span 1.5 degree~
+#> 2 symbology   graduated colours (jenks, 4 classes, YlOrRd) 'POP' is numeric and~
+#> 3 basemap     none                                         Polygons, rasters an~
+#> 4 scale bar   pill at tr                                   Distances matter at ~
+#> 5 north arrow needle at tl                                 Second-emptiest corn~
 ```
 
 ## A layered map

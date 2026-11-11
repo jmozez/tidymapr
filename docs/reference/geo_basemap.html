@@ -63,7 +63,7 @@ caption."><meta property="og:image" content="https://tidymapr.in4metrix.dev/refe
 
     <a class="navbar-brand me-2" href="../index.html">tidymapr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,6 +91,7 @@ caption."><meta property="og:image" content="https://tidymapr.in4metrix.dev/refe
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://tidydiversity.in4metrix.dev/" aria-label="Diversity with the companion package tidydiversity"><span class="fa fa-leaf"></span> tidydiversity</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/jmozez/tidymapr" aria-label="Source code on GitHub"><span class="fa fa-github"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://gitlab.com/jimmy.moses/tidymapr" aria-label="Source code on GitLab"><span class="fa fa-gitlab"></span></a></li>
       </ul></div>
 
@@ -201,15 +202,13 @@ metadata (<code>provider</code>, <code>offline</code>). Add it to a ggplot with 
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Online tiles (need internet)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="plot_sites.html">plot_sites</a></span><span class="op">(</span><span class="va">sites</span>, <span class="va">lon</span>, <span class="va">lat</span>, basemap <span class="op">=</span> <span class="st">"topo"</span>, colour <span class="op">=</span> <span class="va">elevation_band</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Could not fetch <span style="color: #0000BB;">"topo"</span> tiles; falling back to <span style="color: #0000BB;">"coast"</span>.</span>
 <span class="r-plt img"><img src="geo_basemap-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="plot_sites.html">plot_sites</a></span><span class="op">(</span><span class="va">sites</span>, <span class="va">lon</span>, <span class="va">lat</span>, basemap <span class="op">=</span> <span class="st">"osm"</span>, colour <span class="op">=</span> <span class="va">elevation_band</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Could not fetch <span style="color: #0000BB;">"osm"</span> tiles; falling back to <span style="color: #0000BB;">"coast"</span>.</span>
 <span class="r-plt img"><img src="geo_basemap-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># Hillshade and contours from an elevation model</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="plot_sites.html">plot_sites</a></span><span class="op">(</span><span class="va">sites</span>, <span class="va">lon</span>, <span class="va">lat</span>, basemap <span class="op">=</span> <span class="st">"terrain"</span>, colour <span class="op">=</span> <span class="va">elevation_band</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in geo_elevation_download(bb, cache_dir = cache_dir, z = z):</span> Could not download elevation data.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Install <span style="color: #0000BB;">geodata</span> or <span style="color: #0000BB;">elevatr</span>, or pass `path`.</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rlang/man/is_installed.html" class="external-link">is_installed</a></span><span class="op">(</span><span class="st">"geodata"</span><span class="op">)</span> <span class="op">||</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rlang/man/is_installed.html" class="external-link">is_installed</a></span><span class="op">(</span><span class="st">"elevatr"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="plot_sites.html">plot_sites</a></span><span class="op">(</span><span class="va">sites</span>, <span class="va">lon</span>, <span class="va">lat</span>, basemap <span class="op">=</span> <span class="st">"terrain"</span>, colour <span class="op">=</span> <span class="va">elevation_band</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

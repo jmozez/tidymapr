@@ -143,8 +143,8 @@ rec
 #> (export.report)
 #> Outputs: surface, map, uncertainty, and report
 geo_recipe_validate(rec)
-#> # A tibble: 0 × 3
-#> # ℹ 3 variables: severity <chr>, step <chr>, problem <chr>
+#> # A tibble: 0 x 3
+#> # i 3 variables: severity <chr>, step <chr>, problem <chr>
 
 # Run it on the Meuse river soil samples (zinc, mg/kg; shipped with terra)
 meuse <- terra::unwrap(readRDS(system.file("ex/meuse.rds", package = "terra")))
@@ -168,7 +168,7 @@ r <- geo_recipe("zinc-hotspots", "Zinc hot spots") |>
   recipe_step("hot", "stats.hotspots", layer = "${samples.layer}", field = "zinc") |>
   recipe_step("map", "export.map", layers = list("${hot.layer}"), scale_bar = "checker")
 geo_recipe_validate(r)
-#> # A tibble: 0 × 3
-#> # ℹ 3 variables: severity <chr>, step <chr>, problem <chr>
+#> # A tibble: 0 x 3
+#> # i 3 variables: severity <chr>, step <chr>, problem <chr>
 geo_recipe_write(r, tempfile(fileext = ".yaml"))
 ```

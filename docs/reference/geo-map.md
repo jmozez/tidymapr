@@ -364,6 +364,7 @@ roads <- sf::st_as_sf(terra::unwrap(
   readRDS(system.file("ex/lux_highways.rds", package = "terra"))
 ))
 
+# \donttest{
 geo_map(title = "Luxembourg", caption = "Data: terra package") |>
   map_raster(elev, name = "Elevation (m)", palette = "Terrain 2",
     hillshade = TRUE) |>
@@ -371,4 +372,6 @@ geo_map(title = "Luxembourg", caption = "Data: terra package") |>
   map_lines(roads, colour = highway, palette = c("#B2182B", "#F4A582"),
     group = "Roads") |>
   map_labels(cantons, text = NAME_2)
+
+# }
 ```

@@ -19,7 +19,7 @@ a transect or plot (Chiu 2023; McGlinn et al. 2025)."><meta property="og:image" 
 
     <a class="navbar-brand me-2" href="../index.html">tidymapr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@ a transect or plot (Chiu 2023; McGlinn et al. 2025)."><meta property="og:image" 
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://tidydiversity.in4metrix.dev/" aria-label="Diversity with the companion package tidydiversity"><span class="fa fa-leaf"></span> tidydiversity</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/jmozez/tidymapr" aria-label="Source code on GitHub"><span class="fa fa-github"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://gitlab.com/jimmy.moses/tidymapr" aria-label="Source code on GitLab"><span class="fa fa-gitlab"></span></a></li>
       </ul></div>
 
@@ -131,7 +132,7 @@ and when <code>nperm &gt; 0</code> also <code>richness_random</code> (mean) and
 <span class="r-in"><span><span class="va">com</span><span class="op">$</span><span class="va">abundance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">com</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">com</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">com</span>, <span class="va">pts</span>, by <span class="op">=</span> <span class="st">"site"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">geo_rarefy_spatial</span><span class="op">(</span><span class="va">com</span>, lon <span class="op">=</span> <span class="va">x</span>, lat <span class="op">=</span> <span class="va">y</span>, nperm <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 x 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    n_sites richness_spatial richness_random richness_random_sd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>       1                5               5                  0</span>

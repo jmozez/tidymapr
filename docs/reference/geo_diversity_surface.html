@@ -51,7 +51,7 @@ diversity map carries an honest uncertainty map."><meta property="og:image" cont
 
     <a class="navbar-brand me-2" href="../index.html">tidymapr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,6 +79,7 @@ diversity map carries an honest uncertainty map."><meta property="og:image" cont
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://tidydiversity.in4metrix.dev/" aria-label="Diversity with the companion package tidydiversity"><span class="fa fa-leaf"></span> tidydiversity</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/jmozez/tidymapr" aria-label="Source code on GitHub"><span class="fa fa-github"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://gitlab.com/jimmy.moses/tidymapr" aria-label="Source code on GitLab"><span class="fa fa-gitlab"></span></a></li>
       </ul></div>
 
@@ -248,20 +249,20 @@ Wiley. <a href="https://doi.org/10.1002/9781119115151" class="external-link">doi
 <span class="r-out co"><span class="r-pr">#&gt;</span> min values  :  93.598113,  84.518706, 102.580416, 30.007096, 24.404414, 36.896021, ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> max values  : 110.803534, 100.638584, 121.995188, 57.065617, 47.030838, 69.516398, ...</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">surf</span>, <span class="st">"sites"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 150 × 11</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 150 x 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    plot      q     m method   coverage diversity    se lower upper      x      y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> P10       0  583. extrapo…    0.940     101.   4.39  92.0 109.  6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> P10       1  583. extrapo…    0.940      50.2  2.51  45.3  55.1 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> P10       2  583. extrapo…    0.940      30.1  2.15  25.8  34.3 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> P28       0  483. extrapo…    0.940      91.7  3.69  84.4  98.9 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> P28       1  483. extrapo…    0.940      41.6  2.30  37.1  46.1 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> P28       2  483. extrapo…    0.940      20.2  1.67  16.9  23.4 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> P32       0  451. rarefac…    0.940      87.5  3.75  80.2  94.9 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> P32       1  451. rarefac…    0.940      43.9  2.10  39.8  48.1 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> P32       2  451. rarefac…    0.940      23.0  1.94  19.2  26.8 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> P34       0  567. extrapo…    0.940     100.   5.15  90.0 110.  6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 140 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> P10       0  583. extrapo~    0.940     101.   4.39  92.0 109.  6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> P10       1  583. extrapo~    0.940      50.2  2.51  45.3  55.1 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> P10       2  583. extrapo~    0.940      30.1  2.15  25.8  34.3 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> P28       0  483. extrapo~    0.940      91.7  3.69  84.4  98.9 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> P28       1  483. extrapo~    0.940      41.6  2.30  37.1  46.1 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> P28       2  483. extrapo~    0.940      20.2  1.67  16.9  23.4 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> P32       0  451. rarefac~    0.940      87.5  3.75  80.2  94.9 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> P32       1  451. rarefac~    0.940      43.9  2.10  39.8  48.1 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> P32       2  451. rarefac~    0.940      23.0  1.94  19.2  26.8 6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> P34       0  567. extrapo~    0.940     100.   5.15  90.0 110.  6.26<span style="color: #949494;">e</span>5 1.01<span style="color: #949494;">e</span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 140 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
