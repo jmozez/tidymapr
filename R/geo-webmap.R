@@ -293,8 +293,7 @@ tmr_web_raster <- function(ly, id, max_pixels) {
       '<span class="bar" style="background:linear-gradient(to bottom,%s)"></span>',
       '<span class="ticks"><span>%s</span><span>%s</span></span></div></div>'
     ),
-    htmltools::htmlEscape(ly$name), stops, format(signif(vr[2], 4), big.mark = ","),
-    format(signif(vr[1], 4), big.mark = ",")
+    htmltools::htmlEscape(ly$name), stops, tmr_web_tick(vr[2], vr), tmr_web_tick(vr[1], vr)
   )
   list(js = js, legend = legend, bbox = c(cc[1, 1], cc[1, 2], cc[2, 1], cc[2, 2]))
 }
@@ -357,4 +356,11 @@ tmr_web_line_key <- function(colour, style) {
     ),
     colour, min(style$weight, 5), dash
   )
+}
+
+# Legend tick: rounded to the precision the range calls for (0.95, 3,402)
+tmr_web_tick <- function(v, range) {
+  span <- diff(range)
+  digits <- if (span > 0) max(0, 2 - floor(log10(span))) else 2
+  format(round(v, digits), big.mark = ",", scientific = FALSE, nsmall = 0, trim = TRUE)
 }

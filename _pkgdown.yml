@@ -135,15 +135,59 @@ reference:
       - tidymapr-package
       - geo
 
+navbar:
+  bg: dark
+  structure:
+    left: [intro, tutorials, guides, gallery, reference, news]
+    right: [tidydiversity, search, gitlab]
+  components:
+    gitlab:
+      icon: fa-gitlab
+      aria-label: Source code on GitLab
+      href: https://gitlab.com/jimmy.moses/tidymapr
+    tidydiversity:
+      text: tidydiversity
+      icon: fa-leaf
+      aria-label: Diversity with the companion package tidydiversity
+      href: https://tidydiversity.in4metrix.dev/
+    intro:
+      text: Get started
+      href: articles/tidymapr.html
+    tutorials:
+      text: Tutorials
+      menu:
+        - text: Overview
+          href: articles/tutorials.html
+        - text: -------
+        - text: Case studies
+        - text: Where does the brown-throated sloth live?
+          href: articles/case-sloth-sdm.html
+        - text: Tree diversity across Barro Colorado Island
+          href: articles/case-bci-diversity.html
+    guides:
+      text: Guides
+      menu:
+        - text: Spatial analysis
+          href: articles/geospatial.html
+        - text: "Diversity: the tidydiversity package"
+          href: https://tidydiversity.in4metrix.dev/
+    gallery:
+      text: Gallery
+      href: articles/gallery.html
+    news:
+      text: News
+      href: news/index.html
+
 articles:
   - title: Get started
     navbar: ~
     contents:
       - tidymapr
-  - title: Papua New Guinea case studies
+  - title: Tutorials
     contents:
       - articles/tutorials
-      - articles/case-png-wilhelm
+      - articles/case-sloth-sdm
+      - articles/case-bci-diversity
   - title: Guides
     contents:
       - articles/geospatial

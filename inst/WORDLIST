@@ -80,6 +80,7 @@ Dufour
 Dufrene
 Dungan
 Durka
+EG
 ENVI
 EPSG
 ERDAS
@@ -160,6 +161,7 @@ Kleyer
 Klimes
 Kongnoo
 Kriegel
+Kriged
 Kubota
 Kusumoto
 LUREF
@@ -407,6 +409,7 @@ hexbins
 hillR
 hillshade
 ht
+htmltools
 httr
 hyperspectral
 hypsometric
@@ -418,8 +421,10 @@ jimmy
 jmoses
 jmozez
 joc
+jsonlite
 kable
 knitr
+kriged
 krigs
 ks
 landscapemetrics
@@ -520,6 +525,7 @@ triplot
 triplots
 unmanipulated
 upslope
+variegatus
 vars
 vctrs
 viridis

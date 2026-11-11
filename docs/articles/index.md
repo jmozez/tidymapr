@@ -5,16 +5,18 @@
 - [Getting started with
   tidymapr](https://tidymapr.in4metrix.dev/articles/tidymapr.md):
 
-### Papua New Guinea case studies
+### Tutorials
 
 - [Tutorials](https://tidymapr.in4metrix.dev/articles/tutorials.md):
-- [Case study: ants along Mt Wilhelm, from sites to
-  maps](https://tidymapr.in4metrix.dev/articles/case-png-wilhelm.md):
+- [Case study: where does the brown-throated sloth
+  live?](https://tidymapr.in4metrix.dev/articles/case-sloth-sdm.md):
+- [Case study: tree diversity across Barro Colorado
+  Island](https://tidymapr.in4metrix.dev/articles/case-bci-diversity.md):
 
 ### Guides
 
-- [Geospatial diversity
-  workflows](https://tidymapr.in4metrix.dev/articles/geospatial.md):
+- [Spatial
+  analysis](https://tidymapr.in4metrix.dev/articles/geospatial.md):
 
 ### Gallery
 

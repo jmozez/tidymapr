@@ -1,29 +1,30 @@
 # Tutorials
 
-The tutorials run a whole mapping workflow on published Papua New Guinea
-data shipped with tidydiversity. Each tab gives a short preview; follow
-the link for the full analysis.
+Complete workflows on real, published data, from raw records to
+publication figures and interactive maps.
 
-``` r
-library(tidymapr)
-library(tidydiversity)
-```
+## Where does the brown-throated sloth live?
 
-## Papua New Guinea
+116 records of *Bradypus variegatus* and WorldClim climate across
+Central and South America: Maxent in C++, an ensemble of four algorithms
+tested on unseen regions, suitability and disagreement maps, and an
+interactive web map. [Read the case
+study](https://tidymapr.in4metrix.dev/articles/case-sloth-sdm.md).
 
-- Mt Wilhelm ants
+![Ensemble habitat suitability of the brown-throated
+sloth](../reference/figures/readme-sdm-ensemble.png)
 
-Ground ants at baits along the Mt Wilhelm elevational gradient
-(`png_ants`; Moses et al. 2023): site map, richness on a map and
-distance decay. [Full
-tutorial](https://tidymapr.in4metrix.dev/articles/case-png-wilhelm.md).
+Ensemble habitat suitability of the brown-throated sloth
 
-``` r
-sites <- geo_example_sites("wilhelm")
-plot_sites(sites, lon, lat, colour = elevation_band, label = site, basemap = "coast")
-#> Warning: No Natural Earth land data available; install rnaturalearth.
-#> ℹ Returning an empty land layer. Pass `coastline` or use a tile basemap.
-```
+## Tree diversity across Barro Colorado Island
 
-![Study sites along Mt Wilhelm coloured by elevation
-band](tutorials_files/figure-html/wilhelm-1.png)
+Fifty one-hectare plots of the Barro Colorado Island forest, Panama:
+coverage-standardised diversity with
+[tidydiversity](https://tidydiversity.in4metrix.dev), a kriged diversity
+surface with its uncertainty, habitat maps and hot spots. [Read the case
+study](https://tidymapr.in4metrix.dev/articles/case-bci-diversity.md).
+
+![Kriged tree diversity on Barro Colorado
+Island](../reference/figures/readme-diversity-surface.png)
+
+Kriged tree diversity on Barro Colorado Island

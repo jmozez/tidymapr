@@ -135,6 +135,4 @@ est <- tibble::tibble(
   diversity = c(12, 18, 9)
 )
 plot_geo(est, diversity, lon, lat, basemap = "coast", label = site)
-#> Warning: No Natural Earth land data available; install rnaturalearth.
-#> ℹ Returning an empty land layer. Pass `coastline` or use a tile basemap.
 ```

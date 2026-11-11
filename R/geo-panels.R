@@ -106,12 +106,14 @@ geo_panels <- function(...,
       plot.background = ggplot2::element_rect(fill = "white", colour = NA)
     )
   )
-  # Collected legends go where asked; kept legends stay beside their panel
-  out & ggplot2::theme(
-    legend.position = if (guides == "collect") legend_position else "right",
+  out <- out & ggplot2::theme(
     plot.tag = ggplot2::element_text(size = 12, face = "bold"),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA)
   )
+  # Collected legends go where asked; kept legends keep each map's own
+  # setting (beside the panel, inside it, or none)
+  if (guides == "collect") out <- out & ggplot2::theme(legend.position = legend_position)
+  out
 }
 
 #' @rdname geo-panels

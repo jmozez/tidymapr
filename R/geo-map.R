@@ -66,6 +66,10 @@
 #' @param border,linewidth,linetype,alpha Outline colour, line width (mm),
 #'   line type and transparency.
 #' @param name Legend title of a raster.
+#' @param limits For `map_raster()`, the range of the colour scale, such as
+#'   `c(0, 1)` for probabilities. Give the same limits to rasters in
+#'   several panels so that one colour means one value and
+#'   [geo_panels()] can merge their legends into one.
 #' @param hillshade Draw the raster over its own hillshade? Useful for
 #'   elevation.
 #' @param shape,size Point symbol (a number from [graphics::points()]) and
@@ -155,15 +159,19 @@ map_raster <- function(map,
                        name = NULL,
                        palette = "auto",
                        hillshade = FALSE,
-                       alpha = if (hillshade) 0.65 else 1) {
+                       alpha = if (hillshade) 0.65 else 1,
+                       limits = NULL) {
   tmr_check_map(map)
   rlang::check_installed("terra")
+  if (!is.null(limits) && !(is.numeric(limits) && length(limits) == 2)) {
+    cli::cli_abort("{.arg limits} must be two numbers, such as {.code c(0, 1)}.")
+  }
   if (!inherits(x, "SpatRaster")) {
     cli::cli_abort("{.arg x} must be a {.cls SpatRaster}.")
   }
   tmr_map_add(map, list(
     kind = "raster", data = x[[1]], name = name %||% names(x)[1],
-    palette = palette, hillshade = hillshade, alpha = alpha
+    palette = palette, hillshade = hillshade, alpha = alpha, limits = limits
   ))
 }
 
@@ -562,6 +570,7 @@ tmr_map_draw_raster <- function(p, ly, crs, ord) {
     tmr_map_tiles(df, "value", r, alpha = ly$alpha) +
     ggplot2::scale_fill_gradientn(
       colours = tmr_ramp(ly$palette, gr, 9), name = ly$name,
+      limits = ly$limits, oob = function(x, range = c(0, 1), ...) pmin(pmax(x, range[1]), range[2]),
       guide = ggplot2::guide_colourbar(order = ord)
     )
 }

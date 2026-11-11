@@ -112,20 +112,14 @@ helpers, or pass the same `basemap` value to
 sites <- geo_example_sites("wilhelm")
 # Offline: Natural Earth coastline
 plot_sites(sites, lon, lat, basemap = "coast", colour = elevation_band)
-#> Warning: No Natural Earth land data available; install rnaturalearth.
-#> ℹ Returning an empty land layer. Pass `coastline` or use a tile basemap.
 
 # \donttest{
 # Online tiles (need internet)
 plot_sites(sites, lon, lat, basemap = "topo", colour = elevation_band)
 #> Could not fetch "topo" tiles; falling back to "coast".
-#> Warning: No Natural Earth land data available; install rnaturalearth.
-#> ℹ Returning an empty land layer. Pass `coastline` or use a tile basemap.
 
 plot_sites(sites, lon, lat, basemap = "osm", colour = elevation_band)
 #> Could not fetch "osm" tiles; falling back to "coast".
-#> Warning: No Natural Earth land data available; install rnaturalearth.
-#> ℹ Returning an empty land layer. Pass `coastline` or use a tile basemap.
 
 # Hillshade and contours from an elevation model
 plot_sites(sites, lon, lat, basemap = "terrain", colour = elevation_band)

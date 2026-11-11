@@ -40,28 +40,33 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials">
+<li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Case studies</h6></li>
+    <li><a class="dropdown-item" href="../articles/case-sloth-sdm.html">Where does the brown-throated sloth live?</a></li>
+    <li><a class="dropdown-item" href="../articles/case-bci-diversity.html">Tree diversity across Barro Colorado Island</a></li>
   </ul>
 </li>
-<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-guides">
+<li><a class="dropdown-item" href="../articles/geospatial.html">Spatial analysis</a></li>
+    <li><a class="external-link dropdown-item" href="https://tidydiversity.in4metrix.dev/">Diversity: the tidydiversity package</a></li>
+  </ul>
+</li>
+<li class="nav-item"><a class="nav-link" href="../articles/gallery.html">Gallery</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
       </ul>
 <ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://tidydiversity.in4metrix.dev/" aria-label="Diversity with the companion package tidydiversity"><span class="fa fa-leaf"></span> tidydiversity</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
-  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
-<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
-    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
-    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
-  </ul>
-</li>
+<li class="nav-item"><a class="external-link nav-link" href="https://gitlab.com/jimmy.moses/tidymapr" aria-label="Source code on GitLab"><span class="fa fa-gitlab"></span></a></li>
       </ul>
 </div>
 
@@ -83,32 +88,34 @@
 
     
     
-<p>The tutorials run a whole mapping workflow on published Papua New
-Guinea data shipped with tidydiversity. Each tab gives a short preview;
-follow the link for the full analysis.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymapr.in4metrix.dev/">tidymapr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidydiversity.in4metrix.dev/" class="external-link">tidydiversity</a></span><span class="op">)</span></span></code></pre></div>
-<div class="section level2 tabset">
-<h2 class="tabset" id="papua-new-guinea">Papua New Guinea<a class="anchor" aria-label="anchor" href="#papua-new-guinea"></a>
+<p>Complete workflows on real, published data, from raw records to
+publication figures and interactive maps.</p>
+<div class="section level2">
+<h2 id="where-does-the-brown-throated-sloth-live">Where does the brown-throated sloth live?<a class="anchor" aria-label="anchor" href="#where-does-the-brown-throated-sloth-live"></a>
 </h2>
-
-<ul class="nav nav-tabs" id="papua-new-guinea" role="tablist"><li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#mt-wilhelm-ants" id="mt-wilhelm-ants-tab" type="button" role="tab" aria-controls="mt-wilhelm-ants" aria-selected="true" class="active nav-link">Mt Wilhelm ants</button></li></ul>
-<div class="tab-content"><div class="active  tab-pane" id="mt-wilhelm-ants" role="tabpanel" aria-labelledby="mt-wilhelm-ants-tab">
-
-<p>Ground ants at baits along the Mt Wilhelm elevational gradient
-(<code>png_ants</code>; Moses et al. 2023): site map, richness on a map
-and distance decay. <a href="case-png-wilhelm.html">Full
-tutorial</a>.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sites</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo_example_sites.html">geo_example_sites</a></span><span class="op">(</span><span class="st">"wilhelm"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_sites.html">plot_sites</a></span><span class="op">(</span><span class="va">sites</span>, <span class="va">lon</span>, <span class="va">lat</span>, colour <span class="op">=</span> <span class="va">elevation_band</span>, label <span class="op">=</span> <span class="va">site</span>, basemap <span class="op">=</span> <span class="st">"coast"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: No Natural Earth land data available; install <span style="color: #0000BB;">rnaturalearth</span>.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Returning an empty land layer. Pass `coastline` or use a tile basemap.</span></span></code></pre></div>
-<p><img src="tutorials_files/figure-html/wilhelm-1.png" class="r-plt" alt="Study sites along Mt Wilhelm coloured by elevation band" width="100%"></p>
-</div></div>
+<p>116 records of <em>Bradypus variegatus</em> and WorldClim climate
+across Central and South America: Maxent in C++, an ensemble of four
+algorithms tested on unseen regions, suitability and disagreement maps,
+and an interactive web map. <a href="case-sloth-sdm.html">Read the case
+study</a>.</p>
+<div class="float">
+<img src="../reference/figures/readme-sdm-ensemble.png" alt="Ensemble habitat suitability of the brown-throated sloth"><div class="figcaption">Ensemble habitat suitability of the
+brown-throated sloth</div>
 </div>
-  </main>
+</div>
+<div class="section level2">
+<h2 id="tree-diversity-across-barro-colorado-island">Tree diversity across Barro Colorado Island<a class="anchor" aria-label="anchor" href="#tree-diversity-across-barro-colorado-island"></a>
+</h2>
+<p>Fifty one-hectare plots of the Barro Colorado Island forest, Panama:
+coverage-standardised diversity with <a href="https://tidydiversity.in4metrix.dev" class="external-link">tidydiversity</a>, a kriged
+diversity surface with its uncertainty, habitat maps and hot spots. <a href="case-bci-diversity.html">Read the case study</a>.</p>
+<div class="float">
+<img src="../reference/figures/readme-diversity-surface.png" alt="Kriged tree diversity on Barro Colorado Island"><div class="figcaption">Kriged tree diversity on Barro Colorado
+Island</div>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
