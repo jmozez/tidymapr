@@ -138,7 +138,7 @@ reference:
 navbar:
   bg: dark
   structure:
-    left: [intro, tutorials, guides, gallery, reference, news]
+    left: [intro, userguide, tutorials, guides, gallery, reference, news]
     right: [tidydiversity, search, github, gitlab]
   components:
     github:
@@ -157,6 +157,26 @@ navbar:
     intro:
       text: Get started
       href: articles/tidymapr.html
+    userguide:
+      text: User guide
+      menu:
+        - text: Overview
+          href: articles/user-guide.html
+        - text: -------
+        - text: 1. Install and run in RStudio
+          href: articles/guide-01-install.html
+        - text: 2. Cartography concepts
+          href: articles/guide-02-cartography.html
+        - text: 3. Spatial autocorrelation
+          href: articles/guide-03-autocorrelation.html
+        - text: 4. Interpolation and kriging
+          href: articles/guide-04-interpolation.html
+        - text: 5. Species distribution models
+          href: articles/guide-05-sdm.html
+        - text: 6. Remote sensing and terrain
+          href: articles/guide-06-remote-sensing-terrain.html
+        - text: 7. Point clusters and landscapes
+          href: articles/guide-07-patterns-landscapes.html
     tutorials:
       text: Tutorials
       menu:
@@ -187,6 +207,10 @@ articles:
     navbar: ~
     contents:
       - tidymapr
+  - title: User guide
+    contents:
+      - articles/user-guide
+      - starts_with("articles/guide-")
   - title: Tutorials
     contents:
       - articles/tutorials

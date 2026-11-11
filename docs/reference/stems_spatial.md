@@ -92,7 +92,7 @@ Biology*, 21, 528-549.
 stems <- geo_example_stems()
 q <- stems_quadrat(stems, grid = 20)
 head(q[c("gx", "gy", "quadrat", "quadrat_col", "quadrat_row")])
-#> # A tibble: 6 x 5
+#> # A tibble: 6 × 5
 #>      gx    gy quadrat quadrat_col quadrat_row
 #>   <dbl> <dbl> <chr>         <int>       <int>
 #> 1  27.5  97.2 20_80             1           4
@@ -105,27 +105,27 @@ head(q[c("gx", "gy", "quadrat", "quadrat_col", "quadrat_row")])
 hab <- unique(q[c("quadrat", "quadrat_x", "quadrat_y")])
 hab$elev <- hab$quadrat_x + hab$quadrat_y
 head(stems_habitat(stems, hab))
-#> # A tibble: 6 x 16
+#> # A tibble: 6 × 16
 #>   plot    treeID stemID    gx    gy   dbh species status quadrat_x.x quadrat_y.x
 #>   <chr>    <int>  <int> <dbl> <dbl> <dbl> <chr>   <chr>        <dbl>       <dbl>
-#> 1 demo100      1      1  27.5  97.2   6.8 Homala~ A               20          80
-#> 2 demo100      2      2  37.7  49.6  18.9 Pometi~ A               20          40
-#> 3 demo100      3      3  57.0  48.5   8   Homala~ A               40          40
-#> 4 demo100      4      4  89.2  18.7   8.2 Ficus_~ A               80           0
-#> 5 demo100      5      5  21.4  74.5   8.5 Pteroc~ A               20          60
-#> 6 demo100      6      6  88.2  45.6  13.4 Intsia~ D               80          40
-#> # i 6 more variables: quadrat <chr>, quadrat_col <int>, quadrat_row <int>,
+#> 1 demo100      1      1  27.5  97.2   6.8 Homala… A               20          80
+#> 2 demo100      2      2  37.7  49.6  18.9 Pometi… A               20          40
+#> 3 demo100      3      3  57.0  48.5   8   Homala… A               40          40
+#> 4 demo100      4      4  89.2  18.7   8.2 Ficus_… A               80           0
+#> 5 demo100      5      5  21.4  74.5   8.5 Pteroc… A               20          60
+#> 6 demo100      6      6  88.2  45.6  13.4 Intsia… D               80          40
+#> # ℹ 6 more variables: quadrat <chr>, quadrat_col <int>, quadrat_row <int>,
 #> #   quadrat_x.y <dbl>, quadrat_y.y <dbl>, elev <dbl>
 
 head(stems_neighbours(stems, radius = 10))
-#> # A tibble: 6 x 11
+#> # A tibble: 6 × 11
 #>   plot    treeID stemID    gx    gy   dbh species            status n_neighbours
 #>   <chr>    <int>  <int> <dbl> <dbl> <dbl> <chr>              <chr>         <int>
-#> 1 demo100      1      1  27.5  97.2   6.8 Homalanthus_novog~ A                 0
+#> 1 demo100      1      1  27.5  97.2   6.8 Homalanthus_novog… A                 0
 #> 2 demo100      2      2  37.7  49.6  18.9 Pometia_pinnata    A                 0
-#> 3 demo100      3      3  57.0  48.5   8   Homalanthus_novog~ A                 0
+#> 3 demo100      3      3  57.0  48.5   8   Homalanthus_novog… A                 0
 #> 4 demo100      4      4  89.2  18.7   8.2 Ficus_sp           A                 0
-#> 5 demo100      5      5  21.4  74.5   8.5 Pterocarpus_indic~ A                 0
+#> 5 demo100      5      5  21.4  74.5   8.5 Pterocarpus_indic… A                 0
 #> 6 demo100      7      7  92.7  51.1   8.7 Pometia_pinnata    A                 0
-#> # i 2 more variables: neighbour_radius <dbl>, conspecific <lgl>
+#> # ℹ 2 more variables: neighbour_radius <dbl>, conspecific <lgl>
 ```

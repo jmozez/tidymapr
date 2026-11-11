@@ -2,7 +2,7 @@
 
 Great-circle (haversine) or elevational distances between sites, as a
 long tibble ready to join with
-[`tidydiversity::beta_pair()`](https://rdrr.io/pkg/tidydiversity/man/beta_pair.html)
+[`tidydiversity::beta_pair()`](https://tidydiversity.in4metrix.dev/reference/beta_pair.html)
 or to build a
 [`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md)
 distance-decay table. Elevational distance is the absolute difference in
@@ -79,14 +79,14 @@ sites <- tibble::tibble(
   elevation = c(200, 700, 1200)
 )
 geo_distance(sites, lon, lat, method = "haversine")
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   site_1 site_2 distance
 #>   <chr>  <chr>     <dbl>
 #> 1 a      b        15619.
 #> 2 a      c        31236.
 #> 3 b      c        15617.
 geo_distance(sites, elevation = elevation, method = "elevation")
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   site_1 site_2 distance
 #>   <chr>  <chr>     <dbl>
 #> 1 a      b           500

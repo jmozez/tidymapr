@@ -10,7 +10,7 @@ values mapped as a continuous fill still use
 this verb is for the study-site map that papers usually need first.
 
 The Mt Wilhelm ant data
-([tidydiversity::png_ants](https://rdrr.io/pkg/tidydiversity/man/png_ants.html))
+([tidydiversity::png_ants](https://tidydiversity.in4metrix.dev/reference/png_ants.html))
 come with published bait GPS positions in
 [png_ants_sites](https://tidymapr.in4metrix.dev/reference/png_ants_sites.md);
 [`geo_example_sites()`](https://tidymapr.in4metrix.dev/reference/geo_example_sites.md)

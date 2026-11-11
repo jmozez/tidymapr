@@ -29,6 +29,18 @@ a transect or plot (Chiu 2023; McGlinn et al. 2025)."><meta property="og:image" 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -65,8 +77,8 @@ a transect or plot (Chiu 2023; McGlinn et al. 2025)."><meta property="og:image" 
     <p>Accumulates species richness by adding samples in order of increasing
 distance from a seed sample (spatially contiguous rarefaction), and
 optionally compares that curve to random-order accumulation. Coverage
-standardisation (<code><a href="https://rdrr.io/pkg/tidydiversity/man/div_rarefy.html" class="external-link">tidydiversity::div_rarefy()</a></code>,
-<code><a href="https://rdrr.io/pkg/tidydiversity/man/div_standardise.html" class="external-link">tidydiversity::div_standardise()</a></code>) remains the default for effort bias;
+standardisation (<code><a href="https://tidydiversity.in4metrix.dev/reference/div_rarefy.html" class="external-link">tidydiversity::div_rarefy()</a></code>,
+<code><a href="https://tidydiversity.in4metrix.dev/reference/div_standardise.html" class="external-link">tidydiversity::div_standardise()</a></code>) remains the default for effort bias;
 use this verb when you need an aggregation signal along
 a transect or plot (Chiu 2023; McGlinn et al. 2025).</p>
     </div>
@@ -132,7 +144,7 @@ and when <code>nperm &gt; 0</code> also <code>richness_random</code> (mean) and
 <span class="r-in"><span><span class="va">com</span><span class="op">$</span><span class="va">abundance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">com</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">com</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">com</span>, <span class="va">pts</span>, by <span class="op">=</span> <span class="st">"site"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">geo_rarefy_spatial</span><span class="op">(</span><span class="va">com</span>, lon <span class="op">=</span> <span class="va">x</span>, lat <span class="op">=</span> <span class="va">y</span>, nperm <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 x 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    n_sites richness_spatial richness_random richness_random_sd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>       1                5               5                  0</span>

@@ -2,6 +2,24 @@
 
 * First CRAN release.
 
+
+## User guide (November 2026)
+
+* A seven-chapter User guide on the website: installing and running
+  tidymapr in RStudio; cartography concepts; spatial autocorrelation;
+  interpolation and kriging; species distribution models; remote sensing
+  and terrain; point clusters and landscape metrics. Each chapter gives
+  the concept and theory, runnable code on real data, figures and tables,
+  how to interpret them and a model paragraph for reporting.
+* `geo_moran()` accepts `sf` tables and projected coordinates: distances
+  are now great-circle metres for longitude/latitude and straight-line
+  distances in the CRS units otherwise. Before, projected coordinates
+  were read as degrees, which hid real autocorrelation.
+* `map_points()`, `map_lines()` and `map_polygons()` honour a named
+  `palette` for categories (for example `c(hot = "red", cold = "blue")`);
+  before, the colours were assigned in alphabetical order of the
+  categories, whatever their names. Factor columns keep their level order.
+
 ## New documentation (November 2026)
 
 * The website is rewritten around the current features: a new Get started

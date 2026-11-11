@@ -1,5 +1,17 @@
 # tidymapr
 
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![License:
+MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jmozez/tidymapr/blob/main/LICENSE.md)
+[![Website](https://img.shields.io/badge/website-tidymapr.in4metrix.dev-349295)](https://tidymapr.in4metrix.dev)
+[![Diversity with
+tidydiversity](https://img.shields.io/badge/diversity%20with-tidydiversity-1A9E93)](https://tidydiversity.in4metrix.dev)
+[![Compatible with
+GeoSpaX](https://img.shields.io/badge/compatible%20with-GeoSpaX-11376B)](https://geospax.in4metrix.dev)
+[![CRAN
+checks](https://img.shields.io/badge/R%20CMD%20check-as--cran-349295)](https://tidymapr.in4metrix.dev/cran-check.txt)
+
 **Tidy mapping, spatial analysis and publication cartography.**
 
 tidymapr makes publication-quality maps and does spatial analysis in R,
@@ -35,11 +47,11 @@ species distribution models and forest plot maps with tidydiversity.
 
 ## Installation
 
-Install the development version from GitLab:
+Install the development version from GitHub:
 
 ``` r
 # install.packages("pak")
-pak::pak("gitlab::jimmy.moses/tidymapr")
+pak::pak("jmozez/tidymapr")
 ```
 
 The source code lives on GitHub, <https://github.com/jmozez/tidymapr>,
@@ -47,6 +59,30 @@ with a mirror on GitLab, <https://gitlab.com/jimmy.moses/tidymapr>.
 
 **sf**, **terra** and the other spatial packages are optional; install
 the ones you need with `install.packages(c("sf", "terra"))`.
+
+## User guide
+
+New to tidymapr, or to spatial analysis? The [User
+guide](https://tidymapr.in4metrix.dev/articles/user-guide.html)
+explains, chapter by chapter, how to install and run tidymapr in RStudio
+and what every analysis means: the concept and theory, runnable code on
+real data, figures and tables, how to interpret them and how to report
+them in a paper.
+
+1.  [Install and run in
+    RStudio](https://tidymapr.in4metrix.dev/articles/guide-01-install.html)
+2.  [Cartography concepts: projections, classes and
+    colour](https://tidymapr.in4metrix.dev/articles/guide-02-cartography.html)
+3.  [Spatial autocorrelation: Moran’s I, LISA and hot
+    spots](https://tidymapr.in4metrix.dev/articles/guide-03-autocorrelation.html)
+4.  [Interpolation: IDW and
+    kriging](https://tidymapr.in4metrix.dev/articles/guide-04-interpolation.html)
+5.  [Species distribution models: Maxent and
+    ensembles](https://tidymapr.in4metrix.dev/articles/guide-05-sdm.html)
+6.  [Remote sensing and
+    terrain](https://tidymapr.in4metrix.dev/articles/guide-06-remote-sensing-terrain.html)
+7.  [Point clusters and landscape
+    fragmentation](https://tidymapr.in4metrix.dev/articles/guide-07-patterns-landscapes.html)
 
 ## Example
 

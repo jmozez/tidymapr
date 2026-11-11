@@ -41,6 +41,18 @@ other rasters: one row per band.
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -113,16 +125,16 @@ per CAD layer or level, with its number of entities; pass the
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># ERA5 monthly climate at the Nouragues station, French Guiana (netCDF)</span></span></span>
 <span class="r-in"><span><span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/nouragues.nc"</span>, package <span class="op">=</span> <span class="st">"terra"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">geo_layers</span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 x 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   var   description                                     nrow  ncol layers source</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> u10   u10 (16-bit integer)                               3     3     48 <span style="color: #949494;">"</span>NETC~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> v10   v10 (16-bit integer)                               3     3     48 <span style="color: #949494;">"</span>NETC~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> d2m   d2m (16-bit integer)                               3     3     48 <span style="color: #949494;">"</span>NETC~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> t2m   t2m (16-bit integer)                               3     3     48 <span style="color: #949494;">"</span>NETC~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> sp    surface_air_pressure (16-bit integer)              3     3     48 <span style="color: #949494;">"</span>NETC~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> tp    tp (16-bit integer)                                3     3     48 <span style="color: #949494;">"</span>NETC~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> ssrd  surface_downwelling_shortwave_flux_in_air (16~     3     3     48 <span style="color: #949494;">"</span>NETC~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> u10   u10 (16-bit integer)                               3     3     48 <span style="color: #949494;">"</span>NETC…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> v10   v10 (16-bit integer)                               3     3     48 <span style="color: #949494;">"</span>NETC…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> d2m   d2m (16-bit integer)                               3     3     48 <span style="color: #949494;">"</span>NETC…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> t2m   t2m (16-bit integer)                               3     3     48 <span style="color: #949494;">"</span>NETC…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> sp    surface_air_pressure (16-bit integer)              3     3     48 <span style="color: #949494;">"</span>NETC…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> tp    tp (16-bit integer)                                3     3     48 <span style="color: #949494;">"</span>NETC…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> ssrd  surface_downwelling_shortwave_flux_in_air (16…     3     3     48 <span style="color: #949494;">"</span>NETC…</span>
 <span class="r-in"><span><span class="va">t2m</span> <span class="op">&lt;-</span> <span class="fu"><a href="geo-io.html">geo_read</a></span><span class="op">(</span><span class="va">nc</span>, var <span class="op">=</span> <span class="st">"t2m"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">t2m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRaster</span>
@@ -140,7 +152,7 @@ per CAD layer or level, with its number of entities; pass the
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Sentinel-2 Level-2A bands over Luxembourg</span></span></span>
 <span class="r-in"><span><span class="fu">geo_layers</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/sent2_L2A_2024-08-24.tif"</span>, package <span class="op">=</span> <span class="st">"terra"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 x 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    band name   nrow  ncol crs   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 B02      90    95 WGS 84</span>
@@ -155,7 +167,7 @@ per CAD layer or level, with its number of entities; pass the
 <span class="r-in"><span><span class="va">dxf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".dxf"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_write.html" class="external-link">st_write</a></span><span class="op">(</span><span class="va">lux</span>, <span class="va">dxf</span>, driver <span class="op">=</span> <span class="st">"DXF"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">geo_layers</span><span class="op">(</span><span class="va">dxf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 x 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   cad_layer    entities geometry  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Diekirch            5 LINESTRING</span>

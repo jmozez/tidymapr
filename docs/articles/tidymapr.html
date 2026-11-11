@@ -41,6 +41,20 @@
       <ul class="navbar-nav me-auto">
 <li class="active nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide">
+<li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul>
+</li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials">
 <li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
@@ -139,14 +153,14 @@ the data, and <code><a href="../reference/geo_automap.html">geo_automap_explain(
 <p><img src="tidymapr_files/figure-html/automap-1.png" class="r-plt" alt="Population of Luxembourg's cantons in five classes, with scale bar and north arrow" width="100%"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/geo_automap.html">geo_automap_explain</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 x 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 3</span></span></span>
 <span><span class="co">#&gt;   element     choice                                       reason               </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> projection  utm                                          Data span 1.5 degree~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> symbology   graduated colours (jenks, 4 classes, YlOrRd) 'POP' is numeric and~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> basemap     none                                         Polygons, rasters an~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> scale bar   pill at tr                                   Distances matter at ~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> north arrow needle at tl                                 Second-emptiest corn~</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> projection  utm                                          Data span 1.5 degree…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> symbology   graduated colours (jenks, 4 classes, YlOrRd) 'POP' is numeric and…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> basemap     none                                         Polygons, rasters an…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> scale bar   pill at tr                                   Distances matter at …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> north arrow needle at tl                                 Second-emptiest corn…</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="a-layered-map">A layered map<a class="anchor" aria-label="anchor" href="#a-layered-map"></a>

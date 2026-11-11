@@ -44,16 +44,16 @@ A tibble.
 # ERA5 monthly climate at the Nouragues station, French Guiana (netCDF)
 nc <- system.file("ex/nouragues.nc", package = "terra")
 geo_layers(nc)
-#> # A tibble: 7 x 6
+#> # A tibble: 7 × 6
 #>   var   description                                     nrow  ncol layers source
 #>   <chr> <chr>                                          <int> <int>  <int> <chr> 
-#> 1 u10   u10 (16-bit integer)                               3     3     48 "NETC~
-#> 2 v10   v10 (16-bit integer)                               3     3     48 "NETC~
-#> 3 d2m   d2m (16-bit integer)                               3     3     48 "NETC~
-#> 4 t2m   t2m (16-bit integer)                               3     3     48 "NETC~
-#> 5 sp    surface_air_pressure (16-bit integer)              3     3     48 "NETC~
-#> 6 tp    tp (16-bit integer)                                3     3     48 "NETC~
-#> 7 ssrd  surface_downwelling_shortwave_flux_in_air (16~     3     3     48 "NETC~
+#> 1 u10   u10 (16-bit integer)                               3     3     48 "NETC…
+#> 2 v10   v10 (16-bit integer)                               3     3     48 "NETC…
+#> 3 d2m   d2m (16-bit integer)                               3     3     48 "NETC…
+#> 4 t2m   t2m (16-bit integer)                               3     3     48 "NETC…
+#> 5 sp    surface_air_pressure (16-bit integer)              3     3     48 "NETC…
+#> 6 tp    tp (16-bit integer)                                3     3     48 "NETC…
+#> 7 ssrd  surface_downwelling_shortwave_flux_in_air (16…     3     3     48 "NETC…
 t2m <- geo_read(nc, var = "t2m")
 t2m
 #> class       : SpatRaster
@@ -71,7 +71,7 @@ t2m
 
 # Sentinel-2 Level-2A bands over Luxembourg
 geo_layers(system.file("ex/sent2_L2A_2024-08-24.tif", package = "terra"))
-#> # A tibble: 4 x 5
+#> # A tibble: 4 × 5
 #>    band name   nrow  ncol crs   
 #>   <int> <chr> <dbl> <dbl> <chr> 
 #> 1     1 B02      90    95 WGS 84
@@ -86,7 +86,7 @@ names(lux)[1] <- "Layer"
 dxf <- tempfile(fileext = ".dxf")
 sf::st_write(lux, dxf, driver = "DXF", quiet = TRUE)
 geo_layers(dxf)
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   cad_layer    entities geometry  
 #>   <chr>           <int> <chr>     
 #> 1 Diekirch            5 LINESTRING

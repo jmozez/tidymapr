@@ -29,6 +29,18 @@ transects)."><meta property="og:image" content="https://tidymapr.in4metrix.dev/r
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -62,11 +74,11 @@ transects)."><meta property="og:image" content="https://tidymapr.in4metrix.dev/r
     </div>
 
     <div class="ref-description section level2">
-    <p>Real field coordinates for the bait transects behind <a href="https://rdrr.io/pkg/tidydiversity/man/png_ants.html" class="external-link">tidydiversity::png_ants</a>. The
+    <p>Real field coordinates for the bait transects behind <a href="https://tidydiversity.in4metrix.dev/reference/png_ants.html" class="external-link">tidydiversity::png_ants</a>. The
 published data give a GPS position and elevation for every bait; this
 table averages them to one point per elevation band and transect (two
 transects per band, eight bands from 200 to 3700 m). Use it to map the
-study sites or to join coordinates onto <code><a href="https://rdrr.io/pkg/tidydiversity/man/png_ants.html" class="external-link">tidydiversity::png_ants</a></code> by <code>site</code>.
+study sites or to join coordinates onto <code><a href="https://tidydiversity.in4metrix.dev/reference/png_ants.html" class="external-link">tidydiversity::png_ants</a></code> by <code>site</code>.
 <code><a href="geo_example_sites.html">geo_example_sites()</a></code> returns the band centroids (mean of the two
 transects).</p>
     </div>
@@ -121,7 +133,7 @@ extensive elevational gradients: a cross-continental comparison.
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">png_ants_sites</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 x 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    site   transect elevation_band elevation   lon   lat baits</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> MW0200        1            200       216  145. -<span style="color: #BB0000;">5.74</span>    60</span>

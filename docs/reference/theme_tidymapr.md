@@ -3,7 +3,7 @@
 `theme_tidymapr()` is the clean ggplot2 theme used by every tidymapr
 map: white background, black text, plain facet strips and a legend at
 the bottom. It matches
-[`tidydiversity::theme_tidydiversity()`](https://rdrr.io/pkg/tidydiversity/man/theme_tidydiversity.html),
+[`tidydiversity::theme_tidydiversity()`](https://tidydiversity.in4metrix.dev/reference/theme_tidydiversity.html),
 so maps and diversity plots from the two packages look the same side by
 side.
 

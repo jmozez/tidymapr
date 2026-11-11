@@ -23,6 +23,18 @@ field coordinates; see png_ants_sites for the two transects per band."><meta pro
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -57,7 +69,7 @@ field coordinates; see png_ants_sites for the two transects per band."><meta pro
 
     <div class="ref-description section level2">
     <p>Returns one row per elevation band of the Mt Wilhelm ant survey
-(<a href="https://rdrr.io/pkg/tidydiversity/man/png_ants.html" class="external-link">tidydiversity::png_ants</a>), with WGS84 longitude and latitude averaged from the bait
+(<a href="https://tidydiversity.in4metrix.dev/reference/png_ants.html" class="external-link">tidydiversity::png_ants</a>), with WGS84 longitude and latitude averaged from the bait
 GPS positions published by Mottl, Moses and Klimes (2023). These are real
 field coordinates; see <a href="png_ants_sites.html">png_ants_sites</a> for the two transects per band.</p>
     </div>
@@ -91,17 +103,17 @@ metres), <code>elevation_band</code> (ordered factor) and <code>coordinate_note<
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">geo_example_sites</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 x 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   site     lon   lat elevation elevation_band coordinate_note                   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> MW0200  145. -<span style="color: #BB0000;">5.74</span>       200 200 m          published bait GPS, doi:10.5281/z~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> MW0700  145. -<span style="color: #BB0000;">5.73</span>       700 700 m          published bait GPS, doi:10.5281/z~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> MW1200  145. -<span style="color: #BB0000;">5.72</span>      <span style="text-decoration: underline;">1</span>200 1200 m         published bait GPS, doi:10.5281/z~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> MW1700  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">1</span>700 1700 m         published bait GPS, doi:10.5281/z~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> MW2200  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">2</span>200 2200 m         published bait GPS, doi:10.5281/z~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> MW2700  145. -<span style="color: #BB0000;">5.81</span>      <span style="text-decoration: underline;">2</span>700 2700 m         published bait GPS, doi:10.5281/z~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> MW3200  145. -<span style="color: #BB0000;">5.80</span>      <span style="text-decoration: underline;">3</span>200 3200 m         published bait GPS, doi:10.5281/z~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> MW3700  145. -<span style="color: #BB0000;">5.78</span>      <span style="text-decoration: underline;">3</span>700 3700 m         published bait GPS, doi:10.5281/z~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> MW0200  145. -<span style="color: #BB0000;">5.74</span>       200 200 m          published bait GPS, doi:10.5281/z…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> MW0700  145. -<span style="color: #BB0000;">5.73</span>       700 700 m          published bait GPS, doi:10.5281/z…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> MW1200  145. -<span style="color: #BB0000;">5.72</span>      <span style="text-decoration: underline;">1</span>200 1200 m         published bait GPS, doi:10.5281/z…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> MW1700  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">1</span>700 1700 m         published bait GPS, doi:10.5281/z…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> MW2200  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">2</span>200 2200 m         published bait GPS, doi:10.5281/z…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> MW2700  145. -<span style="color: #BB0000;">5.81</span>      <span style="text-decoration: underline;">2</span>700 2700 m         published bait GPS, doi:10.5281/z…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> MW3200  145. -<span style="color: #BB0000;">5.80</span>      <span style="text-decoration: underline;">3</span>200 3200 m         published bait GPS, doi:10.5281/z…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> MW3700  145. -<span style="color: #BB0000;">5.78</span>      <span style="text-decoration: underline;">3</span>700 3700 m         published bait GPS, doi:10.5281/z…</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

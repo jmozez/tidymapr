@@ -6,7 +6,7 @@ counts) into continuous maps of Hill-number diversity:
 1.  For every site it estimates diversity of order `q` (0 = richness, 1
     = exponential Shannon, 2 = inverse Simpson) at a **common sample
     coverage** with
-    [`tidydiversity::div_standardise()`](https://rdrr.io/pkg/tidydiversity/man/div_standardise.html)
+    [`tidydiversity::div_standardise()`](https://tidydiversity.in4metrix.dev/reference/div_standardise.html)
     (Chao and Jost 2012), so sites sampled with different effort are
     compared fairly. The bootstrap standard error of each estimate is
     kept.
@@ -167,18 +167,18 @@ surf
 #> min values  :  93.598113,  84.518706, 102.580416, 30.007096, 24.404414, 36.896021, ...
 #> max values  : 110.803534, 100.638584, 121.995188, 57.065617, 47.030838, 69.516398, ...
 attr(surf, "sites")
-#> # A tibble: 150 x 11
+#> # A tibble: 150 × 11
 #>    plot      q     m method   coverage diversity    se lower upper      x      y
 #>    <chr> <dbl> <dbl> <chr>       <dbl>     <dbl> <dbl> <dbl> <dbl>  <dbl>  <dbl>
-#>  1 P10       0  583. extrapo~    0.940     101.   4.39  92.0 109.  6.26e5 1.01e6
-#>  2 P10       1  583. extrapo~    0.940      50.2  2.51  45.3  55.1 6.26e5 1.01e6
-#>  3 P10       2  583. extrapo~    0.940      30.1  2.15  25.8  34.3 6.26e5 1.01e6
-#>  4 P28       0  483. extrapo~    0.940      91.7  3.69  84.4  98.9 6.26e5 1.01e6
-#>  5 P28       1  483. extrapo~    0.940      41.6  2.30  37.1  46.1 6.26e5 1.01e6
-#>  6 P28       2  483. extrapo~    0.940      20.2  1.67  16.9  23.4 6.26e5 1.01e6
-#>  7 P32       0  451. rarefac~    0.940      87.5  3.75  80.2  94.9 6.26e5 1.01e6
-#>  8 P32       1  451. rarefac~    0.940      43.9  2.10  39.8  48.1 6.26e5 1.01e6
-#>  9 P32       2  451. rarefac~    0.940      23.0  1.94  19.2  26.8 6.26e5 1.01e6
-#> 10 P34       0  567. extrapo~    0.940     100.   5.15  90.0 110.  6.26e5 1.01e6
-#> # i 140 more rows
+#>  1 P10       0  583. extrapo…    0.940     101.   4.39  92.0 109.  6.26e5 1.01e6
+#>  2 P10       1  583. extrapo…    0.940      50.2  2.51  45.3  55.1 6.26e5 1.01e6
+#>  3 P10       2  583. extrapo…    0.940      30.1  2.15  25.8  34.3 6.26e5 1.01e6
+#>  4 P28       0  483. extrapo…    0.940      91.7  3.69  84.4  98.9 6.26e5 1.01e6
+#>  5 P28       1  483. extrapo…    0.940      41.6  2.30  37.1  46.1 6.26e5 1.01e6
+#>  6 P28       2  483. extrapo…    0.940      20.2  1.67  16.9  23.4 6.26e5 1.01e6
+#>  7 P32       0  451. rarefac…    0.940      87.5  3.75  80.2  94.9 6.26e5 1.01e6
+#>  8 P32       1  451. rarefac…    0.940      43.9  2.10  39.8  48.1 6.26e5 1.01e6
+#>  9 P32       2  451. rarefac…    0.940      23.0  1.94  19.2  26.8 6.26e5 1.01e6
+#> 10 P34       0  567. extrapo…    0.940     100.   5.15  90.0 110.  6.26e5 1.01e6
+#> # ℹ 140 more rows
 ```

@@ -25,6 +25,18 @@ ggplot2::autoplot()."><meta property="og:image" content="https://tidymapr.in4met
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -58,10 +70,10 @@ ggplot2::autoplot()."><meta property="og:image" content="https://tidymapr.in4met
     </div>
 
     <div class="ref-description section level2">
-    <p>Computes pairwise beta diversity with <code><a href="https://rdrr.io/pkg/tidydiversity/man/beta_pair.html" class="external-link">tidydiversity::beta_pair()</a></code> and
+    <p>Computes pairwise beta diversity with <code><a href="https://tidydiversity.in4metrix.dev/reference/beta_pair.html" class="external-link">tidydiversity::beta_pair()</a></code> and
 joins distances from <code><a href="geo_distance.html">geo_distance()</a></code> (great-circle, elevational or
 environmental), returning a <code>td_beta_decay</code> object (see
-<code><a href="https://rdrr.io/pkg/tidydiversity/man/beta_decay.html" class="external-link">tidydiversity::beta_decay()</a></code>) for <code><a href="https://rdrr.io/pkg/tidydiversity/man/beta_decay_model.html" class="external-link">tidydiversity::beta_decay_model()</a></code> and
+<code><a href="https://tidydiversity.in4metrix.dev/reference/beta_decay.html" class="external-link">tidydiversity::beta_decay()</a></code>) for <code><a href="https://tidydiversity.in4metrix.dev/reference/beta_decay_model.html" class="external-link">tidydiversity::beta_decay_model()</a></code> and
 <code><a href="https://rdrr.io/pkg/ggplot2/man/autoplot.html" class="external-link">ggplot2::autoplot()</a></code>.</p>
     </div>
 
@@ -102,7 +114,7 @@ Site, species and (optional) abundance columns of <code>data</code>.</p></dd>
 
 
 <dt id="arg-index">index<a class="anchor" aria-label="anchor" href="#arg-index"></a></dt>
-<dd><p>Dissimilarity family passed to <code><a href="https://rdrr.io/pkg/tidydiversity/man/beta_pair.html" class="external-link">tidydiversity::beta_pair()</a></code>:
+<dd><p>Dissimilarity family passed to <code><a href="https://tidydiversity.in4metrix.dev/reference/beta_pair.html" class="external-link">tidydiversity::beta_pair()</a></code>:
 <code>"sorensen"</code>, <code>"jaccard"</code> or <code>"bray"</code>.</p></dd>
 
 
@@ -126,7 +138,7 @@ columns.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">png_ants</span> <span class="op">&lt;-</span> <span class="fu">tidydiversity</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/tidydiversity/man/png_ants.html" class="external-link">png_ants</a></span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">png_ants</span> <span class="op">&lt;-</span> <span class="fu">tidydiversity</span><span class="fu">::</span><span class="va"><a href="https://tidydiversity.in4metrix.dev/reference/png_ants.html" class="external-link">png_ants</a></span></span></span>
 <span class="r-in"><span><span class="co"># Published bait GPS for the Mt Wilhelm sites</span></span></span>
 <span class="r-in"><span><span class="va">sites</span> <span class="op">&lt;-</span> <span class="fu"><a href="geo_example_sites.html">geo_example_sites</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">com</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">png_ants</span>, <span class="va">sites</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"site"</span>, <span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span><span class="op">]</span>,</span></span>
@@ -134,7 +146,7 @@ columns.</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">decay</span> <span class="op">&lt;-</span> <span class="fu">geo_decay</span><span class="op">(</span><span class="va">com</span>, <span class="va">lon</span>, <span class="va">lat</span>, .by <span class="op">=</span> <span class="va">season</span>, method <span class="op">=</span> <span class="st">"haversine"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">decay</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 x 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   season site_1 site_2 turnover nestedness total distance</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> dry    MW0200 MW0700    0.667     0.010<span style="text-decoration: underline;">8</span> 0.677    <span style="text-decoration: underline;">8</span>802.</span>

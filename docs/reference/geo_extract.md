@@ -52,7 +52,7 @@ terra::values(r) <- seq_len(terra::ncell(r))
 names(r) <- "demo"
 sites <- tibble::tibble(site = "a", lon = 147, lat = -9)
 geo_extract(sites, r, lon, lat)
-#> # A tibble: 1 x 4
+#> # A tibble: 1 × 4
 #>   site    lon   lat  demo
 #>   <chr> <dbl> <dbl> <int>
 #> 1 a       147    -9   357

@@ -108,15 +108,15 @@ geo_breaks(x, n = 3, style = "jenks")
 
 sites <- geo_example_sites()
 geo_classify(sites, elevation, n = 3, style = "equal")
-#> # A tibble: 8 x 7
+#> # A tibble: 8 × 7
 #>   site     lon   lat elevation elevation_band coordinate_note    elevation_class
 #>   <chr>  <dbl> <dbl>     <int> <fct>          <chr>              <ord>          
-#> 1 MW0200  145. -5.74       200 200 m          published bait GP~ 200 - 1370     
-#> 2 MW0700  145. -5.73       700 700 m          published bait GP~ 200 - 1370     
-#> 3 MW1200  145. -5.72      1200 1200 m         published bait GP~ 200 - 1370     
-#> 4 MW1700  145. -5.76      1700 1700 m         published bait GP~ 1370 - 2530    
-#> 5 MW2200  145. -5.76      2200 2200 m         published bait GP~ 1370 - 2530    
-#> 6 MW2700  145. -5.81      2700 2700 m         published bait GP~ 2530 - 3700    
-#> 7 MW3200  145. -5.80      3200 3200 m         published bait GP~ 2530 - 3700    
-#> 8 MW3700  145. -5.78      3700 3700 m         published bait GP~ 2530 - 3700    
+#> 1 MW0200  145. -5.74       200 200 m          published bait GP… 200 - 1370     
+#> 2 MW0700  145. -5.73       700 700 m          published bait GP… 200 - 1370     
+#> 3 MW1200  145. -5.72      1200 1200 m         published bait GP… 200 - 1370     
+#> 4 MW1700  145. -5.76      1700 1700 m         published bait GP… 1370 - 2530    
+#> 5 MW2200  145. -5.76      2200 2200 m         published bait GP… 1370 - 2530    
+#> 6 MW2700  145. -5.81      2700 2700 m         published bait GP… 2530 - 3700    
+#> 7 MW3200  145. -5.80      3200 3200 m         published bait GP… 2530 - 3700    
+#> 8 MW3700  145. -5.78      3700 3700 m         published bait GP… 2530 - 3700    
 ```

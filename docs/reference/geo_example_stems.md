@@ -44,7 +44,7 @@ Change Biology*, 21, 528-549.
 
 ``` r
 geo_example_stems()
-#> # A tibble: 120 x 8
+#> # A tibble: 120 × 8
 #>    plot    treeID stemID    gx    gy   dbh species                    status
 #>    <chr>    <int>  <int> <dbl> <dbl> <dbl> <chr>                      <chr> 
 #>  1 demo100      1      1 27.5   97.2   6.8 Homalanthus_novoguineensis A     
@@ -57,5 +57,5 @@ geo_example_stems()
 #>  8 demo100      8      8 65.4   21.9   8.8 Pometia_pinnata            A     
 #>  9 demo100      9      9 62.4   24.0   6.2 Homalanthus_novoguineensis A     
 #> 10 demo100     10     10  7.93  59.2   7.6 Pometia_pinnata            A     
-#> # i 110 more rows
+#> # ℹ 110 more rows
 ```

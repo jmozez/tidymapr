@@ -59,7 +59,7 @@ r <- terra::rast(nrows = 30, ncols = 30, xmin = 0, xmax = 3000,
   ymin = 0, ymax = 3000, crs = "EPSG:32631")
 terra::values(r) <- rep(c(1, 2), length.out = 900)
 geo_landscape(r)
-#> # A tibble: 2 x 9
+#> # A tibble: 2 × 9
 #>   class    np    ca pland   lpi area_mn    ed    ai  mesh
 #>   <dbl> <int> <dbl> <dbl> <dbl>   <dbl> <dbl> <dbl> <dbl>
 #> 1     1    15   450    50  3.33      30  96.7  50.8    15

@@ -6,9 +6,17 @@ articles:
   articles/case-sloth-sdm: case-sloth-sdm.html
   articles/gallery: gallery.html
   articles/geospatial: geospatial.html
+  articles/guide-01-install: guide-01-install.html
+  articles/guide-02-cartography: guide-02-cartography.html
+  articles/guide-03-autocorrelation: guide-03-autocorrelation.html
+  articles/guide-04-interpolation: guide-04-interpolation.html
+  articles/guide-05-sdm: guide-05-sdm.html
+  articles/guide-06-remote-sensing-terrain: guide-06-remote-sensing-terrain.html
+  articles/guide-07-patterns-landscapes: guide-07-patterns-landscapes.html
   tidymapr: tidymapr.html
   articles/tutorials: tutorials.html
-last_built: 2026-11-11T05:52Z
+  articles/user-guide: user-guide.html
+last_built: 2026-11-11T13:09Z
 urls:
   reference: https://tidymapr.in4metrix.dev/reference
   article: https://tidymapr.in4metrix.dev/articles

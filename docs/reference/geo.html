@@ -31,6 +31,18 @@ CoordinateCleaner are used only in tests when installed."><meta property="og:ima
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -67,7 +79,7 @@ CoordinateCleaner are used only in tests when installed."><meta property="og:ima
     <p>Native tidyverse-style verbs for spatial biodiversity analysis. Sites
 become <a href="https://rdrr.io/pkg/sf/man/st_as_sf.html" class="external-link">sf</a> tables, rasters join as columns, occurrence
 records are cleaned without calling CoordinateCleaner, distances feed
-<code><a href="https://rdrr.io/pkg/tidydiversity/man/beta_decay.html" class="external-link">tidydiversity::beta_decay()</a></code>, Hill numbers map with ggplot2, and Moran's I diagnoses
+<code><a href="https://tidydiversity.in4metrix.dev/reference/beta_decay.html" class="external-link">tidydiversity::beta_decay()</a></code>, Hill numbers map with ggplot2, and Moran's I diagnoses
 spatial autocorrelation without requiring spdep at run time.</p>
 <p>Suggested packages: <strong>sf</strong> (site tables and maps), <strong>terra</strong> (raster
 extraction). <strong>rgbif</strong> is optional for live downloads; <strong>spdep</strong> and
