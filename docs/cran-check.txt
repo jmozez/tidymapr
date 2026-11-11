@@ -1,4 +1,4 @@
-* using log directory ‘/home/user/chk4/tidymapr.Rcheck’
+* using log directory ‘/home/user/chk_tidymapr/tidymapr.Rcheck’
 * using R version 4.3.3 (2024-02-29)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * R was compiled by
@@ -34,11 +34,6 @@ Found the following (possibly) invalid URLs:
     Status: Error
     Message: libcurl error code 56:
       	CONNECT tunnel failed, response 403
-  URL: https://gitlab.com/jimmy.moses/tidymapr/-/issues
-    From: DESCRIPTION
-          man/tidymapr-package.Rd
-    Status: 404
-    Message: Not Found
   URL: https://lifecycle.r-lib.org/articles/stages.html#experimental
     From: README.md
     Status: Error
@@ -63,7 +58,7 @@ Packages suggested but not available for checking:
 * checking for hidden files and directories ... OK
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
-* checking whether package ‘tidymapr’ can be installed ... [28s/28s] OK
+* checking whether package ‘tidymapr’ can be installed ... [25s/26s] OK
 * used C++ compiler: ‘g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0’
 * checking installed package size ... NOTE
   installed size is  7.3Mb
@@ -91,7 +86,7 @@ Packages suggested but not available for checking:
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... [21s/21s] OK
+* checking R code for possible problems ... [19s/20s] OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd line widths ... OK
@@ -119,11 +114,11 @@ Compilation used the following non-portable flag(s):
 * checking compiled code ... OK
 * checking installed files from ‘inst/doc’ ... OK
 * checking files in ‘vignettes’ ... OK
-* checking examples ... [56s/56s] OK
-* checking examples with --run-donttest ... [76s/73s] OK
+* checking examples ... [55s/55s] OK
+* checking examples with --run-donttest ... [71s/69s] OK
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in ‘inst/doc’ ... OK
-* checking re-building of vignette outputs ... [43s/44s] OK
+* checking re-building of vignette outputs ... [43s/43s] OK
 * checking PDF version of manual ... OK
 * checking HTML version of manual ... NOTE
 Skipping checking HTML validation: no command 'tidy' found

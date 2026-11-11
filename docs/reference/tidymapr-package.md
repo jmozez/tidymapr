@@ -18,7 +18,7 @@ Useful links:
 
 - <https://gitlab.com/jimmy.moses/tidymapr>
 
-- Report bugs at <https://gitlab.com/jimmy.moses/tidymapr/-/issues>
+- Report bugs at <https://github.com/jmozez/tidymapr/issues>
 
 ## Author
 
