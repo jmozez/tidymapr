@@ -10,6 +10,7 @@ MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitlab.com/jimm
 [![Website](https://img.shields.io/badge/website-tidymapr.in4metrix.dev-349295)](https://tidymapr.in4metrix.dev)
 [![Diversity with tidydiversity](https://img.shields.io/badge/diversity%20with-tidydiversity-1A9E93)](https://tidydiversity.in4metrix.dev)
 [![Compatible with GeoSpaX](https://img.shields.io/badge/compatible%20with-GeoSpaX-11376B)](https://geospax.in4metrix.dev)
+[![CRAN checks](https://img.shields.io/badge/R%20CMD%20check-as--cran-349295)](https://tidymapr.in4metrix.dev/cran-check.txt)
 <!-- badges: end -->
 
 <div class="tmr-hero">
