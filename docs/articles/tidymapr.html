@@ -138,14 +138,14 @@ the data, and <code><a href="../reference/geo_automap.html">geo_automap_explain(
 <p><img src="tidymapr_files/figure-html/automap-1.png" class="r-plt" alt="Population of Luxembourg's cantons in five classes, with scale bar and north arrow" width="100%"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/geo_automap.html">geo_automap_explain</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 3</span></span></span>
+<span><span class="co">#&gt; # A tibble: 5 × 3</span></span>
 <span><span class="co">#&gt;   element     choice                                       reason               </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> projection  utm                                          Data span 1.5 degree…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> symbology   graduated colours (jenks, 4 classes, YlOrRd) 'POP' is numeric and…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> basemap     none                                         Polygons, rasters an…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> scale bar   pill at tr                                   Distances matter at …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> north arrow needle at tl                                 Second-emptiest corn…</span></span></code></pre></div>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;                                        &lt;chr&gt;                </span></span>
+<span><span class="co">#&gt; 1 projection  utm                                          Data span 1.5 degree…</span></span>
+<span><span class="co">#&gt; 2 symbology   graduated colours (jenks, 4 classes, YlOrRd) 'POP' is numeric and…</span></span>
+<span><span class="co">#&gt; 3 basemap     none                                         Polygons, rasters an…</span></span>
+<span><span class="co">#&gt; 4 scale bar   pill at tr                                   Distances matter at …</span></span>
+<span><span class="co">#&gt; 5 north arrow needle at tl                                 Second-emptiest corn…</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="a-layered-map">A layered map<a class="anchor" aria-label="anchor" href="#a-layered-map"></a>
@@ -153,13 +153,16 @@ the data, and <code><a href="../reference/geo_automap.html">geo_automap_explain(
 <p><code><a href="../reference/geo-map.html">geo_map()</a></code> builds a map one layer at a time, as in a
 desktop GIS. Each layer gets its own legend section with the symbol for
 its geometry: a colour bar for the raster, a box for polygons, a line
-for roads and a point for towns. <code>preset</code> gives a layer a
-standard cartographic style by name (see
-<code><a href="../reference/map_presets.html">map_presets()</a></code>).</p>
+for roads and a point for towns. Roads are drawn in two classes, minor
+roads first and main roads on top, so the network stays connected (in
+this OpenStreetMap extract each road is split into pieces of different
+classes). <code>preset</code> gives a layer a standard cartographic
+style by name (see <code><a href="../reference/map_presets.html">map_presets()</a></code>).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lux</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo-map.html">geo_map</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Luxembourg"</span>, caption <span class="op">=</span> <span class="st">"Data: terra package"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/geo-map.html">map_raster</a></span><span class="op">(</span><span class="va">elev</span>, name <span class="op">=</span> <span class="st">"Elevation (m)"</span>, palette <span class="op">=</span> <span class="st">"Terrain 2"</span>, hillshade <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/geo-map.html">map_polygons</a></span><span class="op">(</span><span class="va">cantons</span>, preset <span class="op">=</span> <span class="st">"admin"</span>, label <span class="op">=</span> <span class="st">"Cantons"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/geo-map.html">map_lines</a></span><span class="op">(</span><span class="va">roads</span><span class="op">[</span><span class="va">roads</span><span class="op">$</span><span class="va">highway</span> <span class="op">!=</span> <span class="st">"primary"</span>, <span class="op">]</span>, preset <span class="op">=</span> <span class="st">"road_minor"</span>, label <span class="op">=</span> <span class="st">"Other road"</span>, linewidth <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/geo-map.html">map_lines</a></span><span class="op">(</span><span class="va">roads</span><span class="op">[</span><span class="va">roads</span><span class="op">$</span><span class="va">highway</span> <span class="op">==</span> <span class="st">"primary"</span>, <span class="op">]</span>, preset <span class="op">=</span> <span class="st">"road_major"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/geo-map.html">map_points</a></span><span class="op">(</span><span class="va">seats</span>, preset <span class="op">=</span> <span class="st">"town"</span>, label <span class="op">=</span> <span class="st">"Canton centre"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/geo-map.html">map_labels</a></span><span class="op">(</span><span class="va">seats</span>, text <span class="op">=</span> <span class="va">NAME_2</span>, size <span class="op">=</span> <span class="fl">2.6</span><span class="op">)</span></span>

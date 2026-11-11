@@ -61,13 +61,16 @@ geo_automap_explain(m)
 `geo_map()` builds a map one layer at a time, as in a desktop GIS. Each
 layer gets its own legend section with the symbol for its geometry:
 a colour bar for the raster, a box for polygons, a line for roads and a
-point for towns. `preset` gives a layer a standard cartographic style by
+point for towns. Roads are drawn in two classes, minor roads first and
+main roads on top, so the network stays connected (in this OpenStreetMap
+extract each road is split into pieces of different classes). `preset` gives a layer a standard cartographic style by
 name (see `map_presets()`).
 
 ```{r layered, fig.alt = "Layered map of Luxembourg: elevation over a hillshade, canton boundaries, main roads, canton centres and names"}
 lux <- geo_map(title = "Luxembourg", caption = "Data: terra package") |>
   map_raster(elev, name = "Elevation (m)", palette = "Terrain 2", hillshade = TRUE) |>
   map_polygons(cantons, preset = "admin", label = "Cantons") |>
+  map_lines(roads[roads$highway != "primary", ], preset = "road_minor", label = "Other road", linewidth = 0.25) |>
   map_lines(roads[roads$highway == "primary", ], preset = "road_major") |>
   map_points(seats, preset = "town", label = "Canton centre") |>
   map_labels(seats, text = NAME_2, size = 2.6)
