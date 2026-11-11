@@ -1,4 +1,4 @@
-* using log directory ‘/home/user/chk3/tidymapr.Rcheck’
+* using log directory ‘/home/user/chk4/tidymapr.Rcheck’
 * using R version 4.3.3 (2024-02-29)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * R was compiled by
@@ -6,17 +6,12 @@
     GNU Fortran (Ubuntu 13.2.0-23ubuntu3) 13.2.0
 * running under: Ubuntu 24.04.5 LTS
 * using session charset: UTF-8
-* using options ‘--no-manual --as-cran’
+* using option ‘--as-cran’
 * checking for file ‘tidymapr/DESCRIPTION’ ... OK
-* this is package ‘tidymapr’ version ‘0.0.0.9000’
+* this is package ‘tidymapr’ version ‘0.1.0’
 * package encoding: UTF-8
-* checking CRAN incoming feasibility ... [1s/11s] NOTE
+* checking CRAN incoming feasibility ... [1s/12s] NOTE
 Maintainer: ‘Jimmy Moses <jimmy.moses@pnguot.ac.pg>’
-
-Version contains large components (0.0.0.9000)
-
-Unknown, possibly misspelled, fields in DESCRIPTION:
-  ‘Remotes’
 
 Found the following (possibly) invalid URLs:
   URL: https://chelsa-climate.org/
@@ -49,6 +44,10 @@ Found the following (possibly) invalid URLs:
     Status: Error
     Message: libcurl error code 56:
       	CONNECT tunnel failed, response 403
+  URL: https://tidymapr.in4metrix.dev/cran-check.txt
+    From: README.md
+    Status: 404
+    Message: Not Found
   URL: https://www.worldclim.org/
     From: man/geo-bioclim.Rd
     Status: Error
@@ -64,7 +63,7 @@ Packages suggested but not available for checking:
 * checking for hidden files and directories ... OK
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
-* checking whether package ‘tidymapr’ can be installed ... [26s/26s] OK
+* checking whether package ‘tidymapr’ can be installed ... [28s/28s] OK
 * used C++ compiler: ‘g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0’
 * checking installed package size ... NOTE
   installed size is  7.3Mb
@@ -92,7 +91,7 @@ Packages suggested but not available for checking:
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... [19s/19s] OK
+* checking R code for possible problems ... [21s/21s] OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd line widths ... OK
@@ -120,12 +119,15 @@ Compilation used the following non-portable flag(s):
 * checking compiled code ... OK
 * checking installed files from ‘inst/doc’ ... OK
 * checking files in ‘vignettes’ ... OK
-* checking examples ... [52s/52s] OK
-* checking examples with --run-donttest ... [70s/68s] OK
+* checking examples ... [56s/56s] OK
+* checking examples with --run-donttest ... [76s/73s] OK
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in ‘inst/doc’ ... OK
-* checking re-building of vignette outputs ... [45s/45s] OK
+* checking re-building of vignette outputs ... [43s/44s] OK
+* checking PDF version of manual ... OK
+* checking HTML version of manual ... NOTE
+Skipping checking HTML validation: no command 'tidy' found
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 4 NOTEs
+Status: 5 NOTEs

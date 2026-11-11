@@ -8,7 +8,7 @@ authors:
     given-names: Jimmy
     email: jimmy.moses@pnguot.ac.pg
     affiliation: "PNG University of Technology"
-version: "0.0.0.9000"
+version: "0.1.0"
 date-released: "2026-11-08"
 license: MIT
 repository-code: "https://gitlab.com/jimmy.moses/tidymapr"
