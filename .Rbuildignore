@@ -28,3 +28,4 @@
 ^inst/logo$
 ^man/figures/readme-.*\.png$
 ^man/figures/gallery-.*\.png$
+^\.vercelignore$
