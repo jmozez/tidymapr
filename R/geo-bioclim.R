@@ -44,6 +44,7 @@
 #' @examplesIf requireNamespace("terra", quietly = TRUE)
 #' geo_bioclim_vars()
 #'
+#' \donttest{
 #' # Offline: build a tiny stand-in raster and treat it as bio1
 #' r <- terra::rast(ncols = 10, nrows = 10, xmin = 144, xmax = 146,
 #'   ymin = -7, ymax = -5, crs = "EPSG:4326")
@@ -52,6 +53,7 @@
 #' tmp <- tempfile(fileext = ".tif")
 #' terra::writeRaster(r, tmp, overwrite = TRUE)
 #' geo_worldclim(vars = "bio1", path = tmp, download = FALSE)
+#' }
 NULL
 
 #' @rdname geo-bioclim

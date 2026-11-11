@@ -609,21 +609,10 @@ tmr_map_draw_feature <- function(p, ly, crs, ord) {
       values <- stats::setNames(tmr_ramp(ly$palette, gr, length(levs)), levs)
       d$.layer <- d$.class
     } else {
-      levs <- if (is.factor(v)) {
-        intersect(levels(v), unique(as.character(v)))
-      } else {
-        sort(unique(as.character(v)))
-      }
-      named <- !is.null(names(ly$palette)) && all(levs %in% names(ly$palette))
-      pal <- if (named) {
-        # A named palette maps each category to its own colour
-        unname(ly$palette[levs])
-      } else if (identical(ly$palette, "auto")) {
-        tmr_palette(length(levs))
-      } else {
-        tmr_ramp(ly$palette, NULL, length(levs))
-      }
-      values <- stats::setNames(pal, levs)
+      levs <- tmr_levels(v)
+      values <- tmr_category_colours(ly$palette, levs, function(n) {
+        if (identical(ly$palette, "auto")) tmr_palette(n) else tmr_ramp(ly$palette, NULL, n)
+      })
       d$.layer <- factor(as.character(v), levels = levs)
     }
     mapping <- tmr_aes_layer(aes_name)

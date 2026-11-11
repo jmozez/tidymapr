@@ -1,4 +1,4 @@
-* using log directory ‘/home/user/chk_tidymapr/tidymapr.Rcheck’
+* using log directory ‘/home/user/chk6/tidymapr.Rcheck’
 * using R version 4.3.3 (2024-02-29)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * R was compiled by
@@ -10,7 +10,7 @@
 * checking for file ‘tidymapr/DESCRIPTION’ ... OK
 * this is package ‘tidymapr’ version ‘0.1.0’
 * package encoding: UTF-8
-* checking CRAN incoming feasibility ... [1s/12s] NOTE
+* checking CRAN incoming feasibility ... [2s/16s] NOTE
 Maintainer: ‘Jimmy Moses <jimmy.moses@pnguot.ac.pg>’
 
 Found the following (possibly) invalid URLs:
@@ -34,15 +34,27 @@ Found the following (possibly) invalid URLs:
     Status: Error
     Message: libcurl error code 56:
       	CONNECT tunnel failed, response 403
+  URL: https://github.com/jmozez/tidymapr/actions/workflows/lint.yaml
+    From: README.md
+    Status: 403
+    Message: Forbidden
+  URL: https://github.com/jmozez/tidymapr/actions/workflows/R-CMD-check.yaml
+    From: README.md
+    Status: 403
+    Message: Forbidden
+  URL: https://github.com/jmozez/tidymapr/actions/workflows/test-coverage.yaml
+    From: README.md
+    Status: 403
+    Message: Forbidden
+  URL: https://github.com/jmozez/tidymapr/actions/workflows/vercel.yaml
+    From: README.md
+    Status: 403
+    Message: Forbidden
   URL: https://lifecycle.r-lib.org/articles/stages.html#experimental
     From: README.md
     Status: Error
     Message: libcurl error code 56:
       	CONNECT tunnel failed, response 403
-  URL: https://tidymapr.in4metrix.dev/cran-check.txt
-    From: README.md
-    Status: 404
-    Message: Not Found
   URL: https://www.worldclim.org/
     From: man/geo-bioclim.Rd
     Status: Error
@@ -58,7 +70,7 @@ Packages suggested but not available for checking:
 * checking for hidden files and directories ... OK
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
-* checking whether package ‘tidymapr’ can be installed ... [25s/26s] OK
+* checking whether package ‘tidymapr’ can be installed ... [36s/37s] OK
 * used C++ compiler: ‘g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0’
 * checking installed package size ... NOTE
   installed size is  7.3Mb
@@ -86,7 +98,7 @@ Packages suggested but not available for checking:
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... [19s/20s] OK
+* checking R code for possible problems ... [28s/28s] OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd line widths ... OK
@@ -114,15 +126,18 @@ Compilation used the following non-portable flag(s):
 * checking compiled code ... OK
 * checking installed files from ‘inst/doc’ ... OK
 * checking files in ‘vignettes’ ... OK
-* checking examples ... [55s/55s] OK
-* checking examples with --run-donttest ... [71s/69s] OK
+* checking examples ... [68s/68s] NOTE
+Examples with CPU (user + system) or elapsed time > 5s
+             user system elapsed
+geo-bioclim 5.156  0.068   5.264
+* checking examples with --run-donttest ... [92s/89s] OK
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in ‘inst/doc’ ... OK
-* checking re-building of vignette outputs ... [43s/43s] OK
+* checking re-building of vignette outputs ... [62s/62s] OK
 * checking PDF version of manual ... OK
 * checking HTML version of manual ... NOTE
 Skipping checking HTML validation: no command 'tidy' found
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 5 NOTEs
+Status: 6 NOTEs

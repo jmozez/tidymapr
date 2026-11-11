@@ -198,13 +198,10 @@ geo_automap <- function(x,
       "Counts on points: circle area proportional to the count."
     )
   } else if (!is.null(col)) {
-    lev <- sort(unique(as.character(vals)))
-    pal <- if (identical(palette, "auto")) {
-      tmr_palette(length(lev))
-    } else {
-      tmr_ramp(palette, NULL, length(lev))
-    }
-    pal <- stats::setNames(pal, lev)
+    lev <- tmr_levels(vals)
+    pal <- tmr_category_colours(palette, lev, function(n) {
+      if (identical(palette, "auto")) tmr_palette(n) else tmr_ramp(palette, NULL, n)
+    })
     x$.class <- factor(as.character(vals), levels = lev)
     p <- ggplot2::ggplot(x) +
       tmr_feature_layer(geom_kind, ".class", feat_aes) +

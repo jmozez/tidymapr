@@ -35,10 +35,19 @@ geo_mem <- function(data,
                     thresh = NULL,
                     method = c("haversine", "euclidean"),
                     positive_only = TRUE) {
+  if (inherits(data, "sf")) {
+    planar <- identical(rlang::arg_match(method, c("haversine", "euclidean")), "euclidean")
+    data <- tmr_sf_coords(data, planar = planar)
+    lon_q <- rlang::quo(!!rlang::sym(".lon"))
+    lat_q <- rlang::quo(!!rlang::sym(".lat"))
+  } else {
+    lon_q <- enquo(lon)
+    lat_q <- enquo(lat)
+  }
   method <- rlang::arg_match(method)
   tmr_check_data(data)
-  lon_col <- tmr_pick(enquo(lon), data, "lon")
-  lat_col <- tmr_pick(enquo(lat), data, "lat")
+  lon_col <- tmr_pick(lon_q, data, "lon", lonlat = method == "haversine")
+  lat_col <- tmr_pick(lat_q, data, "lat", lonlat = method == "haversine")
   site_q <- enquo(site)
   site_col <- if (quo_is_null(site_q)) NULL else tmr_pick(site_q, data, "site")
 

@@ -64,12 +64,22 @@
 <h2 class="pkg-version" data-toc-text="0.1.0" id="tidymapr-010">tidymapr 0.1.0<a class="anchor" aria-label="anchor" href="#tidymapr-010"></a></h2>
 <ul><li>First CRAN release.</li>
 </ul><div class="section level3">
+<h3 id="input-safety-november-0-1-0">Input safety (November 2026)<a class="anchor" aria-label="anchor" href="#input-safety-november-0-1-0"></a></h3>
+<p>An audit of every function that takes coordinates or colours found two classes of silent error. The statistics themselves were correct (they match spdep, gstat, dbscan and landscapemetrics); the problem was how input reached them.</p>
+<ul><li>
+<strong>Coordinates.</strong> Coordinate columns of a plain data frame were always read as longitude and latitude in degrees. Projected coordinates (metres, e.g. UTM) given that way were silently treated as degrees, giving wrong distances and therefore wrong results in <code><a href="../reference/geo_moran.html">geo_moran()</a></code>, <code><a href="../reference/geo-local.html">geo_hotspot()</a></code>, <code><a href="../reference/geo-local.html">geo_lisa()</a></code>, <code><a href="../reference/geo_dbscan.html">geo_dbscan()</a></code>, <code><a href="../reference/geo_mem.html">geo_mem()</a></code>, <code><a href="../reference/geo_distance.html">geo_distance()</a></code>, <code><a href="../reference/geo_decay.html">geo_decay()</a></code>, <code><a href="../reference/geo_rarefy_spatial.html">geo_rarefy_spatial()</a></code>, <code><a href="../reference/geo-vector.html">geo_buffer()</a></code>, <code><a href="../reference/geo-vector.html">geo_centroid()</a></code> and others. Now:
+<ul><li>coordinate columns outside the longitude/latitude range are refused with an error that shows how to convert them to an <code>sf</code> table with their CRS (exceptions: <code><a href="../reference/geo_as_sf.html">geo_as_sf()</a></code> and <code><a href="../reference/geo-map-interop.html">as_spat_raster()</a></code> with a projected <code>crs</code>, and <code>method = "euclidean"</code> in <code><a href="../reference/geo_distance.html">geo_distance()</a></code>, <code><a href="../reference/geo_mem.html">geo_mem()</a></code> and <code><a href="../reference/geo_decay.html">geo_decay()</a></code>, which are meant for planar coordinates);</li>
+<li>
+<code><a href="../reference/geo_moran.html">geo_moran()</a></code>, <code><a href="../reference/geo_mem.html">geo_mem()</a></code>, <code><a href="../reference/geo_distance.html">geo_distance()</a></code>, <code><a href="../reference/geo_decay.html">geo_decay()</a></code> and <code><a href="../reference/geo_rarefy_spatial.html">geo_rarefy_spatial()</a></code> now accept <code>sf</code> tables, like the other functions;</li>
+<li>a new test checks that every distance-based function gives the same answer for longitude/latitude columns, a longitude/latitude <code>sf</code> table and a projected <code>sf</code> table.</li>
+</ul>
+Results from <code>sf</code> input and from genuine longitude/latitude columns were always correct and do not change. Analyses that passed projected coordinates as plain columns should be re-run.</li>
+<li>
+<strong>Colours.</strong> A named <code>palette</code> for categories (e.g. <code>c(hot = "red", cold = "blue")</code>) was applied in alphabetical order of the categories instead of by name in <code><a href="../reference/geo-map.html">map_points()</a></code>, <code><a href="../reference/geo-map.html">map_lines()</a></code>, <code><a href="../reference/geo-map.html">map_polygons()</a></code>, <code><a href="../reference/geo_webmap.html">geo_webmap()</a></code>, <code><a href="../reference/geo_automap.html">geo_automap()</a></code>, <code><a href="../reference/plot_sites.html">plot_sites()</a></code> and <code><a href="../reference/plot_topo.html">plot_topo()</a></code>. All now colour each category by its name; a named palette that misses a category is an error, and factor columns keep their level order.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="user-guide-november-0-1-0">User guide (November 2026)<a class="anchor" aria-label="anchor" href="#user-guide-november-0-1-0"></a></h3>
 <ul><li>A seven-chapter User guide on the website: installing and running tidymapr in RStudio; cartography concepts; spatial autocorrelation; interpolation and kriging; species distribution models; remote sensing and terrain; point clusters and landscape metrics. Each chapter gives the concept and theory, runnable code on real data, figures and tables, how to interpret them and a model paragraph for reporting.</li>
-<li>
-<code><a href="../reference/geo_moran.html">geo_moran()</a></code> accepts <code>sf</code> tables and projected coordinates: distances are now great-circle metres for longitude/latitude and straight-line distances in the CRS units otherwise. Before, projected coordinates were read as degrees, which hid real autocorrelation.</li>
-<li>
-<code><a href="../reference/geo-map.html">map_points()</a></code>, <code><a href="../reference/geo-map.html">map_lines()</a></code> and <code><a href="../reference/geo-map.html">map_polygons()</a></code> honour a named <code>palette</code> for categories (for example <code>c(hot = "red", cold = "blue")</code>); before, the colours were assigned in alphabetical order of the categories, whatever their names. Factor columns keep their level order.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-documentation-november-0-1-0">New documentation (November 2026)<a class="anchor" aria-label="anchor" href="#new-documentation-november-0-1-0"></a></h3>
@@ -172,7 +182,7 @@
 <ul><li>topographic and street tiles: <code>"topo"</code> (OpenTopoMap, with contours and hillshade), <code>"osm_hot"</code> (OpenStreetMap Humanitarian), <code>"carto_voyager"</code>, <code>"esri_street"</code>, <code>"esri_relief"</code> (shaded relief), <code>"esri_terrain"</code> and <code>"esri_natgeo"</code> (National Geographic), alongside the existing <code>"esri"</code>, <code>"esri_topo"</code>, <code>"osm"</code>, <code>"carto"</code> and <code>"carto_dark"</code>;</li>
 <li>built from an elevation model: <code>"hillshade"</code>, <code>"contour"</code> (labelled contour lines) and <code>"terrain"</code> (both). Pass your own DEM with <code>dem</code> (works offline), or let <code><a href="../reference/geo_elevation.html">geo_elevation()</a></code> download one for the map extent; set the contour interval with <code>contour_breaks</code>.</li>
 </ul></li>
-<li>Map furniture in the GeoSpaX styles, for any ggplot map with <code>coord_sf()</code>. You pick the style:
+<li>Map furniture in the GeoSpaX styles, for any ggplot map with <code><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">coord_sf()</a></code>. You pick the style:
 <ul><li>
 <code><a href="../reference/map-furniture.html">annotation_scale_bar()</a></code>: <code>"pill"</code>, <code>"checker"</code>, <code>"line"</code> or <code>"ruler"</code>, in <code>"metric"</code>, <code>"imperial"</code> or <code>"both"</code> units. Its length is measured on the ground when the map is drawn, so it is right on longitude/latitude and projected maps and in every facet.</li>
 <li>

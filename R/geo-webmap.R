@@ -180,13 +180,10 @@ tmr_web_colours <- function(ly, d) {
     values <- stats::setNames(tmr_ramp(ly$palette, gr, length(levs)), levs)
     colour <- unname(values[as.character(cls$.class)])
   } else {
-    levs <- sort(unique(as.character(v)))
-    pal <- if (identical(ly$palette, "auto")) {
-      tmr_palette(length(levs))
-    } else {
-      tmr_ramp(ly$palette, NULL, length(levs))
-    }
-    values <- stats::setNames(pal, levs)
+    levs <- tmr_levels(v)
+    values <- tmr_category_colours(ly$palette, levs, function(n) {
+      if (identical(ly$palette, "auto")) tmr_palette(n) else tmr_ramp(ly$palette, NULL, n)
+    })
     colour <- unname(values[as.character(v)])
   }
   list(colour = colour, values = values, title = ly$group %||% ly$col)

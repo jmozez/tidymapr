@@ -248,8 +248,7 @@ plot_sites <- function(data,
           levs <- levs[order(nums)]
         }
       }
-      cols <- tmr_palette(length(levs), palette = palette)
-      names(cols) <- levs
+      cols <- tmr_category_colours(palette, levs, function(n) tmr_palette(n, palette = palette))
       if (use_fill) {
         p <- p + ggplot2::scale_fill_manual(
           name = leg_title %||% col_nm, values = cols, breaks = levs,

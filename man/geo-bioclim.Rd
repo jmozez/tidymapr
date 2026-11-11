@@ -102,6 +102,7 @@ resolution for the earth's land surface areas. \emph{Scientific Data}, 4,
 \dontshow{if (requireNamespace("terra", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 geo_bioclim_vars()
 
+\donttest{
 # Offline: build a tiny stand-in raster and treat it as bio1
 r <- terra::rast(ncols = 10, nrows = 10, xmin = 144, xmax = 146,
   ymin = -7, ymax = -5, crs = "EPSG:4326")
@@ -110,5 +111,6 @@ terra::values(r) <- 20
 tmp <- tempfile(fileext = ".tif")
 terra::writeRaster(r, tmp, overwrite = TRUE)
 geo_worldclim(vars = "bio1", path = tmp, download = FALSE)
+}
 \dontshow{\}) # examplesIf}
 }

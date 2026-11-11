@@ -4,6 +4,77 @@
 
 - First CRAN release.
 
+### Input safety (November 2026)
+
+An audit of every function that takes coordinates or colours found two
+classes of silent error. The statistics themselves were correct (they
+match spdep, gstat, dbscan and landscapemetrics); the problem was how
+input reached them.
+
+- **Coordinates.** Coordinate columns of a plain data frame were always
+  read as longitude and latitude in degrees. Projected coordinates
+  (metres, e.g. UTM) given that way were silently treated as degrees,
+  giving wrong distances and therefore wrong results in
+  [`geo_moran()`](https://tidymapr.in4metrix.dev/reference/geo_moran.md),
+  [`geo_hotspot()`](https://tidymapr.in4metrix.dev/reference/geo-local.md),
+  [`geo_lisa()`](https://tidymapr.in4metrix.dev/reference/geo-local.md),
+  [`geo_dbscan()`](https://tidymapr.in4metrix.dev/reference/geo_dbscan.md),
+  [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md),
+  [`geo_distance()`](https://tidymapr.in4metrix.dev/reference/geo_distance.md),
+  [`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md),
+  [`geo_rarefy_spatial()`](https://tidymapr.in4metrix.dev/reference/geo_rarefy_spatial.md),
+  [`geo_buffer()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md),
+  [`geo_centroid()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md)
+  and others. Now:
+  - coordinate columns outside the longitude/latitude range are refused
+    with an error that shows how to convert them to an `sf` table with
+    their CRS (exceptions:
+    [`geo_as_sf()`](https://tidymapr.in4metrix.dev/reference/geo_as_sf.md)
+    and
+    [`as_spat_raster()`](https://tidymapr.in4metrix.dev/reference/geo-map-interop.md)
+    with a projected `crs`, and `method = "euclidean"` in
+    [`geo_distance()`](https://tidymapr.in4metrix.dev/reference/geo_distance.md),
+    [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md)
+    and
+    [`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md),
+    which are meant for planar coordinates);
+  - [`geo_moran()`](https://tidymapr.in4metrix.dev/reference/geo_moran.md),
+    [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md),
+    [`geo_distance()`](https://tidymapr.in4metrix.dev/reference/geo_distance.md),
+    [`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md)
+    and
+    [`geo_rarefy_spatial()`](https://tidymapr.in4metrix.dev/reference/geo_rarefy_spatial.md)
+    now accept `sf` tables, like the other functions;
+  - a new test checks that every distance-based function gives the same
+    answer for longitude/latitude columns, a longitude/latitude `sf`
+    table and a projected `sf` table.
+
+  Results from `sf` input and from genuine longitude/latitude columns
+  were always correct and do not change. Analyses that passed projected
+  coordinates as plain columns should be re-run.
+- **Colours.** A named `palette` for categories (e.g.
+  `c(hot = "red", cold = "blue")`) was applied in alphabetical order of
+  the categories instead of by name in
+  [`map_points()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`map_lines()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`map_polygons()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`geo_webmap()`](https://tidymapr.in4metrix.dev/reference/geo_webmap.md),
+  [`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md),
+  [`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
+  and
+  [`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md).
+  All now colour each category by its name; a named palette that misses
+  a category is an error, and factor columns keep their level order.
+
+### User guide (November 2026)
+
+- A seven-chapter User guide on the website: installing and running
+  tidymapr in RStudio; cartography concepts; spatial autocorrelation;
+  interpolation and kriging; species distribution models; remote sensing
+  and terrain; point clusters and landscape metrics. Each chapter gives
+  the concept and theory, runnable code on real data, figures and
+  tables, how to interpret them and a model paragraph for reporting.
+
 ### New documentation (November 2026)
 
 - The website is rewritten around the current features: a new Get

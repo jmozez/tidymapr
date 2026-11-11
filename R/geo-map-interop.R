@@ -117,8 +117,9 @@ as_spat_raster.data.frame <- function(x,
                                       ...) {
   rlang::check_installed("terra")
   tmr_check_data(x)
-  lon_col <- tmr_pick(enquo(lon), x, "lon")
-  lat_col <- tmr_pick(enquo(lat), x, "lat")
+  crs_ll <- tmr_crs_is_lonlat(crs)
+  lon_col <- tmr_pick(enquo(lon), x, "lon", lonlat = crs_ll)
+  lat_col <- tmr_pick(enquo(lat), x, "lat", lonlat = crs_ll)
   val_q <- enquo(value)
   if (quo_is_null(val_q)) {
     candidates <- c("suitability", "diversity", "estimate", "elevation", "value")
