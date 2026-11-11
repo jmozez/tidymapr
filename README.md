@@ -70,11 +70,11 @@ species distribution models and forest plot maps with tidydiversity.
 
 ## Installation
 
-Install the development version from GitLab:
+Install the development version from GitHub:
 
 ``` r
 # install.packages("pak")
-pak::pak("gitlab::jimmy.moses/tidymapr")
+pak::pak("jmozez/tidymapr")
 ```
 
 The source code lives on GitHub, <https://github.com/jmozez/tidymapr>, with a mirror on GitLab, <https://gitlab.com/jimmy.moses/tidymapr>.

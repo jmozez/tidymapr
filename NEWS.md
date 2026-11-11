@@ -183,7 +183,7 @@
   Terrain and hydrology, Remote sensing, Data input and output, and
   Ecology with tidydiversity.
 
-Install the latest version with `pak::pak("gitlab::jimmy.moses/tidymapr")`.
+Install the latest version with `pak::pak("jmozez/tidymapr")`.
 
 ## New maps (November 2026)
 
