@@ -84,14 +84,7 @@ jobs:
           key: ${{ steps.apt.outputs.key }}
 
       - name: Build site
-        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        run: pkgdown::build_site(new_process = FALSE, install = FALSE, preview = FALSE)
+        # The site is published to Vercel by vercel.yaml; this job checks that it builds.
         shell: Rscript {0}
 
-      - name: Deploy to GitHub pages
-        if: github.event_name != 'pull_request'
-        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
-        with:
-          clean: true
-          single-commit: true
-          branch: gh-pages
-          folder: docs
