@@ -19,7 +19,7 @@ verb takes a data frame and returns a tibble, an \code{sf} table, a
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://tidymapr-e72c18.gitlab.io/}
+  \item \url{https://tidymapr.in4metrix.dev/}
   \item \url{https://gitlab.com/jimmy.moses/tidymapr}
   \item Report bugs at \url{https://gitlab.com/jimmy.moses/tidymapr/-/issues}
 }

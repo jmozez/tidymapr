@@ -1,9 +1,8 @@
 # Basemaps for study-site and diversity maps
 
 `geo_basemap()` prepares a basemap for
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md)
-and
-[`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md)
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
+and [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md)
 without sending users to ggmap or other non-tidy tools.
 
 **Online tiles** (free, no API key; cached on disk):
@@ -26,7 +25,7 @@ without sending users to ggmap or other non-tidy tools.
 `"hillshade"` (multi-directional hillshade), `"contour"` (labelled
 contour lines) and `"terrain"` (both). Without `dem`, the elevation
 model is downloaded with
-[`geo_elevation()`](https://tidymapr-e72c18.gitlab.io/reference/geo_elevation.md)
+[`geo_elevation()`](https://tidymapr.in4metrix.dev/reference/geo_elevation.md)
 for the map extent.
 
 **Other:** `"coast"` draws Natural Earth land polygons over an ocean
@@ -91,7 +90,7 @@ geo_basemap(
 
   For `"hillshade"`, `"contour"` and `"terrain"`: an elevation
   `SpatRaster` or file path. When `NULL`, one is downloaded with
-  [`geo_elevation()`](https://tidymapr-e72c18.gitlab.io/reference/geo_elevation.md).
+  [`geo_elevation()`](https://tidymapr.in4metrix.dev/reference/geo_elevation.md).
 
 - contour_breaks:
 
@@ -104,9 +103,8 @@ A list with class `tmr_geo_basemap` containing ggplot2 layers and
 metadata (`provider`, `offline`). Add it to a ggplot with `+` via
 [`ggplot2::ggplot()`](https://rdrr.io/pkg/ggplot2/man/ggplot.html)
 helpers, or pass the same `basemap` value to
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md)
-/
-[`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md).
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
+/ [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md).
 
 ## Examples
 

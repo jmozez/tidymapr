@@ -3,8 +3,8 @@
 Figures with more than one map, ready for a paper or report:
 
 - `geo_panels()` arranges maps (from
-  [`geo_map()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md),
-  [`geo_automap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md)
+  [`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md)
   or any ggplot) in a grid with panel tags such as `(a)`, `(b)`. Legends
   that are the same in every panel are collected into one.
 
@@ -18,7 +18,7 @@ Figures with more than one map, ready for a paper or report:
 
 All three need the patchwork package; the result is a patchwork object
 that prints as one figure and saves with
-[`geo_save()`](https://tidymapr-e72c18.gitlab.io/reference/geo_save.md).
+[`geo_save()`](https://tidymapr.in4metrix.dev/reference/geo_save.md).
 
 ## Usage
 
@@ -61,8 +61,8 @@ geo_inset(main, inset, location = "auto", size = 0.3)
 - ...:
 
   Maps: `tmr_map` objects from
-  [`geo_map()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md)
-  or ggplots.
+  [`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md) or
+  ggplots.
 
 - ncol, nrow:
 
@@ -113,7 +113,7 @@ geo_inset(main, inset, location = "auto", size = 0.3)
 - n, style:
 
   Shared classification, passed to
-  [`geo_classify()`](https://tidymapr-e72c18.gitlab.io/reference/geo_breaks.md).
+  [`geo_classify()`](https://tidymapr.in4metrix.dev/reference/geo_breaks.md).
 
 - palette:
 
@@ -154,9 +154,9 @@ A patchwork object (`geo_panels()`, `geo_inset()`) or a ggplot
 
 ## See also
 
-[`geo_map()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md),
-[`geo_automap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md),
-[`geo_save()`](https://tidymapr-e72c18.gitlab.io/reference/geo_save.md).
+[`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+[`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md),
+[`geo_save()`](https://tidymapr.in4metrix.dev/reference/geo_save.md).
 
 ## Examples
 

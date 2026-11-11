@@ -3,7 +3,7 @@
 A map in the style of a desktop GIS layout: a stack of layers, each with
 its own legend section and the right symbol for its geometry. Start with
 `geo_map()`, add layers with the pipe, and print (or
-[`geo_save()`](https://tidymapr-e72c18.gitlab.io/reference/geo_save.md))
+[`geo_save()`](https://tidymapr.in4metrix.dev/reference/geo_save.md))
 the result:
 
 - `map_raster()` draws a continuous surface (elevation, rainfall, a
@@ -163,15 +163,15 @@ map_build(map)
   or UTM when that is longitude/latitude), an EPSG code, an
   [`sf::st_crs()`](https://rdrr.io/pkg/sf/man/st_crs.html) object, or a
   projection name understood by
-  [`geo_crs()`](https://tidymapr-e72c18.gitlab.io/reference/map-projection.md)
+  [`geo_crs()`](https://tidymapr.in4metrix.dev/reference/map-projection.md)
   such as `"equal_earth"` or `"laea"`.
 
 - scale_bar, north_arrow:
 
   Style of the scale bar and north arrow (see
-  [`annotation_scale_bar()`](https://tidymapr-e72c18.gitlab.io/reference/map-furniture.md)
+  [`annotation_scale_bar()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md)
   and
-  [`annotation_north_arrow()`](https://tidymapr-e72c18.gitlab.io/reference/map-furniture.md));
+  [`annotation_north_arrow()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md));
   `FALSE` to leave them out.
 
 - graticule:
@@ -236,7 +236,7 @@ map_build(map)
 
   For numeric columns, the number of classes and the classification
   style, passed to
-  [`geo_classify()`](https://tidymapr-e72c18.gitlab.io/reference/geo_breaks.md).
+  [`geo_classify()`](https://tidymapr.in4metrix.dev/reference/geo_breaks.md).
 
 - border, linewidth, linetype, alpha:
 
@@ -248,7 +248,7 @@ map_build(map)
   `"protected_area"` (polygons), `"river"`, `"road_major"`, `"railway"`,
   `"boundary"` (lines) or `"town"`, `"peak"`, `"sample_site"` (points);
   see
-  [`map_presets()`](https://tidymapr-e72c18.gitlab.io/reference/map_presets.md).
+  [`map_presets()`](https://tidymapr.in4metrix.dev/reference/map_presets.md).
   Arguments you give yourself override the preset.
 
 - shape, size:
@@ -337,11 +337,11 @@ add ggplot2 layers, scales and themes.
 
 ## See also
 
-[`geo_automap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md)
+[`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md)
 for a one-call map of one layer;
-[`map_legend()`](https://tidymapr-e72c18.gitlab.io/reference/map-furniture.md)
+[`map_legend()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md)
 and
-[`theme_tidymapr()`](https://tidymapr-e72c18.gitlab.io/reference/theme_tidymapr.md)
+[`theme_tidymapr()`](https://tidymapr.in4metrix.dev/reference/theme_tidymapr.md)
 to restyle the result of `map_build()`.
 
 ## Examples

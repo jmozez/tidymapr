@@ -6,14 +6,14 @@ colour and shape, non-overlapping labels, an optional raster or
 coastline backdrop, faceting, a simple scale bar and a north arrow. The
 result is a ggplot object, so further layers can be added. Diversity
 values mapped as a continuous fill still use
-[`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md);
+[`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md);
 this verb is for the study-site map that papers usually need first.
 
 The Mt Wilhelm ant data
 ([tidydiversity::png_ants](https://rdrr.io/pkg/tidydiversity/man/png_ants.html))
 come with published bait GPS positions in
-[png_ants_sites](https://tidymapr-e72c18.gitlab.io/reference/png_ants_sites.md);
-[`geo_example_sites()`](https://tidymapr-e72c18.gitlab.io/reference/geo_example_sites.md)
+[png_ants_sites](https://tidymapr.in4metrix.dev/reference/png_ants_sites.md);
+[`geo_example_sites()`](https://tidymapr.in4metrix.dev/reference/geo_example_sites.md)
 returns them as one point per elevation band, ready to join by `site`.
 
 SDM tools such as biomod2 and Maxent are out of scope here; they can be
@@ -84,7 +84,7 @@ plot_sites(
 
   Basemap for the figure: `"none"`, `"coast"`, `"osm"`, `"carto"`,
   `"carto_dark"`, `"esri"`, a `SpatRaster`, or a file path. See
-  [`geo_basemap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_basemap.md).
+  [`geo_basemap()`](https://tidymapr.in4metrix.dev/reference/geo_basemap.md).
   Online tiles fall back to `"coast"` offline.
 
 - raster:
@@ -119,7 +119,7 @@ plot_sites(
   `FALSE` none, or name a style: scale bars `"pill"`, `"checker"`,
   `"line"`, `"ruler"`; north arrows `"needle"`, `"compass"`, `"rose"`,
   `"minimal"` (see
-  [`annotation_scale_bar()`](https://tidymapr-e72c18.gitlab.io/reference/map-furniture.md)).
+  [`annotation_scale_bar()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md)).
 
 - scale_bar_km:
 
@@ -155,12 +155,12 @@ plot_sites(
   free corner that does not overlap sites, the scale bar, north arrow or
   inside legend. When GADM data are cached, the PNG inset uses province
   boundaries from
-  [`geo_gadm()`](https://tidymapr-e72c18.gitlab.io/reference/geo_gadm.md).
+  [`geo_gadm()`](https://tidymapr.in4metrix.dev/reference/geo_gadm.md).
 
 - admin:
 
   Optional administrative boundaries: an `sf` object (for example from
-  [`geo_gadm()`](https://tidymapr-e72c18.gitlab.io/reference/geo_gadm.md)),
+  [`geo_gadm()`](https://tidymapr.in4metrix.dev/reference/geo_gadm.md)),
   or an ISO3 country code that is fetched with
   `geo_gadm(admin, level = admin_level)`. Drawn as borders, or filled by
   province when `admin_fill` is `TRUE`.

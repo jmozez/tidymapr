@@ -98,7 +98,7 @@ predict(object, newdata, what = c("mean", "sd", "all"), ...)
 - ...:
 
   Passed on to
-  [`sdm_maxent()`](https://tidymapr-e72c18.gitlab.io/reference/sdm_maxent.md).
+  [`sdm_maxent()`](https://tidymapr.in4metrix.dev/reference/sdm_maxent.md).
 
 - object:
 
@@ -143,7 +143,7 @@ species presence-only data with random forests. Ecography 44:1731-1742.
 
 ## See also
 
-[`sdm_maxent()`](https://tidymapr-e72c18.gitlab.io/reference/sdm_maxent.md).
+[`sdm_maxent()`](https://tidymapr.in4metrix.dev/reference/sdm_maxent.md).
 
 ## Examples
 

@@ -1,10 +1,9 @@
 # Standard cartographic symbols
 
 `map_presets()` lists the named symbols that
-[`map_polygons()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md),
-[`map_lines()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md)
-and
-[`map_points()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md)
+[`map_polygons()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+[`map_lines()`](https://tidymapr.in4metrix.dev/reference/geo-map.md) and
+[`map_points()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
 accept as `preset`: the colours, line widths, dash patterns and point
 shapes of topographic and atlas maps (water in blue, forest in green,
 administrative boundaries dashed, railways in black with long dashes,
@@ -31,7 +30,7 @@ A tibble with `kind`, `preset`, `label` and the style values.
 
 ## See also
 
-[`geo_map()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md).
+[`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md).
 
 ## Examples
 

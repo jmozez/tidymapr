@@ -1,9 +1,9 @@
 # Interactive web maps
 
 `geo_webmap()` turns a map built with
-[`geo_map()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md)
-(or a single `sf` or `SpatRaster` layer) into an interactive web map:
-pan and zoom, a choice of basemaps, layers that switch on and off, the
+[`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md) (or a
+single `sf` or `SpatRaster` layer) into an interactive web map: pan and
+zoom, a choice of basemaps, layers that switch on and off, the
 attributes of any feature on click, a scale bar and a legend. Every
 layer keeps the symbols of the printed map: the same colours, classes,
 presets, line dashes and point shapes, and the same legend sections.
@@ -31,8 +31,8 @@ geo_webmap(
 - x:
 
   A map from
-  [`geo_map()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md),
-  an `sf` table, or a `SpatRaster`.
+  [`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md), an
+  `sf` table, or a `SpatRaster`.
 
 - file:
 
@@ -64,8 +64,8 @@ the page in a browser (or the RStudio viewer) when interactive. With
 
 ## See also
 
-[`geo_map()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md)
-for the printed map.
+[`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md) for
+the printed map.
 
 ## Examples
 

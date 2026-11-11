@@ -1,10 +1,9 @@
 # Hand off spatial objects to tmap, leaflet and friends
 
 tidymapr keeps mapping in ggplot via
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md),
-[`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md)
-and
-[`plot_topo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_topo.md),
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md),
+[`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md) and
+[`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md),
 but never blocks **tmap**, **leaflet** or other spatial viewers. These
 helpers return plain [sf](https://rdrr.io/pkg/sf/man/sf.html) and
 [terra](https://rdrr.io/pkg/terra/man/SpatRaster-class.html) objects
@@ -60,7 +59,7 @@ as_spat_raster(x, ...)
 - ...:
 
   Passed to
-  [`geo_as_sf()`](https://tidymapr-e72c18.gitlab.io/reference/geo_as_sf.md)
+  [`geo_as_sf()`](https://tidymapr.in4metrix.dev/reference/geo_as_sf.md)
   or ignored.
 
 - lon, lat:

@@ -2,7 +2,7 @@
 
 Publication-quality maps and spatial analysis in R, in the style of a
 desktop GIS: automatic, explained map design
-([`geo_automap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md)),
+([`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md)),
 projections, legends and map furniture, GIS, CAD and remote sensing
 formats, and fast C++ spatial statistics. Compatible with the GeoSpaX
 (<https://geospax.in4metrix.dev>) desktop GIS, whose cartographic
@@ -14,7 +14,7 @@ a tibble, an `sf` table, a `SpatRaster` or a ggplot.
 
 Useful links:
 
-- <https://tidymapr-e72c18.gitlab.io/>
+- <https://tidymapr.in4metrix.dev/>
 
 - <https://gitlab.com/jimmy.moses/tidymapr>
 

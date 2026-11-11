@@ -3,11 +3,11 @@
 Every map tidymapr draws. Each entry has three tabs: the map, the tidy
 table behind it, and the code. Maps use the colour-blind-safe Okabe-Ito
 palette and
-[`theme_tidymapr()`](https://tidymapr-e72c18.gitlab.io/reference/theme_tidymapr.md),
+[`theme_tidymapr()`](https://tidymapr.in4metrix.dev/reference/theme_tidymapr.md),
 which matches
 [`tidydiversity::theme_tidydiversity()`](https://rdrr.io/pkg/tidydiversity/man/theme_tidydiversity.html).
 Every map uses real, published records:
-[`geo_example_sites()`](https://tidymapr-e72c18.gitlab.io/reference/geo_example_sites.md)
+[`geo_example_sites()`](https://tidymapr.in4metrix.dev/reference/geo_example_sites.md)
 returns the bait GPS of the Mt Wilhelm ant survey (`png_ants_sites`;
 Mottl, Moses and Klimes 2023,
 [doi:10.5281/zenodo.8191946](https://doi.org/10.5281/zenodo.8191946)).
@@ -213,8 +213,8 @@ table), and the predictors are WorldClim 2.1 mean annual temperature
 (bio1) and annual rainfall (bio12) at 5 arc-minutes (Fick and Hijmans
 2017, [doi:10.1002/joc.5086](https://doi.org/10.1002/joc.5086)). The
 model is the native Maxent-like engine of
-[`sdm_fit()`](https://tidymapr-e72c18.gitlab.io/reference/sdm.md) with
-2000 background points; its modest AUC (0.63) is shown on the map.
+[`sdm_fit()`](https://tidymapr.in4metrix.dev/reference/sdm.md) with 2000
+background points; its modest AUC (0.63) is shown on the map.
 
 - Plot
 - Table
@@ -269,7 +269,7 @@ plot_sdm(suit, basemap = "coast") +
 ```
 
 A stem map over topography
-([`plot_topo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_topo.md))
+([`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md))
 is not shown: there is no openly licensed stem inventory to draw it
 from, and the gallery does not map invented trees. The figures in these
 two entries are rendered at 300 dpi by `data-raw/gallery_maps.R`,

@@ -16,7 +16,7 @@ library(tidydiversity)
 Ground ants at baits along the Mt Wilhelm elevational gradient
 (`png_ants`; Moses et al. 2023): site map, richness on a map and
 distance decay. [Full
-tutorial](https://tidymapr-e72c18.gitlab.io/articles/case-png-wilhelm.md).
+tutorial](https://tidymapr.in4metrix.dev/articles/case-png-wilhelm.md).
 
 ``` r
 sites <- geo_example_sites("wilhelm")

@@ -14,9 +14,9 @@ for
 Hill numbers on maps, stem maps over topography, WorldClim/CHELSA
 bioclim (including CMIP6), tidy SDMs (`sdm_*`) and Moran’s I for spatial
 autocorrelation. Hand off to **tmap** or **leaflet** with
-[`as_sf()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map-interop.md)
+[`as_sf()`](https://tidymapr.in4metrix.dev/reference/geo-map-interop.md)
 /
-[`as_spat_raster()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map-interop.md)
+[`as_spat_raster()`](https://tidymapr.in4metrix.dev/reference/geo-map-interop.md)
 when you want interactive maps; those stay Suggests only. Diversity,
 stem and modelling verbs (`div_*`, `beta_*`, `stems_*`, `model_*`,
 [`plot_partial()`](https://rdrr.io/pkg/tidydiversity/man/plot-partial.html))
@@ -142,7 +142,7 @@ geo_clean(occ, lon, lat, species = species, value = "flagged")[
 #> 5 ghost            12.6 55.7  FALSE TRUE  FALSE TRUE
 ```
 
-[`geo_gbif()`](https://tidymapr-e72c18.gitlab.io/reference/geo_gbif.md)
+[`geo_gbif()`](https://tidymapr.in4metrix.dev/reference/geo_gbif.md)
 accepts a pre-downloaded GBIF table (or downloads with **rgbif** when
 installed) and pipes into the same cleaner.
 
@@ -203,9 +203,8 @@ geo_moran(g, richness, lon = x, lat = y, nperm = 199, correlogram = TRUE)
 
 ## Basemaps
 
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md)
-and
-[`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md)
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
+and [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md)
 take a `basemap` argument. Use `"coast"` offline, online tile names
 (`"osm"`, `"carto"`, `"carto_dark"`, `"esri"`) when connected, or pass a
 `SpatRaster` / file path. Tile fetch failures fall back to the coast
@@ -546,7 +545,7 @@ Raster and vector files are read and written through **GDAL** (via terra
 and sf). Prefer \[geo_read()\] / \[geo_write()\] (and the vector/raster
 twins) over calling `st_read`, `rast`, `gdal_translate`, or the retired
 **rgdal** package. Format is taken from the file extension; see
-[`?geo_read`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md) for
+[`?geo_read`](https://tidymapr.in4metrix.dev/reference/geo-io.md) for
 the full table (GeoTIFF/COG, NetCDF, ASCII grid, GeoPackage, shapefile,
 GeoJSON, KML/KMZ, GML, FileGDB when available, CSV lon/lat occurrence
 tables).
@@ -560,11 +559,10 @@ occ <- geo_read("occurrences.csv")  # lon/lat columns -> sf
 ```
 
 Save map figures from
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md)
-/
-[`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md)
-/ [`plot_sdm()`](https://tidymapr-e72c18.gitlab.io/reference/sdm.md) /
-[`plot_topo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_topo.md)
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
+/ [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md) /
+[`plot_sdm()`](https://tidymapr.in4metrix.dev/reference/sdm.md) /
+[`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md)
 with \[geo_save()\] (or
 [`tidydiversity::plot_save()`](https://rdrr.io/pkg/tidydiversity/man/plot_save.html)
 for journal column sizes):
@@ -580,10 +578,10 @@ geo_save(p, "wilhelm_sites.pdf")
 
 ## Legends, insets and hand-off to tmap / leaflet
 
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md),
-[`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md)
-and [`plot_sdm()`](https://tidymapr-e72c18.gitlab.io/reference/sdm.md)
-draw ggplot maps with collision-aware placement of the scale bar, north
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md),
+[`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md) and
+[`plot_sdm()`](https://tidymapr.in4metrix.dev/reference/sdm.md) draw
+ggplot maps with collision-aware placement of the scale bar, north
 arrow, inside legend and optional overview inset (the emptiest panel
 corner wins, so decorations do not sit on sites). Legends support a
 title, inside/outside position, a frame, ordered keys, and combined

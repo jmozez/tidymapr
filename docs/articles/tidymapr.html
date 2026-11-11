@@ -89,7 +89,7 @@ table, a <code>SpatRaster</code> or a ggplot, so diversity estimates and
 maps stay in one tidy workflow, in the same way dplyr and ggplot2 work
 together.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymapr-e72c18.gitlab.io/">tidymapr</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymapr.in4metrix.dev/">tidymapr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="study-sites">Study sites<a class="anchor" aria-label="anchor" href="#study-sites"></a>
 </h2>
@@ -157,7 +157,7 @@ with a scale bar and north arrow.</p>
 <p>Load both packages and pipe diversity estimates straight onto a
 map.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jmoses.codeberg.page/tidydiversity/" class="external-link">tidydiversity</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidydiversity.in4metrix.dev/" class="external-link">tidydiversity</a></span><span class="op">)</span></span>
 <span><span class="va">est</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidydiversity/man/div_estimate.html" class="external-link">div_estimate</a></span><span class="op">(</span><span class="va">png_ants</span>, q <span class="op">=</span> <span class="fl">0</span>, nboot <span class="op">=</span> <span class="fl">0</span>, .by <span class="op">=</span> <span class="va">season</span><span class="op">)</span></span>
 <span><span class="va">est</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">est</span>, <span class="va">sites</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"site"</span>, <span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span><span class="op">]</span>, by <span class="op">=</span> <span class="st">"site"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_geo.html">plot_geo</a></span><span class="op">(</span><span class="va">est</span><span class="op">[</span><span class="va">est</span><span class="op">$</span><span class="va">season</span> <span class="op">==</span> <span class="st">"dry"</span>, <span class="op">]</span>, <span class="va">estimate</span>, <span class="va">lon</span>, <span class="va">lat</span>, label <span class="op">=</span> <span class="va">site</span><span class="op">)</span></span></code></pre></div>

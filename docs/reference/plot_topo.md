@@ -12,7 +12,7 @@ Expected columns for a ForestGEO-like table: `plot`, `treeID`, `stemID`,
 Geographic inventories may use `lon` / `lat` instead of `gx` / `gy`.
 
 Pass your own stem inventory.
-[`geo_example_stems()`](https://tidymapr-e72c18.gitlab.io/reference/geo_example_stems.md)
+[`geo_example_stems()`](https://tidymapr.in4metrix.dev/reference/geo_example_stems.md)
 is simulated test data for checking code, not a real plot, so do not
 publish maps drawn from it.
 
@@ -94,7 +94,7 @@ plot_topo(
 - basemap:
 
   Passed to
-  [`geo_basemap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_basemap.md)
+  [`geo_basemap()`](https://tidymapr.in4metrix.dev/reference/geo_basemap.md)
   when using lon/lat (for example `"coast"`). Ignored for local metre
   coordinates.
 

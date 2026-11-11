@@ -23,11 +23,11 @@ app:
   legends (`hide`), frame, text, title and key sizes, columns, direction
   and reversed order.
 
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md),
-[`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md),
-[`plot_choropleth()`](https://tidymapr-e72c18.gitlab.io/reference/thematic-maps.md)
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md),
+[`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md),
+[`plot_choropleth()`](https://tidymapr.in4metrix.dev/reference/thematic-maps.md)
 and
-[`plot_bubble()`](https://tidymapr-e72c18.gitlab.io/reference/thematic-maps.md)
+[`plot_bubble()`](https://tidymapr.in4metrix.dev/reference/thematic-maps.md)
 take the same style names through their `scale_bar`, `north_arrow` and
 legend arguments.
 

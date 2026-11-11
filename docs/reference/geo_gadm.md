@@ -3,13 +3,12 @@
 Downloads (and caches) Global Administrative Areas (GADM) boundaries as
 an `sf` tibble via **geodata**. Level 0 is the country outline, level 1
 provinces / states, and level 2 districts. Use the result as `admin` in
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md)
-/
-[`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md),
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
+/ [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md),
 as an overview for `geo_annotation_inset()`, or to clip occurrences with
-[`geo_intersection()`](https://tidymapr-e72c18.gitlab.io/reference/geo-vector.md)
+[`geo_intersection()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md)
 /
-[`geo_raster_mask()`](https://tidymapr-e72c18.gitlab.io/reference/geo-raster.md).
+[`geo_raster_mask()`](https://tidymapr.in4metrix.dev/reference/geo-raster.md).
 
 ## Usage
 
@@ -39,7 +38,7 @@ geo_gadm(
 - path:
 
   Optional local GeoPackage / shapefile / RDS previously saved with
-  [`geo_vector_write()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md).
+  [`geo_vector_write()`](https://tidymapr.in4metrix.dev/reference/geo-io.md).
   When set, no download is attempted.
 
 - cache_dir:
@@ -74,9 +73,9 @@ Global Administrative Areas (GADM). <https://gadm.org/>
 
 ## See also
 
-[`geo_vector_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md),
-[`geo_vector_write()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md),
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md)
+[`geo_vector_read()`](https://tidymapr.in4metrix.dev/reference/geo-io.md),
+[`geo_vector_write()`](https://tidymapr.in4metrix.dev/reference/geo-io.md),
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
 
 ## Examples
 

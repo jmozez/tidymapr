@@ -2,7 +2,7 @@
 
 Plots site-level diversity estimates as points on an sf map, with an
 optional raster backdrop. Uses
-[`theme_tidymapr()`](https://tidymapr-e72c18.gitlab.io/reference/theme_tidymapr.md)
+[`theme_tidymapr()`](https://tidymapr.in4metrix.dev/reference/theme_tidymapr.md)
 and the colour-blind-safe Okabe-Ito / viridis scales.
 
 ## Usage
@@ -42,7 +42,7 @@ plot_geo(
   joined to coordinates with
   [`tidydiversity::add_site_data()`](https://rdrr.io/pkg/tidydiversity/man/tidy-tidydiversity.html)
   /
-  [`geo_as_sf()`](https://tidymapr-e72c18.gitlab.io/reference/geo_as_sf.md)).
+  [`geo_as_sf()`](https://tidymapr.in4metrix.dev/reference/geo_as_sf.md)).
 
 - value:
 
@@ -56,7 +56,7 @@ plot_geo(
 - basemap:
 
   Basemap: `"none"`, `"coast"`, tile name, SpatRaster or path. See
-  [`geo_basemap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_basemap.md).
+  [`geo_basemap()`](https://tidymapr.in4metrix.dev/reference/geo_basemap.md).
 
 - raster:
 
@@ -79,7 +79,7 @@ plot_geo(
 
   Draw a scale bar and north arrow? `TRUE` uses the default style,
   `FALSE` none, or name a style (see
-  [`annotation_scale_bar()`](https://tidymapr-e72c18.gitlab.io/reference/map-furniture.md)).
+  [`annotation_scale_bar()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md)).
 
 - scale_bar_km:
 
@@ -111,7 +111,7 @@ plot_geo(
 - admin:
 
   Optional administrative boundaries (`sf` or ISO3 code); see
-  [`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md).
+  [`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md).
 
 - admin_level:
 

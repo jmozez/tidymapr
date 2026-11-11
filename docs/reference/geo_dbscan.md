@@ -53,9 +53,9 @@ Proceedings of KDD-96: 226-231.
 
 ## See also
 
-[`geo_hotspot()`](https://tidymapr-e72c18.gitlab.io/reference/geo-local.md)
+[`geo_hotspot()`](https://tidymapr.in4metrix.dev/reference/geo-local.md)
 for hot spots of values,
-[`geo_landscape()`](https://tidymapr-e72c18.gitlab.io/reference/geo_landscape.md)
+[`geo_landscape()`](https://tidymapr.in4metrix.dev/reference/geo_landscape.md)
 for fragmentation.
 
 ## Examples

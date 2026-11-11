@@ -2,12 +2,12 @@
 
 Native tidyverse-style wrappers around common **sf** operations. Inputs
 accept `sf` tables or data frames with lon/lat (converted with
-[`geo_as_sf()`](https://tidymapr-e72c18.gitlab.io/reference/geo_as_sf.md));
+[`geo_as_sf()`](https://tidymapr.in4metrix.dev/reference/geo_as_sf.md));
 outputs are `sf` tibbles. sf reads and writes through **GDAL/OGR**, so
 GeoPackage, shapefile, GeoJSON and similar formats work via
-[`geo_vector_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md)
+[`geo_vector_read()`](https://tidymapr.in4metrix.dev/reference/geo-io.md)
 /
-[`geo_vector_write()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md)
+[`geo_vector_write()`](https://tidymapr.in4metrix.dev/reference/geo-io.md)
 without calling GDAL utilities or the retired **rgdal** package. Prefer
 GeoPackage over shapefile for new work.
 

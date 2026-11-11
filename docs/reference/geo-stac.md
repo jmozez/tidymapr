@@ -19,10 +19,10 @@ Sentinel-2, Landsat and Copernicus DEM data as cloud-optimised GeoTIFFs:
   removes most clouds.
 
 The result goes straight into
-[`geo_spectral_index()`](https://tidymapr-e72c18.gitlab.io/reference/geo_spectral_index.md),
-[`geo_spectral_diversity()`](https://tidymapr-e72c18.gitlab.io/reference/geo_spectral_diversity.md)
+[`geo_spectral_index()`](https://tidymapr.in4metrix.dev/reference/geo_spectral_index.md),
+[`geo_spectral_diversity()`](https://tidymapr.in4metrix.dev/reference/geo_spectral_diversity.md)
 or
-[`map_raster()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md).
+[`map_raster()`](https://tidymapr.in4metrix.dev/reference/geo-map.md).
 
 ## Usage
 
@@ -102,8 +102,8 @@ geo_stac_read(items, assets, area = NULL, n = 1, crs = NULL, scale = TRUE)
 
 ## See also
 
-[`geo_spectral_index()`](https://tidymapr-e72c18.gitlab.io/reference/geo_spectral_index.md),
-[`map_raster()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md).
+[`geo_spectral_index()`](https://tidymapr.in4metrix.dev/reference/geo_spectral_index.md),
+[`map_raster()`](https://tidymapr.in4metrix.dev/reference/geo-map.md).
 
 ## Examples
 

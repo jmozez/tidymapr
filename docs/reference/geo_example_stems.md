@@ -2,7 +2,7 @@
 
 Returns a small stem inventory in local metre coordinates (`gx`, `gy`)
 for trying
-[`plot_topo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_topo.md).
+[`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md).
 Columns follow the ForestGEO convention (`plot`, `treeID`, `stemID`,
 `gx`, `gy`, `dbh`, `species`, `status`). Positions, sizes and species
 are simulated on a 100 m x 100 m plot to check code only. They are not

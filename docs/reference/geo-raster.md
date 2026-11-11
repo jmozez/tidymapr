@@ -5,9 +5,9 @@ elevation and climate rasters. terra (and therefore these helpers) reads
 and writes through **GDAL**, so GeoTIFF, COG, netCDF and similar formats
 work without calling `gdal_translate` yourself. Do not use the retired
 **rgdal** package. Pair with
-[`geo_extract()`](https://tidymapr-e72c18.gitlab.io/reference/geo_extract.md)
+[`geo_extract()`](https://tidymapr.in4metrix.dev/reference/geo_extract.md)
 to join raster values to sites, and with
-[`geo_buffer()`](https://tidymapr-e72c18.gitlab.io/reference/geo-vector.md)
+[`geo_buffer()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md)
 plus `geo_raster_zonal()` for mean elevation in a site buffer.
 `geo_raster_project()`, `geo_raster_crop()` and `geo_raster_mask()` are
 the tidy entry points for GDAL warps / clips.

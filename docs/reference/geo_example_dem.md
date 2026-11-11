@@ -1,11 +1,11 @@
 # Simulated DEM for testing local metre stem maps
 
 Builds a small elevation raster in the same 0-100 m local coordinates as
-[`geo_example_stems()`](https://tidymapr-e72c18.gitlab.io/reference/geo_example_stems.md),
+[`geo_example_stems()`](https://tidymapr.in4metrix.dev/reference/geo_example_stems.md),
 for testing topographic backdrops in
-[`plot_topo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_topo.md).
+[`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md).
 The surface is a formula, not a survey: use a real DEM (for example
-[`geo_elevation()`](https://tidymapr-e72c18.gitlab.io/reference/geo_elevation.md))
+[`geo_elevation()`](https://tidymapr.in4metrix.dev/reference/geo_elevation.md))
 for figures.
 
 ## Usage

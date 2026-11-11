@@ -256,7 +256,7 @@ soil samples, shipped with terra).
 <img src="man/figures/readme-recipe-hotspots.png" alt="Getis-Ord hot and cold spots of zinc at the Meuse sample sites over a topographic basemap" width="49%">
 </p>
 
-See the [gallery](https://tidymapr-e72c18.gitlab.io/articles/gallery.html)
+See the [gallery](https://tidymapr.in4metrix.dev/articles/gallery.html)
 for more maps with their code.
 
 ## Licence

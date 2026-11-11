@@ -1,10 +1,10 @@
 # Save a map figure (PNG, PDF, SVG, TIFF, JPEG)
 
 Writes ggplot maps from
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md),
-[`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md),
-[`plot_sdm()`](https://tidymapr-e72c18.gitlab.io/reference/sdm.md),
-[`plot_topo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_topo.md)
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md),
+[`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md),
+[`plot_sdm()`](https://tidymapr.in4metrix.dev/reference/sdm.md),
+[`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md)
 (or any ggplot / patchwork object) to disk. Format is taken from the
 file extension. `geo_save()` is the geospatial-oriented name;
 [`tidydiversity::plot_save()`](https://rdrr.io/pkg/tidydiversity/man/plot_save.html)
@@ -67,8 +67,8 @@ geo_save(
 ## See also
 
 [`tidydiversity::plot_save()`](https://rdrr.io/pkg/tidydiversity/man/plot_save.html),
-[`geo_write()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md),
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md)
+[`geo_write()`](https://tidymapr.in4metrix.dev/reference/geo-io.md),
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
 
 ## Examples
 

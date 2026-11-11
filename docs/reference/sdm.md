@@ -5,9 +5,9 @@ a tidy interface. Engines: `"glm"` (logistic or cloglog), `"gam"` (mgcv
 when installed), and `"maxnet"` (native Maxent-like linear + quadratic
 features with ridge-penalised logistic regression; no Java Maxent, no
 biomod2 or dismo). Predictors may be columns or a SpatRaster stack from
-[`geo_bioclim()`](https://tidymapr-e72c18.gitlab.io/reference/geo-bioclim.md)
+[`geo_bioclim()`](https://tidymapr.in4metrix.dev/reference/geo-bioclim.md)
 /
-[`geo_extract()`](https://tidymapr-e72c18.gitlab.io/reference/geo_extract.md).
+[`geo_extract()`](https://tidymapr.in4metrix.dev/reference/geo_extract.md).
 
 ## Usage
 
@@ -105,12 +105,12 @@ plot_sdm(x, basemap = "esri", ...)
 - basemap:
 
   Basemap for ggplot maps. See
-  [`geo_basemap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_basemap.md).
+  [`geo_basemap()`](https://tidymapr.in4metrix.dev/reference/geo_basemap.md).
 
 - ...:
 
   Passed through to the surface /
-  [`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md)
+  [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md)
   helpers (for example `legend_position`, `scale_bar`, `north_arrow`,
   `subtitle`). Regular prediction grids are drawn as a continuous raster
   surface; sparse tables stay as points.

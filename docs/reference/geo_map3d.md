@@ -8,7 +8,7 @@ and routes placed on the surface and hidden where hills are in front of
 them. The rendering is done in C++ and needs no OpenGL, rgl or
 rayshader, so it works on servers and in reports; the result is an
 ordinary ggplot with a title, legend and caption, saved with
-[`geo_save()`](https://tidymapr-e72c18.gitlab.io/reference/geo_save.md).
+[`geo_save()`](https://tidymapr.in4metrix.dev/reference/geo_save.md).
 
 ## Usage
 
@@ -122,9 +122,9 @@ A ggplot. Attribute `"render"` holds the image and view.
 
 ## See also
 
-[`geo_stac_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-stac.md)
+[`geo_stac_read()`](https://tidymapr.in4metrix.dev/reference/geo-stac.md)
 to fetch a Copernicus DEM,
-[`map_raster()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md)
+[`map_raster()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
 for flat maps.
 
 ## Examples

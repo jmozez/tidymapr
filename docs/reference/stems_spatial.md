@@ -17,9 +17,9 @@ stem workflow:
 Census summaries (`stems_abundance()`, `stems_basal_area()`,
 `stems_demography()`, `stems_as_community()`) live in tidydiversity. Map
 stems with
-[`plot_topo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_topo.md)
+[`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md)
 and test habitat associations with
-[`stems_habitat_test()`](https://tidymapr-e72c18.gitlab.io/reference/stems_habitat_test.md).
+[`stems_habitat_test()`](https://tidymapr.in4metrix.dev/reference/stems_habitat_test.md).
 
 ## Usage
 

@@ -4,7 +4,7 @@ Great-circle (haversine) or elevational distances between sites, as a
 long tibble ready to join with
 [`tidydiversity::beta_pair()`](https://rdrr.io/pkg/tidydiversity/man/beta_pair.html)
 or to build a
-[`geo_decay()`](https://tidymapr-e72c18.gitlab.io/reference/geo_decay.md)
+[`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md)
 distance-decay table. Elevational distance is the absolute difference in
 metres.
 
@@ -42,9 +42,9 @@ geo_distance(
   `"haversine"` (metres), `"elevation"` (metres), `"euclidean"` on
   lon/lat in degrees, or `"environmental"` for Euclidean or Gower
   distance on numeric covariate columns (for example bioclim layers from
-  [`geo_extract()`](https://tidymapr-e72c18.gitlab.io/reference/geo_extract.md)
+  [`geo_extract()`](https://tidymapr.in4metrix.dev/reference/geo_extract.md)
   /
-  [`geo_bioclim()`](https://tidymapr-e72c18.gitlab.io/reference/geo-bioclim.md)).
+  [`geo_bioclim()`](https://tidymapr.in4metrix.dev/reference/geo-bioclim.md)).
 
 - vars:
 
