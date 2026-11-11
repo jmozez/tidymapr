@@ -185,7 +185,7 @@ layers.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sdm_maxent.html">sdm_maxent</a></span><span class="op">(</span><span class="va">presence</span>, <span class="va">d</span><span class="op">)</span></span>
 <span><span class="va">mx</span></span>
-<span><span class="co">#&gt; Maxent (lqph features, regmult 1): 116 presences, 6240 background points,</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Maxent</span> (lqph features, regmult 1): 116 presences, 6240 background points,</span></span>
 <span><span class="co">#&gt; standardised predictors, 28 non-zero features of 820.</span></span>
 <span><span class="co">#&gt; Features kept: linear 6, quadratic 3, product 5, hinge 14.</span></span></code></pre></div>
 </div>
@@ -199,15 +199,15 @@ statistic.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ens</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sdm_ensemble.html">sdm_ensemble</a></span><span class="op">(</span><span class="va">presence</span>, <span class="va">d</span>, coords <span class="op">=</span> <span class="va">xy</span>, folds <span class="op">=</span> <span class="fl">5</span>, ntree <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
 <span><span class="va">ens</span></span>
-<span><span class="co">#&gt; SDM ensemble of 4 algorithms: 116 presences, 6240 background points, 5</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">SDM ensemble</span> of 4 algorithms: 116 presences, 6240 background points, 5</span></span>
 <span><span class="co">#&gt; spatial-block folds.</span></span>
-<span><span class="co">#&gt; # A tibble: 4 × 5</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 5</span></span></span>
 <span><span class="co">#&gt;   algorithm   auc   tss boyce weight</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 maxent    0.779 0.532 0.307  0.241</span></span>
-<span><span class="co">#&gt; 2 glm       0.769 0.507 0.499  0.215</span></span>
-<span><span class="co">#&gt; 3 gam       0.784 0.529 0.589  0.238</span></span>
-<span><span class="co">#&gt; 4 rf        0.804 0.595 0.629  0.306</span></span></code></pre></div>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> maxent    0.779 0.532 0.307  0.241</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> glm       0.769 0.507 0.499  0.215</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> gam       0.784 0.529 0.589  0.238</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rf        0.804 0.595 0.629  0.306</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">suit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">ens</span>, <span class="va">climate</span>, what <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
 <span><span class="va">suit</span></span>
@@ -238,6 +238,16 @@ statistic.</p>
 <span>  caption <span class="op">=</span> <span class="st">"Spatial block cross-validation, TSS weights. Data: Phillips et al. (2006); WorldClim."</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="case-sloth-sdm_files/figure-html/maps-1.png" class="r-plt" alt="Two maps: ensemble habitat suitability with the records, and disagreement between algorithms" width="100%"></p>
+<p><strong>How to read the disagreement map.</strong> The four
+algorithms (Maxent, GLM, GAM and random forest) each predict a
+suitability between 0 and 1. The ensemble map shows their weighted
+average; the disagreement map shows their weighted standard deviation,
+that is, how far apart their predictions are at each place. Near 0
+(pale), all four agree, so the ensemble value can be trusted there.
+Higher values (dark orange, here up to about 0.25) mean the algorithms
+give clearly different answers, often where the climate differs from
+anywhere the sloth was recorded. Treat the suitability in those places
+as uncertain and check it with field data.</p>
 </div>
 <div class="section level2">
 <h2 id="each-algorithm">Each algorithm<a class="anchor" aria-label="anchor" href="#each-algorithm"></a>

@@ -66,7 +66,7 @@ out$log
 #>   step          use              status seconds
 #>   <chr>         <chr>            <chr>    <dbl>
 #> 1 samples       io.open          done      0   
-#> 2 surface       interpolate.auto done      5.06
+#> 2 surface       interpolate.auto done      4.01
 #> 3 style_samples automap.style    done      0   
 #> 4 map           export.map       done      0.76
 #> 5 uncertainty   export.map       done      0.65

@@ -173,6 +173,11 @@ each plot's estimation error (Barro Colorado Island 50-ha plot, vegan
 
 <img src="man/figures/readme-diversity-surface.png" alt="Kriged tree diversity for q = 0, 1 and 2 across the Barro Colorado Island plot, with maps of the width of the 95% interval" width="100%">
 
+The lower row is the uncertainty: the upper bound of each place's 95%
+interval divided by its lower bound. Pale means a precise estimate (a
+ratio near 1); dark means the true value could lie well above the low end
+of the range (a ratio of 1.8 means up to 80% higher).
+
 ### Species distribution ensembles, with Maxent in C++
 
 `sdm_maxent()` fits Maxent in C++ with the same answers as maxnet (no
@@ -187,6 +192,12 @@ predict(ens, bioclim_raster, what = "all")
 ```
 
 <img src="man/figures/readme-sdm-ensemble.png" alt="Ensemble habitat suitability of the brown-throated sloth across Central and South America with its 116 records, and a map of disagreement between the four algorithms" width="100%">
+
+The ensemble map (left) is the weighted average of the four algorithms'
+suitability (0 to 1). The disagreement map (right) is how far apart they
+are at each place (their weighted standard deviation): pale where they
+agree and the map can be trusted, dark where they give different answers
+and the prediction is uncertain.
 
 ### Spectral indices and spectral diversity
 

@@ -240,6 +240,7 @@
 </h3>
 <p><code><a href="reference/geo_diversity_surface.html">geo_diversity_surface()</a></code> krigs coverage-standardised Hill numbers with each plot’s estimation error (Barro Colorado Island 50-ha plot, vegan <code>BCI</code>).</p>
 <p><img src="reference/figures/readme-diversity-surface.png" alt="Kriged tree diversity for q = 0, 1 and 2 across the Barro Colorado Island plot, with maps of the width of the 95% interval" width="100%"></p>
+<p>The lower row is the uncertainty: the upper bound of each place’s 95% interval divided by its lower bound. Pale means a precise estimate (a ratio near 1); dark means the true value could lie well above the low end of the range (a ratio of 1.8 means up to 80% higher).</p>
 </div>
 <div class="section level3">
 <h3 id="species-distribution-ensembles-with-maxent-in-c">Species distribution ensembles, with Maxent in C++<a class="anchor" aria-label="anchor" href="#species-distribution-ensembles-with-maxent-in-c"></a>
@@ -249,6 +250,7 @@
 <code class="sourceCode R"><span><span class="va">ens</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sdm_ensemble.html">sdm_ensemble</a></span><span class="op">(</span><span class="va">presence</span>, <span class="va">climate</span>, coords <span class="op">=</span> <span class="va">xy</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">ens</span>, <span class="va">bioclim_raster</span>, what <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/readme-sdm-ensemble.png" alt="Ensemble habitat suitability of the brown-throated sloth across Central and South America with its 116 records, and a map of disagreement between the four algorithms" width="100%"></p>
+<p>The ensemble map (left) is the weighted average of the four algorithms’ suitability (0 to 1). The disagreement map (right) is how far apart they are at each place (their weighted standard deviation): pale where they agree and the map can be trusted, dark where they give different answers and the prediction is uncertain.</p>
 </div>
 <div class="section level3">
 <h3 id="spectral-indices-and-spectral-diversity">Spectral indices and spectral diversity<a class="anchor" aria-label="anchor" href="#spectral-indices-and-spectral-diversity"></a>

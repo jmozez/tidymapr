@@ -87,6 +87,17 @@ surf <- geo_diversity_surface(trees, plot, species, n,
 plot_diversity_surface(surf)
 ```
 
+**How to read the uncertainty maps.** Each subplot's diversity is an
+estimate, not an exact count, so every point on the surface comes with a
+95% interval: the range the true value very probably lies in. The lower
+row maps how wide that interval is, as the upper bound divided by the
+lower bound. A ratio of 1.4 means the true value could be up to 40%
+higher than the low end of the range; a ratio of 1.8 means up to 80%.
+Pale areas are estimated precisely; dark areas are uncertain, so
+differences there should be read with caution. Uncertainty grows from
+q = 0 to q = 2 here because inverse Simpson depends on the few commonest
+species, whose share varies more from plot to plot.
+
 ## Richness as a layered map
 
 ```{r layered, fig.height = 4.5, fig.alt = "Kriged tree richness with subplot centres and the plot outline"}

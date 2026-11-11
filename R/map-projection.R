@@ -269,8 +269,18 @@ geo_crs_centre <- function(data) {
   if (inherits(data, c("sf", "sfc")) && bb[["xmax"]] - bb[["xmin"]] > 300) {
     g <- sf::st_transform(sf::st_geometry(data), 4326)
     xy <- sf::st_coordinates(suppressWarnings(sf::st_centroid(g)))
-    a <- xy[, 1] * pi / 180
-    lon <- atan2(mean(sin(a)), mean(cos(a))) * 180 / pi
+    # Centre opposite the largest empty stretch of longitude; data with no
+    # large gap cover the globe and are centred on Greenwich
+    lons <- sort(unique(round(xy[, 1], 2)))
+    gaps <- c(diff(lons), lons[1] + 360 - lons[length(lons)])
+    k <- which.max(gaps)
+    # Data that span more than half the globe are a world map
+    if (gaps[k] < 60 || 360 - gaps[k] > 180) {
+      lon <- 0
+    } else {
+      start <- if (k == length(lons)) lons[1] else lons[k + 1]
+      lon <- ((start + (360 - gaps[k]) / 2 + 180) %% 360) - 180
+    }
     lat <- mean(range(xy[, 2]))
   }
   round(c(lon, lat), 4)

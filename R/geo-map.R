@@ -427,6 +427,11 @@ map_build <- function(map) {
     }
   }
   lims <- tmr_map_limits(map, crs)
+  # Narrow maps (panels, insets): drop coordinate labels that would collide
+  p <- p + ggplot2::guides(
+    x = ggplot2::guide_axis(check.overlap = TRUE),
+    y = ggplot2::guide_axis(check.overlap = TRUE)
+  )
   p <- p + ggplot2::coord_sf(
     crs = crs, default_crs = crs, expand = FALSE,
     xlim = lims$x, ylim = lims$y
