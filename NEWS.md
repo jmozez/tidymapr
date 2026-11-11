@@ -1,4 +1,6 @@
-# tidymapr 0.0.0.9000
+# tidymapr 0.1.0
+
+* First CRAN release.
 
 ## New documentation (November 2026)
 
