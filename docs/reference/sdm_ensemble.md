@@ -150,16 +150,18 @@ species presence-only data with random forests. Ecography 44:1731-1742.
 ``` r
 # Brown-throated sloth (Phillips et al. 2006)
 data(bradypus, package = "maxnet")
+# \donttest{
 ens <- sdm_ensemble(bradypus$presence, bradypus[, c(2, 3, 5:15)],
   algorithms = c("maxent", "glm", "rf"), folds = 4, ntree = 200
 )
 ens
 #> SDM ensemble of 3 algorithms: 116 presences, 1000 background points, 4 random
 #> folds.
-#> # A tibble: 3 × 5
+#> # A tibble: 3 x 5
 #>   algorithm   auc   tss boyce weight
 #>   <chr>     <dbl> <dbl> <dbl>  <dbl>
 #> 1 maxent    0.883 0.657 0.876  0.374
 #> 2 glm       0.828 0.552 0.788  0.264
 #> 3 rf        0.894 0.647 0.891  0.363
+# }
 ```

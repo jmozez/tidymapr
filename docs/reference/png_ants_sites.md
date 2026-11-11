@@ -66,7 +66,7 @@ and Biogeography*, 32, 2212-2229.
 
 ``` r
 png_ants_sites
-#> # A tibble: 16 × 7
+#> # A tibble: 16 x 7
 #>    site   transect elevation_band elevation   lon   lat baits
 #>    <chr>     <int>          <int>     <int> <dbl> <dbl> <int>
 #>  1 MW0200        1            200       216  145. -5.74    60

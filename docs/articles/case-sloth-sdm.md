@@ -124,7 +124,7 @@ ens <- sdm_ensemble(presence, d, coords = xy, folds = 5, ntree = 500)
 ens
 #> SDM ensemble of 4 algorithms: 116 presences, 6240 background points, 5
 #> spatial-block folds.
-#> # A tibble: 4 × 5
+#> # A tibble: 4 x 5
 #>   algorithm   auc   tss boyce weight
 #>   <chr>     <dbl> <dbl> <dbl>  <dbl>
 #> 1 maxent    0.779 0.532 0.307  0.241

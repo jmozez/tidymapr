@@ -16,6 +16,8 @@ Useful links:
 
 - <https://tidymapr.in4metrix.dev/>
 
+- <https://github.com/jmozez/tidymapr>
+
 - <https://gitlab.com/jimmy.moses/tidymapr>
 
 - Report bugs at <https://github.com/jmozez/tidymapr/issues>

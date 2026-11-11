@@ -33,7 +33,7 @@ plots <- tibble::tibble(
   habitat = e$BCI.env$Habitat
 )
 trees
-#> # A tibble: 4,539 × 3
+#> # A tibble: 4,539 x 3
 #>    plot  species                   n
 #>    <chr> <chr>                 <int>
 #>  1 P10   Abarema.macradenia        1
@@ -46,7 +46,7 @@ trees
 #>  8 P05   Adelia.triloba            1
 #>  9 P09   Adelia.triloba            5
 #> 10 P12   Adelia.triloba            1
-#> # ℹ 4,529 more rows
+#> # i 4,529 more rows
 ```
 
 ## Diversity per subplot
@@ -59,7 +59,7 @@ compared.
 ``` r
 div <- div_standardise(trees, site = plot, species = species, abundance = n, q = c(0, 1, 2), nboot = 0)
 div
-#> # A tibble: 150 × 9
+#> # A tibble: 150 x 9
 #>    plot      q     m method        coverage diversity    se lower upper
 #>    <chr> <dbl> <dbl> <chr>            <dbl>     <dbl> <dbl> <dbl> <dbl>
 #>  1 P10       0  583. extrapolation    0.940     101.     NA    NA    NA
@@ -72,7 +72,7 @@ div
 #>  8 P32       1  451. rarefaction      0.940      43.9    NA    NA    NA
 #>  9 P32       2  451. rarefaction      0.940      23.0    NA    NA    NA
 #> 10 P34       0  567. extrapolation    0.940     100.     NA    NA    NA
-#> # ℹ 140 more rows
+#> # i 140 more rows
 ```
 
 ## The plot and its habitats
@@ -148,12 +148,12 @@ pts <- sf::st_transform(centres, 4326) |> left_join(rich, by = "plot")
 xy <- sf::st_coordinates(pts)
 pts_df <- tibble::tibble(plot = pts$plot, richness = pts$richness, lon = xy[, 1], lat = xy[, 2])
 geo_moran(pts_df, richness, lon, lat)
-#> # A tibble: 1 × 7
+#> # A tibble: 1 x 7
 #>   statistic expectation variance p.value     n nperm method                     
 #>       <dbl>       <dbl>    <dbl>   <dbl> <int> <dbl> <chr>                      
-#> 1    0.0135     -0.0204 0.000349   0.051    50   999 Moran's I (inverse-distanc…
+#> 1    0.0135     -0.0204 0.000349   0.051    50   999 Moran's I (inverse-distanc~
 geo_hotspot(pts_df, richness, k = 4) |> count(hotspot)
-#> # A tibble: 2 × 2
+#> # A tibble: 2 x 2
 #>   hotspot             n
 #>   <fct>           <int>
 #> 1 hot                 6

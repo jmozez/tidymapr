@@ -118,28 +118,28 @@ with one layer per requested variable. Layer names are the bioclim codes
 
 ``` r
 geo_bioclim_vars()
-#> # A tibble: 19 × 4
+#> # A tibble: 19 x 4
 #>    code  name                             description                      unit 
 #>    <chr> <chr>                            <chr>                            <chr>
 #>  1 bio1  annual_mean_temperature          Annual mean temperature          deg_C
-#>  2 bio2  mean_diurnal_range               Mean diurnal range (mean of mon… deg_C
-#>  3 bio3  isothermality                    Isothermality (bio2 / bio7) * 1… deg_C
-#>  4 bio4  temperature_seasonality          Temperature seasonality (standa… deg_C
-#>  5 bio5  max_temperature_warmest_month    Maximum temperature of the warm… deg_C
-#>  6 bio6  min_temperature_coldest_month    Minimum temperature of the cold… deg_C
-#>  7 bio7  temperature_annual_range         Temperature annual range (bio5 … deg_C
-#>  8 bio8  mean_temperature_wettest_quarter Mean temperature of the wettest… deg_C
-#>  9 bio9  mean_temperature_driest_quarter  Mean temperature of the driest … deg_C
-#> 10 bio10 mean_temperature_warmest_quarter Mean temperature of the warmest… deg_C
-#> 11 bio11 mean_temperature_coldest_quarter Mean temperature of the coldest… deg_C
+#>  2 bio2  mean_diurnal_range               Mean diurnal range (mean of mon~ deg_C
+#>  3 bio3  isothermality                    Isothermality (bio2 / bio7) * 1~ deg_C
+#>  4 bio4  temperature_seasonality          Temperature seasonality (standa~ deg_C
+#>  5 bio5  max_temperature_warmest_month    Maximum temperature of the warm~ deg_C
+#>  6 bio6  min_temperature_coldest_month    Minimum temperature of the cold~ deg_C
+#>  7 bio7  temperature_annual_range         Temperature annual range (bio5 ~ deg_C
+#>  8 bio8  mean_temperature_wettest_quarter Mean temperature of the wettest~ deg_C
+#>  9 bio9  mean_temperature_driest_quarter  Mean temperature of the driest ~ deg_C
+#> 10 bio10 mean_temperature_warmest_quarter Mean temperature of the warmest~ deg_C
+#> 11 bio11 mean_temperature_coldest_quarter Mean temperature of the coldest~ deg_C
 #> 12 bio12 annual_precipitation             Annual precipitation             mm   
-#> 13 bio13 precipitation_wettest_month      Precipitation of the wettest mo… mm   
-#> 14 bio14 precipitation_driest_month       Precipitation of the driest mon… mm   
-#> 15 bio15 precipitation_seasonality        Precipitation seasonality (coef… cv   
-#> 16 bio16 precipitation_wettest_quarter    Precipitation of the wettest qu… mm   
-#> 17 bio17 precipitation_driest_quarter     Precipitation of the driest qua… mm   
-#> 18 bio18 precipitation_warmest_quarter    Precipitation of the warmest qu… mm   
-#> 19 bio19 precipitation_coldest_quarter    Precipitation of the coldest qu… mm   
+#> 13 bio13 precipitation_wettest_month      Precipitation of the wettest mo~ mm   
+#> 14 bio14 precipitation_driest_month       Precipitation of the driest mon~ mm   
+#> 15 bio15 precipitation_seasonality        Precipitation seasonality (coef~ cv   
+#> 16 bio16 precipitation_wettest_quarter    Precipitation of the wettest qu~ mm   
+#> 17 bio17 precipitation_driest_quarter     Precipitation of the driest qua~ mm   
+#> 18 bio18 precipitation_warmest_quarter    Precipitation of the warmest qu~ mm   
+#> 19 bio19 precipitation_coldest_quarter    Precipitation of the coldest qu~ mm   
 
 # Offline: build a tiny stand-in raster and treat it as bio1
 r <- terra::rast(ncols = 10, nrows = 10, xmin = 144, xmax = 146,
@@ -154,7 +154,7 @@ geo_worldclim(vars = "bio1", path = tmp, download = FALSE)
 #> resolution  : 0.2, 0.2  (x, y)
 #> extent      : 144, 146, -7, -5  (xmin, xmax, ymin, ymax)
 #> coord. ref. : lon/lat WGS 84 (EPSG:4326)
-#> source      : file1cba54f33e59.tif
+#> source      : file2c74e8733c2.tif
 #> name        : bio1
 #> min value   :   20
 #> max value   :   20

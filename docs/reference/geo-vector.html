@@ -19,7 +19,7 @@ shapefile for new work."><meta property="og:image" content="https://tidymapr.in4
 
     <a class="navbar-brand me-2" href="../index.html">tidymapr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@ shapefile for new work."><meta property="og:image" content="https://tidymapr.in4
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://tidydiversity.in4metrix.dev/" aria-label="Diversity with the companion package tidydiversity"><span class="fa fa-leaf"></span> tidydiversity</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/jmozez/tidymapr" aria-label="Source code on GitHub"><span class="fa fa-github"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://gitlab.com/jimmy.moses/tidymapr" aria-label="Source code on GitLab"><span class="fa fa-gitlab"></span></a></li>
       </ul></div>
 
@@ -141,17 +142,17 @@ when needed).</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sites</span> <span class="op">&lt;-</span> <span class="fu"><a href="geo_as_sf.html">geo_as_sf</a></span><span class="op">(</span><span class="fu"><a href="geo_example_sites.html">geo_example_sites</a></span><span class="op">(</span><span class="st">"wilhelm"</span><span class="op">)</span>, <span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">buf</span> <span class="op">&lt;-</span> <span class="fu">geo_buffer</span><span class="op">(</span><span class="va">sites</span>, dist <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">geo_area</span><span class="op">(</span><span class="va">buf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 x 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   site     lon   lat elevation elevation_band coordinate_note            area_m2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> MW0200  145. -<span style="color: #BB0000;">5.74</span>       200 200 m          published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> MW0700  145. -<span style="color: #BB0000;">5.73</span>       700 700 m          published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> MW1200  145. -<span style="color: #BB0000;">5.72</span>      <span style="text-decoration: underline;">1</span>200 1200 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> MW1700  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">1</span>700 1700 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> MW2200  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">2</span>200 2200 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> MW2700  145. -<span style="color: #BB0000;">5.81</span>      <span style="text-decoration: underline;">2</span>700 2700 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> MW3200  145. -<span style="color: #BB0000;">5.80</span>      <span style="text-decoration: underline;">3</span>200 3200 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> MW3700  145. -<span style="color: #BB0000;">5.78</span>      <span style="text-decoration: underline;">3</span>700 3700 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> MW0200  145. -<span style="color: #BB0000;">5.74</span>       200 200 m          published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> MW0700  145. -<span style="color: #BB0000;">5.73</span>       700 700 m          published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> MW1200  145. -<span style="color: #BB0000;">5.72</span>      <span style="text-decoration: underline;">1</span>200 1200 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> MW1700  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">1</span>700 1700 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> MW2200  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">2</span>200 2200 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> MW2700  145. -<span style="color: #BB0000;">5.81</span>      <span style="text-decoration: underline;">2</span>700 2700 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> MW3200  145. -<span style="color: #BB0000;">5.80</span>      <span style="text-decoration: underline;">3</span>200 3200 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> MW3700  145. -<span style="color: #BB0000;">5.78</span>      <span style="text-decoration: underline;">3</span>700 3700 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

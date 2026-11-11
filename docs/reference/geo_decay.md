@@ -82,7 +82,7 @@ com <- dplyr::left_join(png_ants, sites[c("site", "lon", "lat")],
 )
 decay <- geo_decay(com, lon, lat, .by = season, method = "haversine")
 head(decay)
-#> # A tibble: 6 × 7
+#> # A tibble: 6 x 7
 #>   season site_1 site_2 turnover nestedness total distance
 #>   <chr>  <chr>  <chr>     <dbl>      <dbl> <dbl>    <dbl>
 #> 1 dry    MW0200 MW0700    0.667     0.0108 0.677    8802.

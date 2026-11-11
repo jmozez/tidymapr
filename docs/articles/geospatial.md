@@ -53,7 +53,7 @@ against IDW by cross-validation, then a map and an HTML report.
 ``` r
 rec <- geo_recipe_read(system.file("recipes/interpolate-samples.yaml", package = "tidymapr"))
 rec
-#> GeoSpaX recipe "interpolate-samples" (v2): Field samples → interpolated surface
+#> GeoSpaX recipe "interpolate-samples" (v2): Field samples → interpolated surfacece
 #> (kriging or IDW, automatically)
 #> Inputs: layer and field
 #> Steps: samples (io.open), surface (interpolate.auto), style_samples
@@ -62,14 +62,14 @@ rec
 #> Outputs: surface, map, uncertainty, and report
 out <- geo_recipe_run(rec, inputs = list(layer = samples, field = "zinc"), dir = tempfile(), quiet = TRUE)
 out$log
-#> # A tibble: 6 × 4
+#> # A tibble: 6 x 4
 #>   step          use              status seconds
 #>   <chr>         <chr>            <chr>    <dbl>
 #> 1 samples       io.open          done      0   
-#> 2 surface       interpolate.auto done      4.01
+#> 2 surface       interpolate.auto done      4.17
 #> 3 style_samples automap.style    done      0   
-#> 4 map           export.map       done      0.76
-#> 5 uncertainty   export.map       done      0.65
+#> 4 map           export.map       done      0.71
+#> 5 uncertainty   export.map       done      0.62
 #> 6 report        export.report    done      0
 ```
 
@@ -182,7 +182,7 @@ utils::data("augusta_nlcd", package = "landscapemetrics", envir = e)
 lc <- e$augusta_nlcd
 if (inherits(lc, "PackedSpatRaster")) lc <- terra::unwrap(lc)
 geo_landscape(lc) |> arrange(desc(ca)) |> head(6)
-#> # A tibble: 6 × 9
+#> # A tibble: 6 x 9
 #>   class    np    ca pland    lpi area_mn    ed    ai   mesh
 #>   <dbl> <int> <dbl> <dbl>  <dbl>   <dbl> <dbl> <dbl>  <dbl>
 #> 1    42  1795 9991. 37.2  1.61     5.57   95.2  80.9 41.6  
@@ -192,7 +192,7 @@ geo_landscape(lc) |> arrange(desc(ca)) |> head(6)
 #> 5    71  1300 1693.  6.31 0.306    1.30   26.8  68.5  1.01 
 #> 6    21  3757 1398.  5.21 0.0801   0.372  44.2  36.4  0.150
 geo_landscape(lc, "landscape")
-#> # A tibble: 1 × 6
+#> # A tibble: 1 x 6
 #>      np     ta    ed  shdi  sidi  mesh
 #>   <int>  <dbl> <dbl> <dbl> <dbl> <dbl>
 #> 1 17141 26849.  204.  1.99 0.801  59.6

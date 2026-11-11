@@ -134,7 +134,7 @@ occ <- dplyr::filter(grid, bio1 > 22) |>
   dplyr::slice_sample(n = 25)
 fit <- sdm_fit(occ, predictors = "bio1", engine = "glm")
 sdm_evaluate(fit)
-#> # A tibble: 1 × 8
+#> # A tibble: 1 x 8
 #>     auc   tss threshold sensitivity specificity     n n_presence n_absence
 #>   <dbl> <dbl>     <dbl>       <dbl>       <dbl> <int>      <int>     <int>
 #> 1 0.523 0.268    0.0454           1       0.268   525         25       500

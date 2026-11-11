@@ -1,12 +1,12 @@
 
-# tidymapr <a href="https://gitlab.com/jimmy.moses/tidymapr"><img src="man/figures/logo.png" align="right" height="139" alt="tidymapr website" /></a>
+# tidymapr <a href="https://tidymapr.in4metrix.dev/"><img src="man/figures/logo.png" align="right" height="139" alt="tidymapr website" /></a>
 
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![License:
-MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitlab.com/jimmy.moses/tidymapr/-/blob/main/LICENSE.md)
+MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jmozez/tidymapr/blob/main/LICENSE.md)
 [![Website](https://img.shields.io/badge/website-tidymapr.in4metrix.dev-349295)](https://tidymapr.in4metrix.dev)
 [![Diversity with tidydiversity](https://img.shields.io/badge/diversity%20with-tidydiversity-1A9E93)](https://tidydiversity.in4metrix.dev)
 [![Compatible with GeoSpaX](https://img.shields.io/badge/compatible%20with-GeoSpaX-11376B)](https://geospax.in4metrix.dev)
@@ -25,7 +25,7 @@ explain each choice. It is compatible with the
 same cartographic conventions, reading and writing the same formats and
 running the same recipes.
 For ecology, it is the mapping companion to
-[tidydiversity](https://gitlab.com/jimmy.moses/tidydiversity):
+[tidydiversity](https://tidydiversity.in4metrix.dev/):
 tidydiversity estimates diversity, tidymapr puts it on a map. Every verb
 takes a data frame and returns a tibble, an `sf` table, a `SpatRaster` or a
 ggplot.
@@ -72,7 +72,7 @@ Install the development version from GitLab:
 pak::pak("gitlab::jimmy.moses/tidymapr")
 ```
 
-The source code lives on GitLab, <https://gitlab.com/jimmy.moses/tidymapr>.
+The source code lives on GitHub, <https://github.com/jmozez/tidymapr>, with a mirror on GitLab, <https://gitlab.com/jimmy.moses/tidymapr>.
 
 **sf**, **terra** and the other spatial packages are optional; install
 the ones you need with `install.packages(c("sf", "terra"))`.

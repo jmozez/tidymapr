@@ -70,6 +70,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/jmozez/tidymapr" aria-label="Source code on GitHub"><span class="fa fa-github"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://gitlab.com/jimmy.moses/tidymapr" aria-label="Source code on GitLab"><span class="fa fa-gitlab"></span></a></li>
       </ul>
 </div>
@@ -88,7 +89,7 @@
 
 <div class="tmr-hero">
 <p><strong>Tidy mapping, spatial analysis and publication cartography.</strong></p>
-<p>tidymapr makes publication-quality maps and does spatial analysis in R, in the style of a desktop GIS: one call can choose the projection, classification, colour ramps, legends, scale bar and north arrow, and explain each choice. It is compatible with the <a href="https://geospax.in4metrix.dev" class="external-link">GeoSpaX</a> desktop GIS, following the same cartographic conventions, reading and writing the same formats and running the same recipes. For ecology, it is the mapping companion to <a href="https://gitlab.com/jimmy.moses/tidydiversity" class="external-link">tidydiversity</a>: tidydiversity estimates diversity, tidymapr puts it on a map. Every verb takes a data frame and returns a tibble, an <code>sf</code> table, a <code>SpatRaster</code> or a ggplot.</p>
+<p>tidymapr makes publication-quality maps and does spatial analysis in R, in the style of a desktop GIS: one call can choose the projection, classification, colour ramps, legends, scale bar and north arrow, and explain each choice. It is compatible with the <a href="https://geospax.in4metrix.dev" class="external-link">GeoSpaX</a> desktop GIS, following the same cartographic conventions, reading and writing the same formats and running the same recipes. For ecology, it is the mapping companion to <a href="https://tidydiversity.in4metrix.dev/" class="external-link">tidydiversity</a>: tidydiversity estimates diversity, tidymapr puts it on a map. Every verb takes a data frame and returns a tibble, an <code>sf</code> table, a <code>SpatRaster</code> or a ggplot.</p>
 </div>
 <div class="tmr-cards">
 <div class="section level3 tmr-card">
@@ -114,7 +115,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pak/man/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"gitlab::jimmy.moses/tidymapr"</span><span class="op">)</span></span></code></pre></div>
-<p>The source code lives on GitLab, <a href="https://gitlab.com/jimmy.moses/tidymapr" class="external-link uri">https://gitlab.com/jimmy.moses/tidymapr</a>.</p>
+<p>The source code lives on GitHub, <a href="https://github.com/jmozez/tidymapr" class="external-link uri">https://github.com/jmozez/tidymapr</a>, with a mirror on GitLab, <a href="https://gitlab.com/jimmy.moses/tidymapr" class="external-link uri">https://gitlab.com/jimmy.moses/tidymapr</a>.</p>
 <p><strong>sf</strong>, <strong>terra</strong> and the other spatial packages are optional; install the ones you need with <code>install.packages(c("sf", "terra"))</code>.</p>
 </div>
 <div class="section level2">
@@ -339,7 +340,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://gitlab.com/jimmy.moses/tidymapr/-/blob/main/LICENSE.md" class="external-link"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a></li>
+<li><a href="https://github.com/jmozez/tidymapr/blob/main/LICENSE.md" class="external-link"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a></li>
 <li><a href="https://tidymapr.in4metrix.dev"><img src="https://img.shields.io/badge/website-tidymapr.in4metrix.dev-349295" alt="Website"></a></li>
 <li><a href="https://tidydiversity.in4metrix.dev" class="external-link"><img src="https://img.shields.io/badge/diversity%20with-tidydiversity-1A9E93" alt="Diversity with tidydiversity"></a></li>
 <li><a href="https://geospax.in4metrix.dev" class="external-link"><img src="https://img.shields.io/badge/compatible%20with-GeoSpaX-11376B" alt="Compatible with GeoSpaX"></a></li>

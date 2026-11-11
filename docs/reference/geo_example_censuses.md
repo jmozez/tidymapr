@@ -34,9 +34,9 @@ A list with `census1` and `census2` tibbles.
 ``` r
 cens <- geo_example_censuses()
 tidydiversity::stems_demography(cens$census1, cens$census2, time = 5, dbh_unit = "mm")
-#> # A tibble: 1 × 12
+#> # A tibble: 1 x 12
 #>       N     S     D     R mortality_rate recruitment_rate growth_rate growth  
 #>   <int> <int> <int> <int>          <dbl>            <dbl>       <dbl> <chr>   
 #> 1    80    74     6     8         0.0156           0.0205       0.460 absolute
-#> # ℹ 4 more variables: n_growth <int>, time <dbl>, mindbh <dbl>, dbh_unit <chr>
+#> # i 4 more variables: n_growth <int>, time <dbl>, mindbh <dbl>, dbh_unit <chr>
 ```

@@ -139,8 +139,12 @@ navbar:
   bg: dark
   structure:
     left: [intro, tutorials, guides, gallery, reference, news]
-    right: [tidydiversity, search, gitlab]
+    right: [tidydiversity, search, github, gitlab]
   components:
+    github:
+      icon: fa-github
+      aria-label: Source code on GitHub
+      href: https://github.com/jmozez/tidymapr
     gitlab:
       icon: fa-gitlab
       aria-label: Source code on GitLab
