@@ -33,7 +33,8 @@ map_raster(
   name = NULL,
   palette = "auto",
   hillshade = FALSE,
-  alpha = if (hillshade) 0.65 else 1
+  alpha = if (hillshade) 0.65 else 1,
+  limits = NULL
 )
 
 map_polygons(
@@ -160,6 +161,11 @@ the least of the mapped features, or \code{"tr"}, \code{"tl"}, \code{"br"}, \cod
 
 \item{hillshade}{Draw the raster over its own hillshade? Useful for
 elevation.}
+
+\item{limits}{For \code{map_raster()}, the range of the colour scale, such as
+\code{c(0, 1)} for probabilities. Give the same limits to rasters in
+several panels so that one colour means one value and
+\code{\link[=geo_panels]{geo_panels()}} can merge their legends into one.}
 
 \item{data}{An \code{sf} table.}
 

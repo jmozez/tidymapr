@@ -1,481 +1,138 @@
 ---
-title: "Geospatial diversity workflows"
+title: "Spatial analysis"
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.width = 7,
-  fig.height = 4.5,
-  dpi = 150,
-  out.width = "100%"
+  dev.args = list(bg = "white"),
+  collapse = TRUE, comment = "#>", out.width = "100%",
+  dpi = 150, fig.width = 8, fig.height = 5.5
 )
 ```
 
-```{r setup}
-library(tidydiversity)
+The analysis tools of a desktop GIS, written in C++ and run on several
+cores, each checked against the reference R package. Every example uses
+real data shipped with R packages.
+
+```{r setup, message = FALSE}
 library(tidymapr)
+library(dplyr)
 ```
 
-tidymapr and tidydiversity share one tidy pipeline, in the same way dplyr
-and ggplot2 do: tidydiversity estimates diversity, tidymapr puts it on a
-map. This article covers study-site maps for papers, sites as `sf` tables,
-rasters joined as columns, occurrence cleaning, distances for
-`tidydiversity::beta_decay()`, Hill numbers on maps, stem maps over
-topography, WorldClim/CHELSA bioclim (including CMIP6), tidy SDMs
-(`sdm_*`) and Moran's I for spatial autocorrelation. Hand off to **tmap**
-or **leaflet** with `as_sf()` / `as_spat_raster()` when you want
-interactive maps; those stay Suggests only. Diversity, stem and modelling
-verbs (`div_*`, `beta_*`, `stems_*`, `model_*`, `plot_partial()`) come from
-tidydiversity.
+## Interpolation: kriging and IDW
 
-## Study-site map (publication figure)
+Zinc in the floodplain soils of the river Meuse (155 samples, shipped with
+terra). `geo_interpolate()` krigs with a fitted variogram; its results equal
+gstat's to machine precision.
 
-Papers almost always need a map of the sampling sites. The Mt Wilhelm ant
-survey behind `tidydiversity::png_ants` comes with published bait GPS
-positions ([png_ants_sites]; Mottl, Moses and Klimes 2023,
-[doi:10.5281/zenodo.8191946](https://doi.org/10.5281/zenodo.8191946)), and
-[geo_example_sites()] returns them as one point per elevation band.
+```{r meuse}
+meuse <- terra::unwrap(readRDS(system.file("ex/meuse.rds", package = "terra")))
+samples <- sf::st_as_sf(as.data.frame(meuse), coords = c("x", "y"), crs = 28992)
+samples$log_zinc <- log(samples$zinc)
 
-```{r study-sites-map, fig.width = 7, fig.height = 5.2, eval = requireNamespace("ggplot2", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)}
-sites <- geo_example_sites("wilhelm")
-# Keep the five elevations shared by both seasons in png_ants
-sites <- sites[sites$elevation <= 2200, ]
-sites$season <- "both"
-
-plot_sites(
-  sites,
-  lon,
-  lat,
-  colour = elevation_band,
-  label = site,
-  scale_bar = TRUE,
-  north_arrow = TRUE
-) +
-  ggplot2::labs(
-    title = "Study sites along Mt Wilhelm, Papua New Guinea",
-    subtitle = "Illustrative coordinates for the elevational gradient"
-  )
+grid <- terra::rast(terra::ext(terra::vect(samples)) + 100, resolution = 20, crs = "EPSG:28992")
+zinc <- geo_interpolate(samples, log_zinc, grid, method = "kriging", name = "log_zinc")
+zinc
 ```
 
-Join the same coordinates to community data when you need a map per season
-or taxon:
-
-```{r study-sites-facet, fig.width = 8, fig.height = 4.2, eval = requireNamespace("ggplot2", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)}
-ants <- unique(png_ants[c("site", "elevation", "season")])
-ants <- dplyr::left_join(ants, sites[c("site", "lon", "lat")], by = "site")
-plot_sites(
-  ants,
-  lon,
-  lat,
-  colour = elevation,
-  facet = season,
-  label = site
-) +
-  ggplot2::labs(title = "PNG ant bait sites by season")
+```{r meuse-map, fig.alt = "Kriged log zinc concentration in Meuse floodplain soils with the sample sites"}
+geo_map(title = "Zinc in Meuse floodplain soils (kriged)", caption = "Data: terra package") |>
+  map_raster(exp(zinc[["log_zinc"]]), name = "Zinc (ppm)", palette = "YlOrRd") |>
+  map_points(samples, preset = "sample_site", label = "Samples", size = 1.3)
 ```
 
-## Sites and rasters
+## GeoSpaX recipes
 
-```{r sites}
-sites <- geo_example_sites("wilhelm")
-sites <- sites[sites$elevation <= 2200, ]
-sf_sites <- geo_as_sf(sites, lon, lat, site = site)
-sf_sites
+The same analysis as a GeoSpaX recipe, run unchanged in R: kriging against
+IDW by cross-validation, then a map and an HTML report.
+
+```{r recipe}
+rec <- geo_recipe_read(system.file("recipes/interpolate-samples.yaml", package = "tidymapr"))
+rec
+out <- geo_recipe_run(rec, inputs = list(layer = samples, field = "zinc"), dir = tempfile(), quiet = TRUE)
+out$log
 ```
 
-```{r extract, eval = requireNamespace("terra", quietly = TRUE)}
-# Demo raster in place of CHELSA / WorldClim / SRTM
-r <- terra::rast(
-  ncols = 40, nrows = 40,
-  xmin = 144.8, xmax = 145.5, ymin = -6.0, ymax = -5.5,
-  crs = "EPSG:4326"
-)
-terra::values(r) <- sites$elevation[1] +
-  800 * (terra::yFromCell(r, seq_len(terra::ncell(r))) + 6)
-names(r) <- "elev_proxy"
-sites_x <- geo_extract(sites, r, lon, lat)
-sites_x
+## Hot spots and clusters
+
+Getis-Ord Gi\* and local Moran's I (LISA) find places of unusually high or
+low values; both match spdep.
+
+```{r hotspot, fig.alt = "Hot and cold spots of zinc at the Meuse sample sites"}
+hot <- geo_hotspot(sf::st_transform(samples, 4326), zinc, k = 8)
+count(sf::st_drop_geometry(hot), hotspot)
+geo_map(title = "Hot spots of zinc (Getis-Ord Gi*)", crs = 28992) |>
+  map_points(hot, fill = hotspot, group = "Gi*", palette = c("#2166AC", "#B2182B", "grey80"), size = 2)
 ```
 
-## Clean occurrence records
+`geo_dbscan()` groups points into density clusters, here 1,000 earthquakes
+near Fiji (`datasets::quakes`), with distances in metres.
 
-```{r clean}
-occ <- tibble::tibble(
-  species = c("Camponotus_sp1", "Camponotus_sp1", "Polyrhachis_sp2",
-              "Pheidole_sp3", "ghost"),
-  lon = c(145.23, 145.23, 145.12, 0, 12.58),
-  lat = c(-5.72, -5.72, -5.78, 0, 55.67)
-)
-geo_clean(occ, lon, lat, species = species, value = "flagged")[
-  c("species", "lon", "lat", ".zer", ".gbf", ".dpl", ".summary")
-]
+```{r dbscan}
+cl <- geo_dbscan(datasets::quakes, eps = 50000, min_pts = 15, lon = long, lat = lat)
+table(cl$cluster)
+attr(cl, "hulls")
 ```
 
-`geo_gbif()` accepts a pre-downloaded GBIF table (or downloads with
-**rgbif** when installed) and pipes into the same cleaner.
+## Terrain and hydrology
 
-## Distance decay with tidydiversity
+D8 flow direction, flow accumulation, watersheds and the topographic
+wetness index on Luxembourg's elevation model; they match terra.
 
-```{r decay}
-com <- dplyr::left_join(
-  png_ants,
-  sites[c("site", "lon", "lat")],
-  by = "site"
-)
-decay_geo <- geo_decay(com, lon, lat, .by = season, method = "haversine")
-decay_elev <- geo_decay(
-  com, elevation = elevation, .by = season, method = "elevation"
-)
-head(decay_geo)
+```{r hydro, fig.height = 6, fig.alt = "Flow accumulation in Luxembourg showing the river network"}
+dem <- terra::project(terra::rast(system.file("ex/elev.tif", package = "terra")), "EPSG:2169")
+acc <- geo_flow_accumulation(dem)
+cantons <- sf::st_read(system.file("ex/lux.shp", package = "terra"), quiet = TRUE)
+geo_map(title = "Where water collects: flow accumulation") |>
+  map_raster(log10(acc), name = "log10 cells", palette = "Blues 3") |>
+  map_polygons(cantons, preset = "admin", label = "Cantons")
 ```
 
-```{r decay-plot, eval = requireNamespace("ggplot2", quietly = TRUE)}
-ggplot2::autoplot(decay_geo) + ggplot2::labs(title = "Geographic distance decay")
-```
+## Remote sensing
 
-## Map Hill numbers
+Spectral indices with an automatic (Otsu) threshold, and spectral
+diversity in Hill numbers, on a Sentinel-2 scene of Luxembourg.
 
-```{r map, eval = requireNamespace("ggplot2", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)}
-est <- div_estimate(png_ants, q = 0, nboot = 0, .by = season)
-est <- dplyr::left_join(est, sites[c("site", "lon", "lat")], by = "site")
-est_dry <- est[est$season == "dry", ]
-plot_geo(est_dry, estimate, lon, lat, label = site) +
-  ggplot2::labs(title = "Observed richness of PNG ants (dry season)")
-```
-
-## Spatial autocorrelation
-
-```{r moran}
+```{r s2, fig.height = 5, fig.alt = "NDVI and spectral diversity of Luxembourg side by side"}
+s2 <- terra::rast(system.file("ex/sent2_L2A_2024-08-24.tif", package = "terra"))
+ndvi <- geo_spectral_index(s2, "NDVI")
 set.seed(1)
-g <- expand.grid(x = 1:8, y = 1:8)
-g$richness <- g$x + g$y + 0.05 * stats::rnorm(nrow(g))
-geo_moran(g, richness, lon = x, lat = y, nperm = 199, correlogram = TRUE)
+sdiv <- geo_spectral_diversity(s2, window = 5, k = 15)
+a <- geo_map(subtitle = "NDVI", north_arrow = FALSE) |>
+  map_raster(ndvi, name = "NDVI", palette = "Greens 3")
+b <- geo_map(subtitle = "Spectral diversity (q = 1)", scale_bar = FALSE) |>
+  map_raster(sdiv[[1]], name = "Effective\nspectral species", palette = "viridis")
+geo_panels(a, b, ncol = 2, guides = "keep")
 ```
 
+Fresh imagery comes from STAC catalogues; only the window over the area
+is downloaded:
 
-## Basemaps
-
-`plot_sites()` and `plot_geo()` take a `basemap` argument. Use `"coast"`
-offline, online tile names (`"osm"`, `"carto"`, `"carto_dark"`, `"esri"`)
-when connected, or pass a `SpatRaster` / file path. Tile fetch failures fall
-back to the coast basemap with a message. Scale bar and north arrow stay on.
-
-```{r basemap-coast, fig.width = 7, fig.height = 5, eval = requireNamespace("ggplot2", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)}
-sites <- geo_example_sites("wilhelm")
-sites <- sites[sites$elevation <= 2200, ]
-plot_sites(
-  sites, lon, lat,
-  colour = elevation_band,
-  label = site,
-  basemap = "coast"
-) +
-  ggplot2::labs(title = "Study sites with a coast basemap")
-```
-
-## Vector and raster analysis
-
-Buffer sites, then summarise a raster inside each buffer (for example mean
-elevation). Crop and mask keep the analysis inside the study area.
-
-```{r buffer-zonal, eval = requireNamespace("terra", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)}
-sites_sf <- geo_as_sf(sites, lon, lat)
-buf <- geo_buffer(sites_sf, dist = 5000)
-r <- terra::rast(
-  ncols = 40, nrows = 40,
-  xmin = 144.8, xmax = 145.5, ymin = -6.0, ymax = -5.5,
-  crs = "EPSG:4326"
+```{r stac, eval = FALSE}
+city <- c(6.08, 49.57, 6.18, 49.65)
+scenes <- geo_stac_search("sentinel-2-l2a", city,
+  datetime = c("2024-06-01", "2024-08-31"), cloud_cover = 10
 )
-terra::values(r) <- sites$elevation[1] +
-  800 * (terra::yFromCell(r, seq_len(terra::ncell(r))) + 6)
-names(r) <- "elev_proxy"
-geo_raster_zonal(r, buf, fun = "mean")
-cropped <- geo_raster_crop(r, buf)
-masked <- geo_raster_mask(r, buf)
-c(ncell_full = terra::ncell(r), ncell_crop = terra::ncell(cropped))
+img <- geo_stac_read(scenes, c("red", "nir"), area = city, n = 4)
+geo_spectral_index(img, "NDVI")
 ```
 
-## Bioclimatic variables (WorldClim and CHELSA)
+## Landscape fragmentation
 
-Biodiversity models often need temperature and rainfall surfaces. List the
-19 bioclim variables with [geo_bioclim_vars()], then read or download them
-with [geo_worldclim()] or [geo_chelsa()] (or the front door [geo_bioclim()]).
-Pass `path` for local GeoTIFFs when offline. Cite the data sources in any
-paper that uses them: WorldClim 2 (Fick and Hijmans 2017, CC BY 4.0) and
-CHELSA (Karger et al. 2017, CC BY 4.0).
+FRAGSTATS metrics per land-cover class; they match landscapemetrics on
+projected rasters and are measured in true hectares on rasters in degrees.
 
-```{r bioclim-vars}
-geo_bioclim_vars()[c(1, 12), ]
+```{r frag, eval = rlang::is_installed("landscapemetrics")}
+e <- new.env()
+utils::data("augusta_nlcd", package = "landscapemetrics", envir = e)
+lc <- e$augusta_nlcd
+if (inherits(lc, "PackedSpatRaster")) lc <- terra::unwrap(lc)
+geo_landscape(lc) |> arrange(desc(ca)) |> head(6)
+geo_landscape(lc, "landscape")
 ```
 
-```{r bioclim-extract, eval = requireNamespace("terra", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)}
-# Offline demo: a local stand-in for bio1 joined to sites
-bio1 <- terra::rast(
-  ncols = 20, nrows = 20,
-  xmin = 144.8, xmax = 145.5, ymin = -6.0, ymax = -5.5,
-  crs = "EPSG:4326"
-)
-terra::values(bio1) <- 22
-names(bio1) <- "bio1"
-tmp <- tempfile(fileext = ".tif")
-terra::writeRaster(bio1, tmp, overwrite = TRUE)
-clim <- geo_worldclim(vars = "bio1", path = tmp, download = FALSE)
-geo_extract(sites, clim, lon, lat)
-```
+## Species distribution models
 
-## Tree stems over topography (ForestGEO / Wanang)
-
-Large forest dynamics plots map every stem in local metre coordinates
-(`gx`, `gy`) over a DEM. [plot_topo()] draws stems with contour lines and
-hillshade, coloured by species and sized by DBH. The package does not yet
-ship real Wanang stem coordinates; [geo_example_stems()] and
-[geo_example_dem()] give an illustrative 100 m x 100 m plot in the
-ForestGEO column layout. Replace them with your inventory for publication.
-ForestGEO / Wanang background: Anderson-Teixeira et al. (2015),
-doi:10.1111/gcb.12712; ForestGEO <https://forestgeo.si.edu/>.
-
-```{r topo-stems, fig.width = 6.5, fig.height = 5.5, eval = requireNamespace("ggplot2", quietly = TRUE) && requireNamespace("terra", quietly = TRUE)}
-stems <- geo_example_stems()
-dem <- geo_example_dem()
-plot_topo(
-  stems,
-  colour = species,
-  size = dbh,
-  dem = dem,
-  boundary = c(0, 0, 100, 100)
-) +
-  ggplot2::labs(
-    title = "Stem map over topography",
-    subtitle = "Illustrative ForestGEO-style plot (replace with real gx, gy, DEM)"
-  )
-```
-
-## ForestGEO-style plots
-
-Forest dynamics plots (ForestGEO / CTFS) map every stem in local metres and
-repeat the census about every five years (Condit 1998; Anderson-Teixeira
-et al. 2015). tidymapr handles the spatial steps and tidydiversity the census
-summaries:
-
-1. `tidydiversity::stems_as_trees()` picks the main stem per tree.
-2. [stems_quadrat()] assigns 20 m x 20 m quadrats from `gx` / `gy`.
-3. `tidydiversity::stems_abundance()` and `tidydiversity::stems_basal_area()` summarise counts and
-   basal area (`pi/4 * dbh^2`).
-4. `tidydiversity::stems_size_class()` bins DBH.
-5. `tidydiversity::stems_demography()` estimates mortality, recruitment and growth between
-   two censuses.
-6. [stems_habitat()] joins quadrat topography or habitat,
-   [stems_neighbours()] counts neighbours within a radius and
-   [stems_habitat_test()] runs the torus-translation habitat test.
-7. `tidydiversity::stems_as_community()` feeds `tidydiversity::div_hill()` and friends.
-8. [plot_topo()] maps stems on hillshade and contours.
-
-```{r forestgeo-demo, eval = requireNamespace("terra", quietly = TRUE)}
-stems <- geo_example_stems()
-stems_basal_area(stems, dbh_unit = "mm", .by = species)
-cens <- geo_example_censuses()
-stems_demography(cens$census1, cens$census2, time = 5, dbh_unit = "mm")
-com <- stems_as_community(stems_quadrat(stems))
-div_hill(com, q = c(0, 1, 2))
-```
-
-
-## Environmental distance decay
-
-After joining bioclim columns with [geo_extract()] / [geo_bioclim()], pass
-`method = "environmental"` to [geo_distance()] or [geo_decay()] to get
-Euclidean (scaled) or Gower distances among sites. The result feeds
-`tidydiversity::beta_decay_model()` the same way as geographic or elevational distance.
-
-```{r env-decay, eval = requireNamespace("sf", quietly = TRUE)}
-sites <- unique(png_ants[c("site", "elevation", "season")])
-sites$lon <- 145.0 + sites$elevation / 1e5
-sites$lat <- -5.8 - sites$elevation / 2e5
-sites$bio1 <- 25 - sites$elevation / 400
-com <- dplyr::left_join(
-  dplyr::filter(png_ants, season == "wet"),
-  sites[c("site", "season", "lon", "lat", "bio1")],
-  by = c("site", "season")
-)
-decay <- geo_decay(com, lon, lat, method = "environmental", vars = "bio1")
-head(decay)
-```
-
-## Spatial eigenvectors, rarefaction and grain
-
-[geo_mem()] builds dbMEM / PCNM eigenvectors from site coordinates.
-[geo_rarefy_spatial()] accumulates richness by distance from a seed sample.
-[geo_grain()] rebins sites into square cells of several sizes and recomputes
-Hill numbers, so MAUP / grain effects are visible. [geo_middomain()] adds a
-geometric mid-domain null for elevational richness.
-
-```{r spatial-helpers}
-g <- expand.grid(lon = 1:5, lat = 1:4)
-g$site <- paste0("s", seq_len(nrow(g)))
-names(geo_mem(g, lon, lat, site = site, method = "euclidean"))[1:6]
-```
-
-## Tidy species distribution models
-
-[sdm_fit()], [sdm_predict()], [sdm_evaluate()] and [plot_sdm()] provide a
-tidyverse-style SDM workflow. Engines: `"glm"`, `"gam"` (mgcv) and a native
-`"maxnet"`-like presence-background model with linear and quadratic features
-(no Java Maxent, no biomod2 or dismo). Predictors may be columns or a
-SpatRaster from [geo_bioclim()].
-
-```{r sdm-demo, fig.width = 6.5, fig.height = 4.5, eval = requireNamespace("ggplot2", quietly = TRUE)}
-set.seed(1)
-grid <- expand.grid(
-  lon = seq(145, 145.5, length.out = 20),
-  lat = seq(-5.9, -5.5, length.out = 16)
-)
-grid$bio1 <- 15 + 12 * (grid$lat - min(grid$lat)) / diff(range(grid$lat))
-pa <- grid
-pa$present <- as.integer(pa$bio1 > 22)
-fit <- sdm_fit(pa, predictors = "bio1", present = present, engine = "glm")
-sdm_evaluate(fit)
-plot_sdm(sdm_predict(fit, newdata = grid)) +
-  ggplot2::labs(
-    title = "SDM suitability (demonstration)",
-    subtitle = "Simulated species present only at high bio1"
-  )
-```
-
-## Elevation, future climate and planning export
-
-[geo_elevation()] downloads or reads an SRTM-style DEM (geodata / elevatr,
-with offline `path`). [geo_chelsa()] accepts `scenario` and `year` for
-CHELSA-CMIP6 future layers (Karger et al. 2023; skip network with
-`download = FALSE` on CRAN). [geo_as_features()] exports a site-by-feature
-matrix for prioritizr; spectral / Google Earth Engine helpers remain
-deferred.
-
-
-## Partial-effect and surface plots (Moses et al. 2021)
-
-The Mt Wilhelm litter-ant analysis in Moses et al. (2021,
-doi:10.1111/btp.12914) fitted Poisson and negative-binomial GLMs for
-richness and abundance against elevation and litter depth, then used
-**visreg** (`visreg2d`) for the interaction surface and hand-converted the
-result to ggplot. tidydiversity replaces that jump with `tidydiversity::model_count()`,
-`tidydiversity::plot_partial()` and `tidydiversity::plot_surface()` in one tidy workflow (no visreg,
-plotmo or aods3).
-
-```{r moses-partial, fig.width = 7, fig.height = 4.2, eval = requireNamespace("ggplot2", quietly = TRUE)}
-ants <- png_ants |>
-  dplyr::group_by(site, elevation) |>
-  dplyr::summarise(richness = dplyr::n_distinct(species), .groups = "drop")
-set.seed(1)
-ants$litter <- 1 + ants$elevation / 2000 + stats::rnorm(nrow(ants), 0, 0.25)
-fit <- model_count(
-  ants, richness ~ elevation * litter, family = "poisson"
-)
-plot_partial(fit, elevation, residuals = TRUE) +
-  ggplot2::labs(title = "Partial effect of elevation on richness")
-plot_surface(fit, elevation, litter) +
-  ggplot2::labs(
-    title = "Elevation x litter surface",
-    subtitle = "Pattern after Moses et al. 2021; illustrative litter values"
-  )
-```
-
-
-## GADM boundaries and GDAL-backed I/O
-
-Administrative backdrops come from [GADM](https://gadm.org) via
-[geo_gadm()]. Level 0 is the country outline, level 1 provinces, level 2
-districts. Downloads are cached under
-`tools::R_user_dir("tidymapr", "cache")/gadm` and are **not** bundled
-in the package. GADM is free for academic use; redistribution of the full
-database is restricted ([license](https://gadm.org/license.html)). Set
-`download = FALSE` on CRAN or offline runners, or pass a local GeoPackage
-with `path`.
-
-```{r gadm, eval = FALSE}
-# Online once (needs geodata + network):
-png_prov <- geo_gadm("PNG", level = 1)
-plot_sites(
-  geo_example_sites("wilhelm"), lon, lat,
-  colour = elevation_band, admin = png_prov, inset = "png"
-)
-# Clip an elevation raster to the country outline (GDAL warp via terra):
-dem <- geo_raster_mask(dem, geo_gadm("PNG", level = 0))
-```
-
-Raster and vector files are read and written through **GDAL** (via terra and
-sf). Prefer [geo_read()] / [geo_write()] (and the vector/raster twins) over
-calling `st_read`, `rast`, `gdal_translate`, or the retired **rgdal** package.
-Format is taken from the file extension; see `?geo_read` for the full table
-(GeoTIFF/COG, NetCDF, ASCII grid, GeoPackage, shapefile, GeoJSON, KML/KMZ,
-GML, FileGDB when available, CSV lon/lat occurrence tables).
-
-```{r gdal-io, eval = FALSE}
-r <- geo_read("elevation.tif")
-geo_write(geo_raster_project(r, "EPSG:32755"), "elev_utm55s.tif", overwrite = TRUE)
-pts <- geo_read("sites.gpkg")
-geo_write(as_sf(geo_example_sites("wilhelm")), "sites.gpkg", overwrite = TRUE)
-occ <- geo_read("occurrences.csv")  # lon/lat columns -> sf
-```
-
-Save map figures from `plot_sites()` / `plot_geo()` / `plot_sdm()` /
-`plot_topo()` with [geo_save()] (or `tidydiversity::plot_save()` for journal column sizes):
-
-```{r geo-save, eval = FALSE}
-p <- plot_sites(
-  geo_example_sites("wilhelm"), lon, lat,
-  colour = elevation_band, inset = "png", basemap = "esri"
-)
-geo_save(p, "wilhelm_sites.png", width = 180, height = 140, units = "mm", dpi = 300)
-geo_save(p, "wilhelm_sites.pdf")
-```
-
-## Legends, insets and hand-off to tmap / leaflet
-
-`plot_sites()`, `plot_geo()` and `plot_sdm()` draw ggplot maps with
-collision-aware placement of the scale bar, north arrow, inside legend and
-optional overview inset (the emptiest panel corner wins, so decorations do
-not sit on sites). Legends support a title, inside/outside position, a frame,
-ordered keys, and combined colour + size (for example a Hill number with
-elevation). Set `inset = "png"` or `inset = TRUE` for a Papua New Guinea /
-auto locator map with the main extent marked.
-
-```{r map-legend-inset, eval = FALSE}
-sites <- geo_example_sites("wilhelm")
-plot_sites(
-  sites, lon, lat,
-  colour = elevation_band, size = elevation, label = site,
-  legend_title = "Elevation band",
-  legend_position = "auto",
-  legend_frame = TRUE,
-  inset = "png",
-  basemap = "esri"
-)
-```
-
-[as_sf()] and [as_spat_raster()] return plain **sf** / **terra** objects with
-a CRS so the same sites hand off to **tmap** (legends via `tm_dots()` /
-`tm_layout()`, overview via `tm_inset()`) or **leaflet**. Those packages stay
-Suggests only.
-
-```{r tmap-leaflet, eval = FALSE}
-sites <- geo_example_sites("wilhelm")
-pts <- as_sf(sites)
-
-if (requireNamespace("tmap", quietly = TRUE)) {
-  # tmap v3/v4: col/size legends, compass, scale bar, inset overview
-  bb_png <- c(xmin = 140.5, ymin = -12, xmax = 156.5, ymax = -1)
-  tmap::tm_shape(pts) +
-    tmap::tm_dots(col = "elevation", size = 0.3) +
-    tmap::tm_layout(legend.outside = FALSE, legend.frame = TRUE) +
-    tmap::tm_compass(position = c("right", "top")) +
-    tmap::tm_scale_bar(position = c("left", "bottom")) +
-    tmap::tm_inset(tmap::tm_shape(pts) + tmap::tm_dots(),
-                   position = c("left", "top"))
-}
-if (requireNamespace("leaflet", quietly = TRUE)) {
-  leaflet::leaflet(pts) |>
-    leaflet::addTiles() |>
-    leaflet::addCircleMarkers(popup = ~site)
-}
-```
+`sdm_maxent()` fits Maxent in C++ and `sdm_ensemble()` combines it with a
+GLM, a GAM and a random forest under spatial cross-validation. See the
+[sloth case study](case-sloth-sdm.html) for a complete example.

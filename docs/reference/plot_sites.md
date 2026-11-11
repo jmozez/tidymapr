@@ -186,8 +186,6 @@ boxes (for tests and debugging).
 sites <- geo_example_sites("wilhelm")
 plot_sites(sites, lon, lat, colour = elevation_band, label = site,
   basemap = "coast")
-#> Warning: No Natural Earth land data available; install rnaturalearth.
-#> ℹ Returning an empty land layer. Pass `coastline` or use a tile basemap.
 
 
 # Facet by a grouping column

@@ -2,5 +2,8 @@ linters: linters_with_defaults(
     line_length_linter(100),
     object_usage_linter = NULL
   )
-exclusions: list("data-raw")
+exclusions: list(
+    "data-raw",
+    "vignettes/articles" = list(line_length_linter = Inf)
+  )
 encoding: "UTF-8"

@@ -1,277 +1,237 @@
 # Gallery
 
-Every map tidymapr draws. Each entry has three tabs: the map, the tidy
-table behind it, and the code. Maps use the colour-blind-safe Okabe-Ito
-palette and
-[`theme_tidymapr()`](https://tidymapr.in4metrix.dev/reference/theme_tidymapr.md),
-which matches
-[`tidydiversity::theme_tidydiversity()`](https://rdrr.io/pkg/tidydiversity/man/theme_tidydiversity.html).
-Every map uses real, published records:
-[`geo_example_sites()`](https://tidymapr.in4metrix.dev/reference/geo_example_sites.md)
-returns the bait GPS of the Mt Wilhelm ant survey (`png_ants_sites`;
-Mottl, Moses and Klimes 2023,
-[doi:10.5281/zenodo.8191946](https://doi.org/10.5281/zenodo.8191946)).
+Every kind of map tidymapr draws, each with the code that made it. All
+maps use real, openly licensed data shipped with R packages.
 
 ``` r
 library(tidymapr)
-library(tidydiversity)
-library(ggplot2)
+library(dplyr)
+elev <- terra::rast(system.file("ex/elev.tif", package = "terra"))
+cantons <- sf::st_read(system.file("ex/lux.shp", package = "terra"), quiet = TRUE)
+roads <- sf::st_as_sf(terra::unwrap(readRDS(system.file("ex/lux_highways.rds", package = "terra"))))
+seats <- suppressWarnings(sf::st_point_on_surface(cantons))
+nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+world <- sf::st_read(system.file("shapes/world.gpkg", package = "spData"), quiet = TRUE)
+```
+
+## Layered map
+
+- Map
+- Code
+
+![Layered map of Luxembourg with relief, cantons, roads by class and
+canton names](gallery_files/figure-html/layered-1.png)
+
+``` r
+geo_map(title = "Luxembourg", caption = "Data: terra package") |>
+  map_raster(elev, name = "Elevation (m)", palette = "Terrain 2", hillshade = TRUE) |>
+  map_polygons(cantons, fill = NA, label = "Cantons") |>
+  map_lines(roads, colour = highway, palette = c("#B2182B", "#F4A582", "#FDDBC7"), group = "Roads") |>
+  map_labels(cantons, text = NAME_2)
+```
+
+## Standard symbols (presets)
+
+- Map
+- Code
+
+![Luxembourg drawn with standard topographic symbols: contours, dashed
+canton boundaries, main and minor roads,
+towns](gallery_files/figure-html/presets-1.png)
+
+``` r
+contours <- sf::st_as_sf(terra::as.contour(elev, levels = seq(200, 550, 50)))
+geo_map(title = "Luxembourg in standard topographic symbols", caption = "Data: terra package") |>
+  map_raster(elev, name = "Elevation (m)", palette = c("#F4F1E8", "#E8DCC0", "#D9C5A0", "#C2A47E"), hillshade = TRUE, alpha = 0.55) |>
+  map_lines(contours, preset = "contour", label = "Contour (50 m)") |>
+  map_polygons(cantons, preset = "admin", label = "Canton boundary") |>
+  map_lines(roads[roads$highway == "primary", ], preset = "road_major") |>
+  map_lines(roads[roads$highway != "primary", ], preset = "road_minor") |>
+  map_points(seats, preset = "town", label = "Canton centre") |>
+  map_labels(seats, text = NAME_2, size = 2.6)
+```
+
+## Automatic world map
+
+- Map
+- Code
+
+![World life expectancy on the Equal Earth projection in five
+classes](gallery_files/figure-html/automap-1.png)
+
+``` r
+geo_automap(world, lifeExp, legend_title = "Life expectancy (years)") +
+  ggplot2::labs(title = "Life expectancy", caption = "Data: spData")
+```
+
+## Small multiples with one classification
+
+- Map
+- Code
+
+![Two North Carolina county maps of sudden infant death rates, 1974-78
+and 1979-84, sharing one set of
+classes](gallery_files/figure-html/facet-1.png)
+
+``` r
+nc$`1974-78` <- 1000 * nc$SID74 / nc$BIR74
+nc$`1979-84` <- 1000 * nc$SID79 / nc$BIR79
+geo_facet_map(nc, c(`1974-78`, `1979-84`), n = 5, ncol = 1,
+  legend_title = "Sudden infant deaths per 1000 births", title = "North Carolina counties"
+)
+```
+
+## Legend inside, locator inset
+
+- Map
+- Code
+
+![Population of Luxembourg's cantons with the legend inside the map and
+a locator inset of Europe](gallery_files/figure-html/inset-1.png)
+
+``` r
+europe <- suppressWarnings(sf::st_crop(world[world$continent == "Europe", ], c(xmin = -11, ymin = 35, xmax = 30, ymax = 60)))
+locator <- geo_map(scale_bar = FALSE, north_arrow = FALSE, legend = "none", crs = 3035) |>
+  map_polygons(europe, fill = "grey85", border = "white", label = "Europe") |>
+  map_polygons(sf::st_sf(geometry = sf::st_union(cantons)), fill = "#B2182B", border = "#B2182B", label = "Luxembourg")
+main <- geo_map(title = "Population of Luxembourg's cantons", legend = "inside") |>
+  map_polygons(cantons, fill = POP, n = 4, group = "Inhabitants", palette = "YlGnBu") |>
+  map_labels(cantons, text = NAME_2, size = 2.6)
+geo_inset(map_build(main), locator, size = 0.28)
+```
+
+## Zoom
+
+- Map
+- Code
+
+![Luxembourg map and the same map zoomed four times on Luxembourg
+City](gallery_files/figure-html/zoom-1.png)
+
+``` r
+base <- geo_map(subtitle = "Whole country") |>
+  map_polygons(cantons, fill = POP, n = 4, group = "Inhabitants", palette = "YlGnBu") |>
+  map_lines(roads, colour = "grey20", label = "Roads", linewidth = 0.3)
+zoomed <- base |> map_zoom(4, centre = c(6.13, 49.61))
+zoomed$subtitle <- "Zoom x4 on Luxembourg City"
+geo_panels(base, zoomed, ncol = 2, guides = "collect")
+```
+
+## Labels that follow the shape
+
+- Map
+- Code
+
+![Canton names curved along each canton, along boundaries and over
+points](gallery_files/figure-html/curved-1.png)
+
+``` r
+diekirch <- sf::st_cast(sf::st_boundary(cantons[cantons$NAME_1 == "Diekirch", ]), "MULTILINESTRING")
+geo_map(title = "Labels that follow the feature") |>
+  map_polygons(cantons, fill = "grey96", border = "grey60", label = "Cantons") |>
+  map_curved_labels(cantons[cantons$NAME_1 != "Diekirch", ], text = NAME_2, size = 3.4, colour = "#7F2704") |>
+  map_curved_labels(diekirch, text = NAME_2, size = 3, colour = "#08519C", position = 0.35) |>
+  map_points(seats[seats$NAME_1 == "Diekirch", ], fill = "#08519C", label = "Diekirch cantons", size = 1.8) |>
+  map_curved_labels(seats[seats$NAME_1 == "Diekirch", ], text = NAME_2, size = 2.8)
+```
+
+## Labelled contours
+
+- Map
+- Code
+
+![Labelled 50 m contours over shaded relief in northern
+Luxembourg](gallery_files/figure-html/contours-1.png)
+
+``` r
+geo_map(title = "Labelled contours (50 m)") |>
+  map_raster(elev, name = "Elevation (m)", palette = "Terrain 2", hillshade = TRUE, alpha = 0.5) |>
+  map_contours(elev, interval = 50) |>
+  map_zoom(2.2, centre = c(5.95, 49.95))
+```
+
+## 3D terrain
+
+- Map
+- Code
+
+![3D block diagram of Luxembourg's
+relief](gallery_files/figure-html/map3d-1.png)
+
+``` r
+geo_map3d(elev, theta = 200, phi = 35, title = "Luxembourg in 3D", width = 1600, height = 1000)
+```
+
+## Spectral indices and spectral diversity
+
+- Map
+- Code
+
+![NDVI and spectral diversity of Luxembourg from
+Sentinel-2](gallery_files/figure-html/spectral-1.png)
+
+``` r
+s2 <- terra::rast(system.file("ex/sent2_L2A_2024-08-24.tif", package = "terra"))
+ndvi <- geo_spectral_index(s2, "NDVI")
 set.seed(1)
-sites <- geo_example_sites("wilhelm")
+sdiv <- geo_spectral_diversity(s2, window = 5, k = 15)
+a <- geo_map(subtitle = "NDVI", north_arrow = FALSE) |>
+  map_raster(ndvi, name = "NDVI", palette = "Greens 3") |>
+  map_polygons(cantons, fill = NA, preset = "admin", label = "Cantons")
+b <- geo_map(subtitle = "Spectral diversity (q = 1)", scale_bar = FALSE) |>
+  map_raster(sdiv[[1]], name = "Spectral\nspecies", palette = "viridis") |>
+  map_polygons(cantons, fill = NA, preset = "admin", label = "Cantons")
+geo_panels(a, b, ncol = 2, guides = "keep", title = "Sentinel-2 Level-2A, Luxembourg, 24 August 2024")
 ```
 
-## Study-site map
+## Point clusters (DBSCAN)
 
 - Map
-- Table
 - Code
 
-    #> Warning: No Natural Earth land data available; install rnaturalearth.
-    #> ℹ Returning an empty land layer. Pass `coastline` or use a tile basemap.
-
-![Study sites along Mt Wilhelm coloured by elevation band, with labels,
-scale bar and north arrow](gallery_files/figure-html/sites-1.png)
+![Earthquake clusters near Fiji coloured by cluster with
+outlines](gallery_files/figure-html/dbscan-1.png)
 
 ``` r
-sites
-#> # A tibble: 8 × 6
-#>   site     lon   lat elevation elevation_band coordinate_note                   
-#>   <chr>  <dbl> <dbl>     <int> <fct>          <chr>                             
-#> 1 MW0200  145. -5.74       200 200 m          published bait GPS, doi:10.5281/z…
-#> 2 MW0700  145. -5.73       700 700 m          published bait GPS, doi:10.5281/z…
-#> 3 MW1200  145. -5.72      1200 1200 m         published bait GPS, doi:10.5281/z…
-#> 4 MW1700  145. -5.76      1700 1700 m         published bait GPS, doi:10.5281/z…
-#> 5 MW2200  145. -5.76      2200 2200 m         published bait GPS, doi:10.5281/z…
-#> 6 MW2700  145. -5.81      2700 2700 m         published bait GPS, doi:10.5281/z…
-#> 7 MW3200  145. -5.80      3200 3200 m         published bait GPS, doi:10.5281/z…
-#> 8 MW3700  145. -5.78      3700 3700 m         published bait GPS, doi:10.5281/z…
+cl <- geo_dbscan(datasets::quakes, eps = 50000, min_pts = 15, lon = long, lat = lat)
+cl$group <- factor(ifelse(cl$cluster == 0, "Noise", paste("Cluster", cl$cluster)),
+  levels = c(paste("Cluster", 1:9), "Noise")
+)
+land <- suppressWarnings(sf::st_crop(sf::st_shift_longitude(world), c(xmin = 160, ymin = -40, xmax = 190, ymax = -8)))
+geo_map(
+  title = "Earthquake clusters near Fiji (DBSCAN, 50 km, 15 events)",
+  caption = "Data: datasets::quakes; land: spData",
+  crs = "+proj=laea +lat_0=-22 +lon_0=178 +datum=WGS84 +units=m"
+) |>
+  map_polygons(land, fill = "grey88", border = "grey60", label = "Land") |>
+  map_polygons(attr(cl, "hulls"), fill = NA, border = "grey20", label = "Cluster outlines", linewidth = 0.4) |>
+  map_points(cl, fill = group, group = "Events", size = 1.6, palette = c(grDevices::hcl.colors(9, "Dark 3"), "grey80"))
 ```
 
-``` r
-sites <- geo_example_sites("wilhelm")
-plot_sites(sites, lon, lat, colour = elevation_band, label = site, basemap = "coast")
-```
-
-## Study sites on a tile basemap
+## GeoSpaX recipe: kriging
 
 - Map
-- Table
 - Code
 
-![Study sites on an ESRI imagery basemap, falling back to the coast
-outline when offline](gallery_files/figure-html/sites-tiles-1.png)
+![Zinc in Meuse floodplain soils kriged by a GeoSpaX
+recipe](gallery_files/figure-html/recipe-1.png)
 
 ``` r
-sites[c("site", "lon", "lat", "elevation")]
-#> # A tibble: 8 × 4
-#>   site     lon   lat elevation
-#>   <chr>  <dbl> <dbl>     <int>
-#> 1 MW0200  145. -5.74       200
-#> 2 MW0700  145. -5.73       700
-#> 3 MW1200  145. -5.72      1200
-#> 4 MW1700  145. -5.76      1700
-#> 5 MW2200  145. -5.76      2200
-#> 6 MW2700  145. -5.81      2700
-#> 7 MW3200  145. -5.80      3200
-#> 8 MW3700  145. -5.78      3700
+meuse <- terra::unwrap(readRDS(system.file("ex/meuse.rds", package = "terra")))
+samples <- sf::st_as_sf(as.data.frame(meuse), coords = c("x", "y"), crs = 28992)
+rec <- geo_recipe_read(system.file("recipes/interpolate-samples.yaml", package = "tidymapr"))
+out <- geo_recipe_run(rec, inputs = list(layer = samples, field = "zinc"), dir = tempfile(), quiet = TRUE)
+geo_map(title = "Zinc in Meuse soils (recipe interpolate-samples)", caption = "Data: terra package") |>
+  map_raster(out$surface$raster, name = "Zinc (ppm)", palette = "YlOrRd") |>
+  map_points(samples, preset = "sample_site", label = "Samples", size = 1.2)
 ```
 
-``` r
-# "osm", "carto", "carto_dark" and "esri" tiles; falls back to "coast" offline
-plot_sites(sites, lon, lat, colour = elevation_band, basemap = "esri")
-```
+## More
 
-## Hill numbers on a map
-
-- Map
-- Table
-- Code
-
-    #> Warning: No Natural Earth land data available; install rnaturalearth.
-    #> ℹ Returning an empty land layer. Pass `coastline` or use a tile basemap.
-
-![Observed ant richness at each Mt Wilhelm site in the dry
-season](gallery_files/figure-html/hill-map-1.png)
-
-``` r
-est_dry
-#> # A tibble: 5 × 10
-#>   season site       q observed estimate    se lower upper   lon   lat
-#>   <chr>  <chr>  <dbl>    <dbl>    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1 dry    MW0200     0       16    18.4     NA    NA    NA  145. -5.74
-#> 2 dry    MW0700     0       15    83.9     NA    NA    NA  145. -5.73
-#> 3 dry    MW1200     0       13    20.9     NA    NA    NA  145. -5.72
-#> 4 dry    MW1700     0        5     5.24    NA    NA    NA  145. -5.76
-#> 5 dry    MW2200     0        6    10.2     NA    NA    NA  145. -5.76
-```
-
-``` r
-est <- div_estimate(png_ants, q = 0, nboot = 0, .by = season)
-est <- dplyr::left_join(est, sites[c("site", "lon", "lat")], by = "site")
-plot_geo(est[est$season == "dry", ], estimate, lon, lat, label = site, basemap = "coast")
-```
-
-## Distance decay
-
-- Plot
-- Table
-- Code
-
-![Pairwise ant dissimilarity against great-circle distance by
-season](gallery_files/figure-html/decay-1.png)
-
-``` r
-decay
-#> # A tibble: 20 × 7
-#>    season site_1 site_2 turnover nestedness total distance
-#>    <chr>  <chr>  <chr>     <dbl>      <dbl> <dbl>    <dbl>
-#>  1 dry    MW0200 MW0700    0.667    0.0108  0.677    8802.
-#>  2 dry    MW0200 MW1200    0.769    0.0239  0.793    7212.
-#>  3 dry    MW0200 MW1700    0.8      0.105   0.905   10931.
-#>  4 dry    MW0200 MW2200    1        0       1       17211.
-#>  5 dry    MW0700 MW1200    0.615    0.0275  0.643    1978.
-#>  6 dry    MW0700 MW1700    0.8      0.1     0.9      3272.
-#>  7 dry    MW0700 MW2200    0.833    0.0714  0.905    8774.
-#>  8 dry    MW1200 MW1700    1        0       1        5137.
-#>  9 dry    MW1200 MW2200    0.833    0.0614  0.895   10732.
-#> 10 dry    MW1700 MW2200    1        0       1        6317.
-#> 11 wet    MW0200 MW0700    0.619    0.0544  0.673    8802.
-#> 12 wet    MW0200 MW1200    0.8      0.00488 0.805    7212.
-#> 13 wet    MW0200 MW1700    0.9      0.0355  0.935   10931.
-#> 14 wet    MW0200 MW2200    1        0       1       17211.
-#> 15 wet    MW0700 MW1200    0.55     0.075   0.625    1978.
-#> 16 wet    MW0700 MW1700    0.9      0.0474  0.947    3272.
-#> 17 wet    MW0700 MW2200    1        0       1        8774.
-#> 18 wet    MW1200 MW1700    0.6      0.133   0.733    5137.
-#> 19 wet    MW1200 MW2200    1        0       1       10732.
-#> 20 wet    MW1700 MW2200    0.8      0.0667  0.867    6317.
-```
-
-``` r
-com <- dplyr::left_join(png_ants, sites[c("site", "lon", "lat")], by = "site")
-decay <- geo_decay(com, lon, lat, .by = season, method = "haversine")
-autoplot(decay)
-```
-
-## Sites over SRTM elevation
-
-- Plot
-- Table
-- Code
-
-![Mt Wilhelm ant bait sites over SRTM
-elevation](../reference/figures/gallery-map-elevation.png)
-
-Both transects of every elevation band, with the mean GPS elevation of
-their baits:
-
-``` r
-png_ants_sites
-#> # A tibble: 16 × 7
-#>    site   transect elevation_band elevation   lon   lat baits
-#>    <chr>     <int>          <int>     <int> <dbl> <dbl> <int>
-#>  1 MW0200        1            200       216  145. -5.74    60
-#>  2 MW0200        2            200       249  145. -5.74    60
-#>  3 MW0700        1            700       716  145. -5.73    60
-#>  4 MW0700        2            700       774  145. -5.73    60
-#>  5 MW1200        1           1200      1166  145. -5.72    60
-#>  6 MW1200        2           1200      1089  145. -5.72    60
-#>  7 MW1700        1           1700      1638  145. -5.76    60
-#>  8 MW1700        2           1700      1840  145. -5.76    60
-#>  9 MW2200        1           2200      2398  145. -5.76    60
-#> 10 MW2200        2           2200      2339  145. -5.76    60
-#> 11 MW2700        1           2700      2752  145. -5.81    60
-#> 12 MW2700        2           2700      2617  145. -5.81    60
-#> 13 MW3200        1           3200      3404  145. -5.80    60
-#> 14 MW3200        2           3200      3259  145. -5.81    60
-#> 15 MW3700        1           3700      3825  145. -5.79    60
-#> 16 MW3700        2           3700      3916  145. -5.78    60
-```
-
-``` r
-# SRTM 3 arc-second tiles either side of 145 E, cached at run time
-srtm <- file.path(tools::R_user_dir("tidymapr", "cache"), "elevation")
-dem <- terra::merge(
-  geodata::elevation_3s(lon = 144.9, lat = -5.8, path = srtm),
-  geodata::elevation_3s(lon = 145.2, lat = -5.8, path = srtm)
-)
-dem <- terra::crop(dem, terra::ext(144.85, 145.5, -5.98, -5.55))
-names(dem) <- "Elevation (m)"
-plot_sites(
-  sites, lon, lat,
-  label = site, raster = dem, basemap = "none",
-  inset = "png", legend_position = "outside"
-)
-```
-
-## Species distribution model (GBIF and WorldClim)
-
-Habitat suitability of the green tree ant *Oecophylla smaragdina* across
-Papua New Guinea. Presences are GBIF records released under CC0 or CC BY
-4.0 (GBIF occurrence search, 6 November 2026; dataset keys in the
-table), and the predictors are WorldClim 2.1 mean annual temperature
-(bio1) and annual rainfall (bio12) at 5 arc-minutes (Fick and Hijmans
-2017, [doi:10.1002/joc.5086](https://doi.org/10.1002/joc.5086)). The
-model is the native Maxent-like engine of
-[`sdm_fit()`](https://tidymapr.in4metrix.dev/reference/sdm.md) with 2000
-background points; its modest AUC (0.63) is shown on the map.
-
-- Plot
-- Table
-- Code
-
-![Habitat suitability map of Oecophylla smaragdina in Papua New Guinea
-with GBIF occurrence points](../reference/figures/gallery-map-sdm.png)
-
-``` r
-occ <- read.csv(
-  system.file("extdata", "gbif_oecophylla_png.csv", package = "tidymapr"),
-  colClasses = c(gbif_id = "character")
-)
-tibble::as_tibble(occ)
-#> # A tibble: 96 × 8
-#>    gbif_id    dataset_key      species   lon   lat  year basis_of_record license
-#>    <chr>      <chr>            <chr>   <dbl> <dbl> <int> <chr>           <chr>  
-#>  1 1037289274 beed1b50-8c73-1… Oecoph…  147. -6.63  1972 PRESERVED_SPEC… CC BY …
-#>  2 1037289294 beed1b50-8c73-1… Oecoph…  147  -6.73  1963 PRESERVED_SPEC… CC BY …
-#>  3 1037289296 beed1b50-8c73-1… Oecoph…  144. -4.07  1972 PRESERVED_SPEC… CC BY …
-#>  4 1037289303 beed1b50-8c73-1… Oecoph…  144. -3.03  1979 PRESERVED_SPEC… CC BY …
-#>  5 1037289304 beed1b50-8c73-1… Oecoph…  147  -6.75  1955 PRESERVED_SPEC… CC BY …
-#>  6 1037289306 beed1b50-8c73-1… Oecoph…  155  -6     1956 PRESERVED_SPEC… CC BY …
-#>  7 1037289307 beed1b50-8c73-1… Oecoph…  155. -6.57  1956 PRESERVED_SPEC… CC BY …
-#>  8 1037289314 beed1b50-8c73-1… Oecoph…  147. -6.55  1955 PRESERVED_SPEC… CC BY …
-#>  9 1037289321 beed1b50-8c73-1… Oecoph…  150  -5     1944 PRESERVED_SPEC… CC BY …
-#> 10 1037289323 beed1b50-8c73-1… Oecoph…  147. -9.5   1962 PRESERVED_SPEC… CC BY …
-#> # ℹ 86 more rows
-```
-
-``` r
-occ <- read.csv(
-  system.file("extdata", "gbif_oecophylla_png.csv", package = "tidymapr")
-)
-clim <- geo_worldclim(c("bio1", "bio12"), res = 5)
-clim <- terra::crop(clim, terra::ext(140.8, 156.1, -11.7, -0.8))
-png0 <- rnaturalearth::ne_countries(
-  country = "Papua New Guinea", scale = "medium", returnclass = "sf"
-)
-clim <- terra::mask(clim, terra::vect(png0))
-fit <- sdm_fit(occ, predictors = clim, engine = "maxnet",
-               n_background = 2000, seed = 1)
-sdm_evaluate(fit)
-
-grid <- terra::as.data.frame(clim, xy = TRUE, cells = TRUE, na.rm = TRUE)
-names(grid)[2:3] <- c("lon", "lat")
-suit <- clim[[1]]
-terra::values(suit) <- NA_real_
-suit[grid$cell] <- sdm_predict(fit, newdata = grid)$suitability
-plot_sdm(suit, basemap = "coast") +
-  geom_point(data = occ, aes(lon, lat), shape = 21, fill = "white")
-```
-
-A stem map over topography
-([`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md))
-is not shown: there is no openly licensed stem inventory to draw it
-from, and the gallery does not map invented trees. The figures in these
-two entries are rendered at 300 dpi by `data-raw/gallery_maps.R`,
-because the elevation tiles and climate rasters are downloaded at run
-time.
+- Species distribution ensembles: [sloth case
+  study](https://tidymapr.in4metrix.dev/articles/case-sloth-sdm.md).
+- Diversity surfaces with uncertainty: [Barro Colorado Island case
+  study](https://tidymapr.in4metrix.dev/articles/case-bci-diversity.md).
+- Interactive web maps:
+  [`geo_webmap()`](https://tidymapr.in4metrix.dev/reference/geo_webmap.md),
+  shown at the end of the sloth case study.

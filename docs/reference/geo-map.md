@@ -58,7 +58,8 @@ map_raster(
   name = NULL,
   palette = "auto",
   hillshade = FALSE,
-  alpha = if (hillshade) 0.65 else 1
+  alpha = if (hillshade) 0.65 else 1,
+  limits = NULL
 )
 
 map_polygons(
@@ -212,6 +213,14 @@ map_build(map)
 - hillshade:
 
   Draw the raster over its own hillshade? Useful for elevation.
+
+- limits:
+
+  For `map_raster()`, the range of the colour scale, such as `c(0, 1)`
+  for probabilities. Give the same limits to rasters in several panels
+  so that one colour means one value and
+  [`geo_panels()`](https://tidymapr.in4metrix.dev/reference/geo-panels.md)
+  can merge their legends into one.
 
 - data:
 

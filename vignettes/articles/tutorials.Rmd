@@ -2,33 +2,24 @@
 title: "Tutorials"
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  dev.args = list(bg = "white"),
-  collapse = TRUE, comment = "#>", out.width = "100%",
-  dpi = 150, fig.width = 7, fig.height = 4.5
-)
-```
+Complete workflows on real, published data, from raw records to
+publication figures and interactive maps.
 
-The tutorials run a whole mapping workflow on published Papua New Guinea
-data shipped with tidydiversity. Each tab gives a short preview; follow the
-link for the full analysis.
+## Where does the brown-throated sloth live?
 
-```{r setup, message = FALSE}
-library(tidymapr)
-library(tidydiversity)
-```
+116 records of *Bradypus variegatus* and WorldClim climate across Central
+and South America: Maxent in C++, an ensemble of four algorithms tested on
+unseen regions, suitability and disagreement maps, and an interactive web
+map. [Read the case study](case-sloth-sdm.html).
 
-## Papua New Guinea {.tabset}
+![Ensemble habitat suitability of the brown-throated sloth](../reference/figures/readme-sdm-ensemble.png)
 
-### Mt Wilhelm ants
+## Tree diversity across Barro Colorado Island
 
-Ground ants at baits along the Mt Wilhelm elevational gradient
-(`png_ants`; Moses et al. 2023): site map, richness on a map and distance
-decay. [Full tutorial](case-png-wilhelm.html).
+Fifty one-hectare plots of the Barro Colorado Island forest, Panama:
+coverage-standardised diversity with
+[tidydiversity](https://tidydiversity.in4metrix.dev), a kriged diversity
+surface with its uncertainty, habitat maps and hot spots.
+[Read the case study](case-bci-diversity.html).
 
-```{r wilhelm, fig.alt = "Study sites along Mt Wilhelm coloured by elevation band"}
-sites <- geo_example_sites("wilhelm")
-plot_sites(sites, lon, lat, colour = elevation_band, label = site, basemap = "coast")
-```
-
+![Kriged tree diversity on Barro Colorado Island](../reference/figures/readme-diversity-surface.png)

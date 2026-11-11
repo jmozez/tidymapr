@@ -157,6 +157,15 @@ geo_lisa <- function(data,
 
 tmr_local_prep <- function(data, value, lon, lat, k, dist,
                            call = caller_env()) {
+  if (inherits(data, "sf")) {
+    # sf input: use a point on each feature, in longitude/latitude
+    pts <- suppressWarnings(sf::st_point_on_surface(sf::st_geometry(data)))
+    xy <- sf::st_coordinates(sf::st_transform(pts, 4326))
+    data$.lon <- xy[, 1]
+    data$.lat <- xy[, 2]
+    lon <- rlang::sym(".lon")
+    lat <- rlang::sym(".lat")
+  }
   tmr_check_data(data, call = call)
   val_col <- tmr_pick(value, data, "value", call = call)
   lon_col <- tmr_pick(lon, data, "lon", call = call)

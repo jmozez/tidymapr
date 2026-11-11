@@ -1,5 +1,19 @@
 # tidymapr 0.0.0.9000
 
+## New documentation (November 2026)
+
+* The website is rewritten around the current features: a new Get started
+  guide, two case studies (species distribution of the brown-throated sloth;
+  tree diversity across Barro Colorado Island), a spatial analysis guide and
+  a gallery with the code of every map. All use real, published data. The
+  navigation now matches tidydiversity's.
+* `geo_hotspot()` and `geo_lisa()` accept `sf` tables directly.
+* `map_raster()` gains `limits`, so rasters in several panels can share one
+  colour scale and one legend.
+* `geo_panels(guides = "keep")` no longer overrides each map's own legend
+  position (including `legend = "none"`).
+* Web map legends round their labels to the precision of the data.
+
 ## Interactive web maps (November 2026)
 
 * `geo_webmap()` turns a `geo_map()` (or one `sf` or raster layer) into a

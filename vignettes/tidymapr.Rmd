@@ -10,68 +10,146 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   dev.args = list(bg = "white"), collapse = TRUE, comment = "#>",
-  fig.width = 7, fig.height = 4.5
+  fig.width = 7, fig.height = 6, out.width = "100%", dpi = 110
 )
-has_sf <- requireNamespace("sf", quietly = TRUE)
-has_gg <- requireNamespace("ggplot2", quietly = TRUE)
-has_td <- requireNamespace("tidydiversity", quietly = TRUE)
+ok <- all(vapply(
+  c("sf", "terra", "ggplot2", "ggnewscale"),
+  requireNamespace, logical(1), quietly = TRUE
+))
+knitr::opts_chunk$set(eval = ok)
 ```
 
-tidymapr is the mapping companion to
-[tidydiversity](https://gitlab.com/jimmy.moses/tidydiversity). Every verb takes a
-data frame and returns a tibble, an `sf` table, a `SpatRaster` or a ggplot,
-so diversity estimates and maps stay in one tidy workflow, in the same way
-dplyr and ggplot2 work together.
+tidymapr makes publication-quality maps and does spatial analysis in R, in
+the style of a desktop GIS. This guide takes one small, real data set from
+raw layers to a finished figure, an interactive web map and a 3D view.
+Everything here uses data shipped with the terra and sf packages, so it
+runs offline.
 
-```{r setup}
+```{r setup, message = FALSE}
 library(tidymapr)
 ```
 
-## Study sites
+## The data
 
-`geo_example_sites()` returns the published bait GPS of the Mt Wilhelm
-ant survey behind `tidydiversity::png_ants` (`png_ants_sites`; Mottl,
-Moses and Klimes 2023,
-[doi:10.5281/zenodo.8191946](https://doi.org/10.5281/zenodo.8191946)),
-one point per elevation band.
+Luxembourg's elevation (from SRTM), its 12 cantons with their population,
+and its main roads, all shipped with terra.
 
-```{r sites}
-sites <- geo_example_sites("wilhelm")
-sites
+```{r data}
+elev <- terra::rast(system.file("ex/elev.tif", package = "terra"))
+cantons <- sf::st_read(system.file("ex/lux.shp", package = "terra"), quiet = TRUE)
+roads <- sf::st_as_sf(terra::unwrap(
+  readRDS(system.file("ex/lux_highways.rds", package = "terra"))
+))
+seats <- suppressWarnings(sf::st_point_on_surface(cantons))
+cantons[, c("NAME_2", "AREA", "POP")]
 ```
 
-`plot_sites()` draws a publication-ready study-site map with a scale bar
-and north arrow.
+## A map in one call
 
-```{r plot-sites, eval = has_sf && has_gg, fig.height = 5}
-plot_sites(sites, lon, lat, colour = elevation_band, label = site)
+`geo_automap()` chooses the projection, the classification, the colour
+ramp, the legend and the map furniture from the data, and
+`geo_automap_explain()` says why.
+
+```{r automap, fig.alt = "Population of Luxembourg's cantons in five classes, with scale bar and north arrow"}
+m <- geo_automap(cantons, POP, legend_title = "Inhabitants")
+m
+geo_automap_explain(m)
 ```
 
-## Sites as `sf` and distances
+## A layered map
 
-```{r sf, eval = has_sf}
-geo_as_sf(sites, lon, lat)
+`geo_map()` builds a map one layer at a time, as in a desktop GIS. Each
+layer gets its own legend section with the symbol for its geometry:
+a colour bar for the raster, a box for polygons, a line for roads and a
+point for towns. `preset` gives a layer a standard cartographic style by
+name (see `map_presets()`).
+
+```{r layered, fig.alt = "Layered map of Luxembourg: elevation over a hillshade, canton boundaries, main roads, canton centres and names"}
+lux <- geo_map(title = "Luxembourg", caption = "Data: terra package") |>
+  map_raster(elev, name = "Elevation (m)", palette = "Terrain 2", hillshade = TRUE) |>
+  map_polygons(cantons, preset = "admin", label = "Cantons") |>
+  map_lines(roads[roads$highway == "primary", ], preset = "road_major") |>
+  map_points(seats, preset = "town", label = "Canton centre") |>
+  map_labels(seats, text = NAME_2, size = 2.6)
+lux
 ```
 
-```{r distance}
-head(geo_distance(sites, lon, lat, site = site))
+Zoom in on Luxembourg City and put the legend inside the map; tidymapr
+picks a corner that does not hide the scale bar or the north arrow.
+
+```{r zoom, fig.alt = "The same map zoomed four times on Luxembourg City, with the legend inside the map"}
+lux |> map_zoom(4, centre = c(6.13, 49.61))
 ```
 
-## Diversity on a map with tidydiversity
+## Figures with several maps
 
-Load both packages and pipe diversity estimates straight onto a map.
+`geo_panels()` puts maps side by side with tags (a), (b); `geo_facet_map()`
+draws small multiples that share one classification.
 
-```{r diversity-map, eval = has_sf && has_gg && has_td}
-library(tidydiversity)
-est <- div_estimate(png_ants, q = 0, nboot = 0, .by = season)
-est <- dplyr::left_join(est, sites[c("site", "lon", "lat")], by = "site")
-plot_geo(est[est$season == "dry", ], estimate, lon, lat, label = site)
+```{r panels, fig.height = 4.5, fig.alt = "Two maps of Luxembourg side by side: elevation and population"}
+a <- geo_map(subtitle = "Elevation", north_arrow = FALSE) |>
+  map_raster(elev, name = "Metres", palette = "Terrain 2")
+b <- geo_map(subtitle = "Population", scale_bar = FALSE) |>
+  map_polygons(cantons, fill = POP, n = 4, group = "Inhabitants")
+geo_panels(a, b, ncol = 2, guides = "keep")
 ```
 
-`geo_decay()` joins geographic, elevational or environmental distances to
-`tidydiversity::beta_pair()` so `tidydiversity::beta_decay_model()` can fit
-distance-decay models.
+## Labels that follow the shape
 
-See the article "Geospatial diversity workflows" for rasters, occurrence
-cleaning, basemaps, bioclim layers, stem maps, spatial eigenvectors and
-species distribution models.
+```{r curved, fig.alt = "Canton names written along the long axis of each canton"}
+geo_map(scale_bar = FALSE, north_arrow = FALSE) |>
+  map_polygons(cantons, fill = "grey95", border = "grey60", label = "Cantons") |>
+  map_curved_labels(cantons, text = NAME_2, size = 3.2, colour = "#7F2704")
+```
+
+## Analysis
+
+tidymapr includes the spatial statistics of a GIS, written in C++ and run
+on several cores. For example, hot spots of population density
+(Getis-Ord Gi\*) and the terrain wetness index of the elevation model:
+
+```{r analysis, fig.height = 4.5, fig.alt = "Topographic wetness index of Luxembourg"}
+cantons$density <- cantons$POP / cantons$AREA
+hot <- geo_hotspot(cantons, density, k = 3)
+sf::st_drop_geometry(hot)[, c("NAME_2", "density", "hotspot")]
+twi <- geo_twi(terra::project(elev, "EPSG:2169"))
+geo_map(title = "Topographic wetness index") |>
+  map_raster(twi, name = "TWI", palette = "Blues 3")
+```
+
+## 3D and the web
+
+The same layers render as a 3D block diagram, drawn in C++ without OpenGL:
+
+```{r map3d, fig.alt = "3D view of Luxembourg's relief"}
+geo_map3d(elev, theta = 200, phi = 35, title = "Luxembourg in 3D", width = 1200, height = 800)
+```
+
+and as an interactive web map in one HTML file, with switchable layers,
+pop-ups and the same legend:
+
+```{r webmap, eval = FALSE}
+geo_webmap(lux, file = "luxembourg.html")
+```
+
+## Save
+
+`geo_save()` writes a figure at journal sizes and resolution, on a white
+background:
+
+```{r save, eval = FALSE}
+geo_save(lux, "luxembourg.png", width = 180, height = 190, dpi = 300)
+```
+
+## Where next
+
+- Two case studies: [where the brown-throated sloth
+  lives](https://tidymapr.in4metrix.dev/articles/case-sloth-sdm.html)
+  (species distribution models) and [tree diversity across Barro Colorado
+  Island](https://tidymapr.in4metrix.dev/articles/case-bci-diversity.html)
+  (with [tidydiversity](https://tidydiversity.in4metrix.dev)).
+- The [gallery](https://tidymapr.in4metrix.dev/articles/gallery.html) shows
+  every kind of map with its code.
+- The [spatial analysis guide](https://tidymapr.in4metrix.dev/articles/geospatial.html)
+  covers interpolation, hot spots, hydrology, remote sensing, species
+  distribution models and GeoSpaX recipes.
