@@ -3,19 +3,18 @@ url: https://tidymapr-e72c18.gitlab.io/
 template:
   bootstrap: 5
   includes:
-    # Light theme only: white pages and plots, and browsers must not apply
-    # their own automatic dark mode either.
+    # Readers can switch the site between light and dark (light-switch
+    # below); plots and maps keep a white background in both (extra.css).
     # The CSP allows only the site's own scripts; GitHub Pages cannot send
     # security headers, so they are set as meta tags.
     in_header: |
-      <meta name="color-scheme" content="only light">
       <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
       <meta name="referrer" content="strict-origin-when-cross-origin">
   opengraph:
     image:
       src: man/figures/logo.png
       alt: "tidymapr hex logo"
-  light-switch: false
+  light-switch: true
   bslib:
     primary: "#349295"
     secondary: "#11376B"
@@ -30,7 +29,7 @@ template:
     border-radius: 0.5rem
 
 # Every figure, including reference-page examples, on an opaque white
-# background so no plot ever shows the dark theme through it.
+# background, so plots stay white when a reader switches the site to dark.
 figures:
   bg: white
   dev.args:

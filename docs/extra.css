@@ -154,13 +154,14 @@ footer { border-top: 1px solid var(--bs-border-color); margin-top: 3rem; padding
 /* Version number in the navbar: readable on the dark bar. */
 .navbar .nav-text.text-muted { color: rgba(255, 255, 255, .72) !important; }
 
-/* The site's dark mode (Bootstrap/pkgdown) inverts plot images with a CSS
-   filter, which turns white figures black and swaps their colours. Figures
-   are always shown exactly as drawn: white, with their true colours. */
+/* The site's dark mode (Bootstrap/pkgdown) dims plot images (opacity 0.66)
+   and some themes invert them with a CSS filter, which greys or blackens
+   white figures. Figures are always shown exactly as drawn: white, at full
+   strength, with their true colours. */
 [data-bs-theme="dark"] img,
 [data-bs-theme="dark"] pre .r-plt.img img,
 [data-bs-theme="dark"] .cell-output-display img,
-[data-bs-theme="dark"] .html-widget { filter: none !important; }
+[data-bs-theme="dark"] .html-widget { filter: none !important; opacity: 1 !important; }
 
 /* Very narrow phones (or phones with large text): drop the version badge so
    the brand and menu button stay on one line. em-based so it follows the
