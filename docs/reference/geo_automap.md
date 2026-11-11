@@ -83,12 +83,12 @@ geo_automap_explain(map)
 - projection:
 
   `"auto"` or any name accepted by
-  [`coord_projection()`](https://tidymapr-e72c18.gitlab.io/reference/map-projection.md).
+  [`coord_projection()`](https://tidymapr.in4metrix.dev/reference/map-projection.md).
 
 - style:
 
   `"auto"` or a
-  [`geo_classify()`](https://tidymapr-e72c18.gitlab.io/reference/geo_breaks.md)
+  [`geo_classify()`](https://tidymapr.in4metrix.dev/reference/geo_breaks.md)
   style for graduated colours.
 
 - n:
@@ -99,7 +99,7 @@ geo_automap_explain(map)
 - basemap:
 
   `"auto"` or a basemap name for
-  [`geo_basemap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_basemap.md).
+  [`geo_basemap()`](https://tidymapr.in4metrix.dev/reference/geo_basemap.md).
 
 - background:
 
@@ -129,7 +129,7 @@ geo_automap_explain(map)
 - scale_bar, north_arrow:
 
   `"auto"`, `FALSE`, or a style name (see
-  [`annotation_scale_bar()`](https://tidymapr-e72c18.gitlab.io/reference/map-furniture.md)).
+  [`annotation_scale_bar()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md)).
 
 - map:
 
@@ -141,10 +141,10 @@ A ggplot with attribute `"automap"`, the table of decisions.
 
 ## See also
 
-[`geo_classify()`](https://tidymapr-e72c18.gitlab.io/reference/geo_breaks.md),
-[`coord_projection()`](https://tidymapr-e72c18.gitlab.io/reference/map-projection.md),
-[`plot_choropleth()`](https://tidymapr-e72c18.gitlab.io/reference/thematic-maps.md),
-[`plot_bubble()`](https://tidymapr-e72c18.gitlab.io/reference/thematic-maps.md)
+[`geo_classify()`](https://tidymapr.in4metrix.dev/reference/geo_breaks.md),
+[`coord_projection()`](https://tidymapr.in4metrix.dev/reference/map-projection.md),
+[`plot_choropleth()`](https://tidymapr.in4metrix.dev/reference/thematic-maps.md),
+[`plot_bubble()`](https://tidymapr.in4metrix.dev/reference/thematic-maps.md)
 
 ## Examples
 

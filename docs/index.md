@@ -17,7 +17,7 @@ or a ggplot.
 ### Maps and cartography
 
 Automatic, explained maps with
-[`geo_automap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md);
+[`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md);
 choropleth, bubble and layered maps; Equal Earth, Mercator, UTM and
 other projections; graticules; GeoSpaX-style scale bars, north arrows
 and legends; topographic and DEM basemaps.
@@ -79,16 +79,16 @@ layer](reference/figures/readme-layered-map.png)
 
 ## Functions
 
-| Family                     | Functions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Layered maps               | [`geo_map()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md), [`map_raster()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md), [`map_polygons()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md), [`map_lines()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md), [`map_points()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md), [`map_labels()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md), [`map_curved_labels()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md), [`map_contours()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md), [`map_zoom()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md), [`map_build()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md), [`geo_map3d()`](https://tidymapr-e72c18.gitlab.io/reference/geo_map3d.md), [`geo_webmap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_webmap.md) |
-| Automatic maps             | [`geo_automap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md), [`geo_automap_explain()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md), [`plot_choropleth()`](https://tidymapr-e72c18.gitlab.io/reference/thematic-maps.md), [`plot_bubble()`](https://tidymapr-e72c18.gitlab.io/reference/thematic-maps.md), [`geo_classify()`](https://tidymapr-e72c18.gitlab.io/reference/geo_breaks.md)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| Figures and furniture      | [`geo_panels()`](https://tidymapr-e72c18.gitlab.io/reference/geo-panels.md), [`geo_facet_map()`](https://tidymapr-e72c18.gitlab.io/reference/geo-panels.md), [`geo_inset()`](https://tidymapr-e72c18.gitlab.io/reference/geo-panels.md), [`annotation_scale_bar()`](https://tidymapr-e72c18.gitlab.io/reference/map-furniture.md), [`annotation_north_arrow()`](https://tidymapr-e72c18.gitlab.io/reference/map-furniture.md), [`map_legend()`](https://tidymapr-e72c18.gitlab.io/reference/map-furniture.md), [`map_graticule()`](https://tidymapr-e72c18.gitlab.io/reference/map-projection.md), [`coord_projection()`](https://tidymapr-e72c18.gitlab.io/reference/map-projection.md), [`theme_tidymapr()`](https://tidymapr-e72c18.gitlab.io/reference/theme_tidymapr.md), [`geo_save()`](https://tidymapr-e72c18.gitlab.io/reference/geo_save.md)                                                                         |
-| GeoSpaX recipes            | [`geo_recipe_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-recipe.md), [`geo_recipe_validate()`](https://tidymapr-e72c18.gitlab.io/reference/geo-recipe.md), [`geo_recipe_run()`](https://tidymapr-e72c18.gitlab.io/reference/geo-recipe.md), [`geo_recipe_write()`](https://tidymapr-e72c18.gitlab.io/reference/geo-recipe.md), [`geo_recipe()`](https://tidymapr-e72c18.gitlab.io/reference/geo-recipe.md), [`recipe_step()`](https://tidymapr-e72c18.gitlab.io/reference/geo-recipe.md)                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| Spatial analysis           | [`geo_interpolate()`](https://tidymapr-e72c18.gitlab.io/reference/geo_interpolate.md) (kriging with measurement error, IDW), [`geo_hotspot()`](https://tidymapr-e72c18.gitlab.io/reference/geo-local.md), [`geo_lisa()`](https://tidymapr-e72c18.gitlab.io/reference/geo-local.md), [`geo_moran()`](https://tidymapr-e72c18.gitlab.io/reference/geo_moran.md), [`geo_dbscan()`](https://tidymapr-e72c18.gitlab.io/reference/geo_dbscan.md), [`geo_landscape()`](https://tidymapr-e72c18.gitlab.io/reference/geo_landscape.md), [`geo_distance()`](https://tidymapr-e72c18.gitlab.io/reference/geo_distance.md), [`geo_decay()`](https://tidymapr-e72c18.gitlab.io/reference/geo_decay.md), [`geo_mem()`](https://tidymapr-e72c18.gitlab.io/reference/geo_mem.md)                                                                                                                                                               |
-| Terrain and remote sensing | [`geo_flow_direction()`](https://tidymapr-e72c18.gitlab.io/reference/geo-hydrology.md) and other hydrology tools, [`geo_stac_search()`](https://tidymapr-e72c18.gitlab.io/reference/geo-stac.md), [`geo_stac_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-stac.md), [`geo_spectral_index()`](https://tidymapr-e72c18.gitlab.io/reference/geo_spectral_index.md), [`geo_spectral_diversity()`](https://tidymapr-e72c18.gitlab.io/reference/geo_spectral_diversity.md)                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| Data input and output      | [`geo_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md), [`geo_write()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md), [`geo_layers()`](https://tidymapr-e72c18.gitlab.io/reference/geo_layers.md), [`geo_raster_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md), [`geo_as_sf()`](https://tidymapr-e72c18.gitlab.io/reference/geo_as_sf.md), [`geo_extract()`](https://tidymapr-e72c18.gitlab.io/reference/geo_extract.md), [`geo_basemap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_basemap.md)                                                                                                                                                                                                                                                                                                                                                                              |
-| Ecology with tidydiversity | [`geo_diversity_surface()`](https://tidymapr-e72c18.gitlab.io/reference/geo_diversity_surface.md), [`plot_diversity_surface()`](https://tidymapr-e72c18.gitlab.io/reference/plot_diversity_surface.md), [`geo_clean()`](https://tidymapr-e72c18.gitlab.io/reference/geo_clean.md), [`geo_gbif()`](https://tidymapr-e72c18.gitlab.io/reference/geo_gbif.md), [`geo_rarefy_spatial()`](https://tidymapr-e72c18.gitlab.io/reference/geo_rarefy_spatial.md), [`sdm_maxent()`](https://tidymapr-e72c18.gitlab.io/reference/sdm_maxent.md), [`sdm_ensemble()`](https://tidymapr-e72c18.gitlab.io/reference/sdm_ensemble.md), [`sdm_fit()`](https://tidymapr-e72c18.gitlab.io/reference/sdm.md), [`stems_habitat_test()`](https://tidymapr-e72c18.gitlab.io/reference/stems_habitat_test.md)                                                                                                                                          |
+| Family                     | Functions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Layered maps               | [`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md), [`map_raster()`](https://tidymapr.in4metrix.dev/reference/geo-map.md), [`map_polygons()`](https://tidymapr.in4metrix.dev/reference/geo-map.md), [`map_lines()`](https://tidymapr.in4metrix.dev/reference/geo-map.md), [`map_points()`](https://tidymapr.in4metrix.dev/reference/geo-map.md), [`map_labels()`](https://tidymapr.in4metrix.dev/reference/geo-map.md), [`map_curved_labels()`](https://tidymapr.in4metrix.dev/reference/geo-map.md), [`map_contours()`](https://tidymapr.in4metrix.dev/reference/geo-map.md), [`map_zoom()`](https://tidymapr.in4metrix.dev/reference/geo-map.md), [`map_build()`](https://tidymapr.in4metrix.dev/reference/geo-map.md), [`geo_map3d()`](https://tidymapr.in4metrix.dev/reference/geo_map3d.md), [`geo_webmap()`](https://tidymapr.in4metrix.dev/reference/geo_webmap.md) |
+| Automatic maps             | [`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md), [`geo_automap_explain()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md), [`plot_choropleth()`](https://tidymapr.in4metrix.dev/reference/thematic-maps.md), [`plot_bubble()`](https://tidymapr.in4metrix.dev/reference/thematic-maps.md), [`geo_classify()`](https://tidymapr.in4metrix.dev/reference/geo_breaks.md)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Figures and furniture      | [`geo_panels()`](https://tidymapr.in4metrix.dev/reference/geo-panels.md), [`geo_facet_map()`](https://tidymapr.in4metrix.dev/reference/geo-panels.md), [`geo_inset()`](https://tidymapr.in4metrix.dev/reference/geo-panels.md), [`annotation_scale_bar()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md), [`annotation_north_arrow()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md), [`map_legend()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md), [`map_graticule()`](https://tidymapr.in4metrix.dev/reference/map-projection.md), [`coord_projection()`](https://tidymapr.in4metrix.dev/reference/map-projection.md), [`theme_tidymapr()`](https://tidymapr.in4metrix.dev/reference/theme_tidymapr.md), [`geo_save()`](https://tidymapr.in4metrix.dev/reference/geo_save.md)                                                                   |
+| GeoSpaX recipes            | [`geo_recipe_read()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md), [`geo_recipe_validate()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md), [`geo_recipe_run()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md), [`geo_recipe_write()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md), [`geo_recipe()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md), [`recipe_step()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md)                                                                                                                                                                                                                                                                                                                                                                                                        |
+| Spatial analysis           | [`geo_interpolate()`](https://tidymapr.in4metrix.dev/reference/geo_interpolate.md) (kriging with measurement error, IDW), [`geo_hotspot()`](https://tidymapr.in4metrix.dev/reference/geo-local.md), [`geo_lisa()`](https://tidymapr.in4metrix.dev/reference/geo-local.md), [`geo_moran()`](https://tidymapr.in4metrix.dev/reference/geo_moran.md), [`geo_dbscan()`](https://tidymapr.in4metrix.dev/reference/geo_dbscan.md), [`geo_landscape()`](https://tidymapr.in4metrix.dev/reference/geo_landscape.md), [`geo_distance()`](https://tidymapr.in4metrix.dev/reference/geo_distance.md), [`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md), [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md)                                                                                                                                                      |
+| Terrain and remote sensing | [`geo_flow_direction()`](https://tidymapr.in4metrix.dev/reference/geo-hydrology.md) and other hydrology tools, [`geo_stac_search()`](https://tidymapr.in4metrix.dev/reference/geo-stac.md), [`geo_stac_read()`](https://tidymapr.in4metrix.dev/reference/geo-stac.md), [`geo_spectral_index()`](https://tidymapr.in4metrix.dev/reference/geo_spectral_index.md), [`geo_spectral_diversity()`](https://tidymapr.in4metrix.dev/reference/geo_spectral_diversity.md)                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Data input and output      | [`geo_read()`](https://tidymapr.in4metrix.dev/reference/geo-io.md), [`geo_write()`](https://tidymapr.in4metrix.dev/reference/geo-io.md), [`geo_layers()`](https://tidymapr.in4metrix.dev/reference/geo_layers.md), [`geo_raster_read()`](https://tidymapr.in4metrix.dev/reference/geo-io.md), [`geo_as_sf()`](https://tidymapr.in4metrix.dev/reference/geo_as_sf.md), [`geo_extract()`](https://tidymapr.in4metrix.dev/reference/geo_extract.md), [`geo_basemap()`](https://tidymapr.in4metrix.dev/reference/geo_basemap.md)                                                                                                                                                                                                                                                                                                                                                               |
+| Ecology with tidydiversity | [`geo_diversity_surface()`](https://tidymapr.in4metrix.dev/reference/geo_diversity_surface.md), [`plot_diversity_surface()`](https://tidymapr.in4metrix.dev/reference/plot_diversity_surface.md), [`geo_clean()`](https://tidymapr.in4metrix.dev/reference/geo_clean.md), [`geo_gbif()`](https://tidymapr.in4metrix.dev/reference/geo_gbif.md), [`geo_rarefy_spatial()`](https://tidymapr.in4metrix.dev/reference/geo_rarefy_spatial.md), [`sdm_maxent()`](https://tidymapr.in4metrix.dev/reference/sdm_maxent.md), [`sdm_ensemble()`](https://tidymapr.in4metrix.dev/reference/sdm_ensemble.md), [`sdm_fit()`](https://tidymapr.in4metrix.dev/reference/sdm.md), [`stems_habitat_test()`](https://tidymapr.in4metrix.dev/reference/stems_habitat_test.md)                                                                                                                                 |
 
 ## Gallery
 
@@ -96,7 +96,7 @@ Every map below is made with tidymapr from real, openly licensed data.
 
 ### Interactive web maps
 
-[`geo_webmap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_webmap.md)
+[`geo_webmap()`](https://tidymapr.in4metrix.dev/reference/geo_webmap.md)
 turns the same layered map into one interactive HTML page with basemaps,
 switchable layers, pop-ups and a matching legend.
 
@@ -111,11 +111,11 @@ legend](reference/figures/readme-webmap.png)
 
 ### 3D terrain maps
 
-[`geo_map3d()`](https://tidymapr-e72c18.gitlab.io/reference/geo_map3d.md)
+[`geo_map3d()`](https://tidymapr.in4metrix.dev/reference/geo_map3d.md)
 renders a DEM as a lit, shaded 3D block in C++ (no OpenGL), with sites
 placed on the terrain. Here, the Mt Wilhelm ant survey transect on the
 Copernicus 30 m DEM, fetched with
-[`geo_stac_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-stac.md).
+[`geo_stac_read()`](https://tidymapr.in4metrix.dev/reference/geo-stac.md).
 
 ``` r
 dem <- geo_stac_search("cop-dem-glo-30", area, cloud_cover = NULL) |>
@@ -138,10 +138,10 @@ symbol](reference/figures/readme-legend-symbols.png)
 
 ### Automatic, explained map design
 
-[`geo_automap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md)
+[`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md)
 chooses the projection, classification, colour ramp and map furniture
 from the data, and
-[`geo_automap_explain()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md)
+[`geo_automap_explain()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md)
 says why. Here, world life expectancy on Equal Earth (spData `world`).
 
 ![World life expectancy on the Equal Earth projection with five classes
@@ -149,7 +149,7 @@ and a graticule](reference/figures/readme-automap-world.png)
 
 ### Diversity surfaces with uncertainty
 
-[`geo_diversity_surface()`](https://tidymapr-e72c18.gitlab.io/reference/geo_diversity_surface.md)
+[`geo_diversity_surface()`](https://tidymapr.in4metrix.dev/reference/geo_diversity_surface.md)
 krigs coverage-standardised Hill numbers with each plot’s estimation
 error (Barro Colorado Island 50-ha plot, vegan `BCI`).
 
@@ -159,11 +159,11 @@ interval](reference/figures/readme-diversity-surface.png)
 
 ### Species distribution ensembles, with Maxent in C++
 
-[`sdm_maxent()`](https://tidymapr-e72c18.gitlab.io/reference/sdm_maxent.md)
+[`sdm_maxent()`](https://tidymapr.in4metrix.dev/reference/sdm_maxent.md)
 fits Maxent in C++ with the same answers as maxnet (no Java, no glmnet),
 but standardises predictors first, so results do not depend on units or
 on where zero lies.
-[`sdm_ensemble()`](https://tidymapr-e72c18.gitlab.io/reference/sdm_ensemble.md)
+[`sdm_ensemble()`](https://tidymapr.in4metrix.dev/reference/sdm_ensemble.md)
 combines Maxent, GLM, GAM and a C++ random forest with spatial block
 cross-validation and TSS weights, and maps where the algorithms
 disagree.
@@ -188,9 +188,9 @@ a Sentinel-2 Level-2A scene of Luxembourg (shipped with terra).
 
 ### Satellite imagery from STAC catalogues
 
-[`geo_stac_search()`](https://tidymapr-e72c18.gitlab.io/reference/geo-stac.md)
+[`geo_stac_search()`](https://tidymapr.in4metrix.dev/reference/geo-stac.md)
 and
-[`geo_stac_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-stac.md)
+[`geo_stac_read()`](https://tidymapr.in4metrix.dev/reference/geo-stac.md)
 find and stream Sentinel-2, Landsat or Copernicus DEM data from STAC
 catalogues, reading only your area and taking the median of the clearest
 scenes. Here, NDVI of Luxembourg City in summer 2024.
@@ -209,10 +209,10 @@ roads](reference/figures/readme-stac-ndvi.png)
 
 ### Labels that follow the feature
 
-[`map_curved_labels()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md)
+[`map_curved_labels()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
 writes names along lines, across the long axis or along the outline of
 polygons, and on an arc above points.
-[`map_contours()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map.md)
+[`map_contours()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
 labels contours at their straightest stretch.
 
 ![Luxembourg canton names curved across each canton, along boundaries
@@ -222,10 +222,10 @@ Luxembourg](reference/figures/readme-contours.png)
 
 ### Clusters and fragmentation
 
-[`geo_dbscan()`](https://tidymapr-e72c18.gitlab.io/reference/geo_dbscan.md)
+[`geo_dbscan()`](https://tidymapr.in4metrix.dev/reference/geo_dbscan.md)
 finds clusters of points in C++, with distances in metres anywhere on
 Earth;
-[`geo_landscape()`](https://tidymapr-e72c18.gitlab.io/reference/geo_landscape.md)
+[`geo_landscape()`](https://tidymapr.in4metrix.dev/reference/geo_landscape.md)
 measures habitat fragmentation with the FRAGSTATS metrics, matching
 landscapemetrics and also working on rasters in degrees. Here,
 earthquake clusters along the Tonga-Kermadec and Vanuatu arcs
@@ -237,10 +237,10 @@ arc](reference/figures/readme-dbscan.png)
 
 ### Insets, inside legends and small multiples
 
-[`geo_inset()`](https://tidymapr-e72c18.gitlab.io/reference/geo-panels.md)
+[`geo_inset()`](https://tidymapr.in4metrix.dev/reference/geo-panels.md)
 and `geo_map(legend = "inside")` find corners that do not hide the scale
 bar, the north arrow or the data.
-[`geo_facet_map()`](https://tidymapr-e72c18.gitlab.io/reference/geo-panels.md)
+[`geo_facet_map()`](https://tidymapr.in4metrix.dev/reference/geo-panels.md)
 draws small multiples with one classification shared by every panel
 (sudden infant deaths in North Carolina, sf `nc`).
 
@@ -252,7 +252,7 @@ classes](reference/figures/readme-small-multiples.png)
 
 ### GeoSpaX recipes in R
 
-[`geo_recipe_run()`](https://tidymapr-e72c18.gitlab.io/reference/geo-recipe.md)
+[`geo_recipe_run()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md)
 runs GeoSpaX recipes unchanged: kriging against IDW by cross-validation
 with its standard error, and Getis-Ord hot spots (Meuse soil samples,
 shipped with terra).
@@ -263,9 +263,8 @@ sites](reference/figures/readme-recipe-kriging.png)![Getis-Ord hot and
 cold spots of zinc at the Meuse sample sites over a topographic
 basemap](reference/figures/readme-recipe-hotspots.png)
 
-See the
-[gallery](https://tidymapr-e72c18.gitlab.io/articles/gallery.html) for
-more maps with their code.
+See the [gallery](https://tidymapr.in4metrix.dev/articles/gallery.html)
+for more maps with their code.
 
 ## Licence
 

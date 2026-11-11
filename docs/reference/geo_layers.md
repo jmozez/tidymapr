@@ -9,12 +9,12 @@ table of its contents:
 - netCDF, HDF and GRIB files: one row per variable or subdataset, with
   its description, grid size and number of layers (time steps, depths or
   bands); pass the `var` value to
-  [`geo_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md);
+  [`geo_read()`](https://tidymapr.in4metrix.dev/reference/geo-io.md);
 
 - AutoCAD (`.dxf`, `.dwg`) and MicroStation (`.dgn`) drawings: one row
   per CAD layer or level, with its number of entities; pass the
   `cad_layer` value to
-  [`geo_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md);
+  [`geo_read()`](https://tidymapr.in4metrix.dev/reference/geo-io.md);
 
 - other rasters: one row per band.
 
@@ -36,7 +36,7 @@ A tibble.
 
 ## See also
 
-[`geo_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md)
+[`geo_read()`](https://tidymapr.in4metrix.dev/reference/geo-io.md)
 
 ## Examples
 

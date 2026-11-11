@@ -31,7 +31,7 @@ stems_habitat_test(
 
   Either a data frame with `gx`, `gy` (quadrat centres) and a habitat
   class column, or a column name already on `data` after
-  [`stems_habitat()`](https://tidymapr-e72c18.gitlab.io/reference/stems_spatial.md).
+  [`stems_habitat()`](https://tidymapr.in4metrix.dev/reference/stems_spatial.md).
 
 - species:
 

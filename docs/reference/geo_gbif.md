@@ -4,9 +4,9 @@ Accepts a pre-downloaded GBIF (or rgbif-like) data frame, or downloads
 records with **rgbif** when it is installed. The result is standardised
 to `species`, `lon`, `lat` and optional extras, then optionally passed
 through
-[`geo_clean()`](https://tidymapr-e72c18.gitlab.io/reference/geo_clean.md)
+[`geo_clean()`](https://tidymapr.in4metrix.dev/reference/geo_clean.md)
 and
-[`geo_as_sf()`](https://tidymapr-e72c18.gitlab.io/reference/geo_as_sf.md).
+[`geo_as_sf()`](https://tidymapr.in4metrix.dev/reference/geo_as_sf.md).
 
 ## Usage
 
@@ -37,17 +37,17 @@ geo_gbif(
 - clean:
 
   Run
-  [`geo_clean()`](https://tidymapr-e72c18.gitlab.io/reference/geo_clean.md)?
+  [`geo_clean()`](https://tidymapr.in4metrix.dev/reference/geo_clean.md)?
 
 - as_sf:
 
   Convert cleaned points with
-  [`geo_as_sf()`](https://tidymapr-e72c18.gitlab.io/reference/geo_as_sf.md)?
+  [`geo_as_sf()`](https://tidymapr.in4metrix.dev/reference/geo_as_sf.md)?
 
 - ...:
 
   Passed to
-  [`geo_clean()`](https://tidymapr-e72c18.gitlab.io/reference/geo_clean.md)
+  [`geo_clean()`](https://tidymapr.in4metrix.dev/reference/geo_clean.md)
   when `clean = TRUE`.
 
 ## Value

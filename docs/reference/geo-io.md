@@ -45,21 +45,20 @@ works, with `type` set):
 | CSV / text               | `.csv`, `.tsv`, `.txt`                                                  | vector             | needs lon/lat columns                                                                                                      |
 
 Use
-[`geo_layers()`](https://tidymapr-e72c18.gitlab.io/reference/geo_layers.md)
+[`geo_layers()`](https://tidymapr.in4metrix.dev/reference/geo_layers.md)
 to see what a file holds (vector layers, netCDF/HDF variables and
 subdatasets, or AutoCAD layers) before reading it. GADM downloads use
 these writers for the on-disk cache; see
-[`geo_gadm()`](https://tidymapr-e72c18.gitlab.io/reference/geo_gadm.md)
-for license notes (do not redistribute the full GADM database).
+[`geo_gadm()`](https://tidymapr.in4metrix.dev/reference/geo_gadm.md) for
+license notes (do not redistribute the full GADM database).
 
 Map figures from
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md),
-[`plot_geo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_geo.md),
-[`plot_sdm()`](https://tidymapr-e72c18.gitlab.io/reference/sdm.md) and
-[`plot_topo()`](https://tidymapr-e72c18.gitlab.io/reference/plot_topo.md)
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md),
+[`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md),
+[`plot_sdm()`](https://tidymapr.in4metrix.dev/reference/sdm.md) and
+[`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md)
 are saved with
-[`geo_save()`](https://tidymapr-e72c18.gitlab.io/reference/geo_save.md)
-(or
+[`geo_save()`](https://tidymapr.in4metrix.dev/reference/geo_save.md) (or
 [`tidydiversity::plot_save()`](https://rdrr.io/pkg/tidydiversity/man/plot_save.html)).
 
 ## Usage
@@ -151,7 +150,7 @@ geo_raster_write(raster, path, driver = NULL, overwrite = FALSE, ...)
 
   For netCDF, HDF and GRIB rasters: variable or subdataset names (or
   numbers) to read, as listed by
-  [`geo_layers()`](https://tidymapr-e72c18.gitlab.io/reference/geo_layers.md).
+  [`geo_layers()`](https://tidymapr.in4metrix.dev/reference/geo_layers.md).
   `NULL` reads them all.
 
 - cad_layer:
@@ -195,10 +194,10 @@ geo_raster_write(raster, path, driver = NULL, overwrite = FALSE, ...)
 
 ## See also
 
-[`geo_save()`](https://tidymapr-e72c18.gitlab.io/reference/geo_save.md),
-[`geo_gadm()`](https://tidymapr-e72c18.gitlab.io/reference/geo_gadm.md),
-[`as_sf()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map-interop.md),
-[`as_spat_raster()`](https://tidymapr-e72c18.gitlab.io/reference/geo-map-interop.md)
+[`geo_save()`](https://tidymapr.in4metrix.dev/reference/geo_save.md),
+[`geo_gadm()`](https://tidymapr.in4metrix.dev/reference/geo_gadm.md),
+[`as_sf()`](https://tidymapr.in4metrix.dev/reference/geo-map-interop.md),
+[`as_spat_raster()`](https://tidymapr.in4metrix.dev/reference/geo-map-interop.md)
 
 ## Examples
 
@@ -244,7 +243,7 @@ geo_raster_read(tif)
 #> resolution  : 0.075, 0.0625  (x, y)
 #> extent      : 144.8, 145.4, -6, -5.5  (xmin, xmax, ymin, ymax)
 #> coord. ref. : lon/lat WGS 84 (EPSG:4326)
-#> source      : file13803d0172cd.tif
+#> source      : file3f06772aa85d.tif
 #> name        : lyr.1
 #> min value   :     1
 #> max value   :    64

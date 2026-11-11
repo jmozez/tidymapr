@@ -15,7 +15,7 @@ library(ggplot2)
 
 ## Study sites
 
-[`geo_example_sites()`](https://tidymapr-e72c18.gitlab.io/reference/geo_example_sites.md)
+[`geo_example_sites()`](https://tidymapr.in4metrix.dev/reference/geo_example_sites.md)
 returns the published bait GPS of the survey (`png_ants_sites`; Mottl,
 Moses and Klimes 2023,
 [doi:10.5281/zenodo.8191946](https://doi.org/10.5281/zenodo.8191946)),
@@ -51,7 +51,7 @@ season](case-png-wilhelm_files/figure-html/map-1.png)
 
 ## Distance decay
 
-[`geo_decay()`](https://tidymapr-e72c18.gitlab.io/reference/geo_decay.md)
+[`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md)
 computes pairwise dissimilarity with
 [`tidydiversity::beta_pair()`](https://rdrr.io/pkg/tidydiversity/man/beta_pair.html)
 and joins geographic or elevational distance.
@@ -88,7 +88,7 @@ geo_moran(wet, estimate, lon, lat, nperm = 199, seed = 1)
 
 ## Save the figure
 
-[`geo_save()`](https://tidymapr-e72c18.gitlab.io/reference/geo_save.md)
+[`geo_save()`](https://tidymapr.in4metrix.dev/reference/geo_save.md)
 writes maps at journal sizes:
 
 ``` r

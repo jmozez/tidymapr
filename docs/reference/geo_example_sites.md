@@ -5,7 +5,7 @@ Returns one row per elevation band of the Mt Wilhelm ant survey
 with WGS84 longitude and latitude averaged from the bait GPS positions
 published by Mottl, Moses and Klimes (2023). These are real field
 coordinates; see
-[png_ants_sites](https://tidymapr-e72c18.gitlab.io/reference/png_ants_sites.md)
+[png_ants_sites](https://tidymapr.in4metrix.dev/reference/png_ants_sites.md)
 for the two transects per band.
 
 ## Usage

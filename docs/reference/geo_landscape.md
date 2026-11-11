@@ -50,7 +50,7 @@ Technical Report PNW-351.
 
 ## See also
 
-[`geo_dbscan()`](https://tidymapr-e72c18.gitlab.io/reference/geo_dbscan.md).
+[`geo_dbscan()`](https://tidymapr.in4metrix.dev/reference/geo_dbscan.md).
 
 ## Examples
 

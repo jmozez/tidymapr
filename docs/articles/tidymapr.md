@@ -12,7 +12,7 @@ library(tidymapr)
 
 ## Study sites
 
-[`geo_example_sites()`](https://tidymapr-e72c18.gitlab.io/reference/geo_example_sites.md)
+[`geo_example_sites()`](https://tidymapr.in4metrix.dev/reference/geo_example_sites.md)
 returns the published bait GPS of the Mt Wilhelm ant survey behind
 [`tidydiversity::png_ants`](https://rdrr.io/pkg/tidydiversity/man/png_ants.html)
 (`png_ants_sites`; Mottl, Moses and Klimes 2023,
@@ -35,7 +35,7 @@ sites
 #> 8 MW3700  145. -5.78      3700 3700 m         published bait GPS, doi:10.5281/z…
 ```
 
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md)
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
 draws a publication-ready study-site map with a scale bar and north
 arrow.
 
@@ -94,7 +94,7 @@ plot_geo(est[est$season == "dry", ], estimate, lon, lat, label = site)
 
 ![](tidymapr_files/figure-html/diversity-map-1.png)
 
-[`geo_decay()`](https://tidymapr-e72c18.gitlab.io/reference/geo_decay.md)
+[`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md)
 joins geographic, elevational or environmental distances to
 [`tidydiversity::beta_pair()`](https://rdrr.io/pkg/tidydiversity/man/beta_pair.html)
 so

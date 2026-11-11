@@ -19,20 +19,20 @@ tidymapr and the GeoSpaX desktop GIS share recipes:
 
 Steps that tidymapr runs:
 
-|                    |                                                                                                                                        |
-|--------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| GeoSpaX step       | tidymapr                                                                                                                               |
-| `io.open`          | [`geo_read()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md)                                                                  |
-| `interpolate.idw`  | [`geo_interpolate()`](https://tidymapr-e72c18.gitlab.io/reference/geo_interpolate.md) (`method = "idw"`)                               |
-| `interpolate.auto` | kriging against IDW by leave-one-out error, with a standard-error map                                                                  |
-| `aggregate.hexbin` | points counted (or summed or averaged) in auto-sized hexagons                                                                          |
-| `stats.hotspots`   | [`geo_hotspot()`](https://tidymapr-e72c18.gitlab.io/reference/geo-local.md) (Getis-Ord Gi\*), on hexagon counts when no field is given |
-| `automap.style`    | the [`geo_automap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md) rules                                                |
-| `export.map`       | a [`geo_automap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md) page saved as PNG, SVG or PDF                          |
-| `export.data`      | [`geo_write()`](https://tidymapr-e72c18.gitlab.io/reference/geo-io.md)                                                                 |
-| `export.report`    | an HTML report with the maps, every automatic decision and the run log                                                                 |
-| `terrain.derive`   | [`geo_raster_terrain()`](https://tidymapr-e72c18.gitlab.io/reference/geo-raster.md)                                                    |
-| `rs.index`         | [`geo_spectral_index()`](https://tidymapr-e72c18.gitlab.io/reference/geo_spectral_index.md) on a raster you give                       |
+|                    |                                                                                                                                     |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| GeoSpaX step       | tidymapr                                                                                                                            |
+| `io.open`          | [`geo_read()`](https://tidymapr.in4metrix.dev/reference/geo-io.md)                                                                  |
+| `interpolate.idw`  | [`geo_interpolate()`](https://tidymapr.in4metrix.dev/reference/geo_interpolate.md) (`method = "idw"`)                               |
+| `interpolate.auto` | kriging against IDW by leave-one-out error, with a standard-error map                                                               |
+| `aggregate.hexbin` | points counted (or summed or averaged) in auto-sized hexagons                                                                       |
+| `stats.hotspots`   | [`geo_hotspot()`](https://tidymapr.in4metrix.dev/reference/geo-local.md) (Getis-Ord Gi\*), on hexagon counts when no field is given |
+| `automap.style`    | the [`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md) rules                                                |
+| `export.map`       | a [`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md) page saved as PNG, SVG or PDF                          |
+| `export.data`      | [`geo_write()`](https://tidymapr.in4metrix.dev/reference/geo-io.md)                                                                 |
+| `export.report`    | an HTML report with the maps, every automatic decision and the run log                                                              |
+| `terrain.derive`   | [`geo_raster_terrain()`](https://tidymapr.in4metrix.dev/reference/geo-raster.md)                                                    |
+| `rs.index`         | [`geo_spectral_index()`](https://tidymapr.in4metrix.dev/reference/geo_spectral_index.md) on a raster you give                       |
 
 Other GeoSpaX steps (device import, LiDAR, 3D scenes, online data
 fetches, GRASS/SAGA, AI models) are reported by `geo_recipe_validate()`
@@ -125,9 +125,9 @@ with each step's outputs, the run log and the output folder.
 
 ## See also
 
-[`geo_automap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_automap.md),
-[`geo_interpolate()`](https://tidymapr-e72c18.gitlab.io/reference/geo_interpolate.md),
-[`geo_hotspot()`](https://tidymapr-e72c18.gitlab.io/reference/geo-local.md)
+[`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md),
+[`geo_interpolate()`](https://tidymapr.in4metrix.dev/reference/geo_interpolate.md),
+[`geo_hotspot()`](https://tidymapr.in4metrix.dev/reference/geo-local.md)
 
 ## Examples
 

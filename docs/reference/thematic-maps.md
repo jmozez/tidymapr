@@ -1,11 +1,11 @@
 # Choropleth and bubble maps
 
 Two classic thematic maps, drawn with ggplot2 and
-[`theme_tidymapr()`](https://tidymapr-e72c18.gitlab.io/reference/theme_tidymapr.md):
+[`theme_tidymapr()`](https://tidymapr.in4metrix.dev/reference/theme_tidymapr.md):
 
 - `plot_choropleth()` shades polygons (regions, plots, provinces) by a
   numeric column. Values are grouped into classes with
-  [`geo_classify()`](https://tidymapr-e72c18.gitlab.io/reference/geo_breaks.md)
+  [`geo_classify()`](https://tidymapr.in4metrix.dev/reference/geo_breaks.md)
   (quantile, equal, Fisher-Jenks, pretty, standard deviation or fixed
   breaks), so the legend shows readable ranges such as `"10 - 20"`. The
   classification (breaks, counts per class and goodness of variance fit)
@@ -20,7 +20,7 @@ Two classic thematic maps, drawn with ggplot2 and
 
 Both return an ordinary ggplot, so you can add layers, change scales or
 save with
-[`geo_save()`](https://tidymapr-e72c18.gitlab.io/reference/geo_save.md).
+[`geo_save()`](https://tidymapr.in4metrix.dev/reference/geo_save.md).
 
 ## Usage
 
@@ -70,7 +70,7 @@ plot_bubble(
 - n, style, breaks, digits:
 
   Classification, passed to
-  [`geo_classify()`](https://tidymapr-e72c18.gitlab.io/reference/geo_breaks.md).
+  [`geo_classify()`](https://tidymapr.in4metrix.dev/reference/geo_breaks.md).
 
 - palette:
 
@@ -133,9 +133,9 @@ A ggplot object.
 
 ## See also
 
-[`geo_classify()`](https://tidymapr-e72c18.gitlab.io/reference/geo_breaks.md)
+[`geo_classify()`](https://tidymapr.in4metrix.dev/reference/geo_breaks.md)
 for the classes alone;
-[`plot_sites()`](https://tidymapr-e72c18.gitlab.io/reference/plot_sites.md)
+[`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
 for study-site maps with basemaps.
 
 ## Examples

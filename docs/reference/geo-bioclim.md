@@ -6,7 +6,7 @@ variables with clear names. `geo_worldclim()` and `geo_chelsa()`
 download or read cached rasters (or accept a user file path when
 offline), and `geo_bioclim()` is a thin front end that chooses the
 source. Join values to sites with
-[`geo_extract()`](https://tidymapr-e72c18.gitlab.io/reference/geo_extract.md).
+[`geo_extract()`](https://tidymapr.in4metrix.dev/reference/geo_extract.md).
 
 Downloads use a cache directory (default
 `tools::R_user_dir("tidymapr", "cache")/bioclim`) so repeat calls do not
@@ -154,7 +154,7 @@ geo_worldclim(vars = "bio1", path = tmp, download = FALSE)
 #> resolution  : 0.2, 0.2  (x, y)
 #> extent      : 144, 146, -7, -5  (xmin, xmax, ymin, ymax)
 #> coord. ref. : lon/lat WGS 84 (EPSG:4326)
-#> source      : file13805a30ac04.tif
+#> source      : file3f06157eee12.tif
 #> name        : bio1
 #> min value   :   20
 #> max value   :   20

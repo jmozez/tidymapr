@@ -3,7 +3,7 @@
 Computes pairwise beta diversity with
 [`tidydiversity::beta_pair()`](https://rdrr.io/pkg/tidydiversity/man/beta_pair.html)
 and joins distances from
-[`geo_distance()`](https://tidymapr-e72c18.gitlab.io/reference/geo_distance.md)
+[`geo_distance()`](https://tidymapr.in4metrix.dev/reference/geo_distance.md)
 (great-circle, elevational or environmental), returning a
 `td_beta_decay` object (see
 [`tidydiversity::beta_decay()`](https://rdrr.io/pkg/tidydiversity/man/beta_decay.html))
@@ -56,7 +56,7 @@ geo_decay(
 - method, vars, scale, metric:
 
   Passed to
-  [`geo_distance()`](https://tidymapr-e72c18.gitlab.io/reference/geo_distance.md).
+  [`geo_distance()`](https://tidymapr.in4metrix.dev/reference/geo_distance.md).
 
 - .by:
 

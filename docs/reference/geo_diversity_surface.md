@@ -132,8 +132,8 @@ Wiley.
 
 ## See also
 
-[`plot_diversity_surface()`](https://tidymapr-e72c18.gitlab.io/reference/plot_diversity_surface.md),
-[`geo_interpolate()`](https://tidymapr-e72c18.gitlab.io/reference/geo_interpolate.md)
+[`plot_diversity_surface()`](https://tidymapr.in4metrix.dev/reference/plot_diversity_surface.md),
+[`geo_interpolate()`](https://tidymapr.in4metrix.dev/reference/geo_interpolate.md)
 
 ## Examples
 

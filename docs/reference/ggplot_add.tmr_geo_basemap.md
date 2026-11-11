@@ -17,7 +17,7 @@ ggplot_add(object, plot, object_name)
 - object:
 
   A `tmr_geo_basemap` from
-  [`geo_basemap()`](https://tidymapr-e72c18.gitlab.io/reference/geo_basemap.md).
+  [`geo_basemap()`](https://tidymapr.in4metrix.dev/reference/geo_basemap.md).
 
 - plot:
 

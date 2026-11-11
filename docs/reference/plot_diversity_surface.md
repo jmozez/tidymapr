@@ -1,7 +1,7 @@
 # Plot diversity surfaces and their uncertainty
 
 Draws the result of
-[`geo_diversity_surface()`](https://tidymapr-e72c18.gitlab.io/reference/geo_diversity_surface.md):
+[`geo_diversity_surface()`](https://tidymapr.in4metrix.dev/reference/geo_diversity_surface.md):
 one panel per order `q` (predicted diversity) and, with
 `uncertainty = TRUE`, a second row with the relative width of the
 prediction interval (upper / lower), so you can see where the map is
@@ -18,7 +18,7 @@ plot_diversity_surface(x, uncertainty = TRUE, palette = "YlGnBu", sites = TRUE)
 - x:
 
   Output of
-  [`geo_diversity_surface()`](https://tidymapr-e72c18.gitlab.io/reference/geo_diversity_surface.md).
+  [`geo_diversity_surface()`](https://tidymapr.in4metrix.dev/reference/geo_diversity_surface.md).
 
 - uncertainty:
 

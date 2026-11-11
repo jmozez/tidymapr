@@ -3,19 +3,19 @@
 ### Get started
 
 - [Getting started with
-  tidymapr](https://tidymapr-e72c18.gitlab.io/articles/tidymapr.md):
+  tidymapr](https://tidymapr.in4metrix.dev/articles/tidymapr.md):
 
 ### Papua New Guinea case studies
 
-- [Tutorials](https://tidymapr-e72c18.gitlab.io/articles/tutorials.md):
+- [Tutorials](https://tidymapr.in4metrix.dev/articles/tutorials.md):
 - [Case study: ants along Mt Wilhelm, from sites to
-  maps](https://tidymapr-e72c18.gitlab.io/articles/case-png-wilhelm.md):
+  maps](https://tidymapr.in4metrix.dev/articles/case-png-wilhelm.md):
 
 ### Guides
 
 - [Geospatial diversity
-  workflows](https://tidymapr-e72c18.gitlab.io/articles/geospatial.md):
+  workflows](https://tidymapr.in4metrix.dev/articles/geospatial.md):
 
 ### Gallery
 
-- [Gallery](https://tidymapr-e72c18.gitlab.io/articles/gallery.md):
+- [Gallery](https://tidymapr.in4metrix.dev/articles/gallery.md):

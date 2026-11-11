@@ -109,7 +109,7 @@ the black box: an open-source release of Maxent. Ecography 40:887-893.
 
 ## See also
 
-[`sdm_ensemble()`](https://tidymapr-e72c18.gitlab.io/reference/sdm_ensemble.md)
+[`sdm_ensemble()`](https://tidymapr.in4metrix.dev/reference/sdm_ensemble.md)
 to combine Maxent with other algorithms.
 
 ## Examples

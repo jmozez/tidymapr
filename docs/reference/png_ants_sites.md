@@ -8,7 +8,7 @@ this table averages them to one point per elevation band and transect
 the study sites or to join coordinates onto
 [`tidydiversity::png_ants`](https://rdrr.io/pkg/tidydiversity/man/png_ants.html)
 by `site`.
-[`geo_example_sites()`](https://tidymapr-e72c18.gitlab.io/reference/geo_example_sites.md)
+[`geo_example_sites()`](https://tidymapr.in4metrix.dev/reference/geo_example_sites.md)
 returns the band centroids (mean of the two transects).
 
 ## Usage

@@ -21,7 +21,7 @@
 <script src="extra.js"></script><meta property="og:title" content="Tidy Mapping, Spatial Analysis and Publication Cartography">
 <meta name="description" content="A tidyverse toolkit for making publication-quality maps and doing spatial analysis in R, in the style of a desktop GIS. Automatic, explained map design (projection, classification, colour ramps, legends, scale bars and north arrows); reading of GIS, CAD and remote sensing formats; fast C++ spatial statistics (kriging with measurement error, local Morans I, Getis-Ord hotspots), terrain hydrology and spectral indices. Compatible with the GeoSpaX desktop GIS (&lt;https://geospax.in4metrix.dev&gt;): it follows the same cartographic conventions and reads and writes the same formats through GDAL, and runs its recipes, so maps, data and workflows move between the two. For ecology, it maps coverage-standardised diversity surfaces with uncertainty and spectral diversity, and works with the companion package tidydiversity'.">
 <meta property="og:description" content="A tidyverse toolkit for making publication-quality maps and doing spatial analysis in R, in the style of a desktop GIS. Automatic, explained map design (projection, classification, colour ramps, legends, scale bars and north arrows); reading of GIS, CAD and remote sensing formats; fast C++ spatial statistics (kriging with measurement error, local Morans I, Getis-Ord hotspots), terrain hydrology and spectral indices. Compatible with the GeoSpaX desktop GIS (&lt;https://geospax.in4metrix.dev&gt;): it follows the same cartographic conventions and reads and writes the same formats through GDAL, and runs its recipes, so maps, data and workflows move between the two. For ecology, it maps coverage-standardised diversity surfaces with uncertainty and spectral diversity, and works with the companion package tidydiversity'.">
-<meta property="og:image" content="https://tidymapr-e72c18.gitlab.io/reference/figures/logo.png">
+<meta property="og:image" content="https://tidymapr.in4metrix.dev/reference/figures/logo.png">
 <meta property="og:image:alt" content="tidymapr hex logo">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -117,7 +117,7 @@
 </h2>
 <p>A layered map in the style of a desktop GIS layout: each layer gets its own legend section with the symbol for its geometry, and the scale bar, north arrow and projection are set for you. Real data shipped with terra:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymapr-e72c18.gitlab.io/">tidymapr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymapr.in4metrix.dev/">tidymapr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">elev</span>    <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/elev.tif"</span>, package <span class="op">=</span> <span class="st">"terra"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">cantons</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/lux.shp"</span>, package <span class="op">=</span> <span class="st">"terra"</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -289,7 +289,7 @@
 <p><code><a href="reference/geo-recipe.html">geo_recipe_run()</a></code> runs GeoSpaX recipes unchanged: kriging against IDW by cross-validation with its standard error, and Getis-Ord hot spots (Meuse soil samples, shipped with terra).</p>
 <p>
 <img src="reference/figures/readme-recipe-kriging.png" alt="Zinc in Meuse floodplain soils, kriged with an exponential variogram, with the sample sites" width="49%"><img src="reference/figures/readme-recipe-hotspots.png" alt="Getis-Ord hot and cold spots of zinc at the Meuse sample sites over a topographic basemap" width="49%"></p>
-<p>See the <a href="https://tidymapr-e72c18.gitlab.io/articles/gallery.html">gallery</a> for more maps with their code.</p>
+<p>See the <a href="https://tidymapr.in4metrix.dev/articles/gallery.html">gallery</a> for more maps with their code.</p>
 </div>
 </div>
 <div class="section level2">
