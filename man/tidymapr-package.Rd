@@ -20,8 +20,9 @@ verb takes a data frame and returns a tibble, an \code{sf} table, a
 Useful links:
 \itemize{
   \item \url{https://tidymapr.in4metrix.dev/}
+  \item \url{https://github.com/jmozez/tidymapr}
   \item \url{https://gitlab.com/jimmy.moses/tidymapr}
-  \item Report bugs at \url{https://gitlab.com/jimmy.moses/tidymapr/-/issues}
+  \item Report bugs at \url{https://github.com/jmozez/tidymapr/issues}
 }
 
 }
