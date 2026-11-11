@@ -25,3 +25,6 @@
 ^CITATION\.cff$
 ^Rplots\.pdf$
 ^vercel\.json$
+^inst/logo$
+^man/figures/readme-.*\.png$
+^man/figures/gallery-.*\.png$

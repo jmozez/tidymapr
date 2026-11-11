@@ -92,7 +92,9 @@ plot_sites(sites, lon, lat, basemap = "coast", colour = elevation_band)
 plot_sites(sites, lon, lat, basemap = "topo", colour = elevation_band)
 plot_sites(sites, lon, lat, basemap = "osm", colour = elevation_band)
 # Hillshade and contours from an elevation model
-plot_sites(sites, lon, lat, basemap = "terrain", colour = elevation_band)
+if (rlang::is_installed("geodata") || rlang::is_installed("elevatr")) {
+  plot_sites(sites, lon, lat, basemap = "terrain", colour = elevation_band)
+}
 }
 \dontshow{\}) # examplesIf}
 }

@@ -76,10 +76,12 @@
 #' @examplesIf rlang::is_installed("maxnet")
 #' # Brown-throated sloth (Phillips et al. 2006)
 #' data(bradypus, package = "maxnet")
+#' \donttest{
 #' ens <- sdm_ensemble(bradypus$presence, bradypus[, c(2, 3, 5:15)],
 #'   algorithms = c("maxent", "glm", "rf"), folds = 4, ntree = 200
 #' )
 #' ens
+#' }
 #' @export
 sdm_ensemble <- function(presence,
                          data,
