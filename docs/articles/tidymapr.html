@@ -138,14 +138,14 @@ the data, and <code><a href="../reference/geo_automap.html">geo_automap_explain(
 <p><img src="tidymapr_files/figure-html/automap-1.png" class="r-plt" alt="Population of Luxembourg's cantons in five classes, with scale bar and north arrow" width="100%"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/geo_automap.html">geo_automap_explain</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 5 × 3</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 3</span></span></span>
 <span><span class="co">#&gt;   element     choice                                       reason               </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;                                        &lt;chr&gt;                </span></span>
-<span><span class="co">#&gt; 1 projection  utm                                          Data span 1.5 degree…</span></span>
-<span><span class="co">#&gt; 2 symbology   graduated colours (jenks, 4 classes, YlOrRd) 'POP' is numeric and…</span></span>
-<span><span class="co">#&gt; 3 basemap     none                                         Polygons, rasters an…</span></span>
-<span><span class="co">#&gt; 4 scale bar   pill at tr                                   Distances matter at …</span></span>
-<span><span class="co">#&gt; 5 north arrow needle at tl                                 Second-emptiest corn…</span></span></code></pre></div>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> projection  utm                                          Data span 1.5 degree…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> symbology   graduated colours (jenks, 4 classes, YlOrRd) 'POP' is numeric and…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> basemap     none                                         Polygons, rasters an…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> scale bar   pill at tr                                   Distances matter at …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> north arrow needle at tl                                 Second-emptiest corn…</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="a-layered-map">A layered map<a class="anchor" aria-label="anchor" href="#a-layered-map"></a>
@@ -162,7 +162,9 @@ style by name (see <code><a href="../reference/map_presets.html">map_presets()</
 <code class="sourceCode R"><span><span class="va">lux</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo-map.html">geo_map</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Luxembourg"</span>, caption <span class="op">=</span> <span class="st">"Data: terra package"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/geo-map.html">map_raster</a></span><span class="op">(</span><span class="va">elev</span>, name <span class="op">=</span> <span class="st">"Elevation (m)"</span>, palette <span class="op">=</span> <span class="st">"Terrain 2"</span>, hillshade <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/geo-map.html">map_polygons</a></span><span class="op">(</span><span class="va">cantons</span>, preset <span class="op">=</span> <span class="st">"admin"</span>, label <span class="op">=</span> <span class="st">"Cantons"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/geo-map.html">map_lines</a></span><span class="op">(</span><span class="va">roads</span><span class="op">[</span><span class="va">roads</span><span class="op">$</span><span class="va">highway</span> <span class="op">!=</span> <span class="st">"primary"</span>, <span class="op">]</span>, preset <span class="op">=</span> <span class="st">"road_minor"</span>, label <span class="op">=</span> <span class="st">"Other road"</span>, linewidth <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/geo-map.html">map_lines</a></span><span class="op">(</span><span class="va">roads</span><span class="op">[</span><span class="va">roads</span><span class="op">$</span><span class="va">highway</span> <span class="op">!=</span> <span class="st">"primary"</span>, <span class="op">]</span>,</span>
+<span>    preset <span class="op">=</span> <span class="st">"road_minor"</span>, label <span class="op">=</span> <span class="st">"Other road"</span>, linewidth <span class="op">=</span> <span class="fl">0.25</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/geo-map.html">map_lines</a></span><span class="op">(</span><span class="va">roads</span><span class="op">[</span><span class="va">roads</span><span class="op">$</span><span class="va">highway</span> <span class="op">==</span> <span class="st">"primary"</span>, <span class="op">]</span>, preset <span class="op">=</span> <span class="st">"road_major"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/geo-map.html">map_points</a></span><span class="op">(</span><span class="va">seats</span>, preset <span class="op">=</span> <span class="st">"town"</span>, label <span class="op">=</span> <span class="st">"Canton centre"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/geo-map.html">map_labels</a></span><span class="op">(</span><span class="va">seats</span>, text <span class="op">=</span> <span class="va">NAME_2</span>, size <span class="op">=</span> <span class="fl">2.6</span><span class="op">)</span></span>
@@ -230,11 +232,22 @@ model:</p>
 <div class="section level2">
 <h2 id="d-and-the-web">3D and the web<a class="anchor" aria-label="anchor" href="#d-and-the-web"></a>
 </h2>
-<p>The same layers render as a 3D block diagram, drawn in C++ without
-OpenGL:</p>
+<p><code><a href="../reference/geo_map3d.html">geo_map3d()</a></code> renders an elevation model as a 3D block
+diagram, drawn in C++ without OpenGL. Here, Mt Wilhelm in Papua New
+Guinea, from the Copernicus 30 m DEM (averaged to 90 m and shipped with
+tidymapr), with the ant survey sites of Mottl, Moses and Klimes (2023)
+placed on the terrain.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/geo_map3d.html">geo_map3d</a></span><span class="op">(</span><span class="va">elev</span>, theta <span class="op">=</span> <span class="fl">200</span>, phi <span class="op">=</span> <span class="fl">35</span>, title <span class="op">=</span> <span class="st">"Luxembourg in 3D"</span>, width <span class="op">=</span> <span class="fl">1200</span>, height <span class="op">=</span> <span class="fl">800</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tidymapr_files/figure-html/map3d-1.png" class="r-plt" alt="3D view of Luxembourg's relief" width="100%"></p>
+<code class="sourceCode R"><span><span class="va">wilhelm</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"wilhelm-dem.tif"</span>, package <span class="op">=</span> <span class="st">"tidymapr"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ant_sites</span> <span class="op">&lt;-</span> <span class="va">png_ants_sites</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">png_ants_sites</span><span class="op">$</span><span class="va">site</span><span class="op">)</span>, <span class="op">]</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/geo_map3d.html">geo_map3d</a></span><span class="op">(</span><span class="va">wilhelm</span>,</span>
+<span>  theta <span class="op">=</span> <span class="fl">190</span>, phi <span class="op">=</span> <span class="fl">30</span>, points <span class="op">=</span> <span class="va">ant_sites</span>, label <span class="op">=</span> <span class="st">"site"</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Mt Wilhelm, Papua New Guinea"</span>,</span>
+<span>  subtitle <span class="op">=</span> <span class="st">"Ant survey sites on the Copernicus DEM"</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">1600</span>, height <span class="op">=</span> <span class="fl">1000</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="tidymapr_files/figure-html/map3d-1.png" class="r-plt" alt="3D view of Mt Wilhelm, Papua New Guinea, with the eight ant survey sites from 200 m to 3700 m labelled" width="100%"></p>
 <p>and as an interactive web map in one HTML file, with switchable
 layers, pop-ups and the same legend:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">

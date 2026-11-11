@@ -190,6 +190,17 @@ width of the interval alongside.</p>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_diversity_surface.html">plot_diversity_surface</a></span><span class="op">(</span><span class="va">surf</span><span class="op">)</span></span></code></pre></div>
 <p><img src="case-bci-diversity_files/figure-html/surface-1.png" class="r-plt" alt="Kriged tree diversity for q = 0, 1 and 2 across the plot, with maps of the uncertainty" width="100%"></p>
+<p><strong>How to read the uncertainty maps.</strong> Each subplot’s
+diversity is an estimate, not an exact count, so every point on the
+surface comes with a 95% interval: the range the true value very
+probably lies in. The lower row maps how wide that interval is, as the
+upper bound divided by the lower bound. A ratio of 1.4 means the true
+value could be up to 40% higher than the low end of the range; a ratio
+of 1.8 means up to 80%. Pale areas are estimated precisely; dark areas
+are uncertain, so differences there should be read with caution.
+Uncertainty grows from q = 0 to q = 2 here because inverse Simpson
+depends on the few commonest species, whose share varies more from plot
+to plot.</p>
 </div>
 <div class="section level2">
 <h2 id="richness-as-a-layered-map">Richness as a layered map<a class="anchor" aria-label="anchor" href="#richness-as-a-layered-map"></a>

@@ -106,6 +106,11 @@ geo_panels <- function(...,
       plot.background = ggplot2::element_rect(fill = "white", colour = NA)
     )
   )
+  # Panels are narrow: drop coordinate labels that would collide
+  out <- out & ggplot2::guides(
+    x = ggplot2::guide_axis(check.overlap = TRUE),
+    y = ggplot2::guide_axis(check.overlap = TRUE)
+  )
   out <- out & ggplot2::theme(
     plot.tag = ggplot2::element_text(size = 12, face = "bold"),
     plot.background = ggplot2::element_rect(fill = "white", colour = NA)

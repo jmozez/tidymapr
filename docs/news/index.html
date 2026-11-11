@@ -59,6 +59,10 @@
 <li>
 <code>geo_panels(guides = "keep")</code> no longer overrides each map’s own legend position (including <code>legend = "none"</code>).</li>
 <li>Web map legends round their labels to the precision of the data.</li>
+<li>World maps from <code><a href="../reference/geo_automap.html">geo_automap()</a></code> are centred on Greenwich again, features crossing the date line (Russia, Fiji) are split there instead of being stretched across the map, and the frame shows the whole globe.</li>
+<li>Coordinate labels that would overlap on narrow maps and panels are dropped.</li>
+<li>tidymapr ships a 90 m Copernicus elevation model of Mt Wilhelm, Papua New Guinea (<code>inst/extdata/wilhelm-dem.tif</code>), used in the 3D examples.</li>
+<li>The case studies and README explain how to read the uncertainty and disagreement maps.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="interactive-web-maps-november-0-0-0-9000">Interactive web maps (November 2026)<a class="anchor" aria-label="anchor" href="#interactive-web-maps-november-0-0-0-9000"></a></h3>

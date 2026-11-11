@@ -310,7 +310,28 @@ geo_automap <- function(x,
   }
   centre <- if (is_raster) bb else x
   if (scale_class == "world") {
-    p <- p + coord_projection(projection, data = centre) + map_graticule(30, outline = TRUE)
+    crs <- geo_crs(projection, data = centre)
+    lon0 <- as.numeric(sub(".*\\+lon_0=([-0-9.]+).*", "\\1", crs$proj4string))
+    if (is.na(lon0)) lon0 <- 0
+    # Features that cross the line opposite the central meridian (Russia,
+    # Fiji) would be stretched across the whole map: split them there
+    for (i in seq_along(p$layers)) {
+      d <- p$layers[[i]]$data
+      if (inherits(d, "sf") && isTRUE(sf::st_is_longlat(d))) {
+        p$layers[[i]]$data <- suppressWarnings(suppressMessages(
+          sf::st_break_antimeridian(sf::st_make_valid(d), lon_0 = lon0)
+        ))
+      }
+    }
+    # Frame the whole globe, so the outline is never cut
+    lat_s <- seq(-90, 90, by = 1)
+    edge <- sf::st_sfc(sf::st_multipoint(rbind(
+      cbind(lon0 - 179.999, lat_s), cbind(lon0 + 179.999, lat_s),
+      cbind(lon0, c(-90, 90))
+    )), crs = 4326)
+    lim <- pad_bb(sf::st_bbox(sf::st_transform(edge, crs)), 0.03)
+    p <- p + coord_projection(projection, data = centre, xlim = lim[1:2], ylim = lim[3:4]) +
+      map_graticule(30, outline = TRUE)
     note(
       "graticule", "30 degrees, world outline",
       "World map: graticule and outline show the projection."

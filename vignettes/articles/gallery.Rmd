@@ -170,8 +170,16 @@ geo_map(title = "Labelled contours (50 m)") |>
 
 ### Map
 
-```{r map3d, echo = FALSE, fig.height = 5.5, fig.alt = "3D block diagram of Luxembourg's relief"}
-geo_map3d(elev, theta = 200, phi = 35, title = "Luxembourg in 3D", width = 1600, height = 1000)
+```{r map3d, echo = FALSE, fig.height = 5.5, fig.alt = "3D block diagram of Mt Wilhelm, Papua New Guinea, with the eight ant survey sites labelled"}
+wilhelm <- terra::rast(system.file("extdata", "wilhelm-dem.tif", package = "tidymapr"))
+ant_sites <- png_ants_sites[!duplicated(png_ants_sites$site), ] |>
+  sf::st_as_sf(coords = c("lon", "lat"), crs = 4326)
+geo_map3d(wilhelm,
+  theta = 190, phi = 30, points = ant_sites, label = "site",
+  title = "Mt Wilhelm, Papua New Guinea",
+  subtitle = "Ant survey sites (Mottl, Moses & Klimes 2023) on the Copernicus DEM",
+  width = 1600, height = 1000
+)
 ```
 
 ### Code

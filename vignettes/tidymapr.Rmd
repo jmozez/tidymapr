@@ -70,7 +70,9 @@ name (see `map_presets()`).
 lux <- geo_map(title = "Luxembourg", caption = "Data: terra package") |>
   map_raster(elev, name = "Elevation (m)", palette = "Terrain 2", hillshade = TRUE) |>
   map_polygons(cantons, preset = "admin", label = "Cantons") |>
-  map_lines(roads[roads$highway != "primary", ], preset = "road_minor", label = "Other road", linewidth = 0.25) |>
+  map_lines(roads[roads$highway != "primary", ],
+    preset = "road_minor", label = "Other road", linewidth = 0.25
+  ) |>
   map_lines(roads[roads$highway == "primary", ], preset = "road_major") |>
   map_points(seats, preset = "town", label = "Canton centre") |>
   map_labels(seats, text = NAME_2, size = 2.6)
@@ -122,10 +124,21 @@ geo_map(title = "Topographic wetness index") |>
 
 ## 3D and the web
 
-The same layers render as a 3D block diagram, drawn in C++ without OpenGL:
+`geo_map3d()` renders an elevation model as a 3D block diagram, drawn in
+C++ without OpenGL. Here, Mt Wilhelm in Papua New Guinea, from the
+Copernicus 30 m DEM (averaged to 90 m and shipped with tidymapr), with the
+ant survey sites of Mottl, Moses and Klimes (2023) placed on the terrain.
 
-```{r map3d, fig.alt = "3D view of Luxembourg's relief"}
-geo_map3d(elev, theta = 200, phi = 35, title = "Luxembourg in 3D", width = 1200, height = 800)
+```{r map3d, fig.alt = "3D view of Mt Wilhelm, Papua New Guinea, with the eight ant survey sites from 200 m to 3700 m labelled"}
+wilhelm <- terra::rast(system.file("extdata", "wilhelm-dem.tif", package = "tidymapr"))
+ant_sites <- png_ants_sites[!duplicated(png_ants_sites$site), ] |>
+  sf::st_as_sf(coords = c("lon", "lat"), crs = 4326)
+geo_map3d(wilhelm,
+  theta = 190, phi = 30, points = ant_sites, label = "site",
+  title = "Mt Wilhelm, Papua New Guinea",
+  subtitle = "Ant survey sites on the Copernicus DEM",
+  width = 1600, height = 1000
+)
 ```
 
 and as an interactive web map in one HTML file, with switchable layers,

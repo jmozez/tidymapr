@@ -168,6 +168,17 @@ geo_panels(a, b,
 disagreement between
 algorithms](case-sloth-sdm_files/figure-html/maps-1.png)
 
+**How to read the disagreement map.** The four algorithms (Maxent, GLM,
+GAM and random forest) each predict a suitability between 0 and 1. The
+ensemble map shows their weighted average; the disagreement map shows
+their weighted standard deviation, that is, how far apart their
+predictions are at each place. Near 0 (pale), all four agree, so the
+ensemble value can be trusted there. Higher values (dark orange, here up
+to about 0.25) mean the algorithms give clearly different answers, often
+where the climate differs from anywhere the sloth was recorded. Treat
+the suitability in those places as uncertain and check it with field
+data.
+
 ## Each algorithm
 
 All four on the same 0-1 scale, so one colour means the same suitability
