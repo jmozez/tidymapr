@@ -117,8 +117,9 @@ geo_as_sf <- function(data,
     return(data)
   }
 
-  lon_col <- tmr_pick(enquo(lon), data, "lon")
-  lat_col <- tmr_pick(enquo(lat), data, "lat")
+  geo_crs_ll <- tmr_crs_is_lonlat(crs)
+  lon_col <- tmr_pick(enquo(lon), data, "lon", lonlat = geo_crs_ll)
+  lat_col <- tmr_pick(enquo(lat), data, "lat", lonlat = geo_crs_ll)
   site_q <- enquo(site)
   site_col <- if (quo_is_null(site_q)) NULL else tmr_pick(site_q, data, "site")
 
@@ -631,6 +632,14 @@ geo_distance <- function(data,
                          scale = TRUE,
                          metric = c("euclidean", "gower"),
                          .by = NULL) {
+  if (inherits(data, "sf")) {
+    data <- tmr_sf_coords(data, planar = identical(method[1], "euclidean"))
+    lon_q <- rlang::quo(!!rlang::sym(".lon"))
+    lat_q <- rlang::quo(!!rlang::sym(".lat"))
+  } else {
+    lon_q <- enquo(lon)
+    lat_q <- enquo(lat)
+  }
   method <- rlang::arg_match(method)
   metric <- rlang::arg_match(metric)
   tmr_check_data(data)
@@ -642,8 +651,8 @@ geo_distance <- function(data,
   lon_col <- lat_col <- elev_col <- NULL
   env_cols <- character()
   if (method %in% c("haversine", "euclidean")) {
-    lon_col <- tmr_pick(enquo(lon), data, "lon")
-    lat_col <- tmr_pick(enquo(lat), data, "lat")
+    lon_col <- tmr_pick(lon_q, data, "lon", lonlat = method == "haversine")
+    lat_col <- tmr_pick(lat_q, data, "lat", lonlat = method == "haversine")
     cols <- c(cols, lon_col, lat_col)
   }
   if (method == "elevation") {
@@ -658,8 +667,8 @@ geo_distance <- function(data,
   }
   if (method == "environmental") {
     # Prefer lon/lat when present so sites stay unique; not used in distance
-    lon_try <- tryCatch(tmr_pick(enquo(lon), data, "lon"), error = function(e) NULL)
-    lat_try <- tryCatch(tmr_pick(enquo(lat), data, "lat"), error = function(e) NULL)
+    lon_try <- tryCatch(tmr_pick(lon_q, data, "lon", lonlat = FALSE), error = function(e) NULL)
+    lat_try <- tryCatch(tmr_pick(lat_q, data, "lat", lonlat = FALSE), error = function(e) NULL)
     if (!is.null(lon_try) && !is.null(lat_try)) {
       lon_col <- lon_try
       lat_col <- lat_try
@@ -833,6 +842,14 @@ geo_decay <- function(data,
                       scale = TRUE,
                       metric = c("euclidean", "gower"),
                       .by = NULL) {
+  if (inherits(data, "sf")) {
+    data <- tmr_sf_coords(data, planar = identical(method[1], "euclidean"))
+    lon_q <- rlang::quo(!!rlang::sym(".lon"))
+    lat_q <- rlang::quo(!!rlang::sym(".lat"))
+  } else {
+    lon_q <- enquo(lon)
+    lat_q <- enquo(lat)
+  }
   index <- rlang::arg_match(index)
   method <- rlang::arg_match(method)
   metric <- rlang::arg_match(metric)
@@ -847,8 +864,8 @@ geo_decay <- function(data,
   )
   dist <- geo_distance(
     data,
-    lon = {{ lon }},
-    lat = {{ lat }},
+    lon = !!lon_q,
+    lat = !!lat_q,
     elevation = {{ elevation }},
     site = {{ site }},
     method = method,
@@ -1127,10 +1144,10 @@ plot_geo <- function(data,
 #'   or an `sf` table (its point coordinates are used).
 #' @param value <[`data-masking`][dplyr::dplyr_data_masking]> Numeric column
 #'   to test.
-#' @param lon,lat Coordinate columns (ignored for `sf` input). Longitude and
-#'   latitude give great-circle distances in metres; projected coordinates
-#'   (values outside the longitude/latitude range, or a projected `sf`
-#'   table) give straight-line distances in the CRS units.
+#' @param lon,lat Longitude and latitude columns in degrees (ignored for
+#'   `sf` input), giving great-circle distances in metres. For projected
+#'   coordinates pass an `sf` table with its CRS: distances are then
+#'   straight-line distances in the CRS units.
 #' @param site Optional site column for labels in the correlogram.
 #' @param nperm Number of permutations for the p-value.
 #' @param correlogram If `TRUE`, also return a simple distance-bin
@@ -1181,10 +1198,6 @@ geo_moran <- function(data,
     x <- as.numeric(data[[val_col]])
     lon_v <- as.numeric(data[[lon_col]])
     lat_v <- as.numeric(data[[lat_col]])
-    if (any(abs(lon_v) > 180 | abs(lat_v) > 90, na.rm = TRUE)) {
-      # Not longitude/latitude: projected coordinates (e.g. metres)
-      planar <- TRUE
-    }
   }
   ok <- is.finite(x) & is.finite(lon_v) & is.finite(lat_v)
   x <- x[ok]

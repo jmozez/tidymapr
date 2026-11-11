@@ -3,6 +3,44 @@
 * First CRAN release.
 
 
+## Input safety (November 2026)
+
+An audit of every function that takes coordinates or colours found two
+classes of silent error. The statistics themselves were correct (they
+match spdep, gstat, dbscan and landscapemetrics); the problem was how
+input reached them.
+
+* **Coordinates.** Coordinate columns of a plain data frame were always
+  read as longitude and latitude in degrees. Projected coordinates
+  (metres, e.g. UTM) given that way were silently treated as degrees,
+  giving wrong distances and therefore wrong results in `geo_moran()`,
+  `geo_hotspot()`, `geo_lisa()`, `geo_dbscan()`, `geo_mem()`,
+  `geo_distance()`, `geo_decay()`, `geo_rarefy_spatial()`, `geo_buffer()`,
+  `geo_centroid()` and others. Now:
+  - coordinate columns outside the longitude/latitude range are refused
+    with an error that shows how to convert them to an `sf` table with
+    their CRS (exceptions: `geo_as_sf()` and `as_spat_raster()` with a
+    projected `crs`, and `method = "euclidean"` in `geo_distance()`,
+    `geo_mem()` and `geo_decay()`, which are meant for planar
+    coordinates);
+  - `geo_moran()`, `geo_mem()`, `geo_distance()`, `geo_decay()` and
+    `geo_rarefy_spatial()` now accept `sf` tables, like the other
+    functions;
+  - a new test checks that every distance-based function gives the same
+    answer for longitude/latitude columns, a longitude/latitude `sf`
+    table and a projected `sf` table.
+
+  Results from `sf` input and from genuine longitude/latitude columns were
+  always correct and do not change. Analyses that passed projected
+  coordinates as plain columns should be re-run.
+* **Colours.** A named `palette` for categories (e.g.
+  `c(hot = "red", cold = "blue")`) was applied in alphabetical order of
+  the categories instead of by name in `map_points()`, `map_lines()`,
+  `map_polygons()`, `geo_webmap()`, `geo_automap()`, `plot_sites()` and
+  `plot_topo()`. All now colour each category by its name; a named
+  palette that misses a category is an error, and factor columns keep
+  their level order.
+
 ## User guide (November 2026)
 
 * A seven-chapter User guide on the website: installing and running
@@ -11,14 +49,6 @@
   and terrain; point clusters and landscape metrics. Each chapter gives
   the concept and theory, runnable code on real data, figures and tables,
   how to interpret them and a model paragraph for reporting.
-* `geo_moran()` accepts `sf` tables and projected coordinates: distances
-  are now great-circle metres for longitude/latitude and straight-line
-  distances in the CRS units otherwise. Before, projected coordinates
-  were read as degrees, which hid real autocorrelation.
-* `map_points()`, `map_lines()` and `map_polygons()` honour a named
-  `palette` for categories (for example `c(hot = "red", cold = "blue")`);
-  before, the colours were assigned in alphabetical order of the
-  categories, whatever their names. Factor columns keep their level order.
 
 ## New documentation (November 2026)
 

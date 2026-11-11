@@ -141,8 +141,9 @@ geo_basemap_extent <- function(x, lon, lat, crs = 4326) {
     return(list(bbox = bb, crs = sf::st_crs(crs)))
   }
   tmr_check_data(x)
-  lon_col <- tmr_pick(lon, x, "lon")
-  lat_col <- tmr_pick(lat, x, "lat")
+  crs_ll <- tmr_crs_is_lonlat(crs)
+  lon_col <- tmr_pick(lon, x, "lon", lonlat = crs_ll)
+  lat_col <- tmr_pick(lat, x, "lat", lonlat = crs_ll)
   ok <- is.finite(x[[lon_col]]) & is.finite(x[[lat_col]])
   if (!any(ok)) {
     cli::cli_abort("No finite coordinates to set the basemap extent.")

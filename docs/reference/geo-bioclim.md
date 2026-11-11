@@ -141,6 +141,7 @@ geo_bioclim_vars()
 #> 18 bio18 precipitation_warmest_quarter    Precipitation of the warmest qu… mm   
 #> 19 bio19 precipitation_coldest_quarter    Precipitation of the coldest qu… mm   
 
+# \donttest{
 # Offline: build a tiny stand-in raster and treat it as bio1
 r <- terra::rast(ncols = 10, nrows = 10, xmin = 144, xmax = 146,
   ymin = -7, ymax = -5, crs = "EPSG:4326")
@@ -154,8 +155,9 @@ geo_worldclim(vars = "bio1", path = tmp, download = FALSE)
 #> resolution  : 0.2, 0.2  (x, y)
 #> extent      : 144, 146, -7, -5  (xmin, xmax, ymin, ymax)
 #> coord. ref. : lon/lat WGS 84 (EPSG:4326)
-#> source      : file128c3dbfd9c7.tif
+#> source      : file11117ee3a7c9.tif
 #> name        : bio1
 #> min value   :   20
 #> max value   :   20
+# }
 ```

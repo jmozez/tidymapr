@@ -23,10 +23,10 @@ or an \code{sf} table (its point coordinates are used).}
 \item{value}{<\code{\link[dplyr:dplyr_data_masking]{data-masking}}> Numeric column
 to test.}
 
-\item{lon, lat}{Coordinate columns (ignored for \code{sf} input). Longitude and
-latitude give great-circle distances in metres; projected coordinates
-(values outside the longitude/latitude range, or a projected \code{sf}
-table) give straight-line distances in the CRS units.}
+\item{lon, lat}{Longitude and latitude columns in degrees (ignored for
+\code{sf} input), giving great-circle distances in metres. For projected
+coordinates pass an \code{sf} table with its CRS: distances are then
+straight-line distances in the CRS units.}
 
 \item{site}{Optional site column for labels in the correlogram.}
 

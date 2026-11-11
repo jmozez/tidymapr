@@ -337,8 +337,7 @@ plot_topo_scales <- function(p, data, col_nm, size_nm, palette, aes = "colour") 
       levs <- if (is.factor(col_v)) levels(col_v) else as.character(
         vctrs::vec_unique(col_v)
       )
-      cols <- tmr_palette(length(levs), palette = palette)
-      names(cols) <- levs
+      cols <- tmr_category_colours(palette, levs, function(n) tmr_palette(n, palette = palette))
       p <- p + ggplot2::scale_colour_manual(
         name = pretty_nm, values = cols, breaks = levs, labels = levs
       )

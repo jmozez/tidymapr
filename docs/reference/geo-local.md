@@ -64,10 +64,10 @@ geo_lisa(
 
 - lon, lat:
 
-  Coordinate columns (ignored for `sf` input). Longitude and latitude
-  give great-circle distances in metres; projected coordinates (values
-  outside the longitude/latitude range, or a projected `sf` table) give
-  straight-line distances in the CRS units.
+  Longitude and latitude columns in degrees (ignored for `sf` input),
+  giving great-circle distances in metres. For projected coordinates
+  pass an `sf` table with its CRS: distances are then straight-line
+  distances in the CRS units.
 
 - k:
 

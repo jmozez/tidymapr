@@ -37,12 +37,20 @@ geo_rarefy_spatial <- function(data,
                                seed = NULL,
                                nperm = 0,
                                .by = NULL) {
+  if (inherits(data, "sf")) {
+    data <- tmr_sf_coords(data, planar = FALSE)
+    lon_q <- rlang::quo(!!rlang::sym(".lon"))
+    lat_q <- rlang::quo(!!rlang::sym(".lat"))
+  } else {
+    lon_q <- enquo(lon)
+    lat_q <- enquo(lat)
+  }
   tmr_check_data(data)
   tmr_check_number(nperm, "nperm", 0, whole = TRUE)
   site_col <- tmr_pick(enquo(site), data, "site")
   sp_col <- tmr_pick(enquo(species), data, "species")
-  lon_col <- tmr_pick(enquo(lon), data, "lon")
-  lat_col <- tmr_pick(enquo(lat), data, "lat")
+  lon_col <- tmr_pick(lon_q, data, "lon")
+  lat_col <- tmr_pick(lat_q, data, "lat")
   abu_q <- enquo(abundance)
   by_cols <- tmr_group_cols(data, enquo(.by))
 
