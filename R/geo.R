@@ -1123,10 +1123,14 @@ plot_geo <- function(data,
 #' A permutation p-value is returned. Implemented natively so callers do
 #' not need spdep; when spdep is installed, tests compare the two.
 #'
-#' @param data A data frame of sites with coordinates and a value column.
+#' @param data A data frame of sites with coordinates and a value column,
+#'   or an `sf` table (its point coordinates are used).
 #' @param value <[`data-masking`][dplyr::dplyr_data_masking]> Numeric column
 #'   to test.
-#' @param lon,lat Coordinate columns.
+#' @param lon,lat Coordinate columns (ignored for `sf` input). Longitude and
+#'   latitude give great-circle distances in metres; projected coordinates
+#'   (values outside the longitude/latitude range, or a projected `sf`
+#'   table) give straight-line distances in the CRS units.
 #' @param site Optional site column for labels in the correlogram.
 #' @param nperm Number of permutations for the p-value.
 #' @param correlogram If `TRUE`, also return a simple distance-bin
@@ -1154,14 +1158,34 @@ geo_moran <- function(data,
                       correlogram = FALSE,
                       bins = 5,
                       seed = NULL) {
-  tmr_check_data(data)
   tmr_check_number(nperm, "nperm", 0, whole = TRUE)
-  val_col <- tmr_pick(enquo(value), data, "value")
-  lon_col <- tmr_pick(enquo(lon), data, "lon")
-  lat_col <- tmr_pick(enquo(lat), data, "lat")
-  x <- as.numeric(data[[val_col]])
-  lon_v <- as.numeric(data[[lon_col]])
-  lat_v <- as.numeric(data[[lat_col]])
+  planar <- FALSE
+  if (inherits(data, "sf")) {
+    # Point geometry: great-circle distances for longitude/latitude,
+    # straight-line distances in the CRS units for projected data
+    planar <- !isTRUE(sf::st_is_longlat(data))
+    g <- sf::st_geometry(data)
+    if (!all(sf::st_geometry_type(g) == "POINT")) {
+      g <- suppressWarnings(sf::st_point_on_surface(g))
+    }
+    xy <- sf::st_coordinates(g)
+    val_col <- tmr_pick(enquo(value), sf::st_drop_geometry(data), "value")
+    x <- as.numeric(sf::st_drop_geometry(data)[[val_col]])
+    lon_v <- xy[, 1]
+    lat_v <- xy[, 2]
+  } else {
+    tmr_check_data(data)
+    val_col <- tmr_pick(enquo(value), data, "value")
+    lon_col <- tmr_pick(enquo(lon), data, "lon")
+    lat_col <- tmr_pick(enquo(lat), data, "lat")
+    x <- as.numeric(data[[val_col]])
+    lon_v <- as.numeric(data[[lon_col]])
+    lat_v <- as.numeric(data[[lat_col]])
+    if (any(abs(lon_v) > 180 | abs(lat_v) > 90, na.rm = TRUE)) {
+      # Not longitude/latitude: projected coordinates (e.g. metres)
+      planar <- TRUE
+    }
+  }
   ok <- is.finite(x) & is.finite(lon_v) & is.finite(lat_v)
   x <- x[ok]
   lon_v <- lon_v[ok]
@@ -1171,7 +1195,9 @@ geo_moran <- function(data,
     cli::cli_abort("Moran's I needs at least three finite sites.")
   }
 
-  if (exists("geo_haversine_matrix_cpp", mode = "function")) {
+  if (planar) {
+    d <- as.matrix(stats::dist(cbind(lon_v, lat_v)))
+  } else if (exists("geo_haversine_matrix_cpp", mode = "function")) {
     d <- geo_haversine_matrix_cpp(lon_v, lat_v)
   } else {
     d <- outer(seq_len(n), seq_len(n), function(i, j) {

@@ -44,7 +44,7 @@ geo_grain(
 - q:
 
   Hill-number orders passed to
-  [`tidydiversity::div_hill()`](https://rdrr.io/pkg/tidydiversity/man/div_hill.html).
+  [`tidydiversity::div_hill()`](https://tidydiversity.in4metrix.dev/reference/div_hill.html).
 
 - raster:
 
@@ -77,7 +77,7 @@ com <- expand.grid(site = pts$site, species = paste0("sp", 1:8),
 com$abundance <- rpois(nrow(com), 2)
 com <- dplyr::left_join(com, pts, by = "site")
 geo_grain(com, grains = c(0.15, 0.3), q = 0)
-#> # A tibble: 20 x 7
+#> # A tibble: 20 × 7
 #>        q     n diversity grain   lon   lat cell          
 #>    <dbl> <int>     <dbl> <dbl> <dbl> <dbl> <chr>         
 #>  1     0    18         8  0.15  145. -5.92 144.975_-5.925

@@ -5,6 +5,57 @@
 - [Getting started with
   tidymapr](https://tidymapr.in4metrix.dev/articles/tidymapr.md):
 
+### User guide
+
+- [User guide](https://tidymapr.in4metrix.dev/articles/user-guide.md):
+
+  A complete guide to tidymapr: installation, concepts, code, figures,
+  interpretation and reporting.
+
+- [1. Install and run tidymapr in
+  RStudio](https://tidymapr.in4metrix.dev/articles/guide-01-install.md):
+
+  Set up R, RStudio and tidymapr on Windows, macOS or Linux, make a
+  first map and save it for a paper.
+
+- [2. Cartography concepts: projections, classes and
+  colour](https://tidymapr.in4metrix.dev/articles/guide-02-cartography.md):
+
+  The theory behind every design choice in a map, and how tidymapr makes
+  and explains them.
+
+- [3. Spatial autocorrelation: Moran's I, LISA and hot
+  spots](https://tidymapr.in4metrix.dev/articles/guide-03-autocorrelation.md):
+
+  Is there a spatial pattern, and where is it? Global and local
+  statistics, how to read them and how to report them.
+
+- [4. Interpolation: IDW and
+  kriging](https://tidymapr.in4metrix.dev/articles/guide-04-interpolation.md):
+
+  From samples to a continuous surface: variograms, kriging and its
+  uncertainty, IDW, cross-validation and measurement error.
+
+- [5. Species distribution models: Maxent and
+  ensembles](https://tidymapr.in4metrix.dev/articles/guide-05-sdm.md):
+
+  Where can a species live? The theory of presence-background models,
+  Maxent, ensembles, evaluation metrics, response curves and
+  disagreement maps.
+
+- [6. Remote sensing and
+  terrain](https://tidymapr.in4metrix.dev/articles/guide-06-remote-sensing-terrain.md):
+
+  Spectral indices, automatic thresholds, spectral diversity, D8
+  hydrology, the topographic wetness index and 3D terrain: concepts,
+  maps and interpretation.
+
+- [7. Point clusters and landscape
+  fragmentation](https://tidymapr.in4metrix.dev/articles/guide-07-patterns-landscapes.md):
+
+  DBSCAN clustering of point events, and FRAGSTATS landscape metrics:
+  how they work, what each number means and how to report them.
+
 ### Tutorials
 
 - [Tutorials](https://tidymapr.in4metrix.dev/articles/tutorials.md):

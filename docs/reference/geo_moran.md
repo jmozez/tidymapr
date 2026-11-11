@@ -25,7 +25,8 @@ geo_moran(
 
 - data:
 
-  A data frame of sites with coordinates and a value column.
+  A data frame of sites with coordinates and a value column, or an `sf`
+  table (its point coordinates are used).
 
 - value:
 
@@ -34,7 +35,10 @@ geo_moran(
 
 - lon, lat:
 
-  Coordinate columns.
+  Coordinate columns (ignored for `sf` input). Longitude and latitude
+  give great-circle distances in metres; projected coordinates (values
+  outside the longitude/latitude range, or a projected `sf` table) give
+  straight-line distances in the CRS units.
 
 - site:
 
@@ -76,8 +80,8 @@ set.seed(1)
 g <- expand.grid(x = 1:6, y = 1:6)
 g$val <- g$x + 0.3 * rnorm(nrow(g))
 geo_moran(g, val, lon = x, lat = y, nperm = 199)
-#> # A tibble: 1 x 7
+#> # A tibble: 1 × 7
 #>   statistic expectation variance p.value     n nperm method                     
 #>       <dbl>       <dbl>    <dbl>   <dbl> <int> <dbl> <chr>                      
-#> 1     0.267     -0.0286 0.000530   0.005    36   199 Moran's I (inverse-distanc~
+#> 1     0.267     -0.0286 0.000530   0.005    36   199 Moran's I (inverse-distanc…
 ```

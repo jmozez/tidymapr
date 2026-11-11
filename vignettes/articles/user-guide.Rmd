@@ -1,0 +1,41 @@
+---
+title: "User guide"
+description: "A complete guide to tidymapr: installation, concepts, code, figures, interpretation and reporting."
+---
+
+This guide explains how to use tidymapr **and** what its results mean.
+Each chapter follows the same plan:
+
+1. **The concept**: the question the method answers, and the theory behind
+   it, with its key formula and original references.
+2. **Code** you can copy into RStudio, run on real, openly licensed data
+   shipped with R packages.
+3. **Figures and tables**, made by that code.
+4. **How to interpret them**: what the numbers and colours mean, and what
+   they do not.
+5. **How to report them**: a model paragraph for a methods or results
+   section, with the numbers filled in from the analysis.
+
+| Chapter | You will learn | Main functions |
+|---|---|---|
+| [1. Install and run in RStudio](guide-01-install.html) | Set up R, RStudio and build tools; a first map; your own data; saving figures; troubleshooting | `geo_map()`, `map_*()`, `geo_save()` |
+| [2. Cartography concepts](guide-02-cartography.html) | Projections and their distortions; classification methods and GVF; colour schemes; map elements | `geo_automap()`, `geo_automap_explain()`, `geo_classify()`, `coord_projection()` |
+| [3. Spatial autocorrelation](guide-03-autocorrelation.html) | Global Moran's I and the correlogram; local Moran's I (LISA); Getis-Ord Gi\* hot spots | `geo_moran()`, `geo_lisa()`, `geo_hotspot()` |
+| [4. Interpolation](guide-04-interpolation.html) | Variograms; ordinary kriging and its variance; IDW; cross-validation; kriging with measurement error | `geo_interpolate()`, `geo_diversity_surface()` |
+| [5. Species distribution models](guide-05-sdm.html) | Presence-background modelling; Maxent theory and features; response curves; AUC, TSS and Boyce; spatial block cross-validation; ensembles and disagreement | `sdm_maxent()`, `sdm_ensemble()` |
+| [6. Remote sensing and terrain](guide-06-remote-sensing-terrain.html) | Spectral indices; Otsu thresholds; spectral diversity; D8 flow; topographic wetness; 3D terrain | `geo_spectral_index()`, `geo_spectral_diversity()`, `geo_flow_accumulation()`, `geo_twi()`, `geo_map3d()` |
+| [7. Point clusters and landscapes](guide-07-patterns-landscapes.html) | DBSCAN and its parameters; FRAGSTATS fragmentation metrics | `geo_dbscan()`, `geo_landscape()` |
+
+**Where to start.** New to R: Chapter 1, then Chapter 2. Need a map for a
+paper: Chapter 2. Analysing field samples: Chapters 3 and 4. Working with
+species records: Chapter 5. Working with imagery or elevation: Chapter 6.
+
+**Going further.** The [case studies](tutorials.html) apply these
+methods to complete research questions, the [Gallery](gallery.html) shows
+the code of every map, and the [Reference](../reference/index.html) lists
+every function and argument. For diversity estimation itself, see the
+companion package [tidydiversity](https://tidydiversity.in4metrix.dev);
+for a point-and-click desktop GIS with the same conventions, see
+[GeoSpaX](https://geospax.in4metrix.dev).
+
+**How to cite.** Run `citation("tidymapr")` in R.

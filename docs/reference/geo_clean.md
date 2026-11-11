@@ -97,7 +97,7 @@ occ <- tibble::tibble(
   lat = c(-9.4, -9.4, 0, 55.67, -33.9)
 )
 geo_clean(occ, lon, lat, species = species, value = "flagged")
-#> # A tibble: 5 x 12
+#> # A tibble: 5 × 12
 #>   species   lon   lat .val  .equ  .zer  .cap  .gbf  .inst .dpl  .otl  .summary
 #>   <chr>   <dbl> <dbl> <lgl> <lgl> <lgl> <lgl> <lgl> <lgl> <lgl> <lgl> <lgl>   
 #> 1 a       147.   -9.4 FALSE FALSE FALSE FALSE FALSE FALSE TRUE  FALSE FALSE   

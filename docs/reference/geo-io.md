@@ -59,7 +59,7 @@ Map figures from
 [`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md)
 are saved with
 [`geo_save()`](https://tidymapr.in4metrix.dev/reference/geo_save.md) (or
-[`tidydiversity::plot_save()`](https://rdrr.io/pkg/tidydiversity/man/plot_save.html)).
+[`tidydiversity::plot_save()`](https://tidydiversity.in4metrix.dev/reference/plot_save.html)).
 
 ## Usage
 
@@ -243,7 +243,7 @@ geo_raster_read(tif)
 #> resolution  : 0.075, 0.0625  (x, y)
 #> extent      : 144.8, 145.4, -6, -5.5  (xmin, xmax, ymin, ymax)
 #> coord. ref. : lon/lat WGS 84 (EPSG:4326)
-#> source      : file2c74239003c0.tif
+#> source      : file128c6d0d0187.tif
 #> name        : lyr.1
 #> min value   :     1
 #> max value   :    64

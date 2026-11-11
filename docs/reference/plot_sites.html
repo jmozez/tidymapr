@@ -39,6 +39,18 @@ rebuilt later as tidy verbs."><meta property="og:image" content="https://tidymap
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -79,7 +91,7 @@ backdrop, faceting, a simple scale bar and a north arrow. The result is a
 ggplot object, so further layers can be added. Diversity values mapped as
 a continuous fill still use <code><a href="plot_geo.html">plot_geo()</a></code>; this verb is for the study-site
 map that papers usually need first.</p>
-<p>The Mt Wilhelm ant data (<a href="https://rdrr.io/pkg/tidydiversity/man/png_ants.html" class="external-link">tidydiversity::png_ants</a>) come with published bait GPS
+<p>The Mt Wilhelm ant data (<a href="https://tidydiversity.in4metrix.dev/reference/png_ants.html" class="external-link">tidydiversity::png_ants</a>) come with published bait GPS
 positions in <a href="png_ants_sites.html">png_ants_sites</a>; <code><a href="geo_example_sites.html">geo_example_sites()</a></code> returns them as one
 point per elevation band, ready to join by <code>site</code>.</p>
 <p>SDM tools such as biomod2 and Maxent are out of scope here; they can be

@@ -38,9 +38,9 @@ plot_geo(
 
   An `sf` object or a data frame with `lon`/`lat` and an estimate column
   (for example the output of
-  [`tidydiversity::div_estimate()`](https://rdrr.io/pkg/tidydiversity/man/div_estimate.html)
+  [`tidydiversity::div_estimate()`](https://tidydiversity.in4metrix.dev/reference/div_estimate.html)
   joined to coordinates with
-  [`tidydiversity::add_site_data()`](https://rdrr.io/pkg/tidydiversity/man/tidy-tidydiversity.html)
+  [`tidydiversity::add_site_data()`](https://tidydiversity.in4metrix.dev/reference/tidy-tidydiversity.html)
   /
   [`geo_as_sf()`](https://tidymapr.in4metrix.dev/reference/geo_as_sf.md)).
 

@@ -4,8 +4,8 @@ Accumulates species richness by adding samples in order of increasing
 distance from a seed sample (spatially contiguous rarefaction), and
 optionally compares that curve to random-order accumulation. Coverage
 standardisation
-([`tidydiversity::div_rarefy()`](https://rdrr.io/pkg/tidydiversity/man/div_rarefy.html),
-[`tidydiversity::div_standardise()`](https://rdrr.io/pkg/tidydiversity/man/div_standardise.html))
+([`tidydiversity::div_rarefy()`](https://tidydiversity.in4metrix.dev/reference/div_rarefy.html),
+[`tidydiversity::div_standardise()`](https://tidydiversity.in4metrix.dev/reference/div_standardise.html))
 remains the default for effort bias; use this verb when you need an
 aggregation signal along a transect or plot (Chiu 2023; McGlinn et al.
 2025).
@@ -69,7 +69,7 @@ com <- expand.grid(site = pts$site, species = paste0("sp", 1:5),
 com$abundance <- rpois(nrow(com), 1)
 com <- dplyr::left_join(com, pts, by = "site")
 geo_rarefy_spatial(com, lon = x, lat = y, nperm = 19)
-#> # A tibble: 12 x 4
+#> # A tibble: 12 × 4
 #>    n_sites richness_spatial richness_random richness_random_sd
 #>      <int>            <dbl>           <dbl>              <dbl>
 #>  1       1                5               5                  0

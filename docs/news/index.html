@@ -17,6 +17,18 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -52,6 +64,14 @@
 <h2 class="pkg-version" data-toc-text="0.1.0" id="tidymapr-010">tidymapr 0.1.0<a class="anchor" aria-label="anchor" href="#tidymapr-010"></a></h2>
 <ul><li>First CRAN release.</li>
 </ul><div class="section level3">
+<h3 id="user-guide-november-0-1-0">User guide (November 2026)<a class="anchor" aria-label="anchor" href="#user-guide-november-0-1-0"></a></h3>
+<ul><li>A seven-chapter User guide on the website: installing and running tidymapr in RStudio; cartography concepts; spatial autocorrelation; interpolation and kriging; species distribution models; remote sensing and terrain; point clusters and landscape metrics. Each chapter gives the concept and theory, runnable code on real data, figures and tables, how to interpret them and a model paragraph for reporting.</li>
+<li>
+<code><a href="../reference/geo_moran.html">geo_moran()</a></code> accepts <code>sf</code> tables and projected coordinates: distances are now great-circle metres for longitude/latitude and straight-line distances in the CRS units otherwise. Before, projected coordinates were read as degrees, which hid real autocorrelation.</li>
+<li>
+<code><a href="../reference/geo-map.html">map_points()</a></code>, <code><a href="../reference/geo-map.html">map_lines()</a></code> and <code><a href="../reference/geo-map.html">map_polygons()</a></code> honour a named <code>palette</code> for categories (for example <code>c(hot = "red", cold = "blue")</code>); before, the colours were assigned in alphabetical order of the categories, whatever their names. Factor columns keep their level order.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="new-documentation-november-0-1-0">New documentation (November 2026)<a class="anchor" aria-label="anchor" href="#new-documentation-november-0-1-0"></a></h3>
 <ul><li>The website is rewritten around the current features: a new Get started guide, two case studies (species distribution of the brown-throated sloth; tree diversity across Barro Colorado Island), a spatial analysis guide and a gallery with the code of every map. All use real, published data. The navigation now matches tidydiversity’s.</li>
 <li>

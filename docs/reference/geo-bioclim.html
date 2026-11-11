@@ -35,6 +35,18 @@ local path, or skip downloads on CRAN.'><meta property="og:image" content="https
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -185,28 +197,28 @@ resolution for the earth's land surface areas. <em>Scientific Data</em>, 4,
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">geo_bioclim_vars</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 19 x 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 19 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    code  name                             description                      unit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> bio1  annual_mean_temperature          Annual mean temperature          deg_C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> bio2  mean_diurnal_range               Mean diurnal range (mean of mon~ deg_C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> bio3  isothermality                    Isothermality (bio2 / bio7) * 1~ deg_C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> bio4  temperature_seasonality          Temperature seasonality (standa~ deg_C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> bio5  max_temperature_warmest_month    Maximum temperature of the warm~ deg_C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> bio6  min_temperature_coldest_month    Minimum temperature of the cold~ deg_C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> bio7  temperature_annual_range         Temperature annual range (bio5 ~ deg_C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> bio8  mean_temperature_wettest_quarter Mean temperature of the wettest~ deg_C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> bio9  mean_temperature_driest_quarter  Mean temperature of the driest ~ deg_C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> bio10 mean_temperature_warmest_quarter Mean temperature of the warmest~ deg_C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> bio11 mean_temperature_coldest_quarter Mean temperature of the coldest~ deg_C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> bio2  mean_diurnal_range               Mean diurnal range (mean of mon… deg_C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> bio3  isothermality                    Isothermality (bio2 / bio7) * 1… deg_C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> bio4  temperature_seasonality          Temperature seasonality (standa… deg_C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> bio5  max_temperature_warmest_month    Maximum temperature of the warm… deg_C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> bio6  min_temperature_coldest_month    Minimum temperature of the cold… deg_C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> bio7  temperature_annual_range         Temperature annual range (bio5 … deg_C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> bio8  mean_temperature_wettest_quarter Mean temperature of the wettest… deg_C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> bio9  mean_temperature_driest_quarter  Mean temperature of the driest … deg_C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> bio10 mean_temperature_warmest_quarter Mean temperature of the warmest… deg_C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> bio11 mean_temperature_coldest_quarter Mean temperature of the coldest… deg_C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> bio12 annual_precipitation             Annual precipitation             mm   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> bio13 precipitation_wettest_month      Precipitation of the wettest mo~ mm   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> bio14 precipitation_driest_month       Precipitation of the driest mon~ mm   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> bio15 precipitation_seasonality        Precipitation seasonality (coef~ cv   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> bio16 precipitation_wettest_quarter    Precipitation of the wettest qu~ mm   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> bio17 precipitation_driest_quarter     Precipitation of the driest qua~ mm   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> bio18 precipitation_warmest_quarter    Precipitation of the warmest qu~ mm   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> bio19 precipitation_coldest_quarter    Precipitation of the coldest qu~ mm   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> bio13 precipitation_wettest_month      Precipitation of the wettest mo… mm   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> bio14 precipitation_driest_month       Precipitation of the driest mon… mm   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> bio15 precipitation_seasonality        Precipitation seasonality (coef… cv   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> bio16 precipitation_wettest_quarter    Precipitation of the wettest qu… mm   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> bio17 precipitation_driest_quarter     Precipitation of the driest qua… mm   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> bio18 precipitation_warmest_quarter    Precipitation of the warmest qu… mm   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> bio19 precipitation_coldest_quarter    Precipitation of the coldest qu… mm   </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Offline: build a tiny stand-in raster and treat it as bio1</span></span></span>
 <span class="r-in"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>ncols <span class="op">=</span> <span class="fl">10</span>, nrows <span class="op">=</span> <span class="fl">10</span>, xmin <span class="op">=</span> <span class="fl">144</span>, xmax <span class="op">=</span> <span class="fl">146</span>,</span></span>
@@ -221,7 +233,7 @@ resolution for the earth's land surface areas. <em>Scientific Data</em>, 4,
 <span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 0.2, 0.2  (x, y)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> extent      : 144, 146, -7, -5  (xmin, xmax, ymin, ymax)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : lon/lat WGS 84 (EPSG:4326)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> source      : file2c74e8733c2.tif</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> source      : file128c3dbfd9c7.tif</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> name        : bio1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> min value   :   20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> max value   :   20</span>

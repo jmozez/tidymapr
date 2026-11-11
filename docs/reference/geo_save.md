@@ -7,7 +7,7 @@ Writes ggplot maps from
 [`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md)
 (or any ggplot / patchwork object) to disk. Format is taken from the
 file extension. `geo_save()` is the geospatial-oriented name;
-[`tidydiversity::plot_save()`](https://rdrr.io/pkg/tidydiversity/man/plot_save.html)
+[`tidydiversity::plot_save()`](https://tidydiversity.in4metrix.dev/reference/plot_save.html)
 is the general journal-size helper (also used outside maps).
 
 ## Usage
@@ -66,7 +66,7 @@ geo_save(
 
 ## See also
 
-[`tidydiversity::plot_save()`](https://rdrr.io/pkg/tidydiversity/man/plot_save.html),
+[`tidydiversity::plot_save()`](https://tidydiversity.in4metrix.dev/reference/plot_save.html),
 [`geo_write()`](https://tidymapr.in4metrix.dev/reference/geo-io.md),
 [`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
 

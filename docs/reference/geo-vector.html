@@ -29,6 +29,18 @@ shapefile for new work."><meta property="og:image" content="https://tidymapr.in4
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -142,17 +154,17 @@ when needed).</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sites</span> <span class="op">&lt;-</span> <span class="fu"><a href="geo_as_sf.html">geo_as_sf</a></span><span class="op">(</span><span class="fu"><a href="geo_example_sites.html">geo_example_sites</a></span><span class="op">(</span><span class="st">"wilhelm"</span><span class="op">)</span>, <span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">buf</span> <span class="op">&lt;-</span> <span class="fu">geo_buffer</span><span class="op">(</span><span class="va">sites</span>, dist <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">geo_area</span><span class="op">(</span><span class="va">buf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 x 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   site     lon   lat elevation elevation_band coordinate_note            area_m2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> MW0200  145. -<span style="color: #BB0000;">5.74</span>       200 200 m          published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> MW0700  145. -<span style="color: #BB0000;">5.73</span>       700 700 m          published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> MW1200  145. -<span style="color: #BB0000;">5.72</span>      <span style="text-decoration: underline;">1</span>200 1200 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> MW1700  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">1</span>700 1700 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> MW2200  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">2</span>200 2200 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> MW2700  145. -<span style="color: #BB0000;">5.81</span>      <span style="text-decoration: underline;">2</span>700 2700 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> MW3200  145. -<span style="color: #BB0000;">5.80</span>      <span style="text-decoration: underline;">3</span>200 3200 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> MW3700  145. -<span style="color: #BB0000;">5.78</span>      <span style="text-decoration: underline;">3</span>700 3700 m         published bait GPS, doi:1~  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> MW0200  145. -<span style="color: #BB0000;">5.74</span>       200 200 m          published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> MW0700  145. -<span style="color: #BB0000;">5.73</span>       700 700 m          published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> MW1200  145. -<span style="color: #BB0000;">5.72</span>      <span style="text-decoration: underline;">1</span>200 1200 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> MW1700  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">1</span>700 1700 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> MW2200  145. -<span style="color: #BB0000;">5.76</span>      <span style="text-decoration: underline;">2</span>200 2200 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> MW2700  145. -<span style="color: #BB0000;">5.81</span>      <span style="text-decoration: underline;">2</span>700 2700 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> MW3200  145. -<span style="color: #BB0000;">5.80</span>      <span style="text-decoration: underline;">3</span>200 3200 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> MW3700  145. -<span style="color: #BB0000;">5.78</span>      <span style="text-decoration: underline;">3</span>700 3700 m         published bait GPS, doi:1…  7.85<span style="color: #949494;">e</span>7</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

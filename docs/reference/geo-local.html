@@ -55,6 +55,18 @@ example p.adjust(p_value, &quot;fdr&quot;)) before reading individual sites."><m
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -137,7 +149,8 @@ example <code>p.adjust(p_value, "fdr")</code>) before reading individual sites.<
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A data frame of sites with coordinates and a value column.</p></dd>
+<dd><p>A data frame of sites with coordinates and a value column,
+or an <code>sf</code> table (its point coordinates are used).</p></dd>
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
@@ -146,7 +159,10 @@ to test.</p></dd>
 
 
 <dt id="arg-lon-lat">lon, lat<a class="anchor" aria-label="anchor" href="#arg-lon-lat"></a></dt>
-<dd><p>Coordinate columns.</p></dd>
+<dd><p>Coordinate columns (ignored for <code>sf</code> input). Longitude and
+latitude give great-circle distances in metres; projected coordinates
+(values outside the longitude/latitude range, or a projected <code>sf</code>
+table) give straight-line distances in the CRS units.</p></dd>
 
 
 <dt id="arg-k">k<a class="anchor" aria-label="anchor" href="#arg-k"></a></dt>
@@ -198,7 +214,7 @@ Analysis</em>, 27, 286-306. <a href="https://doi.org/10.1111/j.1538-4632.1995.tb
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># The 16 real Mt Wilhelm ant transects (Mottl, Moses and Klimes 2023)</span></span></span>
 <span class="r-in"><span><span class="fu">geo_hotspot</span><span class="op">(</span><span class="va">png_ants_sites</span>, <span class="va">elevation</span>, k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 x 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    site   transect elevation_band elevation   lon   lat baits gi_star p_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> MW0200        1            200       216  145. -<span style="color: #BB0000;">5.74</span>    60 -<span style="color: #BB0000;">2.49</span>   0.012<span style="text-decoration: underline;">7</span> </span>
@@ -217,9 +233,9 @@ Analysis</em>, 27, 286-306. <a href="https://doi.org/10.1111/j.1538-4632.1995.tb
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> MW3200        2           <span style="text-decoration: underline;">3</span>200      <span style="text-decoration: underline;">3</span>259  145. -<span style="color: #BB0000;">5.81</span>    60  2.97   0.002<span style="text-decoration: underline;">96</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> MW3700        1           <span style="text-decoration: underline;">3</span>700      <span style="text-decoration: underline;">3</span>825  145. -<span style="color: #BB0000;">5.79</span>    60  2.97   0.002<span style="text-decoration: underline;">96</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> MW3700        2           <span style="text-decoration: underline;">3</span>700      <span style="text-decoration: underline;">3</span>916  145. -<span style="color: #BB0000;">5.78</span>    60  2.97   0.002<span style="text-decoration: underline;">96</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 1 more variable: hotspot &lt;fct&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: hotspot &lt;fct&gt;</span></span>
 <span class="r-in"><span><span class="fu">geo_lisa</span><span class="op">(</span><span class="va">png_ants_sites</span>, <span class="va">elevation</span>, k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 x 13</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 × 13</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    site   transect elevation_band elevation   lon   lat baits    lisa</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> MW0200        1            200       216  145. -<span style="color: #BB0000;">5.74</span>    60  1.48  </span>
@@ -238,7 +254,7 @@ Analysis</em>, 27, 286-306. <a href="https://doi.org/10.1111/j.1538-4632.1995.tb
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> MW3200        2           <span style="text-decoration: underline;">3</span>200      <span style="text-decoration: underline;">3</span>259  145. -<span style="color: #BB0000;">5.81</span>    60  1.49  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> MW3700        1           <span style="text-decoration: underline;">3</span>700      <span style="text-decoration: underline;">3</span>825  145. -<span style="color: #BB0000;">5.79</span>    60  1.92  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> MW3700        2           <span style="text-decoration: underline;">3</span>700      <span style="text-decoration: underline;">3</span>916  145. -<span style="color: #BB0000;">5.78</span>    60  1.98  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 5 more variables: lisa_expected &lt;dbl&gt;, lisa_variance &lt;dbl&gt;, lisa_z &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: lisa_expected &lt;dbl&gt;, lisa_variance &lt;dbl&gt;, lisa_z &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   p_value &lt;dbl&gt;, cluster &lt;fct&gt;</span></span>
 </code></pre></div>
     </div>

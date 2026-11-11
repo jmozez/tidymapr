@@ -82,13 +82,13 @@ q <- stems_quadrat(stems)
 hab <- unique(q[c("quadrat", "gx", "gy")])
 hab$habitat <- ifelse(hab$gx + hab$gy > 100, "ridge", "valley")
 stems_habitat_test(stems, habitat = hab, nperm = 49, seed = 1)
-#> # A tibble: 10 x 7
+#> # A tibble: 10 × 7
 #>    species                  habitat density null_mean p_value n_stems n_quadrats
 #>    <chr>                    <chr>     <dbl>     <dbl>   <dbl>   <dbl>      <int>
 #>  1 Ficus_sp                 ridge     0.417     0.514    0.46       5         12
 #>  2 Ficus_sp                 valley    0.615     0.526    0.46       8         13
-#>  3 Homalanthus_novoguineen~ ridge     0.75      0.719    1          9         12
-#>  4 Homalanthus_novoguineen~ valley    0.692     0.721    1          9         13
+#>  3 Homalanthus_novoguineen… ridge     0.75      0.719    1          9         12
+#>  4 Homalanthus_novoguineen… valley    0.692     0.721    1          9         13
 #>  5 Intsia_bijuga            ridge     1.42      1.19     0.62      17         12
 #>  6 Intsia_bijuga            valley    1.08      1.29     0.62      14         13
 #>  7 Pometia_pinnata          ridge     1.17      1.19     1         14         12

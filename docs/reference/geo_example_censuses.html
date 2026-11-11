@@ -21,6 +21,18 @@ tidydiversity::stems_demography(). Not real census data."><meta property="og:ima
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidymapr.html">Get started</a></li>
 <li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guide" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User guide</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-user-guide"><li><a class="dropdown-item" href="../articles/user-guide.html">Overview</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/guide-01-install.html">1. Install and run in RStudio</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-02-cartography.html">2. Cartography concepts</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-03-autocorrelation.html">3. Spatial autocorrelation</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-04-interpolation.html">4. Interpolation and kriging</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/tutorials.html">Overview</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -56,7 +68,7 @@ tidydiversity::stems_demography(). Not real census data."><meta property="og:ima
     <div class="ref-description section level2">
     <p>Builds a pair of ForestGEO-style tree tables five years apart, with
 simulated mortality, recruitment and growth, for testing
-<code><a href="https://rdrr.io/pkg/tidydiversity/man/stems.html" class="external-link">tidydiversity::stems_demography()</a></code>. Not real census data.</p>
+<code><a href="https://tidydiversity.in4metrix.dev/reference/stems.html" class="external-link">tidydiversity::stems_demography()</a></code>. Not real census data.</p>
     </div>
 
     <div class="section level2">
@@ -88,12 +100,12 @@ simulated mortality, recruitment and growth, for testing
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">cens</span> <span class="op">&lt;-</span> <span class="fu">geo_example_censuses</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">tidydiversity</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tidydiversity/man/stems.html" class="external-link">stems_demography</a></span><span class="op">(</span><span class="va">cens</span><span class="op">$</span><span class="va">census1</span>, <span class="va">cens</span><span class="op">$</span><span class="va">census2</span>, time <span class="op">=</span> <span class="fl">5</span>, dbh_unit <span class="op">=</span> <span class="st">"mm"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 x 12</span></span>
+<span class="r-in"><span><span class="fu">tidydiversity</span><span class="fu">::</span><span class="fu"><a href="https://tidydiversity.in4metrix.dev/reference/stems.html" class="external-link">stems_demography</a></span><span class="op">(</span><span class="va">cens</span><span class="op">$</span><span class="va">census1</span>, <span class="va">cens</span><span class="op">$</span><span class="va">census2</span>, time <span class="op">=</span> <span class="fl">5</span>, dbh_unit <span class="op">=</span> <span class="st">"mm"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 12</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       N     S     D     R mortality_rate recruitment_rate growth_rate growth  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    80    74     6     8         0.015<span style="text-decoration: underline;">6</span>           0.020<span style="text-decoration: underline;">5</span>       0.460 absolute</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 4 more variables: n_growth &lt;int&gt;, time &lt;dbl&gt;, mindbh &lt;dbl&gt;, dbh_unit &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 4 more variables: n_growth &lt;int&gt;, time &lt;dbl&gt;, mindbh &lt;dbl&gt;, dbh_unit &lt;chr&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

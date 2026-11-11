@@ -609,8 +609,16 @@ tmr_map_draw_feature <- function(p, ly, crs, ord) {
       values <- stats::setNames(tmr_ramp(ly$palette, gr, length(levs)), levs)
       d$.layer <- d$.class
     } else {
-      levs <- sort(unique(as.character(v)))
-      pal <- if (identical(ly$palette, "auto")) {
+      levs <- if (is.factor(v)) {
+        intersect(levels(v), unique(as.character(v)))
+      } else {
+        sort(unique(as.character(v)))
+      }
+      named <- !is.null(names(ly$palette)) && all(levs %in% names(ly$palette))
+      pal <- if (named) {
+        # A named palette maps each category to its own colour
+        unname(ly$palette[levs])
+      } else if (identical(ly$palette, "auto")) {
         tmr_palette(length(levs))
       } else {
         tmr_ramp(ly$palette, NULL, length(levs))

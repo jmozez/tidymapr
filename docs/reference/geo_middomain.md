@@ -69,7 +69,7 @@ occ <- dplyr::filter(
   elevation <= 1200 + (as.integer(factor(species)) - 1) * 80
 )
 geo_middomain(occ, nperm = 49)
-#> # A tibble: 10 x 8
+#> # A tibble: 10 × 8
 #>     band elevation elev_min elev_max richness null_mean null_lower null_upper
 #>    <int>     <dbl>    <dbl>    <dbl>    <dbl>     <dbl>      <dbl>      <dbl>
 #>  1     1       320      200      440        1      2           0          5.8

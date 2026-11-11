@@ -157,7 +157,7 @@ ens <- sdm_ensemble(bradypus$presence, bradypus[, c(2, 3, 5:15)],
 ens
 #> SDM ensemble of 3 algorithms: 116 presences, 1000 background points, 4 random
 #> folds.
-#> # A tibble: 3 x 5
+#> # A tibble: 3 × 5
 #>   algorithm   auc   tss boyce weight
 #>   <chr>     <dbl> <dbl> <dbl>  <dbl>
 #> 1 maxent    0.883 0.657 0.876  0.374

@@ -1,3 +1,5 @@
+2A
+3's
 Albers
 Alekseyenko
 Annales
@@ -9,6 +11,11 @@ Arroita
 Asner
 Auda
 AutoMap
+B03
+B04
+B05
+B08
+B11
 BJ
 Barro
 Baselga
@@ -50,8 +57,10 @@ Catalog
 Chaetodipus
 Chao
 Chihuahuan
+Cmd
 Codeberg
 Color
+ColorBrewer
 Colwell
 Condit
 Config
@@ -60,6 +69,7 @@ Cormont
 Cressie
 Crossref
 Curtin
+D8
 DBH
 DBSCAN
 DCA
@@ -84,9 +94,12 @@ EG
 ENVI
 EPSG
 ERDAS
+ERTS
 Ecography
+Egregium
 Elith
 Engler
+Environmetrics
 Esri
 FD
 FDR
@@ -139,6 +152,7 @@ Hamidi
 Hastie
 Hau
 Helfer
+Hesselbarth
 Hijmans
 Hirzel
 Hsieh
@@ -164,6 +178,7 @@ Kriegel
 Kriged
 Kubota
 Kusumoto
+LAEA
 LUREF
 Lafourcade
 Lahoz
@@ -183,6 +198,7 @@ MODIS
 Madang
 MapInfo
 Massin
+Matheron
 Maxent
 McFeeters
 McGarigal
@@ -192,6 +208,7 @@ Michalski
 MicroStation
 Mladenoff
 Mogador
+Mollweide
 Moretti
 Morisita
 Mottl
@@ -212,6 +229,7 @@ Novotny
 Novotný
 Numba
 O'Callaghan
+ODMAP
 OGR
 OSM
 Oecologia
@@ -241,6 +259,8 @@ Polatera
 PortalData
 Prim's
 QGIS
+R's
+R2
 RDA
 RStudio
 Ramu
@@ -250,9 +270,12 @@ Rcpp
 Rebins
 Redmond
 Rhône
+Rijn
+Rikken
 Rimandai
 Roxygen
 RoxygenNote
+Rtools
 SDM
 SDMs
 SES
@@ -265,6 +288,7 @@ STAC
 SWIR
 Sauer
 Schapire
+Semivariance
 Smilauer
 Sokal
 SpadeR
@@ -280,12 +304,15 @@ TPD
 TPDs
 TSS
 TWI
+Theorema
 Thuiller
 Théâtre
 Tiede
+Tobler
 TopoJSON
 Traitbase
 Trichoptera
+Tripel
 Trophic
 Tw
 UNDP
@@ -295,14 +322,17 @@ VIIRS
 VRT
 Valavi
 Valone
+Variograms
 VignetteBuilder
 Villeger
 Vojtěch
 WGS
+WGS84
 WKT
 Wanang
 Weecology
 Wei
+Winkel
 WorldClim
 YAML
 Yasuhara
@@ -312,6 +342,7 @@ Zarr
 Zeleny
 Zenodo
 Zizka
+Zurell
 ac
 ade
 adespatial
@@ -327,6 +358,14 @@ basemaps
 bbox
 behavioral
 betapart
+bio1
+bio12
+bio16
+bio17
+bio5
+bio6
+bio7
+bio8
 bioRxiv
 bioclim
 biomod
@@ -336,6 +375,7 @@ catalogue's
 catchability
 cati
 ch
+checkerboard
 chelsa
 choropleth
 choropleths
@@ -347,6 +387,7 @@ cloglog
 codeberg
 com
 correlogram
+correlogram's
 cph
 cre
 db
@@ -366,6 +407,7 @@ ed
 edn
 elevatr
 envfit
+eps
 etc
 exclosure
 exclosures
@@ -375,6 +417,7 @@ fgeo
 flextable
 fq
 fqz
+frac
 gadm
 gam
 gawdis
@@ -414,6 +457,7 @@ httr
 hyperspectral
 hypsometric
 iNEXT
+ij
 indicspecies
 inset's
 io
@@ -436,6 +480,8 @@ lon
 lpi
 lumineux
 maptiles
+mathrm
+maxSSS
 maxnet
 maxnet's
 mem
@@ -458,6 +504,7 @@ nonlinear
 np
 org
 overfitted
+pak
 penicillatus
 persp
 pg
@@ -472,6 +519,8 @@ png
 pnguot
 prioritizr
 proj
+pts
+px
 quadrat
 quadrats
 quasibinomial
@@ -497,11 +546,14 @@ run's
 résultats
 sd
 sdm
+semivariance
+semivariogram
 smaragdina
 snowbeds
 snowmelt
 spData
 spdep
+spdep's
 subdataset
 subdatasets
 sur
@@ -510,6 +562,7 @@ tb
 ter
 terra
 testthat
+th
 tibble
 tibbles
 tidydiversity
@@ -525,8 +578,10 @@ topo
 triplot
 triplots
 unmanipulated
+unsampled
 upslope
 variegatus
+variograms
 vars
 vctrs
 viridis

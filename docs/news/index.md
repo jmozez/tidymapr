@@ -243,8 +243,7 @@
   analysis, Terrain and hydrology, Remote sensing, Data input and
   output, and Ecology with tidydiversity.
 
-Install the latest version with
-`pak::pak("gitlab::jimmy.moses/tidymapr")`.
+Install the latest version with `pak::pak("jmozez/tidymapr")`.
 
 ### New maps (November 2026)
 
@@ -374,7 +373,7 @@ Install the latest version with
   (q = 0, 1, 2) with 95% intervals:
   1.  each site’s diversity is standardised to a common sample coverage
       with
-      [`tidydiversity::div_standardise()`](https://rdrr.io/pkg/tidydiversity/man/div_standardise.html)
+      [`tidydiversity::div_standardise()`](https://tidydiversity.in4metrix.dev/reference/div_standardise.html)
       (Chao and Jost 2012), keeping its bootstrap standard error;
   2.  each order q is interpolated by kriging with measurement error
       (Cressie 1993) on the log scale, so poorly sampled sites count for
@@ -523,7 +522,7 @@ Install the latest version with
     [`geo_distance()`](https://tidymapr.in4metrix.dev/reference/geo_distance.md),
     [`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md)
     (pairs with
-    [`tidydiversity::beta_decay_model()`](https://rdrr.io/pkg/tidydiversity/man/beta_decay_model.html)),
+    [`tidydiversity::beta_decay_model()`](https://tidydiversity.in4metrix.dev/reference/beta_decay_model.html)),
     [`geo_moran()`](https://tidymapr.in4metrix.dev/reference/geo_moran.md),
     [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md),
     [`geo_rarefy_spatial()`](https://tidymapr.in4metrix.dev/reference/geo_rarefy_spatial.md),

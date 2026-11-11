@@ -1,12 +1,12 @@
 # GPS positions of the Mt Wilhelm ant bait transects
 
 Real field coordinates for the bait transects behind
-[tidydiversity::png_ants](https://rdrr.io/pkg/tidydiversity/man/png_ants.html).
+[tidydiversity::png_ants](https://tidydiversity.in4metrix.dev/reference/png_ants.html).
 The published data give a GPS position and elevation for every bait;
 this table averages them to one point per elevation band and transect
 (two transects per band, eight bands from 200 to 3700 m). Use it to map
 the study sites or to join coordinates onto
-[`tidydiversity::png_ants`](https://rdrr.io/pkg/tidydiversity/man/png_ants.html)
+[`tidydiversity::png_ants`](https://tidydiversity.in4metrix.dev/reference/png_ants.html)
 by `site`.
 [`geo_example_sites()`](https://tidymapr.in4metrix.dev/reference/geo_example_sites.md)
 returns the band centroids (mean of the two transects).
@@ -66,7 +66,7 @@ and Biogeography*, 32, 2212-2229.
 
 ``` r
 png_ants_sites
-#> # A tibble: 16 x 7
+#> # A tibble: 16 × 7
 #>    site   transect elevation_band elevation   lon   lat baits
 #>    <chr>     <int>          <int>     <int> <dbl> <dbl> <int>
 #>  1 MW0200        1            200       216  145. -5.74    60
