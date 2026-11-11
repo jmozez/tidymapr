@@ -1,0 +1,28 @@
+# Copy main and tags to the GitLab mirror (gitlab.com/jimmy.moses/tidymapr).
+# Needs the repository secret GITLAB_TOKEN (GitLab token with write_repository).
+on:
+  push:
+    branches: [main]
+    tags: ["*"]
+  workflow_dispatch:
+
+name: gitlab-mirror
+
+permissions: read-all
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'jmozez/tidymapr' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push to GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+        run: |
+          if [ -z "$GITLAB_TOKEN" ]; then echo "::error::Add the GITLAB_TOKEN secret"; exit 1; fi
+          url="https://oauth2:${GITLAB_TOKEN}@gitlab.com/jimmy.moses/tidymapr.git"
+          git push "$url" HEAD:refs/heads/main
+          git push "$url" --tags
