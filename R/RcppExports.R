@@ -45,6 +45,10 @@ sdm_linear_predict_cpp <- function(x, beta) {
     .Call(`_tidymapr_sdm_linear_predict_cpp`, x, beta)
 }
 
+geo_mde_cpp <- function(domain, nrow, ncol, size, nsim) {
+    .Call(`_tidymapr_geo_mde_cpp`, domain, nrow, ncol, size, nsim)
+}
+
 render_dem_cpp <- function(z, dx, dy, cr, cg, cb, theta, phi, zscale, width, height, sun_azimuth, sun_elevation, shadow, ambient, base_frac, threads = 1L) {
     .Call(`_tidymapr_render_dem_cpp`, z, dx, dy, cr, cg, cb, theta, phi, zscale, width, height, sun_azimuth, sun_elevation, shadow, ambient, base_frac, threads)
 }

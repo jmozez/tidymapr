@@ -80,6 +80,7 @@ reference:
       - geo_distance
       - geo_decay
       - geo_mem
+      - geo_mde
   - title: Terrain and hydrology
     desc: D8 flow direction, flow accumulation, watersheds, the topographic wetness index and terrain derivatives.
     contents:
