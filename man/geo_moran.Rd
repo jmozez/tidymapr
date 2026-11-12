@@ -40,8 +40,10 @@ correlogram.}
 \item{seed}{Optional RNG seed for permutations.}
 }
 \value{
-A tibble (\code{tmr_geo_moran}) with Moran's I, the expected value under
-randomness, the variance under normality, a two-sided permutation
+A tibble (\code{tmr_geo_moran}) with Moran's I (inverse-distance
+weights, row-standardised), its expected value under randomness, its
+variance under randomisation (Cliff and Ord 1981; equal to
+\code{spdep::moran.test(randomisation = TRUE)}), a two-sided permutation
 p-value, and optional correlogram rows in attribute \code{correlogram}.
 }
 \description{

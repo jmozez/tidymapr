@@ -4,13 +4,22 @@ test_that("DBSCAN matches the dbscan package", {
   skip_if_not_installed("dbscan")
   q <- sf::st_as_sf(datasets::quakes, coords = c("long", "lat"), crs = 4326)
   xy <- sf::st_coordinates(sf::st_transform(q, geo_crs("laea", data = q)))
-  for (e in c(30000, 80000)) {
+  for (e in c(30000, 50000, 80000)) {
     a <- dbscan::dbscan(xy, eps = e, minPts = 15)$cluster
-    b <- tidymapr:::dbscan_cpp(xy[, 1], xy[, 2], e, 15L)$cluster
-    # Same partition: every cluster of one maps to exactly one of the other
-    tab <- table(a, b)
-    expect_equal(sum(tab > 0), length(unique(a)))
-    expect_equal(sum(a == 0), sum(b == 0))
+    res <- tidymapr:::dbscan_cpp(xy[, 1], xy[, 2], e, 15L)
+    b <- res$cluster
+    core <- dbscan::is.corepoint(xy, eps = e, minPts = 15)
+    # Same core points, same noise, and the same partition of core points
+    expect_identical(as.logical(res$core), core)
+    expect_identical(a == 0, b == 0)
+    tab <- table(a[core], b[core])
+    expect_true(all(rowSums(tab > 0) == 1) && all(colSums(tab > 0) == 1))
+    # Border points may join any cluster they reach (Ester et al. 1996):
+    # each must lie within eps of a core point of its own cluster
+    d <- as.matrix(stats::dist(xy))
+    border <- which(!core & b > 0)
+    ok <- vapply(border, function(i) any(d[i, core & b == b[i]] <= e), logical(1))
+    expect_true(all(ok))
   }
 })
 

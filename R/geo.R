@@ -1154,8 +1154,10 @@ plot_geo <- function(data,
 #'   correlogram.
 #' @param bins Number of distance bins for the correlogram.
 #' @param seed Optional RNG seed for permutations.
-#' @return A tibble (`tmr_geo_moran`) with Moran's I, the expected value under
-#'   randomness, the variance under normality, a two-sided permutation
+#' @return A tibble (`tmr_geo_moran`) with Moran's I (inverse-distance
+#'   weights, row-standardised), its expected value under randomness, its
+#'   variance under randomisation (Cliff and Ord 1981; equal to
+#'   `spdep::moran.test(randomisation = TRUE)`), a two-sided permutation
 #'   p-value, and optional correlogram rows in attribute `correlogram`.
 #' @references Moran, P. A. P. (1950). Notes on continuous stochastic
 #'   phenomena. *Biometrika*, 37, 17-23. \doi{10.2307/2332142}
@@ -1238,7 +1240,7 @@ geo_moran <- function(data,
   p_value <- (1 + sum(abs(null - mean(null)) >= abs(mi - mean(null)))) /
     (1 + nperm)
 
-  # Analytical expectation / variance under normality (Cliff and Ord)
+  # Analytical expectation and variance under randomisation (Cliff and Ord)
   ei <- -1 / (n - 1)
   s0 <- sum(w)
   s1 <- 0.5 * sum((w + t(w))^2)
