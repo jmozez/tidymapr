@@ -169,18 +169,15 @@ test_that("geo_moran() agrees with spdep on a toy lattice", {
   set.seed(42)
   g <- expand.grid(x = 1:5, y = 1:5)
   g$val <- g$x + 0.1 * rnorm(nrow(g))
-  # Use euclidean-style coords in degrees for both; compare sign and rough value
-  # with inverse-distance weights rebuilt in spdep.
   ours <- geo_moran(g, val, lon = x, lat = y, nperm = 99, seed = 42)
-
-  coords <- as.matrix(g[c("x", "y")])
-  nb <- spdep::knn2nb(spdep::knearneigh(coords, k = 4))
-  lw <- spdep::nb2listw(nb, style = "W")
-  sp <- spdep::moran.test(g$val, lw, randomisation = FALSE)
-  # Different neighbour definitions, so only require the same sign and
-  # a significant positive result on the gradient.
-  expect_gt(ours$statistic, 0)
-  expect_gt(unname(sp$estimate[["Moran I statistic"]]), 0)
+  # The same weights in spdep: inverse great-circle distance, row-standardised
+  d <- tidymapr:::geo_haversine_matrix_cpp(g$x, g$y)
+  w <- 1 / d
+  diag(w) <- 0
+  sp <- spdep::moran.test(g$val, spdep::mat2listw(w, style = "W"), randomisation = TRUE)
+  expect_equal(ours$statistic, unname(sp$estimate[["Moran I statistic"]]), tolerance = 1e-10)
+  expect_equal(ours$expectation, unname(sp$estimate[["Expectation"]]), tolerance = 1e-10)
+  expect_equal(ours$variance, unname(sp$estimate[["Variance"]]), tolerance = 1e-10)
   expect_lt(ours$p.value, 0.1)
 })
 

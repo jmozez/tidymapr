@@ -32,11 +32,17 @@ spanning tree is used.}
 }
 \value{
 A tibble (\code{tmr_geo_mem}) with site columns and \code{MEM1}, \code{MEM2}, ...
-Eigenvalues are stored in attribute \code{eigenvalues}.
+in decreasing order of spatial autocorrelation. Eigenvalues (as in
+adespatial, proportional to Moran's I of each MEM) are stored in
+attribute \code{eigenvalues}, the threshold in \code{thresh}.
 }
 \description{
-Builds spatial eigenvectors from a truncated geographic distance matrix
-(Dray, Legendre and Peres-Neto 2006). Implemented natively so callers stay
+Builds distance-based Moran's eigenvector maps (dbMEM; Dray, Legendre and
+Peres-Neto 2006) from a truncated distance matrix, as
+\code{adespatial::dbmem()} does: weights \verb{1 - (d / 4t)^2} between sites closer
+than the threshold \code{t}, doubly centred, and the eigenvectors with positive
+eigenvalues (positive spatial autocorrelation), scaled to mean 0 and
+variance 1. Implemented natively so callers stay
 in tidymapr; when \strong{adespatial} is installed, tests compare the
 leading eigenvalues.
 }

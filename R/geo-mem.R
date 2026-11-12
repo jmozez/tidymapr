@@ -1,7 +1,11 @@
 #' Distance-based Moran's eigenvector maps (dbMEM)
 #'
-#' Builds spatial eigenvectors from a truncated geographic distance matrix
-#' (Dray, Legendre and Peres-Neto 2006). Implemented natively so callers stay
+#' Builds distance-based Moran's eigenvector maps (dbMEM; Dray, Legendre and
+#' Peres-Neto 2006) from a truncated distance matrix, as
+#' `adespatial::dbmem()` does: weights `1 - (d / 4t)^2` between sites closer
+#' than the threshold `t`, doubly centred, and the eigenvectors with positive
+#' eigenvalues (positive spatial autocorrelation), scaled to mean 0 and
+#' variance 1. Implemented natively so callers stay
 #' in tidymapr; when **adespatial** is installed, tests compare the
 #' leading eigenvalues.
 #'
@@ -15,7 +19,9 @@
 #' @param positive_only Keep only eigenvectors with positive eigenvalues
 #'   (the usual dbMEM set)?
 #' @return A tibble (`tmr_geo_mem`) with site columns and `MEM1`, `MEM2`, ...
-#'   Eigenvalues are stored in attribute `eigenvalues`.
+#'   in decreasing order of spatial autocorrelation. Eigenvalues (as in
+#'   adespatial, proportional to Moran's I of each MEM) are stored in
+#'   attribute `eigenvalues`, the threshold in `thresh`.
 #' @references
 #' Dray, S., Legendre, P. and Peres-Neto, P. R. (2006). Spatial modelling: a
 #' comprehensive framework for principal coordinate analysis of neighbour
@@ -75,27 +81,27 @@ geo_mem <- function(data,
     thresh <- geo_mem_mst_thresh(d)
   }
   tmr_check_number(thresh, "thresh", 0)
-  # Classic PCNM: truncate, replace larger distances with 4 * thresh
-  dt <- d
-  dt[d > thresh] <- 4 * thresh
-  diag(dt) <- 0
-  # Principal coordinates of the truncated matrix
-  pc <- suppressWarnings(stats::cmdscale(stats::as.dist(dt), k = n - 1, eig = TRUE))
-  values <- as.numeric(pc$eig)
-  vectors <- pc$points
-  if (is.null(dim(vectors))) {
-    vectors <- matrix(vectors, ncol = 1)
-  }
+  # dbMEM (Dray, Legendre and Peres-Neto 2006), as adespatial::dbmem():
+  # weights 1 - (d / 4t)^2 between sites closer than the threshold t,
+  # doubly centred; eigenvectors with positive eigenvalues describe
+  # positive spatial autocorrelation (Moran's I > its expectation).
+  w <- ifelse(d > 0 & d <= thresh * (1 + 1e-6), 1 - (d / (4 * thresh))^2, 0)
+  h <- diag(n) - 1 / n
+  e <- eigen(h %*% w %*% h, symmetric = TRUE)
+  values <- e$values / n
+  # Zero eigenvalues are judged relative to the largest one (eigenvalues
+  # scale with the weights, so an absolute cut-off would keep rounding noise)
+  tol <- sqrt(.Machine$double.eps) * max(abs(values))
   keep <- if (isTRUE(positive_only)) {
-    which(values > 1e-8)
+    which(values > tol)
   } else {
-    which(is.finite(values) & abs(values) > 1e-8)
+    which(abs(values) > tol)
   }
-  # cmdscale may return fewer columns than eigenvalues
-  keep <- keep[keep <= ncol(vectors)]
   if (length(keep) == 0) {
     cli::cli_abort("No positive spatial eigenvectors; try a larger {.arg thresh}.")
   }
+  # Eigenvectors scaled to mean 0 and sum of squares n (variance 1)
+  vectors <- e$vectors * sqrt(n)
   mem <- vectors[, keep, drop = FALSE]
   colnames(mem) <- paste0("MEM", seq_len(ncol(mem)))
   out <- tibble::as_tibble(mem)
