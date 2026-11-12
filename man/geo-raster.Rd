@@ -54,6 +54,13 @@ geo_raster_zonal(raster, y, fun = "mean", ..., as_tibble = TRUE)
 
 \item{as_tibble}{Return a tibble (default) instead of the raw terra extract matrix?}
 }
+\value{
+\code{geo_raster_crop()}, \code{geo_raster_mask()}, \code{geo_raster_resample()},
+\code{geo_raster_project()}, \code{geo_raster_terrain()} and \code{geo_raster_focal()}
+return a \code{terra::SpatRaster}. \code{geo_raster_zonal()} returns a tibble with
+one row per feature of \code{y} (its attributes and the summary statistic),
+or the raw \code{terra::extract()} result when \code{as_tibble = FALSE}.
+}
 \description{
 Native tidyverse-style wrappers around common \strong{terra} operations for
 elevation and climate rasters. terra (and therefore these helpers) reads

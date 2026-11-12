@@ -21,7 +21,6 @@ Useful links:
 \itemize{
   \item \url{https://tidymapr.in4metrix.dev/}
   \item \url{https://github.com/jmozez/tidymapr}
-  \item \url{https://gitlab.com/jimmy.moses/tidymapr}
   \item Report bugs at \url{https://github.com/jmozez/tidymapr/issues}
 }
 

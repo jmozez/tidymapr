@@ -11,13 +11,24 @@
 #'
 #' @param data An `sf` object or a data frame with coordinates.
 #' @param lon,lat Coordinate columns when `data` is not `sf`.
-#' @param dist Buffer distance. For geographic CRS, metres (passed through
-#'   `sf::st_buffer` with `sf::st_transform` to an equidistant projection
-#'   when needed).
+#' @param dist Buffer distance: metres for longitude/latitude data (each
+#'   feature is buffered in an azimuthal equidistant projection centred on
+#'   it, so the distance is true at any latitude), CRS units otherwise.
 #' @param y Second geometry table for binary operations and joins.
 #' @param join Spatial predicate for [geo_join()]: `"intersects"`,
 #'   `"within"`, `"contains"`, or `"nearest"`.
 #' @param ... Passed to the underlying sf helper.
+#' @return
+#' * `geo_buffer()`, `geo_intersection()`, `geo_difference()`, `geo_union()`,
+#'   `geo_crop()`, `geo_centroid()` and `geo_join()`: an `sf` table in the CRS
+#'   of `data`.
+#' * `geo_area()`: a tibble of the attributes of `data` with `area_m2`, the
+#'   true area in square metres (spherical for longitude/latitude data).
+#' * `geo_bbox()`: a one-row tibble with `xmin`, `ymin`, `xmax`, `ymax` and
+#'   `crs`.
+#' * `geo_distance_to()`: a tibble of the attributes of `data` with
+#'   `distance_m`, the distance to the nearest feature of `to` (great-circle
+#'   metres for longitude/latitude data, CRS units otherwise).
 #' @name geo-vector
 #' @examplesIf requireNamespace("sf", quietly = TRUE)
 #' sites <- geo_as_sf(geo_example_sites("wilhelm"), lon, lat)
@@ -46,11 +57,18 @@ geo_buffer <- function(data, dist, lon = lon, lat = lat, ...) {
   tmr_check_number(dist, "dist", 0)
   x <- plot_sites_as_sf(data, enquo(lon), enquo(lat))
   crs <- sf::st_crs(x)
-  # Buffer in metres: project geographic data to equidistant cylindrical
+  # Buffer in metres. For longitude/latitude data each feature is buffered
+  # in an azimuthal equidistant projection centred on it, where distances
+  # from the centre are true at any latitude (a global equirectangular
+  # projection would shrink east-west distances by cos(latitude)).
   if (sf::st_is_longlat(x)) {
-    x_m <- sf::st_transform(x, "+proj=eqc +units=m")
-    out <- sf::st_buffer(x_m, dist = dist, ...)
-    out <- sf::st_transform(out, crs)
+    centres <- sf::st_coordinates(suppressWarnings(sf::st_point_on_surface(sf::st_geometry(x))))
+    geoms <- lapply(seq_len(nrow(x)), function(i) {
+      aeqd <- sprintf("+proj=aeqd +lat_0=%.10f +lon_0=%.10f +units=m", centres[i, 2], centres[i, 1])
+      g <- sf::st_transform(sf::st_geometry(x)[i], aeqd)
+      sf::st_transform(sf::st_buffer(g, dist = dist, ...), crs)[[1]]
+    })
+    out <- sf::st_set_geometry(x, sf::st_sfc(geoms, crs = crs))
   } else {
     out <- sf::st_buffer(x, dist = dist, ...)
   }
@@ -122,11 +140,9 @@ geo_crop <- function(data, y, lon = lon, lat = lat, ...) {
 geo_area <- function(data, lon = lon, lat = lat) {
   rlang::check_installed("sf")
   x <- plot_sites_as_sf(data, enquo(lon), enquo(lat))
-  if (sf::st_is_longlat(x)) {
-    a <- sf::st_area(sf::st_transform(x, "+proj=eqc +units=m"))
-  } else {
-    a <- sf::st_area(x)
-  }
+  # sf measures longitude/latitude geometries on the sphere (s2) or the
+  # ellipsoid, and projected ones in their CRS units: both are true areas
+  a <- sf::st_area(x)
   out <- geo_drop_geometry(x)
   out$area_m2 <- as.numeric(a)
   tibble::as_tibble(out)
@@ -189,15 +205,9 @@ geo_distance_to <- function(data, to, lon = lon, lat = lat, ...) {
   rlang::check_installed("sf")
   x <- plot_sites_as_sf(data, enquo(lon), enquo(lat))
   to <- geo_match_crs(to, x)
-  if (sf::st_is_longlat(x)) {
-    d <- sf::st_distance(
-      sf::st_transform(x, "+proj=eqc +units=m"),
-      sf::st_transform(to, "+proj=eqc +units=m"),
-      ...
-    )
-  } else {
-    d <- sf::st_distance(x, to, ...)
-  }
+  # Great-circle (geodesic) distances for longitude/latitude, planar ones
+  # in the CRS units otherwise
+  d <- sf::st_distance(x, to, ...)
   out <- geo_drop_geometry(x)
   # Distance to nearest feature when `to` has multiple rows
   if (ncol(d) == 1) {

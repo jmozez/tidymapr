@@ -89,6 +89,9 @@ jobs:
           cat(sprintf("Coverage: %.1f%%\n", pct))
           cat(sprintf("COVERAGE=%.0f\n", pct), file = Sys.getenv("GITHUB_ENV"), append = TRUE)
           covr::to_cobertura(cov)
+          # rOpenSci asks for at least 75 %; a drop (or tests not running at
+          # all, as before tests/testthat.R existed) must fail the build
+          if (pct < 75) stop(sprintf("Test coverage %.1f%% is below 75%%.", pct))
         shell: Rscript {0}
 
       - name: Coverage summary

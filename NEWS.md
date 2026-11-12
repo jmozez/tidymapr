@@ -33,6 +33,21 @@ input reached them.
   Results from `sf` input and from genuine longitude/latitude columns were
   always correct and do not change. Analyses that passed projected
   coordinates as plain columns should be re-run.
+* **True areas, distances and buffers for longitude/latitude data.**
+  `geo_area()`, `geo_distance_to()` and `geo_buffer()` measured longitude/
+  latitude data in a global equirectangular projection, which stretches
+  east-west lengths by 1/cos(latitude): areas and distances were too large
+  (twice the truth at 60 degrees) and buffers too narrow east-west (a
+  100 m buffer at 51 degrees was 63 m wide). Areas and distances are now
+  measured on the sphere by sf, and each buffer is built in an azimuthal
+  equidistant projection centred on its feature. New tests check the
+  results against true values. Projected data were never affected.
+  Results for longitude/latitude data from these three functions should be
+  recomputed.
+* **The test suite now runs in `R CMD check` and coverage.**
+  `tests/testthat.R` was missing, so `R CMD check` and covr ran none of the
+  tests (they ran only through `devtools::test()`); all 663 pass under
+  `R CMD check`, coverage is 77 %, and CI now fails below 75 %.
 * **`geo_mem()` now computes dbMEM as published** (Dray, Legendre and
   Peres-Neto 2006), reproducing `adespatial::dbmem()` exactly (same
   eigenvectors, eigenvalues and number of MEMs). Before, it computed the
