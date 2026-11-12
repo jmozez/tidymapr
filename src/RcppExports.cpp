@@ -147,6 +147,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// geo_mde_cpp
+List geo_mde_cpp(IntegerVector domain, int nrow, int ncol, IntegerVector size, int nsim);
+RcppExport SEXP _tidymapr_geo_mde_cpp(SEXP domainSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP sizeSEXP, SEXP nsimSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type domain(domainSEXP);
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type size(sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type nsim(nsimSEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_mde_cpp(domain, nrow, ncol, size, nsim));
+    return rcpp_result_gen;
+END_RCPP
+}
 // render_dem_cpp
 List render_dem_cpp(NumericMatrix z, double dx, double dy, NumericMatrix cr, NumericMatrix cg, NumericMatrix cb, double theta, double phi, double zscale, int width, int height, double sun_azimuth, double sun_elevation, bool shadow, double ambient, double base_frac, int threads);
 RcppExport SEXP _tidymapr_render_dem_cpp(SEXP zSEXP, SEXP dxSEXP, SEXP dySEXP, SEXP crSEXP, SEXP cgSEXP, SEXP cbSEXP, SEXP thetaSEXP, SEXP phiSEXP, SEXP zscaleSEXP, SEXP widthSEXP, SEXP heightSEXP, SEXP sun_azimuthSEXP, SEXP sun_elevationSEXP, SEXP shadowSEXP, SEXP ambientSEXP, SEXP base_fracSEXP, SEXP threadsSEXP) {
@@ -411,6 +426,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_sdm_cloglog_cpp", (DL_FUNC) &_tidymapr_sdm_cloglog_cpp, 1},
     {"_tidymapr_sdm_logistic_cpp", (DL_FUNC) &_tidymapr_sdm_logistic_cpp, 1},
     {"_tidymapr_sdm_linear_predict_cpp", (DL_FUNC) &_tidymapr_sdm_linear_predict_cpp, 2},
+    {"_tidymapr_geo_mde_cpp", (DL_FUNC) &_tidymapr_geo_mde_cpp, 5},
     {"_tidymapr_render_dem_cpp", (DL_FUNC) &_tidymapr_render_dem_cpp, 17},
     {"_tidymapr_project_points_cpp", (DL_FUNC) &_tidymapr_project_points_cpp, 5},
     {"_tidymapr_sdm_lasso_logit_cpp", (DL_FUNC) &_tidymapr_sdm_lasso_logit_cpp, 9},

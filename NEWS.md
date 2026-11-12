@@ -2,6 +2,17 @@
 
 * First CRAN release.
 
+## Two-dimensional mid-domain effect
+
+* New `geo_mde()`: a mid-domain null model of species richness over any
+  bounded domain (island, country, mountain range). Ranges built from
+  occurrence records keep their size and are placed at random with the
+  spreading-dye algorithm (Jetz and Rahbek 2001) on an equal-area grid
+  that follows the real coastline. Returns observed and expected richness,
+  the simulation interval and a standardised effect size per cell. The
+  placement kernel is in C++; on a one-cell-wide domain it reproduces the
+  one-dimensional model of rangemodelR.
+
 
 
 ## Bug fix: DBSCAN on Windows
