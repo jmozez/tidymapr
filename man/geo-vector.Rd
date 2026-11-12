@@ -44,9 +44,9 @@ geo_distance_to(data, to, lon = lon, lat = lat, ...)
 \arguments{
 \item{data}{An \code{sf} object or a data frame with coordinates.}
 
-\item{dist}{Buffer distance. For geographic CRS, metres (passed through
-\code{sf::st_buffer} with \code{sf::st_transform} to an equidistant projection
-when needed).}
+\item{dist}{Buffer distance: metres for longitude/latitude data (each
+feature is buffered in an azimuthal equidistant projection centred on
+it, so the distance is true at any latitude), CRS units otherwise.}
 
 \item{lon, lat}{Coordinate columns when \code{data} is not \code{sf}.}
 
@@ -58,6 +58,20 @@ when needed).}
 \code{"within"}, \code{"contains"}, or \code{"nearest"}.}
 
 \item{to}{Geometry or coordinates to measure distance to.}
+}
+\value{
+\itemize{
+\item \code{geo_buffer()}, \code{geo_intersection()}, \code{geo_difference()}, \code{geo_union()},
+\code{geo_crop()}, \code{geo_centroid()} and \code{geo_join()}: an \code{sf} table in the CRS
+of \code{data}.
+\item \code{geo_area()}: a tibble of the attributes of \code{data} with \code{area_m2}, the
+true area in square metres (spherical for longitude/latitude data).
+\item \code{geo_bbox()}: a one-row tibble with \code{xmin}, \code{ymin}, \code{xmax}, \code{ymax} and
+\code{crs}.
+\item \code{geo_distance_to()}: a tibble of the attributes of \code{data} with
+\code{distance_m}, the distance to the nearest feature of \code{to} (great-circle
+metres for longitude/latitude data, CRS units otherwise).
+}
 }
 \description{
 Native tidyverse-style wrappers around common \strong{sf} operations. Inputs

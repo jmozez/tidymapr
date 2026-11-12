@@ -18,7 +18,7 @@ Description: A tidyverse toolkit for making publication-quality maps and
     spectral diversity, and works with the companion package
     'tidydiversity'.
 License: MIT + file LICENSE
-URL: https://tidymapr.in4metrix.dev/, https://github.com/jmozez/tidymapr, https://gitlab.com/jimmy.moses/tidymapr
+URL: https://tidymapr.in4metrix.dev/, https://github.com/jmozez/tidymapr
 BugReports: https://github.com/jmozez/tidymapr/issues
 Depends: 
     R (>= 4.1.0)

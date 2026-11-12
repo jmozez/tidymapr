@@ -13,6 +13,11 @@
 #' @param raster A `terra::SpatRaster` or a file path.
 #' @param y An `sf` polygon/line used to crop, mask or summarise.
 #' @param ... Passed to the underlying terra helper.
+#' @return `geo_raster_crop()`, `geo_raster_mask()`, `geo_raster_resample()`,
+#'   `geo_raster_project()`, `geo_raster_terrain()` and `geo_raster_focal()`
+#'   return a `terra::SpatRaster`. `geo_raster_zonal()` returns a tibble with
+#'   one row per feature of `y` (its attributes and the summary statistic),
+#'   or the raw `terra::extract()` result when `as_tibble = FALSE`.
 #' @name geo-raster
 #' @examplesIf requireNamespace("terra", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)
 #' r <- terra::rast(ncols = 20, nrows = 20, xmin = 144.8, xmax = 145.4,
