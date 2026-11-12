@@ -3,9 +3,11 @@
 // Labels: 0 = noise, 1..k = clusters. Border points join the first cluster
 // that reaches them, as in the dbscan package (Hahsler et al. 2019).
 #include <Rcpp.h>
+#include <algorithm>
 #include <cmath>
 #include <unordered_map>
 #include <vector>
+#include <cstdint>
 
 using namespace Rcpp;
 
@@ -15,18 +17,20 @@ List dbscan_cpp(NumericVector x, NumericVector y, double eps, int min_pts) {
   const double e2 = eps * eps;
   double xmin = *std::min_element(x.begin(), x.end());
   double ymin = *std::min_element(y.begin(), y.end());
-  auto key = [&](long gx, long gy) { return (gx << 32) ^ (gy & 0xffffffff); };
-  std::unordered_map<long, std::vector<int>> grid;
-  std::vector<long> gx(n), gy(n);
+  auto key = [&](int64_t gx, int64_t gy) {
+    return (int64_t)(((uint64_t)gx << 32) ^ (uint64_t)(uint32_t)gy);
+  };
+  std::unordered_map<int64_t, std::vector<int>> grid;
+  std::vector<int64_t> gx(n), gy(n);
   for (int i = 0; i < n; i++) {
-    gx[i] = (long)std::floor((x[i] - xmin) / eps);
-    gy[i] = (long)std::floor((y[i] - ymin) / eps);
+    gx[i] = (int64_t)std::floor((x[i] - xmin) / eps);
+    gy[i] = (int64_t)std::floor((y[i] - ymin) / eps);
     grid[key(gx[i], gy[i])].push_back(i);
   }
   auto neighbours = [&](int i, std::vector<int>& out) {
     out.clear();
-    for (long dx = -1; dx <= 1; dx++) {
-      for (long dy = -1; dy <= 1; dy++) {
+    for (int64_t dx = -1; dx <= 1; dx++) {
+      for (int64_t dy = -1; dy <= 1; dy++) {
         auto it = grid.find(key(gx[i] + dx, gy[i] + dy));
         if (it == grid.end()) continue;
         for (int j : it->second) {
