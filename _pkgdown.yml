@@ -177,6 +177,10 @@ navbar:
           href: articles/guide-06-remote-sensing-terrain.html
         - text: 7. Point clusters and landscapes
           href: articles/guide-07-patterns-landscapes.html
+        - text: 8. Data, GBIF cleaning, web maps and recipes
+          href: articles/guide-08-data-webmaps-recipes.html
+        - text: 9. Distance decay and spatial eigenvectors
+          href: articles/guide-09-decay-mem.html
     tutorials:
       text: Tutorials
       menu:

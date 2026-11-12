@@ -42,8 +42,11 @@ or MAD).}
 \item{land_mask}{Optional \code{sf}/\code{SpatVector} polygons of land, or a
 SpatRaster land mask. When \code{NULL}, the \code{"seas"} test is skipped.}
 
-\item{value}{\code{"clean"} (filtered data), \code{"flagged"} (logical matrix of
-flags plus coordinates), or \code{"both"} (a list).}
+\item{value}{\code{"clean"} (filtered data), \code{"flagged"} (logical flag columns
+plus coordinates), or \code{"both"} (a list). In the flag columns \code{TRUE}
+means the record was \strong{flagged} by that test, and \code{.summary} is \code{TRUE}
+when any test flagged it; CoordinateCleaner uses the opposite
+convention (\code{TRUE} = passed).}
 }
 \value{
 Depending on \code{value}: a tibble, a flagged tibble, or a list with

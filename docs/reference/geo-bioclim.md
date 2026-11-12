@@ -155,7 +155,7 @@ geo_worldclim(vars = "bio1", path = tmp, download = FALSE)
 #> resolution  : 0.2, 0.2  (x, y)
 #> extent      : 144, 146, -7, -5  (xmin, xmax, ymin, ymax)
 #> coord. ref. : lon/lat WGS 84 (EPSG:4326)
-#> source      : file11117ee3a7c9.tif
+#> source      : file4c9b75d9fac3.tif
 #> name        : bio1
 #> min value   :   20
 #> max value   :   20

@@ -1,0 +1,204 @@
+---
+title: "8. Data in and out, occurrence cleaning, web maps and recipes"
+description: "Read GIS, CAD, netCDF and spreadsheet data; download and clean GBIF records; share interactive web maps; run GeoSpaX recipes."
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  dev.args = list(bg = "white"),
+  collapse = TRUE, comment = "#>", out.width = "100%",
+  dpi = 150, fig.width = 8, fig.height = 5.5
+)
+```
+
+```{r setup, message = FALSE}
+library(tidymapr)
+library(dplyr)
+```
+
+## 1. Reading data
+
+### The concept
+
+Spatial data come in two kinds (Chapter 1): **vector** data (points,
+lines, polygons with attribute tables) and **raster** data (grids of
+cells). tidymapr reads both through GDAL, the library behind QGIS, ArcGIS
+and GeoSpaX, so almost any format works. Every file must carry, or be
+given, its **coordinate reference system** (Chapter 2).
+
+| Data | Common formats | Read with | Returns |
+|---|---|---|---|
+| Vector | GeoPackage (`.gpkg`), shapefile (`.shp`), GeoJSON, KML, GPX | `geo_read()` | `sf` table |
+| CAD drawings | AutoCAD DXF | `geo_read(cad_layer = )` | `sf` table |
+| Raster | GeoTIFF, ASCII grid, JPEG2000 | `geo_raster_read()` | `SpatRaster` |
+| Multidimensional | netCDF (`.nc`), HDF4, HDF5 (climate, satellite products) | `geo_raster_read(var = )` | `SpatRaster` with one layer per time or depth |
+| Tables | CSV, Excel with coordinates | `read.csv()`, then `geo_as_sf()` | `sf` table |
+
+```{r read}
+# A file can hold several layers: list them first
+geo_layers(system.file("shapes/world.gpkg", package = "spData"))
+
+cantons <- geo_read(system.file("ex/lux.shp", package = "terra"))
+cantons
+```
+
+netCDF files from climate models and reanalyses hold many variables and
+time steps in one file:
+
+```{r netcdf}
+era5 <- geo_raster_read(system.file("ex/nouragues.nc", package = "terra"))
+era5
+```
+
+**How to read this.** The file holds ERA5 climate reanalysis for the
+Nouragues station in French Guiana: `r terra::nlyr(era5)` layers, made of
+several variables (dewpoint `d2m`, temperature `t2m`, precipitation
+`tp`, ...) for each month of 2021-2022. Pick one with
+`geo_raster_read(path, var = "t2m")`; units are kelvin for temperature,
+as the `unit` line shows.
+
+### Coordinates in a spreadsheet
+
+```r
+sites <- read.csv("data/sites.csv")                 # columns lon, lat
+sites <- geo_as_sf(sites, lon, lat)                 # WGS84 longitude/latitude
+
+utm <- read.csv("data/plots_utm.csv")               # columns x, y in metres
+utm <- geo_as_sf(utm, x, y, crs = 32755)            # say which UTM zone
+```
+
+tidymapr refuses coordinate columns that cannot be longitude and
+latitude unless you give their CRS, because treating metres as degrees
+would silently give wrong distances.
+
+### Writing
+
+```r
+geo_write(cantons, "output/cantons.gpkg")           # GeoPackage: the best general format
+geo_write(cantons, "output/cantons.shp")            # shapefile, for older software
+terra::writeRaster(era5[[1]], "output/d2m.tif")     # GeoTIFF
+```
+
+Prefer GeoPackage over shapefiles: one file instead of five, no
+10-character limit on column names, and no 2 GB size limit.
+
+## 2. Occurrence records from GBIF
+
+### The concept
+
+The Global Biodiversity Information Facility (GBIF) aggregates over two
+billion species records from museums, surveys and citizen science. They
+are invaluable and imperfect: **coordinate errors** are common, and
+they bias species distribution models (Chapter 5). Typical errors:
+
+| Error | Example | Test in `geo_clean()` |
+|---|---|---|
+| Zero coordinates | 0°, 0° in the Gulf of Guinea | `"zeros"` |
+| Equal coordinates | Longitude = latitude, a typing error | `"equal"` |
+| Country capitals and centroids | The record was georeferenced to the country, not the site | `"capitals"`, `"centroids"` |
+| Biodiversity institutions | A museum's own coordinates instead of the collecting site | `"institutions"` |
+| The GBIF headquarters | Copenhagen | `"gbif"` |
+| Duplicates | The same record from two datasets | `"duplicates"` |
+| Outliers | Far from all other records of the species | `"outliers"` |
+
+These follow CoordinateCleaner (Zizka et al. 2019); tidymapr's flags equal
+CoordinateCleaner's, and this is checked in its tests.
+
+Download with `geo_gbif("Oecophylla smaragdina", country = "PG")` (needs
+internet). The records of the weaver ant *Oecophylla smaragdina* in Papua
+New Guinea are shipped with tidymapr, so this example runs offline:
+
+```{r gbif}
+recs <- read.csv(system.file("extdata", "gbif_oecophylla_png.csv", package = "tidymapr"))
+nrow(recs)
+
+# Add three typical mistakes to see how they are caught
+bad <- recs[1:3, ]
+bad$lon <- c(0, 147.18, -6.6)
+bad$lat <- c(0, -9.44, -6.6)     # zeros; Port Moresby (the capital); equal coordinates
+both <- rbind(recs, bad)
+
+flags <- geo_clean(both, lon = lon, lat = lat, species = species, value = "flagged")
+flags |>
+  filter(.summary) |>
+  select(lon, lat, .zer, .equ, .cap, .summary)
+clean <- geo_clean(both, lon = lon, lat = lat, species = species)
+nrow(clean)
+```
+
+**How to read it.** Each `.xxx` column is one test, and `TRUE` means the
+record was **flagged** by it; `.summary` is `TRUE` if any test flagged the
+record. (CoordinateCleaner uses the opposite convention, `TRUE` = passed.)
+The three added records are flagged: zero coordinates (which are also
+equal coordinates, so two tests catch them), the capital, and equal
+coordinates. All `r nrow(recs)` real records pass every test, so `clean`
+keeps exactly those. Always look at what was removed: a record near a
+capital may be real, and automated tests are a first filter, not a
+substitute for knowing the species.
+
+## 3. Interactive web maps
+
+### The concept
+
+A static map is for print; an **interactive web map** lets readers zoom,
+switch layers and click features for details. `geo_webmap()` turns any
+tidymapr map into a single, self-contained HTML file that opens in any
+browser, with no server needed: e-mail it, put it on a website, or attach
+it to a report.
+
+```{r webmap}
+recs_sf <- geo_as_sf(recs, lon, lat)
+web <- geo_map(title = "Weaver ant records in Papua New Guinea (GBIF)") |>
+  map_points(recs_sf, preset = "occurrence", label = "Records")
+dir.create("guide-08-data-webmaps-recipes_files", showWarnings = FALSE)
+geo_webmap(web, file = "guide-08-data-webmaps-recipes_files/oecophylla.html", popup = c("year", "basis_of_record"))
+```
+
+<iframe src="guide-08-data-webmaps-recipes_files/oecophylla.html" title="Interactive map of weaver ant records" style="width:100%;height:520px;border:1px solid #ccc;border-radius:6px"></iframe>
+
+Click a point for its year and type of record; switch basemaps at the top
+right. The same legend and colours as the static map are used, so the two
+can be published side by side.
+
+## 4. GeoSpaX recipes
+
+### The concept
+
+A **recipe** is a complete analysis written as a short YAML file: inputs,
+a list of steps, and outputs. GeoSpaX, the desktop GIS, runs recipes from
+its menus; tidymapr runs the same files in R. A colleague can therefore
+repeat your analysis by clicking, and you can re-run theirs in a script,
+with identical results. Recipes also document methods: the file *is* the
+methods section.
+
+```{r recipe}
+rec <- geo_recipe_read(system.file("recipes/points-to-hotspots.yaml", package = "tidymapr"))
+rec
+geo_recipe_validate(rec)       # an empty table means the recipe is valid
+```
+
+Run it on the Meuse soil samples (Chapter 3):
+
+```{r recipe-run}
+meuse <- terra::unwrap(readRDS(system.file("ex/meuse.rds", package = "terra")))
+samples <- sf::st_as_sf(as.data.frame(meuse), coords = c("x", "y"), crs = 28992)
+out <- geo_recipe_run(rec, inputs = list(layer = samples, field = "zinc"),
+  dir = tempfile(), quiet = TRUE)
+out$log
+```
+
+**How to read it.** The log lists each step, the GeoSpaX tool it used
+(`use`) and whether it finished. `out$hot` holds the hot-spot results,
+`out$map` the map and `out$report` an HTML report. To write your own
+recipe, build it with `geo_recipe()` and `recipe_step()`, then save it
+with `geo_recipe_write()` and open it in GeoSpaX.
+
+## References
+
+Zizka, A. et al. (2019). CoordinateCleaner: standardized cleaning of
+occurrence records from biological collection databases. *Methods in
+Ecology and Evolution*, 10, 744-751.
+
+GBIF.org. Occurrence records of *Oecophylla smaragdina* in Papua New
+Guinea, retrieved through the GBIF API; each record keeps its dataset key
+and licence (all CC BY 4.0 or CC0).
