@@ -8,7 +8,7 @@ tags:
   - biodiversity
 authors:
   - name: Jimmy Moses
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0003-3342-2384
     affiliation: 1
 affiliations:
   - name: Papua New Guinea University of Technology, Lae, Papua New Guinea
