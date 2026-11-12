@@ -327,3 +327,21 @@ test_that("plot_geo combines value colour with size column", {
   d <- attr(p, "tmr_decoration")
   expect_equal(d$legend_corner, "tr")
 })
+
+test_that("geo_clean() flags every national capital and country centroids", {
+  occ <- tibble::tibble(
+    species = c("a", "b", "c", "d", "e"),
+    lon = c(47.5147, 46.70474, 147.19, 149.10, 46.0),
+    lat = c(-18.9147, -19.3719, -9.48, -35.30, -24.0)
+  )
+  f <- geo_clean(occ, lon, lat,
+    species = species, value = "flagged",
+    tests = c("capitals", "centroids")
+  )
+  # Antananarivo, Port Moresby and Canberra are capitals
+  expect_equal(f$.cap, c(TRUE, FALSE, TRUE, TRUE, FALSE))
+  # The centroid of Madagascar
+  expect_equal(f$.cen, c(FALSE, TRUE, FALSE, FALSE, FALSE))
+  expect_equal(nrow(tmr_capitals), length(unique(paste(tmr_capitals$lon, tmr_capitals$lat))))
+  expect_true(all(c("MDG", "PNG", "AUS") %in% tmr_centroids$iso3))
+})

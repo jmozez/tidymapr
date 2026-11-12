@@ -9,7 +9,8 @@ geo_mde(
   domain,
   res,
   species = species,
-  range = c("hull", "cells"),
+  range = c("hull", "buffer", "cells"),
+  buffer = NULL,
   nsim = 199,
   conf = 0.95,
   lon = lon,
@@ -26,7 +27,15 @@ frame with longitude and latitude columns.}
 
 \item{species}{Column with species names.}
 
-\item{range}{\code{"hull"} or \code{"cells"}; see Description.}
+\item{range}{How each species' range is built from its records:
+\code{"hull"} (the convex hull), \code{"buffer"} (all cells within \code{buffer}
+metres of a record) or \code{"cells"} (occupied cells only). Hulls suit
+continuous ranges on land; buffers suit species tied to patchy
+habitat such as reefs, coasts or mountain tops, where a hull would
+span unsuitable ground between distant records.}
+
+\item{buffer}{Buffer distance in metres for \code{range = "buffer"}; by
+default twice the cell size.}
 
 \item{nsim}{Number of randomisations.}
 

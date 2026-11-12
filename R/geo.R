@@ -265,7 +265,7 @@ geo_as_raster <- function(raster, call = caller_env()) {
 #' @param species <[`data-masking`][dplyr::dplyr_data_masking]> Optional
 #'   species column for duplicate and outlier tests.
 #' @param tests Character vector of tests to run. See Details.
-#' @param capitals_rad,institutions_rad,gbif_rad Buffer radius in metres
+#' @param capitals_rad,centroids_rad,institutions_rad,gbif_rad Buffer radius in metres
 #'   around reference points (defaults match CoordinateCleaner).
 #' @param outliers_method `"quantile"` or `"mad"`.
 #' @param outliers_mtp Multiplier for the outlier threshold (quantile IQR
@@ -280,9 +280,16 @@ geo_as_raster <- function(raster, call = caller_env()) {
 #' @return Depending on `value`: a tibble, a flagged tibble, or a list with
 #'   `clean` and `flagged`.
 #' @details
-#' Available tests: `"equal"`, `"zeros"`, `"capitals"`, `"centroids"`
-#' (treated as capitals for the bundled reference set), `"gbif"`,
+#' Available tests: `"equal"`, `"zeros"`, `"capitals"` (within
+#' `capitals_rad` of any of the 215 national capitals), `"centroids"`
+#' (within `centroids_rad` of a country centroid: the centroid of the whole
+#' territory, of its largest polygon, or its label point), `"gbif"`,
 #' `"institutions"`, `"seas"`, `"outliers"`, `"validity"`, `"duplicates"`.
+#' Capitals and centroids come from Natural Earth (public domain). Records
+#' georeferenced to a country often use a gazetteer's own centroid, which
+#' can lie tens of kilometres from these; many species from one dataset at
+#' exactly the same point are a further sign of country-level
+#' georeferencing.
 #' @references Zizka, A. et al. (2019). CoordinateCleaner: standardized
 #'   cleaning of occurrence records from biological collection databases.
 #'   *Methods in Ecology and Evolution*, 10, 744-751.
@@ -300,10 +307,11 @@ geo_clean <- function(data,
                       lat = lat,
                       species = NULL,
                       tests = c(
-                        "equal", "zeros", "capitals", "gbif",
+                        "equal", "zeros", "capitals", "centroids", "gbif",
                         "institutions", "validity", "duplicates", "outliers"
                       ),
                       capitals_rad = 10000,
+                      centroids_rad = 1000,
                       institutions_rad = 100,
                       gbif_rad = 1000,
                       outliers_method = c("quantile", "mad"),
@@ -344,9 +352,15 @@ geo_clean <- function(data,
     flags$.zer <- is.finite(lon_v) & is.finite(lat_v) & lon_v == 0 & lat_v == 0
   }
   ref <- .geo_ref_points()
-  if ("capitals" %in% tests || "centroids" %in% tests) {
-    caps <- ref[ref$type == "capital", ]
-    flags$.cap <- geo_near_points(lon_v, lat_v, caps$lon, caps$lat, capitals_rad)
+  if ("capitals" %in% tests) {
+    flags$.cap <- geo_near_points(
+      lon_v, lat_v, tmr_capitals$lon, tmr_capitals$lat, capitals_rad
+    )
+  }
+  if ("centroids" %in% tests) {
+    flags$.cen <- geo_near_points(
+      lon_v, lat_v, tmr_centroids$lon, tmr_centroids$lat, centroids_rad
+    )
   }
   if ("gbif" %in% tests) {
     gb <- ref[ref$type == "gbif", ]

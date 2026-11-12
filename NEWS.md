@@ -2,7 +2,18 @@
 
 * First CRAN release.
 
-## Two-dimensional mid-domain effect
+## Bug fix: geo_clean() centroids and capitals
+
+* The `"centroids"` test of `geo_clean()` was documented but not
+  implemented: it ran the capitals test instead, so records georeferenced
+  to the centre of a country passed. It now flags records within
+  `centroids_rad` (default 1 km, as CoordinateCleaner) of a country
+  centroid, and is on by default.
+* The capitals test used 33 capitals only; it now uses all 215 national
+  capitals. Capitals and centroids come from Natural Earth (public
+  domain). Re-run `geo_clean()` on data cleaned before.
+
+## Mid-domain effect in two and three dimensions
 
 * New `geo_mde()`: a mid-domain null model of species richness over any
   bounded domain (island, country, mountain range). Ranges built from
@@ -12,6 +23,17 @@
   the simulation interval and a standardised effect size per cell. The
   placement kernel is in C++; on a one-cell-wide domain it reproduces the
   one-dimensional model of rangemodelR.
+* New `geo_mde_3d()`: the same model in three dimensions for the sea (or
+  any volume): the water column above a bathymetry raster is divided into
+  depth bands and ranges grow in six directions, following the coast and
+  the sea floor. Returns maps per depth band and the vertical richness
+  profile against the null model.
+* Ranges can be built as convex hulls, buffers around records
+  (`range = "buffer"`, for patchy habitat such as reefs) or occupied cells.
+* New example data: lemur records from Madagascar (GBIF) and reef coral
+  and fish records with depths from Papua New Guinea (OBIS), with GEBCO
+  bathymetry; CC0 and CC BY records only. New user guide chapter 10,
+  "Mid-domain effect on maps and in the sea".
 
 
 

@@ -148,8 +148,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // geo_mde_cpp
-List geo_mde_cpp(IntegerVector domain, int nrow, int ncol, IntegerVector size, int nsim);
-RcppExport SEXP _tidymapr_geo_mde_cpp(SEXP domainSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP sizeSEXP, SEXP nsimSEXP) {
+List geo_mde_cpp(IntegerVector domain, int nrow, int ncol, IntegerVector size, int nsim, int nlay);
+RcppExport SEXP _tidymapr_geo_mde_cpp(SEXP domainSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP sizeSEXP, SEXP nsimSEXP, SEXP nlaySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -158,7 +158,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type size(sizeSEXP);
     Rcpp::traits::input_parameter< int >::type nsim(nsimSEXP);
-    rcpp_result_gen = Rcpp::wrap(geo_mde_cpp(domain, nrow, ncol, size, nsim));
+    Rcpp::traits::input_parameter< int >::type nlay(nlaySEXP);
+    rcpp_result_gen = Rcpp::wrap(geo_mde_cpp(domain, nrow, ncol, size, nsim, nlay));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -426,7 +427,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_sdm_cloglog_cpp", (DL_FUNC) &_tidymapr_sdm_cloglog_cpp, 1},
     {"_tidymapr_sdm_logistic_cpp", (DL_FUNC) &_tidymapr_sdm_logistic_cpp, 1},
     {"_tidymapr_sdm_linear_predict_cpp", (DL_FUNC) &_tidymapr_sdm_linear_predict_cpp, 2},
-    {"_tidymapr_geo_mde_cpp", (DL_FUNC) &_tidymapr_geo_mde_cpp, 5},
+    {"_tidymapr_geo_mde_cpp", (DL_FUNC) &_tidymapr_geo_mde_cpp, 6},
     {"_tidymapr_render_dem_cpp", (DL_FUNC) &_tidymapr_render_dem_cpp, 17},
     {"_tidymapr_project_points_cpp", (DL_FUNC) &_tidymapr_project_points_cpp, 5},
     {"_tidymapr_sdm_lasso_logit_cpp", (DL_FUNC) &_tidymapr_sdm_lasso_logit_cpp, 9},

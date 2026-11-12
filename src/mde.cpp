@@ -1,4 +1,4 @@
-// Two-dimensional mid-domain null model (spreading dye; Jetz and Rahbek
+// Two- and three-dimensional mid-domain null model (spreading dye; Jetz and Rahbek
 // 2001). The domain is a raster mask; each range of L cells starts at a
 // random domain cell and grows by adding a randomly chosen cell from its
 // rook-neighbour frontier, as the one-dimensional model of rangemodelR.
@@ -8,10 +8,14 @@
 
 using namespace Rcpp;
 
+// Cells are numbered layer by layer (row-major within a layer), so a 2D
+// domain is the special case nlay = 1. Neighbours share a face: up to four
+// within a layer and one above and one below.
 // [[Rcpp::export]]
 List geo_mde_cpp(IntegerVector domain, int nrow, int ncol, IntegerVector size,
-                 int nsim) {
-  const int n = nrow * ncol;
+                 int nsim, int nlay = 1) {
+  const int nlayer = nrow * ncol;
+  const int n = nlayer * nlay;
   std::vector<int> cells;
   for (int i = 0; i < n; i++) if (domain[i]) cells.push_back(i);
   const int nd = cells.size();
@@ -33,10 +37,12 @@ List geo_mde_cpp(IntegerVector domain, int nrow, int ncol, IntegerVector size,
       mark[seed] = 1;
       int cur = seed;
       while ((int)sel.size() < L) {
-        int r = cur / ncol, c = cur % ncol;
-        int nb[4] = {r > 0 ? cur - ncol : -1, r < nrow - 1 ? cur + ncol : -1,
-                     c > 0 ? cur - 1 : -1, c < ncol - 1 ? cur + 1 : -1};
-        for (int j = 0; j < 4; j++) {
+        int z = cur / nlayer, w = cur % nlayer;
+        int r = w / ncol, c = w % ncol;
+        int nb[6] = {r > 0 ? cur - ncol : -1, r < nrow - 1 ? cur + ncol : -1,
+                     c > 0 ? cur - 1 : -1, c < ncol - 1 ? cur + 1 : -1,
+                     z > 0 ? cur - nlayer : -1, z < nlay - 1 ? cur + nlayer : -1};
+        for (int j = 0; j < 6; j++) {
           int v = nb[j];
           if (v >= 0 && domain[v] && mark[v] == 0) {
             mark[v] = 2;
