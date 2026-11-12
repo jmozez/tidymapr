@@ -1,6 +1,8 @@
 1e
 2A
 3's
+AR6
+AWS
 Actinopterygii
 Albers
 Alekseyenko
@@ -38,6 +40,7 @@ Bonebrake
 Borcard
 Braak
 Bradypus
+Brehm
 BugReports
 Butterill
 CANOCO
@@ -56,6 +59,7 @@ Caddisflies
 Cadotte
 Callaghan
 Canoco
+Cardelús
 Carmona
 Carto
 Catalog
@@ -105,6 +109,7 @@ ERTS
 Ecography
 Egregium
 Elith
+Elsen
 Engler
 Environmetrics
 Esri
@@ -170,6 +175,7 @@ Hsieh
 Hubbell
 IDRISI
 IDW
+IPCC
 Idigel
 IndVal
 Isaaks
@@ -207,6 +213,7 @@ Lifecycle
 Limnologie
 LinkingTo
 Linnean
+Longino
 Luk
 MAUP
 MEM1
@@ -287,6 +294,7 @@ QGIS
 R's
 R2
 RDA
+RG2004
 RStudio
 Rahbek
 Ramu
@@ -312,6 +320,8 @@ SJ
 SLA
 SQLite
 SRTM
+SSP1
+SSP5
 STAC
 SWIR
 Sauer
@@ -323,6 +333,7 @@ Sokal
 SpadeR
 SpatRaster
 SpatRasters
+SpatVector
 SpatiaLite
 SpatioTemporal
 Srivastava
@@ -338,6 +349,7 @@ Theorema
 Thuiller
 Théâtre
 Tiede
+Tingley
 Tobler
 TopoJSON
 Traitbase
@@ -364,10 +376,12 @@ Weecology
 Wei
 Winkel
 WorldClim
+WorldCover
 YAML
 Yasuhara
 Yawan
 Yenni
+Zanaga
 Zarr
 Zeleny
 Zenodo
@@ -494,6 +508,7 @@ httr
 httr2
 hyperspectral
 hypsometric
+hypsometry
 iNEXT
 ids
 ij
@@ -506,6 +521,7 @@ jmozez
 joc
 jsonlite
 kable
+km2
 knitr
 kriged
 krigs
@@ -591,7 +607,9 @@ sd
 sdm
 semivariance
 semivariogram
+sfc
 shapefiles
+skadi
 smaragdina
 snowbeds
 snowmelt
@@ -626,6 +644,7 @@ triplots
 unmanipulated
 unsampled
 upslope
+v200
 variegatus
 variograms
 vars

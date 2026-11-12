@@ -22,10 +22,11 @@ the bounding box when \code{bbox} is \code{NULL}.}
 
 \item{lon, lat}{Coordinate columns of \code{data}.}
 
-\item{bbox}{Numeric vector \code{c(xmin, ymin, xmax, ymax)} in WGS84, or an
-\code{sf} / \code{SpatExtent} object.}
+\item{bbox}{Numeric vector \code{c(xmin, ymin, xmax, ymax)} in WGS84 (the
+order of \code{\link[sf:st_bbox]{sf::st_bbox()}}, not of \code{\link[terra:ext]{terra::ext()}}), or an \code{sf},
+\code{SpatExtent} or \code{SpatRaster} object.}
 
-\item{path}{Local GeoTIFF (or directory of GeoTIFFs) for offline use.}
+\item{path}{Local raster file, folder of tiles, or vector of files.}
 
 \item{cache_dir}{Cache directory. Defaults to
 \code{tools::R_user_dir("tidymapr", "cache")/elevation}.}
@@ -33,18 +34,30 @@ the bounding box when \code{bbox} is \code{NULL}.}
 \item{download}{Download when the cache is empty? Set \code{FALSE} on CRAN
 or offline runners.}
 
-\item{z}{Zoom / resolution hint for elevatr (1-14). Ignored by geodata.}
+\item{z}{Zoom / resolution hint for elevatr (1-14), the last fallback.}
 
 \item{buffer}{Extra degrees added around the site bbox (default 0.1).}
 }
 \value{
-A \code{terra::SpatRaster} elevation surface (metres).
+A one-layer \code{terra::SpatRaster} elevation surface (metres).
 }
 \description{
 Fetches a digital elevation model for a bounding box or set of sites,
-with an on-disk cache and an offline \code{path} for local GeoTIFFs. Prefers
-\strong{geodata} (SRTM via \verb{elevation_*}) when installed, then \strong{elevatr},
-then a user-supplied file. Cite Jarvis et al. (2008) / NASA SRTM when
+with an on-disk cache, or reads local files.
+}
+\details{
+\strong{Local files.} \code{path} may be one raster file or a folder of tiles:
+GeoTIFF (\code{.tif}), SRTM height files (\code{.hgt}, also gzipped \code{.hgt.gz}) or
+\code{.zip} archives containing them. Adjacent tiles are mosaicked into one
+surface (earlier versions kept only the first tile). A warning is given
+when tiles differ in coordinate reference system or resolution.
+
+\strong{Download.} Every 1 x 1 degree SRTM tile that intersects the bounding
+box is fetched (1 arc-second where available, from the public
+"skadi" archive of the AWS Terrain Tiles), cached in \code{cache_dir},
+mosaicked and cropped to the box. If that archive cannot be reached,
+the tiles of \strong{geodata} (\code{elevation_3s()}, every tile intersecting the
+box) or \strong{elevatr} are used. Cite NASA SRTM (Farr et al. 2007) when
 publishing maps that use these surfaces.
 }
 \examples{
@@ -54,7 +67,6 @@ terra::nlyr(dem)
 \dontshow{\}) # examplesIf}
 }
 \references{
-Jarvis, A., Reuter, H. I., Nelson, A. and Guevara, E. (2008). Hole-filled
-SRTM for the globe Version 4. CGIAR-CSI.
-\url{https://srtm.csi.cgiar.org/}
+Farr, T. G. et al. (2007). The Shuttle Radar Topography Mission.
+Reviews of Geophysics, 45, RG2004. \doi{10.1029/2005RG000183}
 }

@@ -100,6 +100,9 @@ reference:
       - geo_layers
       - geo-vector
       - geo-raster
+      - geo-hypsometry
+      - geo_landcover
+      - geo_srtm_tile_names
       - geo_as_sf
       - geo_extract
       - geo-map-interop
