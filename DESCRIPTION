@@ -40,7 +40,8 @@ Imports:
     vctrs (>= 0.6.0)
 LinkingTo: 
     Rcpp
-Suggests: 
+Suggests:
+    rangemodelR,
     adespatial,
     classInt,
     CoordinateCleaner,
