@@ -67,8 +67,11 @@ geo_clean(
 
 - value:
 
-  `"clean"` (filtered data), `"flagged"` (logical matrix of flags plus
-  coordinates), or `"both"` (a list).
+  `"clean"` (filtered data), `"flagged"` (logical flag columns plus
+  coordinates), or `"both"` (a list). In the flag columns `TRUE` means
+  the record was **flagged** by that test, and `.summary` is `TRUE` when
+  any test flagged it; CoordinateCleaner uses the opposite convention
+  (`TRUE` = passed).
 
 ## Value
 

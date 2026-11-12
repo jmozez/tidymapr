@@ -32,7 +32,9 @@ geo_gbif(
 
 - scientificName, country, limit:
 
-  Arguments forwarded to `rgbif::occ_search()` when `data` is `NULL`.
+  Arguments forwarded to
+  [`rgbif::occ_search()`](https://rdrr.io/pkg/rgbif/man/occ_search.html)
+  when `data` is `NULL`.
 
 - clean:
 

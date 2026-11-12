@@ -37,6 +37,8 @@ duplicates."><meta property="og:image" content="https://tidymapr.in4metrix.dev/r
     <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
     <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
     <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-08-data-webmaps-recipes.html">8. Data, GBIF cleaning, web maps and recipes</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-09-decay-mem.html">9. Distance decay and spatial eigenvectors</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
@@ -141,8 +143,11 @@ SpatRaster land mask. When <code>NULL</code>, the <code>"seas"</code> test is sk
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p><code>"clean"</code> (filtered data), <code>"flagged"</code> (logical matrix of
-flags plus coordinates), or <code>"both"</code> (a list).</p></dd>
+<dd><p><code>"clean"</code> (filtered data), <code>"flagged"</code> (logical flag columns
+plus coordinates), or <code>"both"</code> (a list). In the flag columns <code>TRUE</code>
+means the record was <strong>flagged</strong> by that test, and <code>.summary</code> is <code>TRUE</code>
+when any test flagged it; CoordinateCleaner uses the opposite
+convention (<code>TRUE</code> = passed).</p></dd>
 
 </dl></div>
     <div class="section level2">

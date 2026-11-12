@@ -1,3 +1,4 @@
+1e
 2A
 3's
 Albers
@@ -65,6 +66,7 @@ Colwell
 Condit
 Config
 CoordinateCleaner
+CoordinateCleaner's
 Cormont
 Cressie
 Crossref
@@ -93,6 +95,7 @@ Durka
 EG
 ENVI
 EPSG
+ERA5
 ERDAS
 ERTS
 Ecography
@@ -146,6 +149,8 @@ Guillera
 Guisan
 Götzenberger
 HDF
+HDF4
+HDF5
 HOM
 HS
 Hamidi
@@ -163,6 +168,7 @@ Idigel
 IndVal
 Isaaks
 JJ
+JPEG2000
 Jaccard
 Jiguet
 Jost
@@ -193,6 +199,11 @@ Limnologie
 LinkingTo
 Luk
 MAUP
+MEM1
+MEM2
+MEM20
+MEM5
+MEMs
 MNDWI
 MODIS
 Madang
@@ -225,6 +236,7 @@ NMDS
 Nekola
 NetCDF
 Neto
+Nouragues
 Novotny
 Novotný
 Numba
@@ -299,6 +311,7 @@ SpatioTemporal
 Srivastava
 Subresource
 Swire
+Sørensen
 TD
 TPD
 TPDs
@@ -369,6 +382,7 @@ bio8
 bioRxiv
 bioclim
 biomod
+biomod2
 btp
 caddisflies
 catalogue's
@@ -396,6 +410,7 @@ dbh
 dbscan
 dem
 des
+dewpoint
 dismo
 div
 doi
@@ -454,6 +469,7 @@ hillshade
 ht
 htmltools
 httr
+httr2
 hyperspectral
 hypsometric
 iNEXT
@@ -548,6 +564,7 @@ sd
 sdm
 semivariance
 semivariogram
+shapefiles
 smaragdina
 snowbeds
 snowmelt

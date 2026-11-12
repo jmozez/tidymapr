@@ -56,6 +56,8 @@
     <li><a class="dropdown-item" href="../articles/guide-05-sdm.html">5. Species distribution models</a></li>
     <li><a class="dropdown-item" href="../articles/guide-06-remote-sensing-terrain.html">6. Remote sensing and terrain</a></li>
     <li><a class="dropdown-item" href="../articles/guide-07-patterns-landscapes.html">7. Point clusters and landscapes</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-08-data-webmaps-recipes.html">8. Data, GBIF cleaning, web maps and recipes</a></li>
+    <li><a class="dropdown-item" href="../articles/guide-09-decay-mem.html">9. Distance decay and spatial eigenvectors</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -204,12 +206,33 @@ landscapes</a></td>
 <code><a href="../reference/geo_dbscan.html">geo_dbscan()</a></code>, <code><a href="../reference/geo_landscape.html">geo_landscape()</a></code>
 </td>
 </tr>
+<tr class="even">
+<td><a href="guide-08-data-webmaps-recipes.html">8. Data, GBIF cleaning,
+web maps and recipes</a></td>
+<td>GIS, CAD, netCDF and spreadsheet data; cleaning GBIF coordinates;
+interactive web maps; GeoSpaX recipes</td>
+<td>
+<code><a href="../reference/geo-io.html">geo_read()</a></code>, <code><a href="../reference/geo-io.html">geo_raster_read()</a></code>,
+<code><a href="../reference/geo_clean.html">geo_clean()</a></code>, <code><a href="../reference/geo_webmap.html">geo_webmap()</a></code>,
+<code><a href="../reference/geo-recipe.html">geo_recipe_run()</a></code>
+</td>
+</tr>
+<tr class="odd">
+<td><a href="guide-09-decay-mem.html">9. Distance decay and spatial
+eigenvectors</a></td>
+<td>Similarity against geographic and environmental distance; Moran’s
+eigenvector maps (dbMEM) as predictors</td>
+<td>
+<code><a href="../reference/geo_decay.html">geo_decay()</a></code>, <code><a href="../reference/geo_mem.html">geo_mem()</a></code>
+</td>
+</tr>
 </tbody>
 </table>
 <p><strong>Where to start.</strong> New to R: Chapter 1, then Chapter 2.
 Need a map for a paper: Chapter 2. Analysing field samples: Chapters 3
 and 4. Working with species records: Chapter 5. Working with imagery or
-elevation: Chapter 6.</p>
+elevation: Chapter 6. Bringing in your own files or GBIF records, or
+sharing interactive maps: Chapter 8.</p>
 <p><strong>Going further.</strong> The <a href="tutorials.html">case
 studies</a> apply these methods to complete research questions, the <a href="gallery.html">Gallery</a> shows the code of every map, and the <a href="../reference/index.html">Reference</a> lists every function and
 argument. For diversity estimation itself, see the companion package <a href="https://tidydiversity.in4metrix.dev" class="external-link">tidydiversity</a>; for a

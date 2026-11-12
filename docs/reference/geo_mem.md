@@ -1,9 +1,13 @@
 # Distance-based Moran's eigenvector maps (dbMEM)
 
-Builds spatial eigenvectors from a truncated geographic distance matrix
-(Dray, Legendre and Peres-Neto 2006). Implemented natively so callers
-stay in tidymapr; when **adespatial** is installed, tests compare the
-leading eigenvalues.
+Builds distance-based Moran's eigenvector maps (dbMEM; Dray, Legendre
+and Peres-Neto 2006) from a truncated distance matrix, as
+[`adespatial::dbmem()`](https://rdrr.io/pkg/adespatial/man/dbmem.html)
+does: weights `1 - (d / 4t)^2` between sites closer than the threshold
+`t`, doubly centred, and the eigenvectors with positive eigenvalues
+(positive spatial autocorrelation), scaled to mean 0 and variance 1.
+Implemented natively so callers stay in tidymapr; when **adespatial** is
+installed, tests compare the leading eigenvalues.
 
 ## Usage
 
@@ -50,8 +54,10 @@ geo_mem(
 
 ## Value
 
-A tibble (`tmr_geo_mem`) with site columns and `MEM1`, `MEM2`, ...
-Eigenvalues are stored in attribute `eigenvalues`.
+A tibble (`tmr_geo_mem`) with site columns and `MEM1`, `MEM2`, ... in
+decreasing order of spatial autocorrelation. Eigenvalues (as in
+adespatial, proportional to Moran's I of each MEM) are stored in
+attribute `eigenvalues`, the threshold in `thresh`.
 
 ## References
 

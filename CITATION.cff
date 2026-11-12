@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use tidymapr, please cite it as below."
 type: software
-title: "tidymapr: Tidy Mapping Verbs for Biodiversity and Spatial Ecology"
+title: "tidymapr: Tidy Mapping, Spatial Analysis and Publication Cartography"
 abstract: "Tidy, pipe-friendly mapping and geospatial verbs for biodiversity and spatial ecology, designed to work with tidydiversity."
 authors:
   - family-names: Moses
@@ -11,8 +11,8 @@ authors:
 version: "0.1.0"
 date-released: "2026-11-08"
 license: MIT
-repository-code: "https://gitlab.com/jimmy.moses/tidymapr"
-url: "https://gitlab.com/jimmy.moses/tidymapr"
+repository-code: "https://github.com/jmozez/tidymapr"
+url: "https://tidymapr.in4metrix.dev"
 keywords:
   - R
   - biodiversity

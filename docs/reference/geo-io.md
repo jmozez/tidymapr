@@ -243,7 +243,7 @@ geo_raster_read(tif)
 #> resolution  : 0.075, 0.0625  (x, y)
 #> extent      : 144.8, 145.4, -6, -5.5  (xmin, xmax, ymin, ymax)
 #> coord. ref. : lon/lat WGS 84 (EPSG:4326)
-#> source      : file11116ef63f93.tif
+#> source      : file4c9b69f08d4.tif
 #> name        : lyr.1
 #> min value   :     1
 #> max value   :    64

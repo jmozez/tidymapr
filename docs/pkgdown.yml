@@ -13,10 +13,12 @@ articles:
   articles/guide-05-sdm: guide-05-sdm.html
   articles/guide-06-remote-sensing-terrain: guide-06-remote-sensing-terrain.html
   articles/guide-07-patterns-landscapes: guide-07-patterns-landscapes.html
+  articles/guide-08-data-webmaps-recipes: guide-08-data-webmaps-recipes.html
+  articles/guide-09-decay-mem: guide-09-decay-mem.html
   tidymapr: tidymapr.html
   articles/tutorials: tutorials.html
   articles/user-guide: user-guide.html
-last_built: 2026-11-11T19:00Z
+last_built: 2026-11-12T06:03Z
 urls:
   reference: https://tidymapr.in4metrix.dev/reference
   article: https://tidymapr.in4metrix.dev/articles

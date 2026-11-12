@@ -83,6 +83,10 @@ them in a paper.
     terrain](https://tidymapr.in4metrix.dev/articles/guide-06-remote-sensing-terrain.html)
 7.  [Point clusters and landscape
     fragmentation](https://tidymapr.in4metrix.dev/articles/guide-07-patterns-landscapes.html)
+8.  [Data in and out, GBIF cleaning, web maps and
+    recipes](https://tidymapr.in4metrix.dev/articles/guide-08-data-webmaps-recipes.html)
+9.  [Distance decay and spatial
+    eigenvectors](https://tidymapr.in4metrix.dev/articles/guide-09-decay-mem.html)
 
 ## Example
 
@@ -311,6 +315,28 @@ basemap](reference/figures/readme-recipe-hotspots.png)
 
 See the [gallery](https://tidymapr.in4metrix.dev/articles/gallery.html)
 for more maps with their code.
+
+## Citation
+
+If you use tidymapr in published work, please cite it. In R,
+`citation("tidymapr")` prints the reference:
+
+> Moses, J. (2026). tidymapr: Tidy Mapping, Spatial Analysis and
+> Publication Cartography. R package version 0.1.0.
+> <https://github.com/jmozez/tidymapr>
+
+``` bibtex
+@Manual{tidymapr,
+  title = {tidymapr: Tidy Mapping, Spatial Analysis and Publication Cartography},
+  author = {Jimmy Moses},
+  year = {2026},
+  note = {R package version 0.1.0},
+  url = {https://github.com/jmozez/tidymapr},
+}
+```
+
+Please also cite the methods you use: each help page and User guide
+chapter lists the original references.
 
 ## Licence
 

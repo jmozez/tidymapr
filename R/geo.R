@@ -272,8 +272,11 @@ geo_as_raster <- function(raster, call = caller_env()) {
 #'   or MAD).
 #' @param land_mask Optional `sf`/`SpatVector` polygons of land, or a
 #'   SpatRaster land mask. When `NULL`, the `"seas"` test is skipped.
-#' @param value `"clean"` (filtered data), `"flagged"` (logical matrix of
-#'   flags plus coordinates), or `"both"` (a list).
+#' @param value `"clean"` (filtered data), `"flagged"` (logical flag columns
+#'   plus coordinates), or `"both"` (a list). In the flag columns `TRUE`
+#'   means the record was **flagged** by that test, and `.summary` is `TRUE`
+#'   when any test flagged it; CoordinateCleaner uses the opposite
+#'   convention (`TRUE` = passed).
 #' @return Depending on `value`: a tibble, a flagged tibble, or a list with
 #'   `clean` and `flagged`.
 #' @details

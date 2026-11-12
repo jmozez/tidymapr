@@ -52,6 +52,29 @@ input reached them.
   Results from `sf` input and from genuine longitude/latitude columns
   were always correct and do not change. Analyses that passed projected
   coordinates as plain columns should be re-run.
+- **[`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md)
+  now computes dbMEM as published** (Dray, Legendre and Peres-Neto
+  2006), reproducing
+  [`adespatial::dbmem()`](https://rdrr.io/pkg/adespatial/man/dbmem.html)
+  exactly (same eigenvectors, eigenvalues and number of MEMs). Before,
+  it computed the older PCNM eigenvectors (principal coordinates of the
+  truncated distance matrix): it returned eigenvectors with *negative*
+  spatial autocorrelation as well (86 instead of 48 for the Meuse
+  samples), scaled by the square root of their eigenvalue instead of to
+  variance 1, and kept numerically zero eigenvectors when distances were
+  in metres. Models that used
+  [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md)
+  axes as predictors should be re-run.
+- [`geo_moran()`](https://tidymapr.in4metrix.dev/reference/geo_moran.md)
+  documentation: the variance is the variance under randomisation (equal
+  to `spdep::moran.test(randomisation = TRUE)`), not under normality as
+  stated; the values were always correct.
+- Reference tests strengthened so they compare full results, and their
+  reference packages (adespatial, dbscan, glmnet, landscapemetrics)
+  added to Suggests so CI runs them: Moran’s I and its variance equal
+  spdep’s to 1e-10; DBSCAN core points, noise and core partition equal
+  the dbscan package’s (border points reachable from two clusters may
+  legitimately join either).
 - **Colours.** A named `palette` for categories (e.g.
   `c(hot = "red", cold = "blue")`) was applied in alphabetical order of
   the categories instead of by name in

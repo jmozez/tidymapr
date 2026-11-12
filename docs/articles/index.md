@@ -56,6 +56,19 @@
   DBSCAN clustering of point events, and FRAGSTATS landscape metrics:
   how they work, what each number means and how to report them.
 
+- [8. Data in and out, occurrence cleaning, web maps and
+  recipes](https://tidymapr.in4metrix.dev/articles/guide-08-data-webmaps-recipes.md):
+
+  Read GIS, CAD, netCDF and spreadsheet data; download and clean GBIF
+  records; share interactive web maps; run GeoSpaX recipes.
+
+- [9. Distance decay and spatial
+  eigenvectors](https://tidymapr.in4metrix.dev/articles/guide-09-decay-mem.md):
+
+  How similarity changes with distance, and how Moran’s eigenvector maps
+  (dbMEM) turn space into predictors for models: concepts,
+  interpretation and reporting.
+
 ### Tutorials
 
 - [Tutorials](https://tidymapr.in4metrix.dev/articles/tutorials.md):
