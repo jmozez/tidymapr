@@ -7,6 +7,7 @@ Annales
 Anselin
 Araujo
 Aravo
+Araújo
 ArcGIS
 Arroita
 Asner
@@ -128,6 +129,7 @@ GDAL
 GDAL's
 GDB
 GEDI
+GEOS
 GML
 GNDVI
 GPX
@@ -440,6 +442,7 @@ gcb
 geb
 geo
 geomtextpath
+georeferenced
 geospax
 ggmap
 ggnewscale
@@ -492,6 +495,7 @@ lat
 les
 lm
 lme
+ln
 lon
 lpi
 lumineux
@@ -609,3 +613,4 @@ yaml
 zenodo
 zoogenic
 Šavrič
+ε

@@ -65,7 +65,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
         with:
-          extra-packages: any::pkgdown, any::ggplot2, any::predicts, github::jmozez/tidydiversity, local::.
+          extra-packages: any::pkgdown, any::ggplot2, any::predicts, any::svglite, github::jmozez/tidydiversity, local::.
           needs: website
 
       - name: Collect .deb files

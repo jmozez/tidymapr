@@ -70,6 +70,7 @@ Suggests:
     sf,
     spData,
     spdep,
+    svglite,
     terra,
     testthat (>= 3.0.0),
     tidydiversity,
