@@ -55,7 +55,9 @@
 #' @param fill,colour A column name (quoted or not) to colour features by,
 #'   or a single colour.
 #' @param label Legend entry for a layer drawn in one colour, for example
-#'   `"Highways"`. Defaults to the name of `data`.
+#'   `"Highways"`. By default the name of `data` when it is a plain object
+#'   name, otherwise the kind of layer (`"Polygons"`, `"Lines"` or
+#'   `"Points"`). `NULL` or `FALSE` leaves the layer out of the legend.
 #' @param group Legend section heading. Defaults to the column name for
 #'   coloured layers, and to no heading for one-colour layers.
 #' @param palette Colours for a column: `"auto"`, a name from
@@ -122,11 +124,15 @@
 #'
 #' \donttest{
 #' geo_map(title = "Luxembourg", caption = "Data: terra package") |>
-#'   map_raster(elev, name = "Elevation (m)", palette = "Terrain 2",
-#'     hillshade = TRUE) |>
+#'   map_raster(elev,
+#'     name = "Elevation (m)", palette = "Terrain 2",
+#'     hillshade = TRUE
+#'   ) |>
 #'   map_polygons(cantons, fill = NA, border = "grey20", label = "Cantons") |>
-#'   map_lines(roads, colour = highway, palette = c("#B2182B", "#F4A582"),
-#'     group = "Roads") |>
+#'   map_lines(roads,
+#'     colour = highway, palette = c("#B2182B", "#F4A582"),
+#'     group = "Roads"
+#'   ) |>
 #'   map_labels(cantons, text = NAME_2)
 #' }
 NULL
@@ -182,7 +188,7 @@ map_raster <- function(map,
 map_polygons <- function(map,
                          data,
                          fill = "grey90",
-                         label = NULL,
+                         label = tmr_auto_label(),
                          group = NULL,
                          palette = "auto",
                          n = 5,
@@ -193,6 +199,7 @@ map_polygons <- function(map,
                          alpha = 1,
                          preset = NULL) {
   tmr_check_map(map)
+  if (missing(label)) label <- tmr_auto_label(rlang::enquo(data))
   fill_q <- rlang::enquo(fill)
   if (!is.null(preset)) {
     ps <- tmr_preset(preset, "polygon")
@@ -200,10 +207,10 @@ map_polygons <- function(map,
     if (missing(border)) border <- ps$border
     if (missing(linewidth)) linewidth <- ps$linewidth
     if (missing(linetype)) linetype <- ps$linetype
-    if (is.null(label)) label <- ps$label
+    if (inherits(label, "tmr_auto_label") && !is.null(ps$label)) label <- ps$label
   }
   tmr_map_add(map, tmr_map_feature(
-    "polygon", data, fill_q, label %||% rlang::as_label(rlang::enquo(data)),
+    "polygon", data, fill_q, label,
     group, palette, n, style,
     list(border = border, linewidth = linewidth, linetype = linetype, alpha = alpha)
   ))
@@ -214,7 +221,7 @@ map_polygons <- function(map,
 map_lines <- function(map,
                       data,
                       colour = "grey20",
-                      label = NULL,
+                      label = tmr_auto_label(),
                       group = NULL,
                       palette = "auto",
                       n = 5,
@@ -224,16 +231,17 @@ map_lines <- function(map,
                       alpha = 1,
                       preset = NULL) {
   tmr_check_map(map)
+  if (missing(label)) label <- tmr_auto_label(rlang::enquo(data))
   colour_q <- rlang::enquo(colour)
   if (!is.null(preset)) {
     ps <- tmr_preset(preset, "line")
     if (missing(colour)) colour_q <- rlang::quo(!!ps$colour)
     if (missing(linewidth)) linewidth <- ps$linewidth
     if (missing(linetype)) linetype <- ps$linetype
-    if (is.null(label)) label <- ps$label
+    if (inherits(label, "tmr_auto_label") && !is.null(ps$label)) label <- ps$label
   }
   tmr_map_add(map, tmr_map_feature(
-    "line", data, colour_q, label %||% rlang::as_label(rlang::enquo(data)),
+    "line", data, colour_q, label,
     group, palette, n, style,
     list(linewidth = linewidth, linetype = linetype, alpha = alpha)
   ))
@@ -244,7 +252,7 @@ map_lines <- function(map,
 map_points <- function(map,
                        data,
                        fill = "#0072B2",
-                       label = NULL,
+                       label = tmr_auto_label(),
                        group = NULL,
                        palette = "auto",
                        n = 5,
@@ -255,6 +263,7 @@ map_points <- function(map,
                        alpha = 1,
                        preset = NULL) {
   tmr_check_map(map)
+  if (missing(label)) label <- tmr_auto_label(rlang::enquo(data))
   fill_q <- rlang::enquo(fill)
   if (!is.null(preset)) {
     ps <- tmr_preset(preset, "point")
@@ -262,10 +271,10 @@ map_points <- function(map,
     if (missing(shape)) shape <- ps$shape
     if (missing(size)) size <- ps$size
     if (missing(border)) border <- ps$border
-    if (is.null(label)) label <- ps$label
+    if (inherits(label, "tmr_auto_label") && !is.null(ps$label)) label <- ps$label
   }
   tmr_map_add(map, tmr_map_feature(
-    "point", data, fill_q, label %||% rlang::as_label(rlang::enquo(data)),
+    "point", data, fill_q, label,
     group, palette, n, style,
     list(shape = shape, size = size, border = border, alpha = alpha)
   ))
@@ -499,6 +508,11 @@ tmr_map_add <- function(map, layer) {
 tmr_map_feature <- function(kind, data, quo, label, group, palette, n, style,
                             look, call = caller_env()) {
   tmr_check_sf(data, call = call)
+  if (inherits(label, "tmr_auto_label")) {
+    label <- tmr_default_label(attr(label, "data"), kind)
+  }
+  if (isFALSE(label)) label <- NULL
+  hide <- is.null(label)
   value <- tryCatch(rlang::eval_tidy(quo), error = function(e) NULL)
   col <- NULL
   if (rlang::quo_is_symbol(quo) && rlang::as_name(quo) %in% names(data)) {
@@ -514,7 +528,7 @@ tmr_map_feature <- function(kind, data, quo, label, group, palette, n, style,
     )
   }
   list(
-    kind = kind, data = data, col = col, const = const, label = label,
+    kind = kind, data = data, col = col, const = const, label = label, hide = hide,
     group = group, palette = palette, n = n, style = style, look = look
   )
 }
@@ -589,6 +603,7 @@ tmr_map_draw_feature <- function(p, ly, crs, ord) {
   key <- if (ly$kind == "polygon") "polygon" else if (ly$kind == "line") "line" else "point"
   if (is.null(ly$col)) {
     # One colour: one legend entry named by `label`
+    if (is.null(ly$label)) ly$label <- "layer"
     d$.layer <- factor(ly$label)
     mapping <- tmr_aes_layer(aes_name)
     values <- stats::setNames(if (is.na(ly$const)) "white" else ly$const, ly$label)
@@ -659,10 +674,33 @@ tmr_map_draw_feature <- function(p, ly, crs, ord) {
     line = list(linewidth = max(lk$linewidth, 0.6)),
     point = list(size = max(lk$size, 2.5))
   )
+  guide <- if (is.null(ly$col) && isTRUE(ly$hide)) {
+    "none"
+  } else {
+    ggplot2::guide_legend(order = ord, override.aes = override)
+  }
   p + layer + scale_fun(
     values = values, name = title, drop = FALSE, na.value = "grey85",
-    guide = ggplot2::guide_legend(order = ord, override.aes = override)
+    guide = guide
   )
+}
+
+# The default `label`: resolved in tmr_map_feature() from the caller's
+# expression for `data`
+tmr_auto_label <- function(q = NULL) {
+  structure(list(), data = q, class = "tmr_auto_label")
+}
+
+tmr_default_label <- function(q, kind) {
+  fallback <- switch(kind,
+    polygon = "Polygons",
+    line = "Lines",
+    point = "Points"
+  )
+  if (is.null(q) || !rlang::quo_is_symbol(q)) {
+    return(fallback)
+  }
+  rlang::as_label(q)
 }
 
 tmr_map_draw_labels <- function(p, ly, crs) {
@@ -721,7 +759,9 @@ tmr_map_tiles <- function(df, col, r, alpha = 1) {
 # then zoomed about its centre (or a given centre)
 tmr_map_limits <- function(map, crs) {
   z <- map$zoom
-  if (is.null(z)) return(list(x = NULL, y = NULL))
+  if (is.null(z)) {
+    return(list(x = NULL, y = NULL))
+  }
   to_box <- function(x) {
     if (inherits(x, c("SpatRaster", "SpatVector"))) {
       x <- sf::st_as_sfc(sf::st_bbox(
@@ -856,7 +896,9 @@ tmr_polygon_label_path <- function(d, how) {
       hit <- suppressWarnings(sf::st_intersection(
         sf::st_sfc(cut, crs = sf::st_crs(poly)), poly
       ))
-      if (!length(hit) || sf::st_is_empty(hit[1])) return(c(NA_real_, NA_real_))
+      if (!length(hit) || sf::st_is_empty(hit[1])) {
+        return(c(NA_real_, NA_real_))
+      }
       hx <- sf::st_coordinates(hit)[, 1:2, drop = FALSE]
       colMeans(hx)
     }, numeric(2)))
@@ -895,7 +937,9 @@ tmr_point_arcs <- function(d, r) {
 tmr_straightest <- function(g) {
   xy <- unclass(g)[, 1:2, drop = FALSE]
   n <- nrow(xy)
-  if (n < 5) return(0.5)
+  if (n < 5) {
+    return(0.5)
+  }
   seg <- diff(xy)
   len <- sqrt(rowSums(seg^2))
   ang <- atan2(seg[, 2], seg[, 1])
@@ -903,7 +947,9 @@ tmr_straightest <- function(g) {
   pos <- cumsum(len) / sum(len)
   w <- 0.2
   centres <- seq(w / 2 + 0.05, 1 - w / 2 - 0.05, by = 0.02)
-  if (!length(centres)) return(0.5)
+  if (!length(centres)) {
+    return(0.5)
+  }
   cost <- vapply(centres, function(cc) {
     sum(turn[abs(pos[-length(pos)] - cc) <= w / 2])
   }, numeric(1))

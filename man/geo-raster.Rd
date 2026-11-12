@@ -15,7 +15,14 @@ geo_raster_crop(raster, y, ...)
 
 geo_raster_mask(raster, y, ...)
 
-geo_raster_resample(raster, res = NULL, method = "bilinear", ...)
+geo_raster_resample(
+  raster,
+  res = NULL,
+  method = "bilinear",
+  ...,
+  origin = c(0, 0),
+  align_to = NULL
+)
 
 geo_raster_project(raster, crs, method = "bilinear", ...)
 
@@ -28,18 +35,41 @@ geo_raster_terrain(
 
 geo_raster_focal(raster, w = 3, fun = "mean", ...)
 
-geo_raster_zonal(raster, y, fun = "mean", ..., as_tibble = TRUE)
+geo_raster_zonal(
+  raster,
+  y,
+  fun = "mean",
+  ...,
+  as_tibble = TRUE,
+  weight = c("none", "area")
+)
 }
 \arguments{
 \item{raster}{A \code{terra::SpatRaster} or a file path.}
 
-\item{y}{An \code{sf} polygon/line used to crop, mask or summarise.}
+\item{y}{What to crop, mask or summarise by: an \code{sf} or \code{sfc} object, a
+terra \code{SpatVector}, \code{SpatExtent} or \code{SpatRaster} (its extent), an sf
+\code{bbox}, or four numbers. Unnamed numbers are read as
+\code{c(xmin, ymin, xmax, ymax)}, the order of \code{\link[sf:st_bbox]{sf::st_bbox()}}; note that
+\code{\link[terra:ext]{terra::ext()}} uses \verb{xmin, xmax, ymin, ymax}. Named numbers
+(\code{xmin}, \code{ymin}, \code{xmax}, \code{ymax}) may be in any order.}
 
 \item{...}{Passed to the underlying terra helper.}
 
 \item{res}{Target resolution (one or two numbers) for resampling.}
 
-\item{method}{Resampling method passed to terra.}
+\item{method}{Resampling method passed to terra (\code{"average"} gives the
+same values as \code{\link[terra:aggregate]{terra::aggregate()}} when the grids are aligned).}
+
+\item{origin}{Grid origin for \code{geo_raster_resample()}: cell edges fall
+on \code{origin + k * res}. The default, \code{c(0, 0)}, aligns cells to whole
+multiples of the resolution (for example whole degrees for 1/120
+degree), so results match \code{\link[terra:aggregate]{terra::aggregate()}} or \code{\link[terra:resample]{terra::resample()}}
+on an aligned template. Earlier versions started the grid at the
+raster's edge, which could shift results by part of a cell.}
+
+\item{align_to}{Optional template \code{SpatRaster} whose grid (origin and,
+unless \code{res} is given, resolution) the result should share.}
 
 \item{crs}{Target CRS (EPSG code, WKT or proj string).}
 
@@ -53,6 +83,13 @@ geo_raster_zonal(raster, y, fun = "mean", ..., as_tibble = TRUE)
 \item{fun}{Summary function name or function.}
 
 \item{as_tibble}{Return a tibble (default) instead of the raw terra extract matrix?}
+
+\item{weight}{For \code{geo_raster_zonal()} with a zone raster: \code{"area"}
+weights each cell by its true area (\code{\link[terra:cellSize]{terra::cellSize()}}), which matters
+for longitude/latitude grids whose cells shrink away from the equator;
+\code{"none"} gives every cell equal weight. With \code{"area"}, \code{fun} must be
+\code{"mean"} or \code{"sum"} (the area-weighted sum is the integral, e.g. km2
+for an indicator raster).}
 }
 \value{
 \code{geo_raster_crop()}, \code{geo_raster_mask()}, \code{geo_raster_resample()},
@@ -70,6 +107,12 @@ work without calling \code{gdal_translate} yourself. Do not use the retired
 sites, and with \code{\link[=geo_buffer]{geo_buffer()}} plus \code{\link[=geo_raster_zonal]{geo_raster_zonal()}} for mean
 elevation in a site buffer. \code{\link[=geo_raster_project]{geo_raster_project()}}, \code{\link[=geo_raster_crop]{geo_raster_crop()}}
 and \code{\link[=geo_raster_mask]{geo_raster_mask()}} are the tidy entry points for GDAL warps / clips.
+}
+\details{
+\code{geo_raster_zonal()} accepts polygons (sf, sfc, SpatVector) or a
+\strong{zone raster} as \code{y}: a categorical \code{SpatRaster} (for example
+elevation bands or land-cover classes). A zone raster on a different
+grid is resampled to the value raster with nearest-neighbour first.
 }
 \examples{
 \dontshow{if (requireNamespace("terra", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)) withAutoprint(\{ # examplesIf}
