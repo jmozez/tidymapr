@@ -197,6 +197,7 @@ geo_diversity_surface <- function(data,
 # measurement error, which the kriging handles separately, so it is removed
 # from the nugget to avoid counting it twice.
 tmr_variogram_error <- function(dsf, col, model, mean_err) {
+  rlang::check_installed("gstat", "to fit a variogram for kriging.")
   f <- stats::as.formula(paste(col, "~ 1"))
   ev <- gstat::variogram(f, dsf)
   v <- stats::var(dsf[[col]])

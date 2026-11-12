@@ -41,7 +41,7 @@ map_polygons(
   map,
   data,
   fill = "grey90",
-  label = NULL,
+  label = tmr_auto_label(),
   group = NULL,
   palette = "auto",
   n = 5,
@@ -57,7 +57,7 @@ map_lines(
   map,
   data,
   colour = "grey20",
-  label = NULL,
+  label = tmr_auto_label(),
   group = NULL,
   palette = "auto",
   n = 5,
@@ -72,7 +72,7 @@ map_points(
   map,
   data,
   fill = "#0072B2",
-  label = NULL,
+  label = tmr_auto_label(),
   group = NULL,
   palette = "auto",
   n = 5,
@@ -173,7 +173,9 @@ several panels so that one colour means one value and
 or a single colour.}
 
 \item{label}{Legend entry for a layer drawn in one colour, for example
-\code{"Highways"}. Defaults to the name of \code{data}.}
+\code{"Highways"}. By default the name of \code{data} when it is a plain object
+name, otherwise the kind of layer (\code{"Polygons"}, \code{"Lines"} or
+\code{"Points"}). \code{NULL} or \code{FALSE} leaves the layer out of the legend.}
 
 \item{group}{Legend section heading. Defaults to the column name for
 coloured layers, and to no heading for one-colour layers.}
