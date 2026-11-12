@@ -26,11 +26,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jimmy Moses \email{jimmy.moses@pnguot.ac.pg} [copyright holder]
+\strong{Maintainer}: Jimmy Moses \email{jimmy.moses@pnguot.ac.pg} (\href{https://orcid.org/0000-0003-3342-2384}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item Jimmy Moses \email{jimmy.moses@pnguot.ac.pg} [copyright holder]
+  \item Jimmy Moses \email{jimmy.moses@pnguot.ac.pg} (\href{https://orcid.org/0000-0003-3342-2384}{ORCID}) [copyright holder]
 }
 
 }
