@@ -1,3 +1,42 @@
+# tidymapr 0.2.0
+
+## Elevational gradients and climate
+
+* New `geo_hypsometry()`: land area in each elevation band of a DEM,
+  inside an optional region, with true cell areas from `terra::cellSize()`
+  (`area = "ellipsoid"`).
+* New `geo_range_shift()`: moves species' elevational ranges upslope by
+  `warming / lapse_rate`; reports the area now and after warming, the
+  percentage change, range-shift gaps and summit truncation, with optional
+  padding of ranges and fixed lower limits for lowland species.
+* New `geo_patches()` and `geo_largest_patch()`: connected patches of a
+  mask, with their areas.
+* New `geo_landcover()` and `geo_worldcover_tiles()`: ESA WorldCover 10 m
+  land cover read from its cloud-optimised GeoTIFFs, optionally as a
+  logical layer of chosen classes on the grid of a template raster.
+
+## Fixes
+
+* `geo_elevation()` mosaics every tile that a box touches. It downloads
+  SRTM 1 arc-second tiles first (new `geo_srtm_tile_names()`), and `path`
+  accepts a folder or several `.tif`, `.hgt`, `.hgt.gz` or `.zip` files,
+  with a warning when their CRS or resolution differ. Earlier versions kept
+  only the first tile.
+* `geo_raster_crop()`, `geo_raster_mask()` and `geo_raster_zonal()` accept
+  a `SpatExtent`, `SpatRaster`, `SpatVector`, `sf`, `sfc`, `bbox` or four
+  numbers (`c(xmin, ymin, xmax, ymax)`; named in any order), with a clear
+  error for an invalid box.
+* `geo_raster_resample()` gains `origin` and `align_to`: cells now align to
+  whole multiples of the resolution, so results match `terra::aggregate()`.
+* `geo_raster_zonal()` accepts a zone raster and gives area-weighted means
+  and sums (`weight = "area"`).
+* Default legend labels of `map_polygons()`, `map_lines()` and
+  `map_points()` are the name of `data`, or the kind of layer when `data`
+  is an expression, never a printed object such as `<tmr_g_sf[,11]>`;
+  `label = NULL` leaves a layer out of the legend.
+* gstat is checked for before every use, so it is truly optional.
+  `SystemRequirements` lists GDAL, GEOS and PROJ.
+
 # tidymapr 0.1.0
 
 * First CRAN release.
