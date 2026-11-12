@@ -81,6 +81,7 @@ reference:
       - geo_decay
       - geo_mem
       - geo_mde
+      - geo_mde_3d
   - title: Terrain and hydrology
     desc: D8 flow direction, flow accumulation, watersheds, the topographic wetness index and terrain derivatives.
     contents:
@@ -182,6 +183,8 @@ navbar:
           href: articles/guide-08-data-webmaps-recipes.html
         - text: 9. Distance decay and spatial eigenvectors
           href: articles/guide-09-decay-mem.html
+        - text: 10. Mid-domain effect on maps and in the sea
+          href: articles/guide-10-mid-domain.html
         - text: -------
         - text: "Reference: all spatial methods"
           href: articles/geospatial.html

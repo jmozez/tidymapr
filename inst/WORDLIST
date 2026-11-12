@@ -1,8 +1,11 @@
 1e
 2A
 3's
+Actinopterygii
 Albers
 Alekseyenko
+Andasibe
+Andriamampianina
 Annales
 Anselin
 Araujo
@@ -128,6 +131,7 @@ GBIF
 GDAL
 GDAL's
 GDB
+GEBCO
 GEDI
 GEOS
 GML
@@ -172,16 +176,19 @@ Isaaks
 JJ
 JPEG2000
 Jaccard
+Jetz
 Jiguet
 Jost
 KDD
 KML
 KMZ
 Karger
+Kimbe
 Kirkby
 Kleyer
 Klimes
 Kongnoo
+Kremen
 Kriegel
 Kriged
 Kubota
@@ -219,6 +226,7 @@ McGlinn
 Meuse
 Michalski
 MicroStation
+Milne
 Mladenoff
 Mogador
 Mollweide
@@ -243,6 +251,7 @@ Novotny
 Novotný
 Numba
 O'Callaghan
+OBIS
 ODMAP
 OGR
 ORCID
@@ -278,8 +287,11 @@ R's
 R2
 RDA
 RStudio
+Rahbek
 Ramu
 Randin
+RangeModel
+Ranomafana
 RaoQ
 Rcpp
 Rebins
@@ -303,6 +315,7 @@ STAC
 SWIR
 Sauer
 Schapire
+Scleractinia
 Semivariance
 Smilauer
 Sokal
@@ -480,6 +493,7 @@ httr2
 hyperspectral
 hypsometric
 iNEXT
+ids
 ij
 indicspecies
 inset's
@@ -508,6 +522,7 @@ mathrm
 maxSSS
 maxnet
 maxnet's
+mde
 mem
 mesotopographical
 metR
@@ -518,6 +533,7 @@ mn
 modeling
 morphospecies
 moses
+multipolygon
 multipolygons
 météorologiques
 nd
@@ -550,6 +566,7 @@ quadrats
 quasibinomial
 rOpenSci
 randomForest's
+rangemodelR
 rayshader
 rd
 rebins
@@ -612,8 +629,11 @@ vars
 vctrs
 viridis
 visreg
+voxel
+voxels
 weimea
 worldclim
+xylookup
 yaml
 zenodo
 zoogenic

@@ -9,9 +9,10 @@ geo_clean(
   lon = lon,
   lat = lat,
   species = NULL,
-  tests = c("equal", "zeros", "capitals", "gbif", "institutions", "validity",
-    "duplicates", "outliers"),
+  tests = c("equal", "zeros", "capitals", "centroids", "gbif", "institutions",
+    "validity", "duplicates", "outliers"),
   capitals_rad = 10000,
+  centroids_rad = 1000,
   institutions_rad = 100,
   gbif_rad = 1000,
   outliers_method = c("quantile", "mad"),
@@ -31,7 +32,7 @@ species column for duplicate and outlier tests.}
 
 \item{tests}{Character vector of tests to run. See Details.}
 
-\item{capitals_rad, institutions_rad, gbif_rad}{Buffer radius in metres
+\item{capitals_rad, centroids_rad, institutions_rad, gbif_rad}{Buffer radius in metres
 around reference points (defaults match CoordinateCleaner).}
 
 \item{outliers_method}{\code{"quantile"} or \code{"mad"}.}
@@ -61,9 +62,16 @@ land mask is supplied), geographic outliers, invalid coordinates and
 duplicates.
 }
 \details{
-Available tests: \code{"equal"}, \code{"zeros"}, \code{"capitals"}, \code{"centroids"}
-(treated as capitals for the bundled reference set), \code{"gbif"},
+Available tests: \code{"equal"}, \code{"zeros"}, \code{"capitals"} (within
+\code{capitals_rad} of any of the 215 national capitals), \code{"centroids"}
+(within \code{centroids_rad} of a country centroid: the centroid of the whole
+territory, of its largest polygon, or its label point), \code{"gbif"},
 \code{"institutions"}, \code{"seas"}, \code{"outliers"}, \code{"validity"}, \code{"duplicates"}.
+Capitals and centroids come from Natural Earth (public domain). Records
+georeferenced to a country often use a gazetteer's own centroid, which
+can lie tens of kilometres from these; many species from one dataset at
+exactly the same point are a further sign of country-level
+georeferencing.
 }
 \examples{
 occ <- tibble::tibble(
