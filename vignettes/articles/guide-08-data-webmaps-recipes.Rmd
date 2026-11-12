@@ -101,8 +101,11 @@ they bias species distribution models (Chapter 5). Typical errors:
 | Duplicates | The same record from two datasets | `"duplicates"` |
 | Outliers | Far from all other records of the species | `"outliers"` |
 
-These follow CoordinateCleaner (Zizka et al. 2019); tidymapr's flags equal
-CoordinateCleaner's, and this is checked in its tests.
+These follow CoordinateCleaner (Zizka et al. 2019), with the same default
+distances. The zero, equal-coordinate and GBIF tests give exactly
+CoordinateCleaner's flags, which is checked in tidymapr's tests; the
+capital and centroid tests use all 215 national capitals and three
+definitions of each country's centroid from Natural Earth.
 
 Download with `geo_gbif("Oecophylla smaragdina", country = "PG")` (needs
 internet). The records of the weaver ant *Oecophylla smaragdina* in Papua
