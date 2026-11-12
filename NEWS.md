@@ -3,6 +3,15 @@
 * First CRAN release.
 
 
+
+## Bug fix: DBSCAN on Windows
+
+* `geo_dbscan()` gave wrong clusters on Windows: the grid used to find
+  neighbours built its keys with a 32-bit integer there, so some
+  neighbours were missed and points were wrongly marked as noise. Keys
+  are now 64-bit on every platform, and results equal the dbscan package
+  on Windows too. Re-run `geo_dbscan()` analyses made on Windows.
+
 ## Input safety (November 2026)
 
 An audit of every function that takes coordinates or colours found two
