@@ -96,7 +96,7 @@ sf::st_drop_geometry(hot) |>
   group_by(hotspot) |>
   summarise(zinc = median(zinc), dist_river = median(dist))
 geo_map(title = "Hot spots of zinc (Getis-Ord Gi*)", crs = 28992) |>
-  map_points(hot, fill = hotspot, group = "Gi*", palette = c("#2166AC", "#B2182B", "grey80"), size = 2)
+  map_points(hot, fill = hotspot, group = "Gi*", palette = c(hot = "#B2182B", cold = "#2166AC", "not significant" = "grey80"), size = 2)
 ```
 
 **Interpretation.** 24 sites are hot spots and 28 cold spots; the other
@@ -170,15 +170,25 @@ sdiv <- geo_spectral_diversity(s2, window = 5, k = 15)
 a <- geo_map(subtitle = "NDVI", north_arrow = FALSE) |>
   map_raster(ndvi, name = "NDVI", palette = "Greens 3")
 b <- geo_map(subtitle = "Spectral diversity (q = 1)", scale_bar = FALSE) |>
-  map_raster(sdiv[[1]], name = "Effective\nspectral species", palette = "viridis")
+  map_raster(sdiv[["q1"]], name = "Effective\nspectral species", palette = "viridis")
 geo_panels(a, b, ncol = 2, guides = "keep")
 ```
 
-**How to read it.** NDVI above about 0.6 is dense vegetation (forest,
-crops in leaf), near 0 bare soil and built-up areas, and below 0 water.
-Spectral diversity is high where different cover types meet within the
-5-cell window (field margins, villages, forest edges) and low inside
-uniform forest or fields.
+**How to read it.** This scene is a late-August Sentinel-2 image
+resampled to about 1 km cells, so each value averages many land uses.
+Almost the whole country is vegetated (NDVI `r round(terra::global(ndvi, "min", na.rm = TRUE)[[1]], 2)`
+to `r round(terra::global(ndvi, "max", na.rm = TRUE)[[1]], 2)`, median
+`r round(median(terra::values(ndvi), na.rm = TRUE), 2)`). The pale patches
+are built-up land: Luxembourg City in the south-centre and the towns of
+the former mining district along the southern border. At this
+resolution there are no open-water cells, which would have negative NDVI.
+
+Spectral diversity is high where several kinds of pixel meet within the
+5 x 5 cell window (mixed farmland, forest and villages) and low where the
+window falls in one uniform cover. It is only weakly related to NDVI
+(Spearman correlation `r round(cor(terra::values(ndvi)[, 1], terra::values(sdiv[["q1"]])[, 1], use = "complete.obs", method = "spearman"), 2)`):
+the two layers measure different things, how green a place is and how
+varied it is.
 
 Fresh imagery comes from STAC catalogues; only the window over the area
 is downloaded:
