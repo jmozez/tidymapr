@@ -14,12 +14,25 @@ The analysis tools of a desktop GIS, written in C++ and run on several
 cores, each checked against the reference R package. Every example uses
 real data shipped with R packages.
 
+This page is a tour of every family of methods in one place. Each
+section gives the concept in brief, the code, and how to read the
+output; the numbered chapters of the user guide explain each method in
+full and show how to report it.
+
 ```{r setup, message = FALSE}
 library(tidymapr)
 library(dplyr)
 ```
 
 ## Interpolation: kriging and IDW
+
+**The concept.** Samples are taken at points, but maps and models need
+values everywhere. Interpolation predicts unsampled places from nearby
+samples. **Inverse-distance weighting** (IDW) simply averages neighbours,
+weighting near ones more. **Kriging** first measures how similarity
+decays with distance (the variogram) and uses it to choose the weights,
+which also gives the prediction *variance*: where the map can be trusted.
+Full explanation: [Chapter 4](guide-04-interpolation.html).
 
 Zinc in the floodplain soils of the river Meuse (155 samples, shipped with
 terra). `geo_interpolate()` krigs with a fitted variogram; its results equal
@@ -34,6 +47,11 @@ grid <- terra::rast(terra::ext(terra::vect(samples)) + 100, resolution = 20, crs
 zinc <- geo_interpolate(samples, log_zinc, grid, method = "kriging", name = "log_zinc")
 zinc
 ```
+
+**How to read it.** The result has two layers: `log_zinc`, the
+prediction on a 20 m grid, and `variance`, the kriging variance, which is
+zero at the samples and grows away from them. Map the variance next to
+the prediction, or mask cells where it is high.
 
 ```{r meuse-map, fig.alt = "Kriged log zinc concentration in Meuse floodplain soils with the sample sites"}
 geo_map(title = "Zinc in Meuse floodplain soils (kriged)", caption = "Data: terra package") |>
@@ -53,7 +71,19 @@ out <- geo_recipe_run(rec, inputs = list(layer = samples, field = "zinc"), dir =
 out$log
 ```
 
+**How to read it.** Each step of the recipe ran (`done`), with its
+GeoSpaX tool (`use`) and run time. `interpolate.auto` chose between
+kriging and IDW by cross-validation; the outputs (`out$surface`,
+`out$map`, `out$report`) are what GeoSpaX would produce from the same
+file.
+
 ## Hot spots and clusters
+
+**The concept.** A global statistic (Moran's I) asks *whether* values
+are spatially clustered; local statistics ask *where*. Getis-Ord Gi\*
+compares the sum of values around each site with what random placement
+would give: a significantly high sum marks a **hot spot**, a low one a
+**cold spot**. Full explanation: [Chapter 3](guide-03-autocorrelation.html).
 
 Getis-Ord Gi\* and local Moran's I (LISA) find places of unusually high or
 low values; both match spdep.
@@ -61,9 +91,26 @@ low values; both match spdep.
 ```{r hotspot, fig.alt = "Hot and cold spots of zinc at the Meuse sample sites"}
 hot <- geo_hotspot(sf::st_transform(samples, 4326), zinc, k = 8)
 count(sf::st_drop_geometry(hot), hotspot)
+# Median zinc and distance to the river (as a fraction of the maximum) by class
+sf::st_drop_geometry(hot) |>
+  group_by(hotspot) |>
+  summarise(zinc = median(zinc), dist_river = median(dist))
 geo_map(title = "Hot spots of zinc (Getis-Ord Gi*)", crs = 28992) |>
   map_points(hot, fill = hotspot, group = "Gi*", palette = c("#2166AC", "#B2182B", "grey80"), size = 2)
 ```
+
+**Interpretation.** 24 sites are hot spots and 28 cold spots; the other
+103 are not distinguishable from random. Hot spots have a median of about
+830 ppm zinc and lie close to the river (median relative distance 0.05);
+cold spots have about 160 ppm and lie far from it (0.49). The pattern
+points to the source: zinc arrives with river sediment deposited during
+floods.
+
+**The concept.** DBSCAN finds clusters as dense areas: a point with at
+least `min_pts` neighbours within `eps` is a core point, clusters grow
+from core points, and points in sparse areas are noise. Unlike k-means,
+the number of clusters is not fixed in advance and clusters can have any
+shape. Full explanation: [Chapter 7](guide-07-patterns-landscapes.html).
 
 `geo_dbscan()` groups points into density clusters, here 1,000 earthquakes
 near Fiji (`datasets::quakes`), with distances in metres.
@@ -74,7 +121,18 @@ table(cl$cluster)
 attr(cl, "hulls")
 ```
 
+**How to read it.** Cluster `0` is noise: 513 of the 1,000 earthquakes
+are not in any dense group. The other 487 fall into nine clusters, the
+largest with 259 events; `hulls` gives each cluster's outline for
+mapping. With 50 km and 15 events, the clusters trace the densest parts
+of the Tonga-Kermadec and Vanuatu subduction zones.
+
 ## Terrain and hydrology
+
+**The concept.** Water flows downhill. The D8 method sends each cell's
+water to its steepest neighbour; summing the cells that drain through
+each cell gives **flow accumulation**, whose high values trace the
+stream network. Full explanation: [Chapter 6](guide-06-remote-sensing-terrain.html).
 
 D8 flow direction, flow accumulation, watersheds and the topographic
 wetness index on Luxembourg's elevation model; they match terra.
@@ -88,7 +146,18 @@ geo_map(title = "Where water collects: flow accumulation") |>
   map_polygons(cantons, preset = "admin", label = "Cantons")
 ```
 
+**How to read it.** Values are on a log scale: dark lines are cells
+that collect water from thousands of upslope cells, the valley floors of
+rivers; pale areas are ridges and hillslopes that drain few cells.
+
 ## Remote sensing
+
+**The concept.** Plants absorb red light and reflect near-infrared, so
+the normalised difference of the two (NDVI, -1 to 1) measures green
+vegetation. **Spectral diversity** treats clusters of similar pixel
+spectra as "spectral species" and counts them in Hill numbers in a moving
+window, a proxy for habitat heterogeneity (Féret and Asner 2014).
+Full explanation: [Chapter 6](guide-06-remote-sensing-terrain.html).
 
 Spectral indices with an automatic (Otsu) threshold, and spectral
 diversity in Hill numbers, on a Sentinel-2 scene of Luxembourg.
@@ -105,6 +174,12 @@ b <- geo_map(subtitle = "Spectral diversity (q = 1)", scale_bar = FALSE) |>
 geo_panels(a, b, ncol = 2, guides = "keep")
 ```
 
+**How to read it.** NDVI above about 0.6 is dense vegetation (forest,
+crops in leaf), near 0 bare soil and built-up areas, and below 0 water.
+Spectral diversity is high where different cover types meet within the
+5-cell window (field margins, villages, forest edges) and low inside
+uniform forest or fields.
+
 Fresh imagery comes from STAC catalogues; only the window over the area
 is downloaded:
 
@@ -119,6 +194,11 @@ geo_spectral_index(img, "NDVI")
 
 ## Landscape fragmentation
 
+**The concept.** The same amount of habitat can be one block or many
+fragments, with very different consequences for species that need
+interior habitat. Landscape metrics quantify area, number of patches,
+edge and aggregation. Full explanation: [Chapter 7](guide-07-patterns-landscapes.html).
+
 FRAGSTATS metrics per land-cover class; they match landscapemetrics on
 projected rasters and are measured in true hectares on rasters in degrees.
 
@@ -131,8 +211,32 @@ geo_landscape(lc) |> arrange(desc(ca)) |> head(6)
 geo_landscape(lc, "landscape")
 ```
 
+**How to read it.** For each National Land Cover class: `np` patches,
+`ca` total area (ha), `pland` share of the landscape (%), `lpi` the
+largest patch as % of the landscape, `area_mn` mean patch size (ha),
+`ed` edge density (m/ha), `ai` aggregation index (100 = one compact
+block) and `mesh` the effective mesh size (ha), the expected size of the
+patch a random point falls in. Evergreen forest (class 42) covers 37% of
+this landscape around Augusta, Georgia, and is the most aggregated class
+(`ai` 81). Developed open space (21) is split into 3,757 tiny patches
+(mean 0.4 ha, `ai` 36): highly fragmented. At landscape level, Shannon
+diversity of cover types (`shdi`) is 1.99.
+
 ## Species distribution models
+
+**The concept.** A species distribution model relates where a species
+was recorded to the environment there, and predicts habitat suitability
+everywhere. Because records cluster in space, models are evaluated by
+**spatial** cross-validation, holding out whole blocks, so the score
+measures prediction into new areas. Full explanation:
+[Chapter 5](guide-05-sdm.html).
 
 `sdm_maxent()` fits Maxent in C++ and `sdm_ensemble()` combines it with a
 GLM, a GAM and a random forest under spatial cross-validation. See the
 [sloth case study](case-sloth-sdm.html) for a complete example.
+
+## References
+
+Féret, J.-B. and Asner, G. P. (2014). Mapping tropical forest canopy
+diversity using high-fidelity imaging spectroscopy. *Ecological
+Applications*, 24, 1289-1296.
