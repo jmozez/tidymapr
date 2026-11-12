@@ -21,12 +21,13 @@ It needs no previous experience of R. If you already use R, skip to
 |---|---|---|
 | **R** (4.1 or newer) | The language that runs the analysis | <https://cran.r-project.org> |
 | **RStudio Desktop** | The program you type and run code in | <https://posit.co/download/rstudio-desktop/> |
-| **Build tools** | Compile tidymapr's fast C++ code | See the table below |
-| **tidymapr** | This package | From GitHub, below |
+| **tidymapr** | This package | From r-universe, below |
+| **Build tools** | Only to build tidymapr from source (option 2) | See the table below |
 
-tidymapr is installed from its source code on GitHub until it is on CRAN,
-so your computer has to compile its C++ code once. That needs the build
-tools for your operating system:
+The quickest way is a ready-built binary from r-universe (option 1 below):
+nothing to compile. To build the latest development version from source
+instead (option 2), your computer compiles tidymapr's C++ code once, which
+needs the build tools for your operating system:
 
 | Operating system | Install once | How to check it worked |
 |---|---|---|
@@ -42,14 +43,25 @@ need. On Linux, the `-dev` libraries above let sf and terra compile.
 ## Install tidymapr
 
 Open RStudio and type these lines in the **Console** pane (bottom left),
-pressing Enter after each:
+pressing Enter after each.
+
+**Option 1 (recommended): a ready-built binary from r-universe.** Works on
+Windows, macOS and Linux, with no compiler and no build tools:
+
+```r
+install.packages("tidymapr",
+  repos = c("https://jmozez.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+**Option 2: build the development version from GitHub source.** Needs the
+build tools above, and takes a few minutes to compile:
 
 ```r
 install.packages("pak")
 pak::pak("jmozez/tidymapr")
 ```
 
-pak installs tidymapr and every package it needs. Then add the optional
+Either way, tidymapr and every package it needs are installed. Then add the optional
 spatial packages; most of this guide uses them:
 
 ```r
@@ -169,7 +181,7 @@ geo_save(m, "figures/figure-1.pdf", width = 174, height = 120, units = "mm")
 
 | Message | Cause | Fix |
 |---|---|---|
-| `Could not find tools necessary to compile a package` | Build tools missing | Install Rtools (Windows) or `xcode-select --install` (macOS), restart RStudio |
+| `Could not find tools necessary to compile a package` | Building from source (option 2) without build tools | Use option 1 (r-universe binary), or install Rtools (Windows) or `xcode-select --install` (macOS) and restart RStudio |
 | `there is no package called 'sf'` (or terra) | Optional package not installed | `install.packages(c("sf", "terra"))` |
 | `configure: error: gdal-config not found` (Linux) | GDAL development library missing | `sudo apt install libgdal-dev libgeos-dev libproj-dev` |
 | `lazy-load database ... is corrupt` | Package updated while loaded | **Session → Restart R**, then `library(tidymapr)` |
