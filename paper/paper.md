@@ -43,10 +43,9 @@ arrow.](figure-sdm.png)
 
 # Statement of need
 
-Researchers in ecology, geography, public health and the earth sciences
-often need a finished map and a defensible spatial analysis from the
-same data. In R, the building blocks exist but are spread over many
-packages with different data structures and conventions: `sf` and
+Researchers often need a finished map and a defensible spatial
+analysis from the same data. In R, the building blocks are spread over
+packages with different conventions: `sf` and
 `terra` for data, `ggplot2` or `tmap` [@tmap] for maps, `spdep`
 [@spdep] for autocorrelation, `gstat` [@gstat] for kriging,
 `CoordinateCleaner` [@coordinatecleaner] for occurrence cleaning,
@@ -70,6 +69,7 @@ is often a domain scientist rather than a cartographer.
    `geo_hotspot()` [@getis1992], `geo_interpolate()` [@cressie1993],
    `geo_sdm()` with spatial block cross-validation [@roberts2017],
    `geo_mem()` [@dray2006], `geo_cluster()` [@ester1996],
+   `geo_mde()` and `geo_mde_3d()` [@colwell2000],
    `geo_clean()`, `geo_decay()` and `geo_raster_diversity()`
    [@feret2014].
 3. **A companion to `tidydiversity`** [@tidydiversity], which estimates
@@ -79,10 +79,36 @@ is often a domain scientist rather than a cartographer.
    workflow.
 
 Unlike `tmap`, `tidymapr` couples the map to the analysis and explains
-its design choices; unlike `biomod2`, it is not limited to distribution
-models; and unlike calling each specialist package directly, its
-functions share argument names, accept the same inputs and return
-objects that combine.
+its design; unlike `biomod2`, it is not limited to distribution models;
+and its functions share arguments and return objects that combine.
+
+# Geometric null models in two and three dimensions
+
+Ranges placed at random within a bounded region overlap most in its
+interior, so richness can peak there from geometry alone: the
+mid-domain effect [@colwell2000]. Existing tools work along one gradient
+[@colwell2008]. `geo_mde()` randomises the observed ranges within a
+domain of any shape on an equal-area grid, growing each range cell by
+cell [@jetz2001] so that it stays contiguous and follows the coastline;
+`geo_mde_3d()` extends this to the sea, where ranges also grow in depth
+and cannot pass the sea floor. On a one-cell-wide domain the C++ kernel
+reproduces rangemodelR, which the tests check.
+
+For 71 lemur species in Madagascar (GBIF), the island's shape explains
+45% of the variation in richness, but richness exceeds the null model
+along the eastern rainforest (Figure 2), a classic test case
+[@lees1999]. Around Papua New Guinea (OBIS records of 166 coral and
+1,414 fish species with depths, GEBCO bathymetry), geometry predicts
+the richest depths at 30-100 m, whereas both groups peak at 0-20 m
+(Figure 3), partly because most depth records come from divers.
+
+![Lemurs of Madagascar on a 25 km equal-area grid: (a) observed
+richness, (b) richness expected from the island's shape alone (199
+randomisations), (c) standardised effect size.](figure-mde-2d.png)
+
+![Richness per depth band of reef corals and fishes around Papua New
+Guinea against the three-dimensional null model and its 95%
+interval.](figure-mde-3d.png)
 
 # Correctness and performance
 
@@ -96,7 +122,7 @@ kriging equals `gstat::krige()`; occurrence flags equal
 `dbscan::dbscan()`; and landscape metrics equal `landscapemetrics`.
 Areas, distances and buffers of longitude-latitude data are geodesic
 and are checked against analytical values (for example, one degree of
-longitude at 60° N is 55.6 km). The test suite has more than 650
+longitude at 60° N is 55.6 km). The test suite has about 650
 expectations with 77% line coverage.
 
 The computationally demanding steps are written in C++ with OpenMP. On
