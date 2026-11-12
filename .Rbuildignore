@@ -28,3 +28,4 @@
 ^man/figures/gallery-.*\.png$
 ^\.vercelignore$
 ^\.github$
+^paper$
