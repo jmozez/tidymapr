@@ -104,6 +104,7 @@ reference:
       - geo_landcover
       - geo_srtm_tile_names
       - geo_shift_simulate
+      - geo-climate
       - geo_as_sf
       - geo_extract
       - geo-map-interop
