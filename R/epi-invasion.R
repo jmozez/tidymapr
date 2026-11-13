@@ -55,7 +55,7 @@
 #' @examplesIf rlang::is_installed("outbreaks")
 #' ebola <- outbreaks::ebola_sierraleone_2014
 #' g <- epi_growth_rate(ebola,
-#'   date = date_of_onset, cases = cases,
+#'   date = date_of_onset,
 #'   window = as.Date(c("2014-06-01", "2014-09-30")), unit = "week",
 #'   family = "negbin", generation_mean = 15.3 / 7, generation_sd = 9.3 / 7
 #' )

@@ -51,14 +51,17 @@ methods:
 of each cell from the point of introduction is regressed on the date
 of its first record. The slope is the spread rate. Using first records
 per cell reduces the effect of uneven sampling effort.
-\item \code{"front"}: for each year, the distance of the invasion front, the
-\code{front_quantile} (default 0.99) of the distances of all records up to
-that year from the point of introduction, regressed on year. Robust to
-records from behind the front, but sensitive to stray far records,
-hence the quantile.
+\item \code{"front"}: for each year with at least 5 records, the distance of the
+invasion front, taken as the \code{front_quantile} (default 0.99) of the
+distances of that year's records from the point of introduction,
+regressed on year. Records from behind the front do not matter, but
+records far ahead of it (hitchhikers, mislabelled localities) do:
+clean the data first (\code{\link[=geo_clean]{geo_clean()}}) and inspect the plot.
 \item \code{"area"}: the cumulative area of occupied cells is converted to the
 radius of a circle of the same area, \eqn{\sqrt{A/\pi}}, and regressed
-on time (Shigesada and Kawasaki 1997).
+on time (Shigesada and Kawasaki 1997). This assumes nearly every
+invaded cell has a record; with sparse sampling it underestimates
+the rate badly.
 }
 
 Distances are geodesic. The rate, its standard error and confidence
