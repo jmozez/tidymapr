@@ -50,6 +50,7 @@ CGIAR
 CHELSA
 CMD
 CMIP
+CMIP6
 CRS
 CSI
 CTFS
@@ -131,9 +132,12 @@ Fithian
 FlatGeobuf
 ForestGEO
 Fortin
+Frenne
 Féret
 GADM
 GBIF
+GCM
+GCMs
 GDAL
 GDAL's
 GDB
@@ -327,6 +331,7 @@ SQLite
 SRTM
 SSP
 SSP1
+SSP3
 SSP5
 STAC
 SWIR
@@ -367,6 +372,7 @@ Tw
 UNDP
 USGS
 Usseglio
+V2
 VIIRS
 VRT
 Valavi
