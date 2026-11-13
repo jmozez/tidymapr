@@ -106,6 +106,10 @@ reference:
       - geo_shift_simulate
       - geo-climate
       - geo-shift-ensemble
+      - geo_dispersal_kernel
+      - geo_epidemic_simulate
+      - geo_spread_rate
+      - epi_growth_rate
       - geo_as_sf
       - geo_extract
       - geo-map-interop

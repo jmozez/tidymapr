@@ -20,6 +20,14 @@
 * New `geo_epidemic_simulate()`: a stochastic, spatially explicit SIR
   model of disease spread among host populations, with the same kernels
   and resistance; its final size is checked against theory.
+* New `epi_growth_rate()`: epidemic growth rate, doubling time and
+  reproduction number (Wallinga and Lipsitch 2007) from case counts or a
+  line list, with a Poisson or negative binomial GLM; intervals and the
+  fitted incidence band come from the model on the link scale. Checked on
+  simulated epidemics and the 2014 Ebola epidemic in Sierra Leone.
+* New `geo_spread_rate()`: spread rate of an invasion from dated records,
+  by first records per cell, the invasion front or occupied area, with
+  confidence intervals and fitted bands from the regression.
 * `geo_shift_ensemble()` now measures the unlimited-dispersal range as
   all habitat at or above the starting suitability threshold, so it is
   comparable with the simulated (limited) range. Before, it summed the
