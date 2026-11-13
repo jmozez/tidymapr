@@ -1,4 +1,4 @@
-# tidymapr (development version)
+# tidymapr 0.3.0
 
 * New `geo_shift_simulate()` and `geo_shift_summary()`: stochastic
   colonisation-extinction simulation of range shifts with a negative
