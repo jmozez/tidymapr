@@ -116,6 +116,11 @@ plot_sites <- function(data,
   lab_q <- enquo(label)
   fac_q <- enquo(facet)
   col_nm <- if (quo_is_null(col_q)) NULL else tmr_pick(col_q, data, "colour")
+  # Points: a numeric colour variable becomes ordered classes, never a
+  # continuous colour bar
+  if (!is.null(col_nm) && is.numeric(data[[col_nm]])) {
+    data[[col_nm]] <- tmr_point_classes(data[[col_nm]])
+  }
   shp_nm <- if (quo_is_null(shp_q)) NULL else tmr_pick(shp_q, data, "shape")
   lab_nm <- if (quo_is_null(lab_q)) NULL else tmr_pick(lab_q, data, "label")
   fac_nm <- if (quo_is_null(fac_q)) NULL else tmr_pick(fac_q, data, "facet")
@@ -225,41 +230,27 @@ plot_sites <- function(data,
 
   if (!is.null(col_nm)) {
     col_v <- sites[[col_nm]]
-    if (is.numeric(col_v) && !is.factor(col_v)) {
-      if (use_fill) {
-        p <- p + ggplot2::scale_fill_viridis_c(
-          name = leg_title %||% col_nm, option = "C",
-          guide = ggplot2::guide_colourbar(order = 1)
-        )
-      } else {
-        p <- p + ggplot2::scale_colour_viridis_c(
-          name = leg_title %||% col_nm, option = "C",
-          guide = ggplot2::guide_colourbar(order = 1)
-        )
-      }
+    if (is.factor(col_v)) {
+      levs <- levels(col_v)
     } else {
-      if (is.factor(col_v)) {
-        levs <- levels(col_v)
-      } else {
-        levs <- as.character(vctrs::vec_unique(col_v))
-        # Prefer numeric elevation-band order when labels look like "200 m"
-        nums <- suppressWarnings(as.numeric(sub(" m$", "", levs)))
-        if (all(is.finite(nums))) {
-          levs <- levs[order(nums)]
-        }
+      levs <- as.character(vctrs::vec_unique(col_v))
+      # Prefer numeric elevation-band order when labels look like "200 m"
+      nums <- suppressWarnings(as.numeric(sub(" m$", "", levs)))
+      if (all(is.finite(nums))) {
+        levs <- levs[order(nums)]
       }
-      cols <- tmr_category_colours(palette, levs, function(n) tmr_palette(n, palette = palette))
-      if (use_fill) {
-        p <- p + ggplot2::scale_fill_manual(
-          name = leg_title %||% col_nm, values = cols, breaks = levs,
-          guide = ggplot2::guide_legend(order = 1)
-        )
-      } else {
-        p <- p + ggplot2::scale_colour_manual(
-          name = leg_title %||% col_nm, values = cols, breaks = levs,
-          guide = ggplot2::guide_legend(order = 1)
-        )
-      }
+    }
+    cols <- tmr_category_colours(palette, levs, function(n) tmr_palette(n, palette = palette))
+    if (use_fill) {
+      p <- p + ggplot2::scale_fill_manual(
+        name = leg_title %||% col_nm, values = cols, breaks = levs,
+        guide = ggplot2::guide_legend(order = 1)
+      )
+    } else {
+      p <- p + ggplot2::scale_colour_manual(
+        name = leg_title %||% col_nm, values = cols, breaks = levs,
+        guide = ggplot2::guide_legend(order = 1)
+      )
     }
   }
   if (!is.null(shp_nm)) {

@@ -15,8 +15,8 @@
 #' * `geo_shift_ensemble()` predicts suitability for the present and every
 #'   member with a niche model (such as [sdm_integrated()]), simulates
 #'   colonisation and extinction with [geo_shift_simulate()], and also
-#'   reports the unlimited-dispersal (suitability-only) range for
-#'   comparison.
+#'   reports the unlimited-dispersal range (all habitat with suitability
+#'   at or above the starting threshold) for comparison.
 #' * `summary()` gives, per scenario and dispersal assumption, the median
 #'   and range of the change in range area across members, and the
 #'   probability that the range shrinks by more than set thresholds.
@@ -102,6 +102,12 @@ geo_climate_scenarios <- function(area,
 #'   [geo_shift_simulate()]; `steps` is the number of dispersal generations
 #'   between the present and the future period.
 #' @param elevation Optional elevation `SpatRaster` for range edges.
+#' @param rescale Divide suitability by its maximum under the present
+#'   climate (of that lapse rate), so the best present habitat is 1? Niche
+#'   models give the probability of presence in a plot of some size, which
+#'   is rarely close to 1; the simulation treats suitability as the
+#'   per-generation persistence, so unscaled probabilities make most
+#'   populations die out. Default `TRUE`.
 #' @return `geo_shift_ensemble()`: an object of class `tmr_shift_ensemble`
 #'   with `results`, a tibble with one row per member and dispersal
 #'   assumption (`"limited"`, `"unlimited"`): `member`, `gcm`, `ssp`,
@@ -117,6 +123,7 @@ geo_shift_ensemble <- function(model,
                                nsim = 50,
                                seed = NULL,
                                elevation = NULL,
+                               rescale = TRUE,
                                ...) {
   rlang::check_installed("terra")
   pred <- if (is.function(model)) model else function(x) stats::predict(model, x)
@@ -137,11 +144,19 @@ geo_shift_ensemble <- function(model,
     current[[paste0("lapse_", design$lapse_rate[i])]]
   }
   seed <- seed %||% sample.int(.Machine$integer.max, 1)
+  thr <- if (is.numeric(initial) && length(initial) == 1) initial else 0.5
   rows <- list()
   occ <- list()
   for (i in seq_along(members)) {
     s_now <- pred(pick_current(i))
     s_fut <- pred(members[[i]])
+    if (rescale) {
+      top <- terra::global(s_now, "max", na.rm = TRUE)[[1]]
+      if (is.finite(top) && top > 0) {
+        s_now <- s_now / top
+        s_fut <- terra::clamp(s_fut / top, upper = 1, values = TRUE)
+      }
+    }
     suit <- c(s_now, s_fut)
     names(suit) <- c("now", "future")
     sim <- geo_shift_simulate(suit,
@@ -149,7 +164,8 @@ geo_shift_ensemble <- function(model,
       steps_per_layer = steps, nsim = nsim, seed = seed + i, ...
     )
     lim <- geo_shift_summary(sim, elevation)
-    unl <- geo_shift_summary(suit, elevation)
+    # Unlimited dispersal: all habitat above the starting threshold is occupied
+    unl <- geo_shift_summary(suit >= thr, elevation)
     for (k in c("limited", "unlimited")) {
       s <- if (k == "limited") lim else unl
       row <- tibble::tibble(

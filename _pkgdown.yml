@@ -49,6 +49,9 @@ repo:
     structure: [links, license, community, citation, authors, dev]
 
 reference:
+  - title: tidyvisor (advice and interpretation)
+    contents:
+      - tidyvisor
   - title: Maps and cartography
     desc: Automatic, explained maps, thematic maps, projections, graticules, basemaps and GeoSpaX-style map furniture.
     contents:
@@ -106,6 +109,10 @@ reference:
       - geo_shift_simulate
       - geo-climate
       - geo-shift-ensemble
+      - geo_dispersal_kernel
+      - geo_epidemic_simulate
+      - geo_spread_rate
+      - epi_growth_rate
       - geo_as_sf
       - geo_extract
       - geo-map-interop
@@ -192,6 +199,8 @@ navbar:
           href: articles/guide-09-decay-mem.html
         - text: 10. Mid-domain effect on maps and in the sea
           href: articles/guide-10-mid-domain.html
+        - text: 11. Range shifts under climate change
+          href: articles/guide-11-range-shifts.html
         - text: -------
         - text: "Reference: all spatial methods"
           href: articles/geospatial.html

@@ -24,6 +24,8 @@ sdm_integrated(
   newdata,
   type = c("probability", "intensity", "link"),
   site_area = 1,
+  se_fit = FALSE,
+  level = 0.95,
   ...
 )
 }
@@ -68,6 +70,13 @@ are ignored (prediction is for unbiased sampling).}
 
 \item{site_area}{Area for \code{type = "probability"}; default 1 (one survey
 site).}
+
+\item{se_fit}{For a data frame \code{newdata}, also return the standard error
+of the linear predictor (\code{se_link}, by the delta method from the
+covariance of the fitted parameters) and a confidence interval formed
+on the link scale and back-transformed to \code{type} (\code{lower}, \code{upper}).}
+
+\item{level}{Confidence level of the interval.}
 
 \item{...}{Unused.}
 }

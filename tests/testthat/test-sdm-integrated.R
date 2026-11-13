@@ -84,3 +84,33 @@ test_that("prediction works on rasters and inputs are checked", {
     "unimodal"
   )
 })
+
+test_that("survey-only fits and intervals match a cloglog GLM", {
+  set.seed(1)
+  x <- runif(400, -2, 2)
+  sv <- data.frame(x = x, present = rbinom(400, 1, 1 - exp(-exp(-0.5 + x - 0.5 * x^2))))
+  f <- sdm_integrated(data.frame(x = numeric(0)), data.frame(x = x), 400,
+    survey = sv, covariates = "x", lambda = 0
+  )
+  g <- stats::glm(present ~ x + I(x^2), stats::binomial("cloglog"), sv)
+  nd <- data.frame(x = c(-1.5, 0, 1.5))
+  p <- predict(f, nd, se_fit = TRUE)
+  q <- stats::predict(g, nd, se.fit = TRUE)
+  expect_equal(p$fit, unname(1 - exp(-exp(q$fit))), tolerance = 1e-5)
+  expect_equal(p$se_link, unname(q$se.fit), tolerance = 0.02)
+  expect_true(all(p$lower < p$fit & p$fit < p$upper & p$lower > 0 & p$upper < 1))
+})
+
+test_that("presence-only slopes match a DWPR Poisson GLM", {
+  set.seed(2)
+  n <- 5000
+  x <- runif(n, -3, 3)
+  cnt <- rpois(n, exp(-1 + 0.8 * x - 0.6 * x^2) * 0.1)
+  pres <- data.frame(x = rep(x, cnt))
+  f <- sdm_integrated(pres, data.frame(x = x), area = n, covariates = "x", lambda = 0)
+  z <- (c(pres$x, x) - f$spec$centre[["x"]]) / f$spec$scale[["x"]]
+  w <- c(rep(1e-6, nrow(pres)), rep(1, n))
+  y <- c(rep(1, nrow(pres)), rep(0, n)) / w
+  g <- suppressWarnings(stats::glm(y ~ z + I(z^2), family = stats::poisson, weights = w))
+  expect_equal(unname(f$coef[c("x", "x^2")]), unname(stats::coef(g)[2:3]), tolerance = 1e-4)
+})

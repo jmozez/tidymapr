@@ -1,5 +1,63 @@
 # tidymapr 0.3.0
 
+* New **tidyvisor**, the package's adviser. `tidyvisor()` given records and a
+  question (species distribution, spread, epidemic, range shift, spatial
+  autocorrelation) checks the data and recommends the analysis, the plots
+  and the code (`tmr_advise()`); given a result (growth rate, spread rate,
+  epidemic or range-shift simulation, species distribution model, Moran's I)
+  it explains the numbers and the figure in plain sentences
+  (`tmr_interpret()`).
+
+* `plot_sites()`, `plot_topo()` and `plot_geo()` no longer colour points on
+  a continuous colour bar: numeric values are shown as ordered classes
+  with legend keys. In `plot_geo()` a numeric value is drawn as
+  proportional symbols (area scaled to the value) by default.
+* `geo_shift_simulate()` now normalises the dispersal kernel to sum to 1
+  over the neighbourhood. Before, propagule pressure grew with the number
+  of cells within dispersal distance, so on fine grids almost any empty
+  cell next to the range was colonised, whatever its suitability, and
+  results depended on the cell size.
+* `geo_shift_simulate()`: `dispersal_mean` is now the true mean
+  dispersal distance in two dimensions. The exponential kernel used
+  `exp(-d / mean)`, whose mean distance is twice `mean`; it now uses
+  `exp(-2 d / mean)`. Simulated spread for a given `dispersal_mean` is
+  therefore slower than before.
+* `geo_shift_simulate()` gains a fat-tailed 2Dt kernel (`kernel = "2Dt"`,
+  `kernel_shape`), movement `resistance` (barriers and corridors),
+  human-assisted long-distance jumps (`jump_rate`, `jump_weights`) and
+  `disturbance` (clearing, fire or eradication), for invasive species and
+  land-use change as well as climate.
+* New `geo_dispersal_kernel()`: the realised mean distance and
+  long-distance tail of a kernel on a grid.
+* New `geo_epidemic_simulate()`: a stochastic, spatially explicit SIR
+  model of disease spread among host populations, with the same kernels
+  and resistance; its final size is checked against theory.
+* New `epi_growth_rate()`: epidemic growth rate, doubling time and
+  reproduction number (Wallinga and Lipsitch 2007) from case counts or a
+  line list, with a Poisson or negative binomial GLM; intervals and the
+  fitted incidence band come from the model on the link scale. Checked on
+  simulated epidemics and the 2014 Ebola epidemic in Sierra Leone.
+* New `geo_spread_rate()`: spread rate of an invasion from dated records,
+  by first records per cell, the invasion front or occupied area, with
+  confidence intervals and fitted bands from the regression.
+* `geo_shift_ensemble()` now measures the unlimited-dispersal range as
+  all habitat at or above the starting suitability threshold, so it is
+  comparable with the simulated (limited) range. Before, it summed the
+  suitability values themselves.
+* `geo_shift_ensemble()` gains `rescale` (default `TRUE`), which divides
+  suitability by its present maximum before the simulation, so that
+  probabilities of presence from a niche model are not taken as
+  per-generation survival.
+* `predict()` for `sdm_integrated()` gains `se_fit` and `level`: the
+  standard error of the linear predictor (delta method from the fitted
+  covariance) and a confidence interval formed on the link scale and
+  back-transformed, so it stays within the bounds of the response.
+  Checked against `glm()` with a cloglog link.
+* `sdm_integrated()` now fits survey data without presence-only records
+  (it used to fail), and gives the same fit as a cloglog `glm()`.
+* New user guide chapter, "Range shifts under climate change", and a case
+  study hindcasting the upslope shifts of New Guinea birds.
+
 * New `geo_shift_simulate()` and `geo_shift_summary()`: stochastic
   colonisation-extinction simulation of range shifts with a negative
   exponential dispersal kernel, written in C++ and run in parallel, over a

@@ -1,5 +1,6 @@
 1e
 2A
+2Dt
 3's
 AR
 AR6
@@ -7,6 +8,7 @@ AWS
 Actinopterygii
 Albers
 Alekseyenko
+Amblyornis
 Andasibe
 Andriamampianina
 Annales
@@ -31,6 +33,7 @@ Basemap
 Basemaps
 Basien
 Bello
+Bertin
 Beven
 Binatang
 Bioclim
@@ -48,6 +51,7 @@ CANOCO
 CC0
 CGIAR
 CHELSA
+CHELSAcruts
 CMD
 CMIP
 CMIP6
@@ -69,6 +73,7 @@ Catalog
 Chaetodipus
 Chao
 Chihuahuan
+Chimbu
 Cmd
 Codeberg
 Color
@@ -98,6 +103,7 @@ DeZonia
 Dipodomys
 Donoso
 Drapeau
+Dt
 Dudik
 Dufour
 Dufrene
@@ -110,6 +116,8 @@ EPSG
 ERA5
 ERDAS
 ERTS
+ESM
+ESM1
 Ecography
 Egregium
 Elith
@@ -151,12 +159,14 @@ GNDVI
 GPX
 GRIB
 GVF
+Gauthier
 GeoJSON
 GeoPackage
 GeoSpaX
 GeoSpaX's
 GeoTIFF
 GeoTIFFs
+Geovisualization
 Getis
 Gi
 Gillet
@@ -170,6 +180,7 @@ HDF
 HDF4
 HDF5
 HOM
+HR
 HS
 Hamidi
 Hanski
@@ -178,6 +189,7 @@ Hau
 Helfer
 Hesselbarth
 Hijmans
+HilleRisLambers
 Hirzel
 Hsieh
 Hubbell
@@ -197,6 +209,7 @@ KDD
 KML
 KMZ
 Karger
+Karimui
 Kimbe
 Kirkby
 Kleyer
@@ -221,6 +234,7 @@ Lifecycle
 Limnologie
 LinkingTo
 Linnean
+Lipsitch
 Longino
 Luk
 MAUP
@@ -231,6 +245,7 @@ MEM5
 MEMs
 MNDWI
 MODIS
+MacEachren
 Madang
 MapInfo
 Massin
@@ -239,6 +254,7 @@ Maxent
 McFeeters
 McGarigal
 McGlinn
+McMaster
 Metapopulation
 Meuse
 Michalski
@@ -320,9 +336,11 @@ Rhône
 Rijn
 Rikken
 Rimandai
+Rohani
 Roxygen
 RoxygenNote
 Rtools
+S2
 SDM
 SDMs
 SES
@@ -341,7 +359,10 @@ SWIR
 Sauer
 Schapire
 Scleractinia
+Semiologie
 Semivariance
+Shigesada
+Silman
 Smilauer
 Sokal
 SpadeR
@@ -372,6 +393,8 @@ Trichoptera
 Tripel
 Trophic
 Tw
+UKESM
+UKESM1
 UNDP
 USGS
 Usseglio
@@ -382,11 +405,13 @@ Valavi
 Valone
 Variograms
 VignetteBuilder
+Villars
 Villeger
 Vojtěch
 WGS
 WGS84
 WKT
+Wallinga
 Wanang
 Weecology
 Wei
@@ -442,6 +467,7 @@ chelsa
 choropleth
 choropleths
 chull
+chytridiomycosis
 classInt
 classInt's
 cli
@@ -460,6 +486,7 @@ dbscan
 dem
 des
 dewpoint
+discretisation
 dismo
 div
 doi
@@ -507,6 +534,7 @@ glm
 glmmTMB
 glmnet
 grDevices
+graphique
 graticules
 gray
 gstat
@@ -519,6 +547,9 @@ hexbins
 hillR
 hillshade
 hillslopes
+hindcast
+hindcasting
+hitchhikers
 ht
 htmltools
 httr
@@ -552,6 +583,7 @@ ln
 lon
 lpi
 lumineux
+macgregoriae
 maptiles
 mathrm
 maxSSS
@@ -578,8 +610,10 @@ netCDF
 nonlinear
 np
 org
+overdispersed
 overfitted
 pak
+parameterised
 penicillatus
 persp
 pg
@@ -654,6 +688,7 @@ tidymodels
 tidyr
 tidyselect
 tidyverse
+tidyvisor
 tmap
 topo
 triplot
@@ -678,8 +713,3 @@ zenodo
 zoogenic
 Šavrič
 ε
-CHELSAcruts
-Chimbu
-hindcast
-Karimui
-S2

@@ -72,6 +72,11 @@ plot_topo <- function(data,
   col_q <- enquo(colour)
   size_q <- enquo(size)
   col_nm <- if (quo_is_null(col_q)) NULL else tmr_pick(col_q, data, "colour")
+  # Points: a numeric colour variable becomes ordered classes, never a
+  # continuous colour bar
+  if (!is.null(col_nm) && is.numeric(data[[col_nm]])) {
+    data[[col_nm]] <- tmr_point_classes(data[[col_nm]])
+  }
   if (!is.null(col_nm) && (identical(col_nm, "species") ||
                              any(grepl("[_.]", as.character(data[[col_nm]]))))) {
     data[[col_nm]] <- geo_pretty_species(data[[col_nm]])
@@ -331,17 +336,13 @@ plot_topo_scales <- function(p, data, col_nm, size_nm, palette, aes = "colour") 
   if (!is.null(col_nm)) {
     col_v <- data[[col_nm]]
     pretty_nm <- geo_pretty_label(col_nm)
-    if (is.numeric(col_v) && !is.factor(col_v)) {
-      p <- p + ggplot2::scale_colour_viridis_c(name = pretty_nm, option = "C")
-    } else {
-      levs <- if (is.factor(col_v)) levels(col_v) else as.character(
-        vctrs::vec_unique(col_v)
-      )
-      cols <- tmr_category_colours(palette, levs, function(n) tmr_palette(n, palette = palette))
-      p <- p + ggplot2::scale_colour_manual(
-        name = pretty_nm, values = cols, breaks = levs, labels = levs
-      )
-    }
+    levs <- if (is.factor(col_v)) levels(col_v) else as.character(
+      vctrs::vec_unique(col_v)
+    )
+    cols <- tmr_category_colours(palette, levs, function(n) tmr_palette(n, palette = palette))
+    p <- p + ggplot2::scale_colour_manual(
+      name = pretty_nm, values = cols, breaks = levs, labels = levs
+    )
   }
   if (!is.null(size_nm)) {
     p <- p + ggplot2::scale_size_area(

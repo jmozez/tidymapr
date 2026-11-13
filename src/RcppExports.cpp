@@ -256,9 +256,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// kernel_info_cpp
+List kernel_info_cpp(int nrow, NumericVector cell_w, double cell_h, int type, double mean, double shape, double kmax);
+RcppExport SEXP _tidymapr_kernel_info_cpp(SEXP nrowSEXP, SEXP cell_wSEXP, SEXP cell_hSEXP, SEXP typeSEXP, SEXP meanSEXP, SEXP shapeSEXP, SEXP kmaxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type cell_w(cell_wSEXP);
+    Rcpp::traits::input_parameter< double >::type cell_h(cell_hSEXP);
+    Rcpp::traits::input_parameter< int >::type type(typeSEXP);
+    Rcpp::traits::input_parameter< double >::type mean(meanSEXP);
+    Rcpp::traits::input_parameter< double >::type shape(shapeSEXP);
+    Rcpp::traits::input_parameter< double >::type kmax(kmaxSEXP);
+    rcpp_result_gen = Rcpp::wrap(kernel_info_cpp(nrow, cell_w, cell_h, type, mean, shape, kmax));
+    return rcpp_result_gen;
+END_RCPP
+}
 // shift_simulate_cpp
-NumericMatrix shift_simulate_cpp(NumericMatrix suit, IntegerVector init, int nrow, int ncol, NumericVector cell_w, double cell_h, double kmean, double kmax, double colon, double persist, int sub_steps, int nsim, double seed, int threads);
-RcppExport SEXP _tidymapr_shift_simulate_cpp(SEXP suitSEXP, SEXP initSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP cell_wSEXP, SEXP cell_hSEXP, SEXP kmeanSEXP, SEXP kmaxSEXP, SEXP colonSEXP, SEXP persistSEXP, SEXP sub_stepsSEXP, SEXP nsimSEXP, SEXP seedSEXP, SEXP threadsSEXP) {
+NumericMatrix shift_simulate_cpp(NumericMatrix suit, IntegerVector init, int nrow, int ncol, NumericVector cell_w, double cell_h, int ktype, double kmean, double kshape, double kmax, double colon, double persist, int sub_steps, int nsim, double seed, int threads, NumericVector resistance, NumericMatrix disturb, double jump_rate, NumericVector jump_w);
+RcppExport SEXP _tidymapr_shift_simulate_cpp(SEXP suitSEXP, SEXP initSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP cell_wSEXP, SEXP cell_hSEXP, SEXP ktypeSEXP, SEXP kmeanSEXP, SEXP kshapeSEXP, SEXP kmaxSEXP, SEXP colonSEXP, SEXP persistSEXP, SEXP sub_stepsSEXP, SEXP nsimSEXP, SEXP seedSEXP, SEXP threadsSEXP, SEXP resistanceSEXP, SEXP disturbSEXP, SEXP jump_rateSEXP, SEXP jump_wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -268,7 +285,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type cell_w(cell_wSEXP);
     Rcpp::traits::input_parameter< double >::type cell_h(cell_hSEXP);
+    Rcpp::traits::input_parameter< int >::type ktype(ktypeSEXP);
     Rcpp::traits::input_parameter< double >::type kmean(kmeanSEXP);
+    Rcpp::traits::input_parameter< double >::type kshape(kshapeSEXP);
     Rcpp::traits::input_parameter< double >::type kmax(kmaxSEXP);
     Rcpp::traits::input_parameter< double >::type colon(colonSEXP);
     Rcpp::traits::input_parameter< double >::type persist(persistSEXP);
@@ -276,7 +295,40 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type nsim(nsimSEXP);
     Rcpp::traits::input_parameter< double >::type seed(seedSEXP);
     Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(shift_simulate_cpp(suit, init, nrow, ncol, cell_w, cell_h, kmean, kmax, colon, persist, sub_steps, nsim, seed, threads));
+    Rcpp::traits::input_parameter< NumericVector >::type resistance(resistanceSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type disturb(disturbSEXP);
+    Rcpp::traits::input_parameter< double >::type jump_rate(jump_rateSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type jump_w(jump_wSEXP);
+    rcpp_result_gen = Rcpp::wrap(shift_simulate_cpp(suit, init, nrow, ncol, cell_w, cell_h, ktype, kmean, kshape, kmax, colon, persist, sub_steps, nsim, seed, threads, resistance, disturb, jump_rate, jump_w));
+    return rcpp_result_gen;
+END_RCPP
+}
+// epidemic_simulate_cpp
+List epidemic_simulate_cpp(IntegerVector hosts, IntegerVector init_inf, int nrow, int ncol, NumericVector cell_w, double cell_h, int ktype, double kmean, double kshape, double kmax, double beta, double gamma, double omega, double coupling, IntegerVector times, int nsim, double seed, int threads, NumericVector resistance);
+RcppExport SEXP _tidymapr_epidemic_simulate_cpp(SEXP hostsSEXP, SEXP init_infSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP cell_wSEXP, SEXP cell_hSEXP, SEXP ktypeSEXP, SEXP kmeanSEXP, SEXP kshapeSEXP, SEXP kmaxSEXP, SEXP betaSEXP, SEXP gammaSEXP, SEXP omegaSEXP, SEXP couplingSEXP, SEXP timesSEXP, SEXP nsimSEXP, SEXP seedSEXP, SEXP threadsSEXP, SEXP resistanceSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type hosts(hostsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type init_inf(init_infSEXP);
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type cell_w(cell_wSEXP);
+    Rcpp::traits::input_parameter< double >::type cell_h(cell_hSEXP);
+    Rcpp::traits::input_parameter< int >::type ktype(ktypeSEXP);
+    Rcpp::traits::input_parameter< double >::type kmean(kmeanSEXP);
+    Rcpp::traits::input_parameter< double >::type kshape(kshapeSEXP);
+    Rcpp::traits::input_parameter< double >::type kmax(kmaxSEXP);
+    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma(gammaSEXP);
+    Rcpp::traits::input_parameter< double >::type omega(omegaSEXP);
+    Rcpp::traits::input_parameter< double >::type coupling(couplingSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type times(timesSEXP);
+    Rcpp::traits::input_parameter< int >::type nsim(nsimSEXP);
+    Rcpp::traits::input_parameter< double >::type seed(seedSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type resistance(resistanceSEXP);
+    rcpp_result_gen = Rcpp::wrap(epidemic_simulate_cpp(hosts, init_inf, nrow, ncol, cell_w, cell_h, ktype, kmean, kshape, kmax, beta, gamma, omega, coupling, times, nsim, seed, threads, resistance));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -457,7 +509,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_sdm_lasso_logit_cpp", (DL_FUNC) &_tidymapr_sdm_lasso_logit_cpp, 9},
     {"_tidymapr_sdm_rf_fit_cpp", (DL_FUNC) &_tidymapr_sdm_rf_fit_cpp, 9},
     {"_tidymapr_sdm_rf_predict_cpp", (DL_FUNC) &_tidymapr_sdm_rf_predict_cpp, 3},
-    {"_tidymapr_shift_simulate_cpp", (DL_FUNC) &_tidymapr_shift_simulate_cpp, 14},
+    {"_tidymapr_kernel_info_cpp", (DL_FUNC) &_tidymapr_kernel_info_cpp, 7},
+    {"_tidymapr_shift_simulate_cpp", (DL_FUNC) &_tidymapr_shift_simulate_cpp, 20},
+    {"_tidymapr_epidemic_simulate_cpp", (DL_FUNC) &_tidymapr_epidemic_simulate_cpp, 19},
     {"_tidymapr_geo_jenks_cpp", (DL_FUNC) &_tidymapr_geo_jenks_cpp, 2},
     {"_tidymapr_geo_idw_cpp", (DL_FUNC) &_tidymapr_geo_idw_cpp, 9},
     {"_tidymapr_geo_krige_cpp", (DL_FUNC) &_tidymapr_geo_krige_cpp, 13},

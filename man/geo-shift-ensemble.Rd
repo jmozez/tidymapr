@@ -28,6 +28,7 @@ geo_shift_ensemble(
   nsim = 50,
   seed = NULL,
   elevation = NULL,
+  rescale = TRUE,
   ...
 )
 
@@ -68,6 +69,13 @@ between the present and the future period.}
 
 \item{elevation}{Optional elevation \code{SpatRaster} for range edges.}
 
+\item{rescale}{Divide suitability by its maximum under the present
+climate (of that lapse rate), so the best present habitat is 1? Niche
+models give the probability of presence in a plot of some size, which
+is rarely close to 1; the simulation treats suitability as the
+per-generation persistence, so unscaled probabilities make most
+populations die out. Default \code{TRUE}.}
+
 \item{object}{A \code{geo_shift_ensemble()} result.}
 
 \item{loss}{Range-loss thresholds (\%) for the probabilities.}
@@ -104,8 +112,8 @@ observed baseline.
 \item \code{geo_shift_ensemble()} predicts suitability for the present and every
 member with a niche model (such as \code{\link[=sdm_integrated]{sdm_integrated()}}), simulates
 colonisation and extinction with \code{\link[=geo_shift_simulate]{geo_shift_simulate()}}, and also
-reports the unlimited-dispersal (suitability-only) range for
-comparison.
+reports the unlimited-dispersal range (all habitat with suitability
+at or above the starting threshold) for comparison.
 \item \code{summary()} gives, per scenario and dispersal assumption, the median
 and range of the change in range area across members, and the
 probability that the range shrinks by more than set thresholds.

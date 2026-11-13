@@ -62,7 +62,12 @@ test_that("colonisation probability follows the kernel formula", {
     dispersal_mean = 500, max_distance = 5000,
     colonisation = 2, nsim = 20000, seed = 1
   )
-  expected <- 1 - exp(-2 * 0.6 * exp(-1000 / 500))
+  # Normalised exponential kernel: scale = mean / 2, summed over all
+  # 1000-m cells within 5000 m
+  g <- expand.grid(dr = -5:5, dc = -5:5)
+  d <- 1000 * sqrt(g$dr^2 + g$dc^2)
+  d <- d[d > 0 & d <= 5000]
+  expected <- 1 - exp(-2 * 0.6 * exp(-1000 / 250) / sum(exp(-d / 250)))
   expect_equal(unname(terra::values(o)[2, 1]), expected, tolerance = 0.02)
 })
 

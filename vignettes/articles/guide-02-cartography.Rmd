@@ -149,7 +149,34 @@ for 30 or more features, fewer for small samples. It never uses a
 continuous colour ramp for polygons, because readers cannot judge
 exact values from a continuous ramp.
 
-## 3. Colour schemes
+## 3. Which symbol for which data
+
+Every map layer is points, lines, areas or a continuous surface, and the
+right visual variable depends on whether the data are categories,
+ordered classes or quantities (Bertin 1967; MacEachren 1994; Slocum et
+al. 2009):
+
+| Geometry | Categories (nominal) | Ordered classes | Quantities |
+|---|---|---|---|
+| Points (sites, records) | hue, symbol shape | classed lightness, or size | **size** (proportional symbols, area scaled to the value) |
+| Lines (rivers, roads, transects) | hue, line type | classed lightness, width | **width** |
+| Areas (polygons) | hue, pattern | classed choropleth | classed choropleth of a **rate or density** (never a raw count: use proportional symbols for counts) |
+| Continuous surfaces (rasters: elevation, temperature, suitability) | classed hue | classed sequential ramp | **continuous sequential or diverging ramp** with a colour bar |
+
+Hue and shape carry no order, so they are for categories only. A
+continuous colour bar belongs to a continuous surface, not to discrete
+points. tidymapr follows these rules: `map_points()`, `plot_sites()`
+and `plot_topo()` show a numeric colour variable as ordered classes with
+legend keys, `plot_geo()` shows a numeric value at points as
+proportional symbols, choropleths are classed (section 2), and rasters
+use a continuous perceptually uniform ramp.
+
+Whether a variable is a category or a quantity depends on the question.
+Elevation is a quantity on a terrain raster, but a category when sites
+are a few elevation bands; species are categories (hue or shape) when
+their records are mapped together.
+
+## 4. Colour schemes
 
 | Scheme | Shape | Use for | tidymapr palettes |
 |---|---|---|---|
@@ -164,7 +191,7 @@ are). `geo_automap()` picks the ramp from the field's meaning: blues for
 water, greens for vegetation, viridis for elevation, and a diverging ramp
 for data that cross zero.
 
-## 4. Map elements
+## 5. Map elements
 
 | Element | When it belongs | When to leave it out |
 |---|---|---|
@@ -177,7 +204,7 @@ for data that cross zero.
 tidymapr places the scale bar and north arrow in the emptiest corners, and
 drops them on world maps.
 
-## 5. Let tidymapr choose, and explain
+## 6. Let tidymapr choose, and explain
 
 ```{r automap, fig.alt = "Automatic world map of life expectancy in Equal Earth with natural-breaks classes"}
 m <- geo_automap(world, lifeExp, legend_title = "Life expectancy (years)")
@@ -198,6 +225,16 @@ section. For example:
 > and a sequential yellow-orange-red palette.
 
 ## References
+
+Bertin, J. (1967). *Semiologie graphique*. Gauthier-Villars, Paris.
+English translation (1983): *Semiology of Graphics*. University of
+Wisconsin Press.
+
+MacEachren, A. M. (1994). *Some Truth with Maps: A Primer on
+Symbolization and Design*. Association of American Geographers.
+
+Slocum, T. A., McMaster, R. B., Kessler, F. C. and Howard, H. H. (2009).
+*Thematic Cartography and Geovisualization*, 3rd edition. Pearson.
 
 Fisher, W. D. (1958). On grouping for maximum homogeneity. *Journal of the
 American Statistical Association*, 53, 789-798.
