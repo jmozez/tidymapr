@@ -55,6 +55,9 @@
   Checked against `glm()` with a cloglog link.
 * `sdm_integrated()` now fits survey data without presence-only records
   (it used to fail), and gives the same fit as a cloglog `glm()`.
+* New user guide chapter, "Invasions and epidemics": epidemic growth and R
+  (Ebola, Sierra Leone 2014), the spread of the cane toad front, dispersal
+  kernels, resistance and spatial epidemics on Mt Karimui.
 * New user guide chapter, "Range shifts under climate change", and a case
   study hindcasting the upslope shifts of New Guinea birds.
 
