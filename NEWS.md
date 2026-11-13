@@ -6,6 +6,13 @@
   time series of habitat suitability. It shows dispersal lags, extinction
   debt and lost ranges that niche models alone miss. This is the first stage
   of a hybrid range-shift model.
+* New `geo_chelsa_area()` and `geo_chelsa_urls()`: CHELSA V2.1 baseline and
+  CHELSA-CMIP6 projections (five GCMs, three SSPs, three periods) read only
+  over the area needed, as an ensemble.
+* New `geo_downscale_lapse()`: lapse-rate downscaling of coarse temperature
+  to the resolution of a fine DEM.
+* New `geo_canopy_offset()`: forest-canopy buffering of temperature, scaled
+  by canopy cover.
 
 # tidymapr 0.2.0
 
