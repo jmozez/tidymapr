@@ -103,6 +103,7 @@ DeZonia
 Dipodomys
 Donoso
 Drapeau
+Dt
 Dudik
 Dufour
 Dufrene
@@ -115,6 +116,7 @@ EPSG
 ERA5
 ERDAS
 ERTS
+ESM
 ESM1
 Ecography
 Egregium
@@ -252,6 +254,7 @@ Maxent
 McFeeters
 McGarigal
 McGlinn
+McMaster
 Metapopulation
 Meuse
 Michalski
@@ -390,6 +393,7 @@ Trichoptera
 Tripel
 Trophic
 Tw
+UKESM
 UKESM1
 UNDP
 USGS
@@ -482,6 +486,7 @@ dbscan
 dem
 des
 dewpoint
+discretisation
 dismo
 div
 doi
@@ -544,6 +549,7 @@ hillshade
 hillslopes
 hindcast
 hindcasting
+hitchhikers
 ht
 htmltools
 httr
