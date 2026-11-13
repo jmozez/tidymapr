@@ -69,6 +69,10 @@ sdm_rf_predict_cpp <- function(forest, x, threads = 1L) {
     .Call(`_tidymapr_sdm_rf_predict_cpp`, forest, x, threads)
 }
 
+shift_simulate_cpp <- function(suit, init, nrow, ncol, cell_w, cell_h, kmean, kmax, colon, persist, sub_steps, nsim, seed, threads) {
+    .Call(`_tidymapr_shift_simulate_cpp`, suit, init, nrow, ncol, cell_w, cell_h, kmean, kmax, colon, persist, sub_steps, nsim, seed, threads)
+}
+
 geo_jenks_cpp <- function(x, k) {
     .Call(`_tidymapr_geo_jenks_cpp`, x, k)
 }

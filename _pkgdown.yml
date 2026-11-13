@@ -103,6 +103,7 @@ reference:
       - geo-hypsometry
       - geo_landcover
       - geo_srtm_tile_names
+      - geo_shift_simulate
       - geo_as_sf
       - geo_extract
       - geo-map-interop
