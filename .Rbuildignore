@@ -29,3 +29,4 @@
 ^\.vercelignore$
 ^\.github$
 ^paper$
+^\.zenodo\.json$
