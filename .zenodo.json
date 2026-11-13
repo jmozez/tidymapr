@@ -1,0 +1,21 @@
+{
+  "title": "tidymapr: Tidy Mapping, Spatial Analysis and Publication Cartography",
+  "upload_type": "software",
+  "description": "<p>tidymapr is an R package for publication-quality maps and spatial analysis in a tidy, pipe-friendly style. It provides automatic, explained map design (projection, classification, colour ramps, legends, scale bars and north arrows); reading and writing of GIS, CAD and remote-sensing formats through GDAL; fast C++ spatial statistics (kriging with measurement error, local Moran's I, Getis-Ord hotspots); terrain hydrology and spectral indices; land area by elevation (hypsometry) and climate-driven elevational range shifts; and coverage-standardised diversity surfaces with the companion package tidydiversity.</p>",
+  "creators": [
+    {
+      "name": "Moses, Jimmy",
+      "affiliation": "PNG University of Technology",
+      "orcid": "0000-0003-3342-2384"
+    }
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "keywords": ["R", "cartography", "GIS", "spatial analysis", "biodiversity", "ecology", "elevational gradients", "Papua New Guinea"],
+  "related_identifiers": [
+    {"identifier": "https://github.com/jmozez/tidymapr", "relation": "isSupplementTo", "scheme": "url"},
+    {"identifier": "https://tidymapr.in4metrix.dev", "relation": "isDocumentedBy", "scheme": "url"}
+  ],
+  "language": "eng",
+  "version": "0.2.0"
+}
