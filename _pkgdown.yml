@@ -49,6 +49,9 @@ repo:
     structure: [links, license, community, citation, authors, dev]
 
 reference:
+  - title: tidyvisor (advice and interpretation)
+    contents:
+      - tidyvisor
   - title: Maps and cartography
     desc: Automatic, explained maps, thematic maps, projections, graticules, basemaps and GeoSpaX-style map furniture.
     contents:

@@ -1,5 +1,13 @@
 # tidymapr 0.3.0
 
+* New **tidyvisor**, the package's adviser. `tidyvisor()` given records and a
+  question (species distribution, spread, epidemic, range shift, spatial
+  autocorrelation) checks the data and recommends the analysis, the plots
+  and the code (`tmr_advise()`); given a result (growth rate, spread rate,
+  epidemic or range-shift simulation, species distribution model, Moran's I)
+  it explains the numbers and the figure in plain sentences
+  (`tmr_interpret()`).
+
 * `plot_sites()`, `plot_topo()` and `plot_geo()` no longer colour points on
   a continuous colour bar: numeric values are shown as ordered classes
   with legend keys. In `plot_geo()` a numeric value is drawn as
