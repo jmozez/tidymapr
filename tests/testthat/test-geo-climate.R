@@ -66,7 +66,8 @@ test_that("geo_chelsa() future climate uses CHELSA-CMIP6 periods", {
   expect_error(tidymapr:::tmr_chelsa_period(2200), "2011 to 2100")
   skip_if_not_installed("terra")
   expect_error(
-    suppressMessages(geo_chelsa("bio1",
+    suppressMessages(geo_bioclim("bio1",
+      source = "chelsa",
       scenario = "ssp585", year = 2050,
       cache_dir = tempfile(), download = FALSE
     )),

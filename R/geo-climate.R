@@ -1,7 +1,7 @@
 #' Present and future climate: CHELSA, lapse-rate downscaling and canopy buffering
 #'
 #' @description
-#' Climate inputs for range-shift models. Unlike [geo_chelsa()], which
+#' Climate inputs for range-shift models. Unlike the deprecated [geo_chelsa()], which
 #' downloads whole global files, these read only the area needed, and
 #' future climate comes from CHELSA-CMIP6 itself.
 #'
