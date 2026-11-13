@@ -142,7 +142,10 @@ test_that("geo_worldclim()/geo_chelsa() read local paths offline", {
   terra::writeRaster(r, tmp, overwrite = TRUE)
   wc <- geo_worldclim(vars = "bio1", path = tmp, download = FALSE)
   expect_equal(names(wc), "bio1")
-  ch <- geo_chelsa(vars = "annual_mean_temperature", path = tmp, download = FALSE)
+  expect_warning(
+    ch <- geo_chelsa(vars = "annual_mean_temperature", path = tmp, download = FALSE),
+    "deprecated"
+  )
   expect_equal(names(ch), "bio1")
   # Join to sites
   sites <- geo_example_sites("wilhelm")[1:3, ]

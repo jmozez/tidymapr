@@ -63,8 +63,12 @@ cache or \code{path}.}
 \item{version}{Dataset version string (informational / URL selection).}
 
 \item{scenario, year, model}{Optional CHELSA-CMIP6 future climate
-arguments (chelsa only). When set, downloads future bioclim layers
-(Karger et al. 2023). Use \code{download = FALSE} on CRAN.}
+(chelsa only; Karger et al. 2023): scenario (\code{"ssp126"}, \code{"ssp370"},
+\code{"ssp585"}), any year from 2011 to 2100 (the 30-year period containing
+it is used) and GCM (\code{"MPI-ESM1-2-HR"}, \code{"GFDL-ESM4"}, \code{"IPSL-CM6A-LR"},
+\code{"MRI-ESM2-0"}, \code{"UKESM1-0-LL"}). Whole global files are downloaded;
+for a region and for GCM ensembles, use \code{\link[=geo_chelsa_area]{geo_chelsa_area()}}. Use
+\code{download = FALSE} on CRAN.}
 }
 \value{
 A \code{terra::SpatRaster} with one layer per requested variable.
@@ -82,6 +86,12 @@ Downloads use a cache directory (default
 \code{tools::R_user_dir("tidymapr", "cache")/bioclim}) so repeat calls do
 not hit the network. Network access is never required in tests: pass a
 local \code{path}, or skip downloads on CRAN.
+}
+\details{
+\code{geo_chelsa()} is deprecated: it downloads whole global files (about
+1 GB each). Use \code{\link[=geo_chelsa_area]{geo_chelsa_area()}}, which reads only the area needed,
+takes several GCMs and scenarios at once, and returns the same values.
+\code{geo_bioclim(source = "chelsa")} keeps working.
 }
 \section{Citation and licence}{
 
@@ -104,8 +114,10 @@ geo_bioclim_vars()
 
 \donttest{
 # Offline: build a tiny stand-in raster and treat it as bio1
-r <- terra::rast(ncols = 10, nrows = 10, xmin = 144, xmax = 146,
-  ymin = -7, ymax = -5, crs = "EPSG:4326")
+r <- terra::rast(
+  ncols = 10, nrows = 10, xmin = 144, xmax = 146,
+  ymin = -7, ymax = -5, crs = "EPSG:4326"
+)
 names(r) <- "bio1"
 terra::values(r) <- 20
 tmp <- tempfile(fileext = ".tif")

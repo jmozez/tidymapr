@@ -13,6 +13,18 @@
   to the resolution of a fine DEM.
 * New `geo_canopy_offset()`: forest-canopy buffering of temperature, scaled
   by canopy cover.
+* New `sdm_integrated()`: an integrated species distribution model that
+  fits presence-only records (a Poisson point process with bias
+  covariates) and presence-absence surveys (complementary log-log) with one
+  shared niche, with optional unimodal (hump-shaped) responses and
+  physiological limits such as CTmax, for plausible projections to future
+  climates.
+* `geo_chelsa()` is deprecated in favour of `geo_chelsa_area()`, which
+  reads only the area needed. `geo_bioclim(source = "chelsa")` is unchanged.
+* `geo_bioclim(source = "chelsa", scenario = , year = )` now reads CHELSA-CMIP6 itself (the
+  30-year period containing `year`, for the chosen GCM). It used to fall
+  back to WorldClim CMIP6 at 5 arc-minutes through geodata, mislabelled as
+  CHELSA. For regions and GCM ensembles, `geo_chelsa_area()` is recommended.
 
 # tidymapr 0.2.0
 

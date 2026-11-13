@@ -78,7 +78,7 @@ GCM and scenario), named for example \code{"bio1_2071-2100_mpi-esm1-2-hr_ssp585"
 \code{geo_canopy_offset()}: \code{temperature + canopy * offset}.
 }
 \description{
-Climate inputs for range-shift models. Unlike \code{\link[=geo_chelsa]{geo_chelsa()}}, which
+Climate inputs for range-shift models. Unlike the deprecated \code{\link[=geo_chelsa]{geo_chelsa()}}, which
 downloads whole global files, these read only the area needed, and
 future climate comes from CHELSA-CMIP6 itself.
 \itemize{
