@@ -287,11 +287,15 @@ roads <- sf::st_as_sf(terra::unwrap(
 
 \donttest{
 geo_map(title = "Luxembourg", caption = "Data: terra package") |>
-  map_raster(elev, name = "Elevation (m)", palette = "Terrain 2",
-    hillshade = TRUE) |>
+  map_raster(elev,
+    name = "Elevation (m)", palette = "Terrain 2",
+    hillshade = TRUE
+  ) |>
   map_polygons(cantons, fill = NA, border = "grey20", label = "Cantons") |>
-  map_lines(roads, colour = highway, palette = c("#B2182B", "#F4A582"),
-    group = "Roads") |>
+  map_lines(roads,
+    colour = highway, palette = c("#B2182B", "#F4A582"),
+    group = "Roads"
+  ) |>
   map_labels(cantons, text = NAME_2)
 }
 \dontshow{\}) # examplesIf}

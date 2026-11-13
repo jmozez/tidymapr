@@ -256,6 +256,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// shift_simulate_cpp
+NumericMatrix shift_simulate_cpp(NumericMatrix suit, IntegerVector init, int nrow, int ncol, NumericVector cell_w, double cell_h, double kmean, double kmax, double colon, double persist, int sub_steps, int nsim, double seed, int threads);
+RcppExport SEXP _tidymapr_shift_simulate_cpp(SEXP suitSEXP, SEXP initSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP cell_wSEXP, SEXP cell_hSEXP, SEXP kmeanSEXP, SEXP kmaxSEXP, SEXP colonSEXP, SEXP persistSEXP, SEXP sub_stepsSEXP, SEXP nsimSEXP, SEXP seedSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type suit(suitSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type init(initSEXP);
+    Rcpp::traits::input_parameter< int >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< int >::type ncol(ncolSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type cell_w(cell_wSEXP);
+    Rcpp::traits::input_parameter< double >::type cell_h(cell_hSEXP);
+    Rcpp::traits::input_parameter< double >::type kmean(kmeanSEXP);
+    Rcpp::traits::input_parameter< double >::type kmax(kmaxSEXP);
+    Rcpp::traits::input_parameter< double >::type colon(colonSEXP);
+    Rcpp::traits::input_parameter< double >::type persist(persistSEXP);
+    Rcpp::traits::input_parameter< int >::type sub_steps(sub_stepsSEXP);
+    Rcpp::traits::input_parameter< int >::type nsim(nsimSEXP);
+    Rcpp::traits::input_parameter< double >::type seed(seedSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(shift_simulate_cpp(suit, init, nrow, ncol, cell_w, cell_h, kmean, kmax, colon, persist, sub_steps, nsim, seed, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
 // geo_jenks_cpp
 NumericVector geo_jenks_cpp(NumericVector x, int k);
 RcppExport SEXP _tidymapr_geo_jenks_cpp(SEXP xSEXP, SEXP kSEXP) {
@@ -433,6 +457,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidymapr_sdm_lasso_logit_cpp", (DL_FUNC) &_tidymapr_sdm_lasso_logit_cpp, 9},
     {"_tidymapr_sdm_rf_fit_cpp", (DL_FUNC) &_tidymapr_sdm_rf_fit_cpp, 9},
     {"_tidymapr_sdm_rf_predict_cpp", (DL_FUNC) &_tidymapr_sdm_rf_predict_cpp, 3},
+    {"_tidymapr_shift_simulate_cpp", (DL_FUNC) &_tidymapr_shift_simulate_cpp, 14},
     {"_tidymapr_geo_jenks_cpp", (DL_FUNC) &_tidymapr_geo_jenks_cpp, 2},
     {"_tidymapr_geo_idw_cpp", (DL_FUNC) &_tidymapr_geo_idw_cpp, 9},
     {"_tidymapr_geo_krige_cpp", (DL_FUNC) &_tidymapr_geo_krige_cpp, 13},
