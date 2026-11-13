@@ -17,5 +17,5 @@
     {"identifier": "https://tidymapr.in4metrix.dev", "relation": "isDocumentedBy", "scheme": "url"}
   ],
   "language": "eng",
-  "version": "0.2.0"
+  "version": "0.3.0"
 }
