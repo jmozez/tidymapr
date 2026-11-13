@@ -5,5 +5,8 @@
   "buildCommand": "",
   "outputDirectory": "docs",
   "cleanUrls": false,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "git": {
+    "deploymentEnabled": false
+  }
 }
