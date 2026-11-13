@@ -150,8 +150,8 @@ extinction on a grid. Besides the kernel, three things shape spread:
   rivers.
 - `disturbance`: clearing, fire or eradication.
 
-Here an invader starts from one point on Mt Karimui (SRTM elevation, at
-about 180 m) and spreads for 15 generations. The right panel uses ESA
+Here an invader starts from one point on Mt Karimui (SRTM elevation, coarsened
+to about 60 m) and spreads for 15 generations. The right panel uses ESA
 WorldCover, with cleared land ten times harder to cross than forest.
 
 ```{r}
@@ -205,29 +205,42 @@ a single-cell epidemic matches the classic final-size equation, which the
 package tests check.
 
 Here a pathogen spreads among frog populations of the forest on Mt
-Karimui, with hosts in proportion to forest cover:
+Karimui, with hosts in proportion to forest cover. The grid is coarsened
+to about 360 m: with contacts up to 5 km away, a finer grid multiplies
+the neighbours of every cell and the run time.
 
 ```{r}
+dem360 <- aggregate(rast("dem.tif"), 12)
+forest <- resample(ifel(geo_landcover(c(144.6, -6.7, 145.0, -6.3), template = dem360) == 10, 1, 0),
+  dem360, "average"
+)
 hosts <- round(forest * 200)
-i0 <- init(dem, 0)
-i0[cellFromXY(dem, cbind(144.80, -6.45))] <- 20
+i0 <- init(dem360, 0)
+i0[cellFromXY(dem360, cbind(144.80, -6.45))] <- 20
 ep <- geo_epidemic_simulate(hosts, i0,
   beta = 0.6, gamma = 0.2, coupling = 0.2, dispersal_mean = 1000,
-  times = c(10, 30, 60), nsim = 20, seed = 1,
+  times = c(10, 30, 60), nsim = 20, seed = 1, threads = 4,
   resistance = 1 + 9 * (1 - forest)
 )
 ep
+#> Spatial SIR epidemic: R0 = 3.31, 20 simulations, exponential contacts (mean 1000 m).
+#> Share of hosts ever infected: median 0.198 (range 0.173 to 0.224).
 tidyvisor(ep)
 ```
 
 ```{r, echo = FALSE, eval = TRUE, out.width = "100%"}
-if (file.exists(file.path("img", "inv-epidemic.png"))) fig("inv-epidemic.png")
+fig("inv-epidemic.png")
 ```
 
 The maps show the share of runs in which the infection has reached each
 cell by each step: a map of the risk of arrival, which is what
-surveillance needs. Cleared land slows the spread, so isolated forest
-patches are reached late or not at all.
+surveillance needs. The forest of Mt Karimui is almost unbroken, so
+resistance has little to act on and the infection spreads as a regular
+front, about 10 km across after 60 steps. Only the few cleared cells
+(the black dots) are never reached. With R0 = 3.3 in each cell, a fifth
+of all hosts in the landscape had been infected by step 60. The front
+was still advancing. In a fragmented landscape the same model shows the
+front breaking up, and gaps in the forest acting as fire breaks.
 
 ## 6. Let the tidyvisor advise and explain
 
