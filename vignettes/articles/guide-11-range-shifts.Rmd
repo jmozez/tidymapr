@@ -103,6 +103,17 @@ fit <- sdm_integrated(
 fig("range-response.png")
 ```
 
+The curve and its band come straight from the fitted model:
+`predict(fit, newdata, se_fit = TRUE)` returns the standard error of the
+linear predictor (from the covariance of the estimates) and a 95%
+confidence interval formed on the link scale and back-transformed, so it
+stays between 0 and 1.
+
+```{r}
+curve <- data.frame(bio1 = seq(8, 26, 0.1), bio12 = 4030)
+cbind(curve, predict(fit, curve, se_fit = TRUE))
+```
+
 ## 4. Dispersal, colonisation and extinction
 
 Suitable climate is not enough: a species has to reach it. 
@@ -129,10 +140,12 @@ fig("range-simulate.png")
 fig("range-summary.png")
 ```
 
-Under SSP5-8.5 with UKESM1 the occupied area first grows from 57 to 90
-km^2 as the cooler upper slopes open up, then collapses to 15 km^2 by
-2085 as the median elevation climbs from 1,680 to 2,080 m and the range
-runs out of mountain.
+Under SSP5-8.5 with UKESM1 the occupied area shrinks from 74 km^2 in
+1995 to 41 km^2 by 2025, 9 km^2 by 2055 and under 1 km^2 by 2085, while
+the median elevation of the occupied range climbs from 1,890 to 2,390 m:
+the range runs out of mountain. Suitability here is relative (divided by
+its present maximum), so that the best present habitat persists from one
+generation to the next.
 
 ## 5. Ensembles of futures
 
@@ -148,9 +161,25 @@ sc <- geo_climate_scenarios(area, dem,
   gcm = c("mpi-esm1-2-hr", "ukesm1-0-ll"), ssp = c("ssp126", "ssp585"),
   lapse_rates = c(4.5, 5.5)
 )
-ens <- geo_shift_ensemble(fit, sc, dispersal_mean = 300, steps = 8, nsim = 30)
+ens <- geo_shift_ensemble(fit, sc, dispersal_mean = 300, steps = 8, nsim = 20)
 summary(ens)
 ```
+
+```{r, eval = TRUE, echo = FALSE}
+fig("range-projection.png")
+```
+
+```{r, eval = TRUE, echo = FALSE, out.width = "70%"}
+fig("range-ensemble.png")
+```
+
+Every member loses range. Under SSP1-2.6 the median loss is 53% with
+limited dispersal (35 to 71% across members); under SSP5-8.5 it is 93%
+(85 to 100%), and every member loses more than half of the range. Which
+climate model is used matters as much as the scenario; the lapse rate
+matters little here. Limited and unlimited dispersal agree because the
+bowerbird only needs to move a short way upslope: dispersal limits
+matter most for species that must cross gaps.
 
 ## 6. Does it work? A hindcast
 

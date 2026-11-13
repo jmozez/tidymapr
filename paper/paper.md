@@ -129,7 +129,14 @@ then runs a stochastic colonisation-extinction model with a dispersal
 kernel in parallel C++ [@hanski1998], and `geo_shift_ensemble()`
 repeats this over climate models, emission scenarios and lapse rates,
 reporting the probability of losing a given share of the range
-(Figure 4).
+(Figure 4). The same engine handles invasions and disease: fat-tailed
+and human-assisted jumps, movement resistance, disturbance, and a
+spatial SIR epidemic model (`geo_epidemic_simulate()`), with
+`geo_spread_rate()` and `epi_growth_rate()` estimating spread rates and
+epidemic growth from data. Every stochastic component is checked
+against exact results (colonisation and persistence probabilities, the
+SIR final-size relation), and results do not depend on grid resolution
+or the number of threads.
 
 We hindcast the upslope shifts of 136 bird species resurveyed on Mt
 Karimui, Papua New Guinea, in 1965 and 2012 [@freeman2014], scoring
