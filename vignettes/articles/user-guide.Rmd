@@ -27,10 +27,13 @@ Each chapter follows the same plan:
 | [7. Point clusters and landscapes](guide-07-patterns-landscapes.html) | DBSCAN and its parameters; FRAGSTATS fragmentation metrics | `geo_dbscan()`, `geo_landscape()` |
 | [8. Data, GBIF cleaning, web maps and recipes](guide-08-data-webmaps-recipes.html) | GIS, CAD, netCDF and spreadsheet data; cleaning GBIF coordinates; interactive web maps; GeoSpaX recipes | `geo_read()`, `geo_raster_read()`, `geo_clean()`, `geo_webmap()`, `geo_recipe_run()` |
 | [9. Distance decay and spatial eigenvectors](guide-09-decay-mem.html) | Similarity against geographic and environmental distance; Moran's eigenvector maps (dbMEM) as predictors | `geo_decay()`, `geo_mem()` |
+| [10. Mid-domain effect on maps and in the sea](guide-10-mid-domain.html) | Geometric constraints on richness in two dimensions and along depth | `geo_middomain()` |
+| [11. Range shifts under climate change](guide-11-range-shifts.html) | Downscaled CHELSA climate; integrated niche models; dispersal-limited simulation; ensembles of futures | `geo_chelsa_area()`, `sdm_integrated()`, `geo_shift_simulate()`, `geo_shift_ensemble()` |
+| [12. Invasions and epidemics](guide-12-invasions-epidemics.html) | Epidemic growth and R; invasion spread rates; dispersal kernels and resistance; spatial epidemics; the tidyvisor | `epi_growth_rate()`, `geo_spread_rate()`, `geo_epidemic_simulate()`, `tidyvisor()` |
 
 **Where to start.** New to R: Chapter 1, then Chapter 2. Need a map for a
 paper: Chapter 2. Analysing field samples: Chapters 3 and 4. Working with
-species records: Chapter 5. Working with imagery or elevation: Chapter 6. Bringing in your own files or GBIF records, or sharing interactive maps: Chapter 8.
+species records: Chapter 5. Working with imagery or elevation: Chapter 6. Bringing in your own files or GBIF records, or sharing interactive maps: Chapter 8. Climate change: Chapter 11. Invasive species and disease: Chapter 12.
 
 **Going further.** The [case studies](tutorials.html) apply these
 methods to complete research questions, the [Gallery](gallery.html) shows
