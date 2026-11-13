@@ -32,7 +32,7 @@
 #'   `upper`, `area`, `share` (of the total) and `area_above` (land at or
 #'   above `lower`), with attributes `unit` and `summit` (highest elevation).
 #' @references
-#' Colwell, R. K., Brehm, G., Cardel<U+00FA>s, C. L., Gilman, A. C. and Longino,
+#' Colwell, R. K., Brehm, G., Cardelús, C. L., Gilman, A. C. and Longino,
 #' J. T. (2008). Global warming, elevational range shifts, and lowland
 #' biotic attrition in the wet tropics. Science, 322, 258-261.
 #'
