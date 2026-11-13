@@ -13,11 +13,33 @@
 #'
 #' In each step, an empty cell \eqn{j} is colonised with probability
 #' \deqn{1 - \exp(-c \, s_j \sum_i K(d_{ij})),}{1 - exp(-c s_j sum_i K(d_ij)),}
-#' where the sum runs over occupied cells \eqn{i}, \eqn{K(d) = e^{-d/\bar d}}
-#' is a negative exponential dispersal kernel with mean distance
-#' \eqn{\bar d}, truncated at `max_distance` and normalised to sum to 1
+#' where the sum runs over occupied cells \eqn{i} and \eqn{K} is the
+#' dispersal kernel, truncated at `max_distance` and normalised to sum to 1
 #' over the neighbourhood (so the sum is the kernel-weighted share of
-#' occupied neighbours, and results do not depend on the cell size),
+#' occupied neighbours, and results do not depend on the cell size). Two
+#' kernels are offered, both parameterised by their mean dispersal
+#' distance \eqn{\bar d} in two dimensions:
+#' * `"exponential"`: \eqn{K(d) \propto e^{-2d/\bar d}};
+#' * `"2Dt"` (Clark et al. 1999): \eqn{K(d) \propto (1 + d^2/u)^{-(p+1)}},
+#'   fat-tailed, so rare long-distance dispersal is far more likely than
+#'   under the exponential; smaller `kernel_shape` (\eqn{p > 0.5}) gives a
+#'   fatter tail. Use [geo_dispersal_kernel()] to see a kernel's realised
+#'   mean and tail.
+#'
+#' Optional processes:
+#' * `resistance`: movement costs. The distance is replaced by an
+#'   effective distance, the straight-line distance times the mean
+#'   resistance of the cells crossed (1 = baseline, 5 = five times harder,
+#'   below 1 = corridor; `NA`, 0 or `Inf` = impassable barrier). This is a
+#'   local, straight-line approximation, not a least-cost path.
+#' * `jump_rate` and `jump_weights`: human-assisted or other long-distance
+#'   jumps. Each step, a Poisson number of propagules with mean
+#'   `jump_rate` times the number of occupied cells lands on cells chosen
+#'   in proportion to `jump_weights` (for example road density, ports or
+#'   towns), and establishes with probability equal to suitability.
+#' * `disturbance`: the probability, per step, that an occupied cell is
+#'   lost to clearing, fire or eradication, on top of the climate.
+#'
 #' \eqn{s_j} is the suitability
 #' of the cell and \eqn{c} the colonisation rate. An occupied cell
 #' persists with probability \eqn{s_j^p}. Cell sizes come from the grid's
@@ -37,7 +59,20 @@
 #'   threshold applied to the first layer.
 #' @param dispersal_mean Mean dispersal distance per step, in metres.
 #' @param max_distance Largest dispersal distance in metres (kernel
-#'   truncation); default five times the mean.
+#'   truncation); default five times the mean for the exponential kernel
+#'   and ten times for the 2Dt kernel.
+#' @param kernel `"exponential"` or `"2Dt"` (fat-tailed).
+#' @param kernel_shape Shape \eqn{p} of the 2Dt kernel (above 0.5; smaller
+#'   is fatter-tailed).
+#' @param resistance Optional `SpatRaster` of movement resistance (1 =
+#'   baseline; `NA`, 0 or `Inf` = barrier).
+#' @param jump_rate Expected number of long-distance jumps per occupied cell
+#'   per step (default 0, none).
+#' @param jump_weights Optional `SpatRaster` of relative weights of jump
+#'   destinations; default all cells equally.
+#' @param disturbance Optional `SpatRaster` of the probability that an
+#'   occupied cell is lost per step: one layer, or one per layer of
+#'   `suitability`.
 #' @param colonisation Colonisation rate \eqn{c}.
 #' @param persistence Exponent \eqn{p} of local persistence; larger values
 #'   make populations in marginal habitat more likely to disappear.
@@ -56,14 +91,21 @@
 #' 590-601.
 #'
 #' Hanski, I. (1999). Metapopulation Ecology. Oxford University Press.
-#' @seealso [geo_shift_summary()], [sdm_ensemble()], [geo_range_shift()].
+#'
+#' Clark, J. S., Silman, M., Kern, R., Macklin, E. and HilleRisLambers, J.
+#' (1999). Seed dispersal near and far: patterns across temperate and
+#' tropical forests. Ecology, 80, 1475-1494.
+#' @seealso [geo_dispersal_kernel()], [geo_epidemic_simulate()],
+#'   [geo_shift_summary()], [sdm_ensemble()], [geo_range_shift()].
 #' @export
 #' @examples
 #' \donttest{
 #' if (requireNamespace("terra", quietly = TRUE)) {
 #'   # A virtual mountain: suitability is a band that moves upslope
-#'   r <- terra::rast(nrows = 40, ncols = 40, xmin = 145, xmax = 145.4,
-#'     ymin = -6.4, ymax = -6, crs = "EPSG:4326")
+#'   r <- terra::rast(
+#'     nrows = 40, ncols = 40, xmin = 145, xmax = 145.4,
+#'     ymin = -6.4, ymax = -6, crs = "EPSG:4326"
+#'   )
 #'   elev <- terra::init(r, "y")
 #'   elev <- (elev - min(terra::values(elev))) * 10000
 #'   band <- function(mid) exp(-((elev - mid) / 400)^2)
@@ -76,28 +118,27 @@
 geo_shift_simulate <- function(suitability,
                                initial = 0.5,
                                dispersal_mean,
-                               max_distance = 5 * dispersal_mean,
+                               max_distance = NULL,
                                colonisation = 1,
                                persistence = 1,
                                steps_per_layer = 1,
                                nsim = 100,
                                seed = NULL,
-                               threads = 0) {
+                               threads = 0,
+                               kernel = c("exponential", "2Dt"),
+                               kernel_shape = 1,
+                               resistance = NULL,
+                               jump_rate = 0,
+                               jump_weights = NULL,
+                               disturbance = NULL) {
   rlang::check_installed("terra")
   s <- geo_as_raster(suitability)[[1]]
-  chk <- function(x, nm, lower = 0) {
-    if (!is.numeric(x) || length(x) != 1 || is.na(x) || x < lower) {
-      cli::cli_abort("{.arg {nm}} must be one number of at least {lower}.",
-        call = rlang::caller_env()
-      )
-    }
-  }
-  chk(dispersal_mean, "dispersal_mean", 1e-9)
-  chk(max_distance, "max_distance", 0)
-  chk(colonisation, "colonisation")
-  chk(persistence, "persistence")
-  chk(steps_per_layer, "steps_per_layer", 1)
-  chk(nsim, "nsim", 1)
+  k <- tmr_kernel_args(dispersal_mean, max_distance, kernel, kernel_shape)
+  tmr_chk_num(colonisation, "colonisation")
+  tmr_chk_num(persistence, "persistence")
+  tmr_chk_num(steps_per_layer, "steps_per_layer", 1)
+  tmr_chk_num(nsim, "nsim", 1)
+  tmr_chk_num(jump_rate, "jump_rate")
   seed <- seed %||% sample.int(.Machine$integer.max, 1)
   vals <- terra::values(s, mat = TRUE)
   if (any(vals > 1, na.rm = TRUE)) {
@@ -106,20 +147,51 @@ geo_shift_simulate <- function(suitability,
   vals[is.na(vals)] <- -1
   init <- tmr_shift_initial(initial, s)
   geom <- tmr_cell_dims(s)
+  res <- tmr_layer_values(resistance, s, "resistance", na = 0)
+  dist <- if (is.null(disturbance)) {
+    matrix(0, 0, 0)
+  } else {
+    d <- geo_as_raster(disturbance)[[1]]
+    if (!terra::compareGeom(d, s, stopOnError = FALSE)) {
+      d <- terra::resample(d, s, method = "bilinear")
+    }
+    if (terra::nlyr(d) == 1) d <- rep(d, terra::nlyr(s))
+    if (terra::nlyr(d) != terra::nlyr(s)) {
+      cli::cli_abort("{.arg disturbance} needs one layer or one per layer of {.arg suitability}.")
+    }
+    m <- terra::values(d, mat = TRUE)
+    if (any(m < 0 | m > 1, na.rm = TRUE)) {
+      cli::cli_abort("{.arg disturbance} must be probabilities between 0 and 1.")
+    }
+    m[is.na(m)] <- 0
+    m
+  }
+  jw <- if (jump_rate > 0) {
+    if (is.null(jump_weights)) {
+      rep(1, terra::ncell(s))
+    } else {
+      tmr_layer_values(jump_weights, s, "jump_weights", na = 0)
+    }
+  } else {
+    numeric(0)
+  }
   p <- shift_simulate_cpp(
     vals, as.integer(init), terra::nrow(s), terra::ncol(s), geom$width,
-    geom$height, dispersal_mean, max_distance, colonisation, persistence,
-    as.integer(steps_per_layer), as.integer(nsim), as.numeric(seed),
-    as.integer(threads)
+    geom$height, k$type, dispersal_mean, kernel_shape, k$max_distance,
+    colonisation, persistence, as.integer(steps_per_layer), as.integer(nsim),
+    as.numeric(seed), as.integer(threads), res, dist, jump_rate, jw
   )
   out <- terra::rast(s)
   terra::values(out) <- p
   out <- terra::mask(out, s)
   names(out) <- names(s)
   attr(out, "settings") <- list(
-    dispersal_mean = dispersal_mean, max_distance = max_distance,
+    dispersal_mean = dispersal_mean, max_distance = k$max_distance,
+    kernel = k$kernel, kernel_shape = kernel_shape,
     colonisation = colonisation, persistence = persistence,
-    steps_per_layer = steps_per_layer, nsim = nsim, seed = seed
+    steps_per_layer = steps_per_layer, nsim = nsim, seed = seed,
+    resistance = !is.null(resistance), jump_rate = jump_rate,
+    disturbance = !is.null(disturbance)
   )
   out
 }
@@ -212,4 +284,41 @@ tmr_shift_initial <- function(initial, s, call = caller_env()) {
     "{.arg initial} must be a raster, occurrence points or a suitability threshold.",
     call = call
   )
+}
+
+tmr_chk_num <- function(x, nm, lower = 0, call = caller_env()) {
+  if (!is.numeric(x) || length(x) != 1 || is.na(x) || x < lower) {
+    cli::cli_abort("{.arg {nm}} must be one number of at least {lower}.", call = call)
+  }
+}
+
+tmr_kernel_args <- function(dispersal_mean, max_distance, kernel, kernel_shape,
+                            call = caller_env()) {
+  kernel <- rlang::arg_match(kernel, c("exponential", "2Dt"), error_call = call)
+  tmr_chk_num(dispersal_mean, "dispersal_mean", 1e-9, call = call)
+  bad_shape <- !is.numeric(kernel_shape) || length(kernel_shape) != 1 ||
+    is.na(kernel_shape) || kernel_shape <= 0.5
+  if (kernel == "2Dt" && bad_shape) {
+    cli::cli_abort("{.arg kernel_shape} must be one number above 0.5.", call = call)
+  }
+  max_distance <- max_distance %||% ((if (kernel == "2Dt") 10 else 5) * dispersal_mean)
+  tmr_chk_num(max_distance, "max_distance", 0, call = call)
+  list(kernel = kernel, type = if (kernel == "2Dt") 1L else 0L, max_distance = max_distance)
+}
+
+# Values of an optional single-layer raster on the grid of s
+tmr_layer_values <- function(x, s, nm, na = 0, call = caller_env()) {
+  if (is.null(x)) {
+    return(numeric(0))
+  }
+  r <- geo_as_raster(x)[[1]][[1]]
+  if (!terra::compareGeom(r, s, stopOnError = FALSE)) {
+    r <- terra::resample(r, s, method = "bilinear")
+  }
+  v <- terra::values(r, mat = FALSE)
+  if (any(v < 0, na.rm = TRUE)) {
+    cli::cli_abort("{.arg {nm}} must not be negative.", call = call)
+  }
+  v[is.na(v)] <- na
+  v
 }

@@ -9,13 +9,19 @@ geo_shift_simulate(
   suitability,
   initial = 0.5,
   dispersal_mean,
-  max_distance = 5 * dispersal_mean,
+  max_distance = NULL,
   colonisation = 1,
   persistence = 1,
   steps_per_layer = 1,
   nsim = 100,
   seed = NULL,
-  threads = 0
+  threads = 0,
+  kernel = c("exponential", "2Dt"),
+  kernel_shape = 1,
+  resistance = NULL,
+  jump_rate = 0,
+  jump_weights = NULL,
+  disturbance = NULL
 )
 
 geo_shift_summary(occupancy, elevation = NULL)
@@ -31,7 +37,8 @@ threshold applied to the first layer.}
 \item{dispersal_mean}{Mean dispersal distance per step, in metres.}
 
 \item{max_distance}{Largest dispersal distance in metres (kernel
-truncation); default five times the mean.}
+truncation); default five times the mean for the exponential kernel
+and ten times for the 2Dt kernel.}
 
 \item{colonisation}{Colonisation rate \eqn{c}.}
 
@@ -47,6 +54,24 @@ disperses once a year).}
 \item{seed}{Random seed.}
 
 \item{threads}{Number of threads (0 = OpenMP default).}
+
+\item{kernel}{\code{"exponential"} or \code{"2Dt"} (fat-tailed).}
+
+\item{kernel_shape}{Shape \eqn{p} of the 2Dt kernel (above 0.5; smaller
+is fatter-tailed).}
+
+\item{resistance}{Optional \code{SpatRaster} of movement resistance (1 =
+baseline; \code{NA}, 0 or \code{Inf} = barrier).}
+
+\item{jump_rate}{Expected number of long-distance jumps per occupied cell
+per step (default 0, none).}
+
+\item{jump_weights}{Optional \code{SpatRaster} of relative weights of jump
+destinations; default all cells equally.}
+
+\item{disturbance}{Optional \code{SpatRaster} of the probability that an
+occupied cell is lost per step: one layer, or one per layer of
+\code{suitability}.}
 
 \item{occupancy}{Result of \code{geo_shift_simulate()} (or a suitability
 raster, for comparison).}
@@ -77,11 +102,37 @@ distribution model projected onto successive climate periods.
 
 In each step, an empty cell \eqn{j} is colonised with probability
 \deqn{1 - \exp(-c \, s_j \sum_i K(d_{ij})),}{1 - exp(-c s_j sum_i K(d_ij)),}
-where the sum runs over occupied cells \eqn{i}, \eqn{K(d) = e^{-d/\bar d}}
-is a negative exponential dispersal kernel with mean distance
-\eqn{\bar d}, truncated at \code{max_distance} and normalised to sum to 1
+where the sum runs over occupied cells \eqn{i} and \eqn{K} is the
+dispersal kernel, truncated at \code{max_distance} and normalised to sum to 1
 over the neighbourhood (so the sum is the kernel-weighted share of
-occupied neighbours, and results do not depend on the cell size),
+occupied neighbours, and results do not depend on the cell size). Two
+kernels are offered, both parameterised by their mean dispersal
+distance \eqn{\bar d} in two dimensions:
+\itemize{
+\item \code{"exponential"}: \eqn{K(d) \propto e^{-2d/\bar d}};
+\item \code{"2Dt"} (Clark et al. 1999): \eqn{K(d) \propto (1 + d^2/u)^{-(p+1)}},
+fat-tailed, so rare long-distance dispersal is far more likely than
+under the exponential; smaller \code{kernel_shape} (\eqn{p > 0.5}) gives a
+fatter tail. Use \code{\link[=geo_dispersal_kernel]{geo_dispersal_kernel()}} to see a kernel's realised
+mean and tail.
+}
+
+Optional processes:
+\itemize{
+\item \code{resistance}: movement costs. The distance is replaced by an
+effective distance, the straight-line distance times the mean
+resistance of the cells crossed (1 = baseline, 5 = five times harder,
+below 1 = corridor; \code{NA}, 0 or \code{Inf} = impassable barrier). This is a
+local, straight-line approximation, not a least-cost path.
+\item \code{jump_rate} and \code{jump_weights}: human-assisted or other long-distance
+jumps. Each step, a Poisson number of propagules with mean
+\code{jump_rate} times the number of occupied cells lands on cells chosen
+in proportion to \code{jump_weights} (for example road density, ports or
+towns), and establishes with probability equal to suitability.
+\item \code{disturbance}: the probability, per step, that an occupied cell is
+lost to clearing, fire or eradication, on top of the climate.
+}
+
 \eqn{s_j} is the suitability
 of the cell and \eqn{c} the colonisation rate. An occupied cell
 persists with probability \eqn{s_j^p}. Cell sizes come from the grid's
@@ -98,8 +149,10 @@ debt and whether a species can cross gaps in habitat.
 \donttest{
 if (requireNamespace("terra", quietly = TRUE)) {
   # A virtual mountain: suitability is a band that moves upslope
-  r <- terra::rast(nrows = 40, ncols = 40, xmin = 145, xmax = 145.4,
-    ymin = -6.4, ymax = -6, crs = "EPSG:4326")
+  r <- terra::rast(
+    nrows = 40, ncols = 40, xmin = 145, xmax = 145.4,
+    ymin = -6.4, ymax = -6, crs = "EPSG:4326"
+  )
   elev <- terra::init(r, "y")
   elev <- (elev - min(terra::values(elev))) * 10000
   band <- function(mid) exp(-((elev - mid) / 400)^2)
@@ -116,7 +169,12 @@ and dispersal in a changing climate. Diversity and Distributions, 15,
 590-601.
 
 Hanski, I. (1999). Metapopulation Ecology. Oxford University Press.
+
+Clark, J. S., Silman, M., Kern, R., Macklin, E. and HilleRisLambers, J.
+(1999). Seed dispersal near and far: patterns across temperate and
+tropical forests. Ecology, 80, 1475-1494.
 }
 \seealso{
+\code{\link[=geo_dispersal_kernel]{geo_dispersal_kernel()}}, \code{\link[=geo_epidemic_simulate]{geo_epidemic_simulate()}},
 \code{\link[=geo_shift_summary]{geo_shift_summary()}}, \code{\link[=sdm_ensemble]{sdm_ensemble()}}, \code{\link[=geo_range_shift]{geo_range_shift()}}.
 }

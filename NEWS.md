@@ -5,6 +5,21 @@
   of cells within dispersal distance, so on fine grids almost any empty
   cell next to the range was colonised, whatever its suitability, and
   results depended on the cell size.
+* `geo_shift_simulate()`: `dispersal_mean` is now the true mean
+  dispersal distance in two dimensions. The exponential kernel used
+  `exp(-d / mean)`, whose mean distance is twice `mean`; it now uses
+  `exp(-2 d / mean)`. Simulated spread for a given `dispersal_mean` is
+  therefore slower than before.
+* `geo_shift_simulate()` gains a fat-tailed 2Dt kernel (`kernel = "2Dt"`,
+  `kernel_shape`), movement `resistance` (barriers and corridors),
+  human-assisted long-distance jumps (`jump_rate`, `jump_weights`) and
+  `disturbance` (clearing, fire or eradication), for invasive species and
+  land-use change as well as climate.
+* New `geo_dispersal_kernel()`: the realised mean distance and
+  long-distance tail of a kernel on a grid.
+* New `geo_epidemic_simulate()`: a stochastic, spatially explicit SIR
+  model of disease spread among host populations, with the same kernels
+  and resistance; its final size is checked against theory.
 * `geo_shift_ensemble()` now measures the unlimited-dispersal range as
   all habitat at or above the starting suitability threshold, so it is
   comparable with the simulated (limited) range. Before, it summed the
