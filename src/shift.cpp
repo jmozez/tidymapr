@@ -3,7 +3,9 @@
 // Each time step, an empty cell j is colonised with probability
 //   1 - exp(-c * s_j * sum_i K(d_ij)),  K(d) = exp(-d / mean) for d <= max,
 // summed over occupied cells i (propagule pressure from a negative
-// exponential dispersal kernel), and an occupied cell persists with
+// exponential dispersal kernel). The kernel is normalised to sum to 1 over
+// the neighbourhood, so the pressure is the kernel-weighted share of
+// occupied neighbours (0 to 1) and does not depend on the cell size; and an occupied cell persists with
 // probability s_j ^ p. Suitability s in [0, 1]; negative values are
 // unsuitable (water, outside the study area). Colonisation is computed
 // from the occupancy at the start of the step (synchronous update).
@@ -48,6 +50,11 @@ NumericMatrix shift_simulate_cpp(NumericMatrix suit, IntegerVector init,
         double d = std::sqrt(std::pow(dr * cell_h, 2) + std::pow(dc * cw, 2));
         if (d <= kmax) off[r].push_back({dr, dc, std::exp(-d / kmean)});
       }
+    }
+    double tot = 0.0;
+    for (const Offset& o : off[r]) tot += o.w;
+    if (tot > 0) {
+      for (Offset& o : off[r]) o.w /= tot;
     }
   }
   std::vector<double> s(suit.begin(), suit.end());

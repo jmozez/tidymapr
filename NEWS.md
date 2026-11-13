@@ -1,3 +1,21 @@
+# tidymapr (development version)
+
+* `geo_shift_simulate()` now normalises the dispersal kernel to sum to 1
+  over the neighbourhood. Before, propagule pressure grew with the number
+  of cells within dispersal distance, so on fine grids almost any empty
+  cell next to the range was colonised, whatever its suitability, and
+  results depended on the cell size.
+* `geo_shift_ensemble()` now measures the unlimited-dispersal range as
+  all habitat at or above the starting suitability threshold, so it is
+  comparable with the simulated (limited) range. Before, it summed the
+  suitability values themselves.
+* `geo_shift_ensemble()` gains `rescale` (default `TRUE`), which divides
+  suitability by its present maximum before the simulation, so that
+  probabilities of presence from a niche model are not taken as
+  per-generation survival.
+* New user guide chapter, "Range shifts under climate change", and a case
+  study hindcasting the upslope shifts of New Guinea birds.
+
 # tidymapr 0.3.0
 
 * New `geo_shift_simulate()` and `geo_shift_summary()`: stochastic

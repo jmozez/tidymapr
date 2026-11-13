@@ -15,7 +15,10 @@
 #' \deqn{1 - \exp(-c \, s_j \sum_i K(d_{ij})),}{1 - exp(-c s_j sum_i K(d_ij)),}
 #' where the sum runs over occupied cells \eqn{i}, \eqn{K(d) = e^{-d/\bar d}}
 #' is a negative exponential dispersal kernel with mean distance
-#' \eqn{\bar d}, truncated at `max_distance`, \eqn{s_j} is the suitability
+#' \eqn{\bar d}, truncated at `max_distance` and normalised to sum to 1
+#' over the neighbourhood (so the sum is the kernel-weighted share of
+#' occupied neighbours, and results do not depend on the cell size),
+#' \eqn{s_j} is the suitability
 #' of the cell and \eqn{c} the colonisation rate. An occupied cell
 #' persists with probability \eqn{s_j^p}. Cell sizes come from the grid's
 #' true geometry, so the kernel is isotropic in metres on longitude/latitude

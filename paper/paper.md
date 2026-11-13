@@ -6,6 +6,7 @@ tags:
   - spatial statistics
   - species distribution models
   - biodiversity
+  - climate change
 authors:
   - name: Jimmy Moses
     orcid: 0000-0003-3342-2384
@@ -13,7 +14,7 @@ authors:
 affiliations:
   - name: School of Forestry, Faculty of Natural Resources, Papua New Guinea University of Technology, Private Mail Bag, Lae 411, Morobe Province, Papua New Guinea
     index: 1
-date: 12 November 2026
+date: 13 November 2026
 bibliography: paper.bib
 ---
 
@@ -71,7 +72,8 @@ is often a domain scientist rather than a cartographer.
    `geo_mem()` [@dray2006], `geo_cluster()` [@ester1996],
    `geo_mde()` and `geo_mde_3d()` [@colwell2000],
    `geo_clean()`, `geo_decay()` and `geo_raster_diversity()`
-   [@feret2014].
+   [@feret2014], and a hybrid model of range shifts under climate
+   change (below).
 3. **A companion to `tidydiversity`** [@tidydiversity], which estimates
    taxonomic, phylogenetic and functional diversity with Hill numbers
    [@chao2014], so diversity estimates can be mapped, tested for
@@ -110,6 +112,39 @@ randomisations), (c) standardised effect size.](figure-mde-2d.png)
 Guinea against the three-dimensional null model and its 95%
 interval.](figure-mde-3d.png)
 
+# Range shifts under climate change
+
+Correlative niche models assume species move instantly to wherever the
+climate suits them; on steep tropical mountains they also miss the
+climate that a 1 km cell averages over. `tidymapr` 0.3.0 adds a hybrid
+workflow. `geo_chelsa_area()` reads CHELSA climatologies and CMIP6
+projections [@karger2017] for an area only; `geo_downscale_lapse()`
+brings temperature down to a fine elevation model and
+`geo_canopy_offset()` adds forest buffering [@defrenne2019].
+`sdm_integrated()` fits one niche to presence-only records and
+presence-absence surveys together [@fithian2015], with hump-shaped
+temperature responses and optional physiological limits so that
+projections stay plausible in novel climates. `geo_shift_simulate()`
+then runs a stochastic colonisation-extinction model with a dispersal
+kernel in parallel C++ [@hanski1998], and `geo_shift_ensemble()`
+repeats this over climate models, emission scenarios and lapse rates,
+reporting the probability of losing a given share of the range
+(Figure 4).
+
+We hindcast the upslope shifts of 136 bird species resurveyed on Mt
+Karimui, Papua New Guinea, in 1965 and 2012 [@freeman2014], scoring
+predictions with `range_shift_validate()` in `tidydiversity`. With
+warming measured on the mountain (0.76 °C, CHELSAcruts) rather than
+the regional 0.39 °C, the birds' upper limits tracked climate
+(observed/predicted shift 0.81, 95% interval 0.57-1.06). The models
+predicted the community's mean shift but each species' shift only
+weakly (r = 0.2), a limit worth stating in any projection.
+
+![MacGregor's bowerbird on Mt Karimui under SSP5-8.5: probability that
+each 90 m cell is occupied, from 50 runs of `geo_shift_simulate()` with
+an integrated niche model fitted to GBIF records and the 1965 transect
+survey.](figure-range-shift.png)
+
 # Correctness and performance
 
 Where `tidymapr` re-implements an established method it is tested
@@ -135,10 +170,10 @@ given seed whatever the number of cores.
 # Documentation
 
 Every exported function has a help page with a runnable example. A
-nine-chapter user guide at <https://tidymapr.in4metrix.dev> takes users
+ten-chapter user guide at <https://tidymapr.in4metrix.dev> takes users
 from installation to reporting, with the concept, a worked example on
 real data, how to read the output and how to report it in a paper.
-Version 0.2.0 is archived on Zenodo [@tidymapr].
+Version 0.3.0 is archived on Zenodo [@tidymapr].
 
 # AI usage disclosure
 
