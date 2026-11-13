@@ -5,7 +5,7 @@ output: rmarkdown::html_vignette
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(eval = FALSE, collapse = TRUE, comment = "#>")
-fig <- function(f) knitr::include_graphics(file.path("figure", f))
+fig <- function(f) knitr::include_graphics(file.path("img", f))
 ```
 
 tidymapr 0.3.0 adds a hybrid model of range shifts: fine-scale climate,
