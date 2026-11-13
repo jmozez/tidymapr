@@ -1,5 +1,8 @@
 # tidymapr 0.3.0
 
+* `plot_sites()`, `plot_topo()` and `plot_geo()` no longer colour points on
+  a continuous colour bar: numeric values are shown as ordered classes
+  with legend keys (or by symbol size).
 * `geo_shift_simulate()` now normalises the dispersal kernel to sum to 1
   over the neighbourhood. Before, propagule pressure grew with the number
   of cells within dispersal distance, so on fine grids almost any empty

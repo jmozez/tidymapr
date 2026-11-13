@@ -1036,29 +1036,38 @@ plot_geo <- function(data,
   # Keep labelled maps readable: large size aesthetics crowd geom_label_repel
   size_max <- if (!is.null(lab_col)) 6.5 else 10
 
-  # Map value to fill (or colour when basemap uses fill); optional size_aes
+  # Map value to fill (or colour when basemap uses fill); optional size_aes.
+  # Points are drawn in ordered classes with legend keys, never on a
+  # continuous colour bar; a numeric value alone is shown by symbol size.
+  data$.val_class <- if (is.numeric(data[[val_col]])) {
+    tmr_point_classes(data[[val_col]])
+  } else {
+    as.factor(data[[val_col]])
+  }
   use_fill <- !isTRUE(bm_layers$uses_fill)
   if (use_fill && is.null(size_aes)) {
     p <- p +
       ggplot2::geom_sf(
         data = data,
-        ggplot2::aes(fill = .data[[val_col]]),
+        ggplot2::aes(fill = .data$.val_class),
         shape = 21, colour = "grey20", size = size_const, stroke = 0.3
       ) +
-      ggplot2::scale_fill_viridis_c(
+      ggplot2::scale_fill_viridis_d(
         name = leg, option = "C",
-        guide = ggplot2::guide_colourbar(order = 1)
+        end = 0.9,
+        guide = ggplot2::guide_legend(order = 1, override.aes = list(size = 3))
       )
   } else if (use_fill && !is.null(size_aes)) {
     p <- p +
       ggplot2::geom_sf(
         data = data,
-        ggplot2::aes(fill = .data[[val_col]], size = .data[[size_aes]]),
+        ggplot2::aes(fill = .data$.val_class, size = .data[[size_aes]]),
         shape = 21, colour = "grey20", stroke = 0.3
       ) +
-      ggplot2::scale_fill_viridis_c(
+      ggplot2::scale_fill_viridis_d(
         name = leg, option = "C",
-        guide = ggplot2::guide_colourbar(order = 1)
+        end = 0.9,
+        guide = ggplot2::guide_legend(order = 1, override.aes = list(size = 3))
       ) +
       ggplot2::scale_size_area(
         name = geo_pretty_label(size_aes), max_size = size_max,
@@ -1068,12 +1077,13 @@ plot_geo <- function(data,
     p <- p +
       ggplot2::geom_sf(
         data = data,
-        ggplot2::aes(colour = .data[[val_col]], size = .data[[size_aes]]),
+        ggplot2::aes(colour = .data$.val_class, size = .data[[size_aes]]),
         shape = 16, stroke = 0.3
       ) +
-      ggplot2::scale_colour_viridis_c(
+      ggplot2::scale_colour_viridis_d(
         name = leg, option = "C",
-        guide = ggplot2::guide_colourbar(order = 1)
+        end = 0.9,
+        guide = ggplot2::guide_legend(order = 1, override.aes = list(size = 3))
       ) +
       ggplot2::scale_size_area(
         name = geo_pretty_label(size_aes), max_size = size_max,
@@ -1333,4 +1343,17 @@ geo_correlogram <- function(x, d, bins = 5) {
     moran = out_moran,
     n = out_n
   )
+}
+
+# Numeric values at points as ordered classes (one per value when there are
+# few, else up to n classes at pretty breaks), for legends with keys.
+tmr_point_classes <- function(x, max_values = 8, n_classes = 6) {
+  u <- sort(unique(x[!is.na(x)]))
+  fmt <- function(v) format(v, big.mark = ",", trim = TRUE, scientific = FALSE)
+  if (length(u) <= max_values) {
+    return(factor(fmt(x), levels = fmt(u)))
+  }
+  br <- pretty(range(u), n = n_classes)
+  lab <- paste0(fmt(utils::head(br, -1)), " to ", fmt(br[-1]))
+  cut(x, br, labels = lab, include.lowest = TRUE)
 }
