@@ -13,6 +13,10 @@
   to the resolution of a fine DEM.
 * New `geo_canopy_offset()`: forest-canopy buffering of temperature, scaled
   by canopy cover.
+* `geo_chelsa(scenario = , year = )` now reads CHELSA-CMIP6 itself (the
+  30-year period containing `year`, for the chosen GCM). It used to fall
+  back to WorldClim CMIP6 at 5 arc-minutes through geodata, mislabelled as
+  CHELSA. For regions and GCM ensembles, `geo_chelsa_area()` is recommended.
 
 # tidymapr 0.2.0
 
