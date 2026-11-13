@@ -1,3 +1,12 @@
+# tidymapr (development version)
+
+* New `geo_shift_simulate()` and `geo_shift_summary()`: stochastic
+  colonisation-extinction simulation of range shifts with a negative
+  exponential dispersal kernel, written in C++ and run in parallel, over a
+  time series of habitat suitability. It shows dispersal lags, extinction
+  debt and lost ranges that niche models alone miss. This is the first stage
+  of a hybrid range-shift model.
+
 # tidymapr 0.2.0
 
 ## Elevational gradients and climate

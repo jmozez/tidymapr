@@ -116,8 +116,10 @@ grid is resampled to the value raster with nearest-neighbour first.
 }
 \examples{
 \dontshow{if (requireNamespace("terra", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)) withAutoprint(\{ # examplesIf}
-r <- terra::rast(ncols = 20, nrows = 20, xmin = 144.8, xmax = 145.4,
-  ymin = -6.0, ymax = -5.5, crs = "EPSG:4326")
+r <- terra::rast(
+  ncols = 20, nrows = 20, xmin = 144.8, xmax = 145.4,
+  ymin = -6.0, ymax = -5.5, crs = "EPSG:4326"
+)
 terra::values(r) <- seq_len(terra::ncell(r))
 names(r) <- "elev"
 sites <- geo_as_sf(geo_example_sites("wilhelm"), lon, lat)
