@@ -1,0 +1,959 @@
+# Changelog
+
+## tidymapr 0.3.0
+
+- New **tidyvisor**, the package’s adviser.
+  [`tidyvisor()`](https://tidymapr.in4metrix.dev/reference/tidyvisor.md)
+  given records and a question (species distribution, spread, epidemic,
+  range shift, spatial autocorrelation) checks the data and recommends
+  the analysis, the plots and the code
+  ([`tmr_advise()`](https://tidymapr.in4metrix.dev/reference/tidyvisor.md));
+  given a result (growth rate, spread rate, epidemic or range-shift
+  simulation, species distribution model, Moran’s I) it explains the
+  numbers and the figure in plain sentences
+  ([`tmr_interpret()`](https://tidymapr.in4metrix.dev/reference/tidyvisor.md)).
+
+- [`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md),
+  [`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md)
+  and
+  [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md)
+  no longer colour points on a continuous colour bar: numeric values are
+  shown as ordered classes with legend keys. In
+  [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md) a
+  numeric value is drawn as proportional symbols (area scaled to the
+  value) by default.
+
+- [`geo_shift_simulate()`](https://tidymapr.in4metrix.dev/reference/geo_shift_simulate.md)
+  now normalises the dispersal kernel to sum to 1 over the
+  neighbourhood. Before, propagule pressure grew with the number of
+  cells within dispersal distance, so on fine grids almost any empty
+  cell next to the range was colonised, whatever its suitability, and
+  results depended on the cell size.
+
+- [`geo_shift_simulate()`](https://tidymapr.in4metrix.dev/reference/geo_shift_simulate.md):
+  `dispersal_mean` is now the true mean dispersal distance in two
+  dimensions. The exponential kernel used `exp(-d / mean)`, whose mean
+  distance is twice `mean`; it now uses `exp(-2 d / mean)`. Simulated
+  spread for a given `dispersal_mean` is therefore slower than before.
+
+- [`geo_shift_simulate()`](https://tidymapr.in4metrix.dev/reference/geo_shift_simulate.md)
+  gains a fat-tailed 2Dt kernel (`kernel = "2Dt"`, `kernel_shape`),
+  movement `resistance` (barriers and corridors), human-assisted
+  long-distance jumps (`jump_rate`, `jump_weights`) and `disturbance`
+  (clearing, fire or eradication), for invasive species and land-use
+  change as well as climate.
+
+- New
+  [`geo_dispersal_kernel()`](https://tidymapr.in4metrix.dev/reference/geo_dispersal_kernel.md):
+  the realised mean distance and long-distance tail of a kernel on a
+  grid.
+
+- New
+  [`geo_epidemic_simulate()`](https://tidymapr.in4metrix.dev/reference/geo_epidemic_simulate.md):
+  a stochastic, spatially explicit SIR model of disease spread among
+  host populations, with the same kernels and resistance; its final size
+  is checked against theory.
+
+- New
+  [`epi_growth_rate()`](https://tidymapr.in4metrix.dev/reference/epi_growth_rate.md):
+  epidemic growth rate, doubling time and reproduction number (Wallinga
+  and Lipsitch 2007) from case counts or a line list, with a Poisson or
+  negative binomial GLM; intervals and the fitted incidence band come
+  from the model on the link scale. Checked on simulated epidemics and
+  the 2014 Ebola epidemic in Sierra Leone.
+
+- New
+  [`geo_spread_rate()`](https://tidymapr.in4metrix.dev/reference/geo_spread_rate.md):
+  spread rate of an invasion from dated records, by first records per
+  cell, the invasion front or occupied area, with confidence intervals
+  and fitted bands from the regression.
+
+- [`geo_shift_ensemble()`](https://tidymapr.in4metrix.dev/reference/geo-shift-ensemble.md)
+  now measures the unlimited-dispersal range as all habitat at or above
+  the starting suitability threshold, so it is comparable with the
+  simulated (limited) range. Before, it summed the suitability values
+  themselves.
+
+- [`geo_shift_ensemble()`](https://tidymapr.in4metrix.dev/reference/geo-shift-ensemble.md)
+  gains `rescale` (default `TRUE`), which divides suitability by its
+  present maximum before the simulation, so that probabilities of
+  presence from a niche model are not taken as per-generation survival.
+
+- [`predict()`](https://rspatial.github.io/terra/reference/predict.html)
+  for
+  [`sdm_integrated()`](https://tidymapr.in4metrix.dev/reference/sdm_integrated.md)
+  gains `se_fit` and `level`: the standard error of the linear predictor
+  (delta method from the fitted covariance) and a confidence interval
+  formed on the link scale and back-transformed, so it stays within the
+  bounds of the response. Checked against
+  [`glm()`](https://rdrr.io/r/stats/glm.html) with a cloglog link.
+
+- [`sdm_integrated()`](https://tidymapr.in4metrix.dev/reference/sdm_integrated.md)
+  now fits survey data without presence-only records (it used to fail),
+  and gives the same fit as a cloglog
+  [`glm()`](https://rdrr.io/r/stats/glm.html).
+
+- New user guide chapter, “Invasions and epidemics”: epidemic growth and
+  R (Ebola, Sierra Leone 2014), the spread of the cane toad front,
+  dispersal kernels, resistance and spatial epidemics on Mt Karimui.
+
+- New user guide chapter, “Range shifts under climate change”, and a
+  case study hindcasting the upslope shifts of New Guinea birds.
+
+- New
+  [`geo_shift_simulate()`](https://tidymapr.in4metrix.dev/reference/geo_shift_simulate.md)
+  and
+  [`geo_shift_summary()`](https://tidymapr.in4metrix.dev/reference/geo_shift_simulate.md):
+  stochastic colonisation-extinction simulation of range shifts with a
+  negative exponential dispersal kernel, written in C++ and run in
+  parallel, over a time series of habitat suitability. It shows
+  dispersal lags, extinction debt and lost ranges that niche models
+  alone miss. This is the first stage of a hybrid range-shift model.
+
+- New
+  [`geo_chelsa_area()`](https://tidymapr.in4metrix.dev/reference/geo-climate.md)
+  and
+  [`geo_chelsa_urls()`](https://tidymapr.in4metrix.dev/reference/geo-climate.md):
+  CHELSA V2.1 baseline and CHELSA-CMIP6 projections (five GCMs, three
+  SSPs, three periods) read only over the area needed, as an ensemble.
+
+- New
+  [`geo_downscale_lapse()`](https://tidymapr.in4metrix.dev/reference/geo-climate.md):
+  lapse-rate downscaling of coarse temperature to the resolution of a
+  fine DEM.
+
+- New
+  [`geo_canopy_offset()`](https://tidymapr.in4metrix.dev/reference/geo-climate.md):
+  forest-canopy buffering of temperature, scaled by canopy cover.
+
+- New
+  [`sdm_integrated()`](https://tidymapr.in4metrix.dev/reference/sdm_integrated.md):
+  an integrated species distribution model that fits presence-only
+  records (a Poisson point process with bias covariates) and
+  presence-absence surveys (complementary log-log) with one shared
+  niche, with optional unimodal (hump-shaped) responses and
+  physiological limits such as CTmax, for plausible projections to
+  future climates.
+
+- New
+  [`geo_climate_scenarios()`](https://tidymapr.in4metrix.dev/reference/geo-shift-ensemble.md)
+  and
+  [`geo_shift_ensemble()`](https://tidymapr.in4metrix.dev/reference/geo-shift-ensemble.md):
+  ensembles of climates (GCM x SSP x lapse rate, delta method on a
+  downscaled baseline) and of range-shift projections with limited and
+  unlimited dispersal;
+  [`summary()`](https://rspatial.github.io/terra/reference/summary.html)
+  gives the median change and the probability of losing more than 30, 50
+  or 80% of the range.
+
+- [`geo_chelsa()`](https://tidymapr.in4metrix.dev/reference/geo-bioclim.md)
+  is deprecated in favour of
+  [`geo_chelsa_area()`](https://tidymapr.in4metrix.dev/reference/geo-climate.md),
+  which reads only the area needed. `geo_bioclim(source = "chelsa")` is
+  unchanged.
+
+- `geo_bioclim(source = "chelsa", scenario = , year = )` now reads
+  CHELSA-CMIP6 itself (the 30-year period containing `year`, for the
+  chosen GCM). It used to fall back to WorldClim CMIP6 at 5 arc-minutes
+  through geodata, mislabelled as CHELSA. For regions and GCM ensembles,
+  [`geo_chelsa_area()`](https://tidymapr.in4metrix.dev/reference/geo-climate.md)
+  is recommended.
+
+## tidymapr 0.2.0
+
+### Elevational gradients and climate
+
+- New
+  [`geo_hypsometry()`](https://tidymapr.in4metrix.dev/reference/geo-hypsometry.md):
+  land area in each elevation band of a DEM, inside an optional region,
+  with true cell areas from
+  [`terra::cellSize()`](https://rspatial.github.io/terra/reference/cellSize.html)
+  (`area = "ellipsoid"`).
+- New
+  [`geo_range_shift()`](https://tidymapr.in4metrix.dev/reference/geo-hypsometry.md):
+  moves species’ elevational ranges upslope by `warming / lapse_rate`;
+  reports the area now and after warming, the percentage change,
+  range-shift gaps and summit truncation, with optional padding of
+  ranges and fixed lower limits for lowland species.
+- New
+  [`geo_patches()`](https://tidymapr.in4metrix.dev/reference/geo-hypsometry.md)
+  and
+  [`geo_largest_patch()`](https://tidymapr.in4metrix.dev/reference/geo-hypsometry.md):
+  connected patches of a mask, with their areas.
+- New
+  [`geo_landcover()`](https://tidymapr.in4metrix.dev/reference/geo_landcover.md)
+  and
+  [`geo_worldcover_tiles()`](https://tidymapr.in4metrix.dev/reference/geo_landcover.md):
+  ESA WorldCover 10 m land cover read from its cloud-optimised GeoTIFFs,
+  optionally as a logical layer of chosen classes on the grid of a
+  template raster.
+
+### Fixes
+
+- [`geo_elevation()`](https://tidymapr.in4metrix.dev/reference/geo_elevation.md)
+  mosaics every tile that a box touches. It downloads SRTM 1 arc-second
+  tiles first (new
+  [`geo_srtm_tile_names()`](https://tidymapr.in4metrix.dev/reference/geo_srtm_tile_names.md)),
+  and `path` accepts a folder or several `.tif`, `.hgt`, `.hgt.gz` or
+  `.zip` files, with a warning when their CRS or resolution differ.
+  Earlier versions kept only the first tile.
+- [`geo_raster_crop()`](https://tidymapr.in4metrix.dev/reference/geo-raster.md),
+  [`geo_raster_mask()`](https://tidymapr.in4metrix.dev/reference/geo-raster.md)
+  and
+  [`geo_raster_zonal()`](https://tidymapr.in4metrix.dev/reference/geo-raster.md)
+  accept a `SpatExtent`, `SpatRaster`, `SpatVector`, `sf`, `sfc`, `bbox`
+  or four numbers (`c(xmin, ymin, xmax, ymax)`; named in any order),
+  with a clear error for an invalid box.
+- [`geo_raster_resample()`](https://tidymapr.in4metrix.dev/reference/geo-raster.md)
+  gains `origin` and `align_to`: cells now align to whole multiples of
+  the resolution, so results match
+  [`terra::aggregate()`](https://rspatial.github.io/terra/reference/aggregate.html).
+- [`geo_raster_zonal()`](https://tidymapr.in4metrix.dev/reference/geo-raster.md)
+  accepts a zone raster and gives area-weighted means and sums
+  (`weight = "area"`).
+- Default legend labels of
+  [`map_polygons()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`map_lines()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  and
+  [`map_points()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  are the name of `data`, or the kind of layer when `data` is an
+  expression, never a printed object such as `<tmr_g_sf[,11]>`;
+  `label = NULL` leaves a layer out of the legend.
+- gstat is checked for before every use, so it is truly optional.
+  `SystemRequirements` lists GDAL, GEOS and PROJ.
+
+## tidymapr 0.1.0
+
+- First CRAN release.
+
+### Bug fix: geo_clean() centroids and capitals
+
+- The `"centroids"` test of
+  [`geo_clean()`](https://tidymapr.in4metrix.dev/reference/geo_clean.md)
+  was documented but not implemented: it ran the capitals test instead,
+  so records georeferenced to the centre of a country passed. It now
+  flags records within `centroids_rad` (default 1 km, as
+  CoordinateCleaner) of a country centroid, and is on by default.
+- The capitals test used 33 capitals only; it now uses all 215 national
+  capitals. Capitals and centroids come from Natural Earth (public
+  domain). Re-run
+  [`geo_clean()`](https://tidymapr.in4metrix.dev/reference/geo_clean.md)
+  on data cleaned before.
+
+### Mid-domain effect in two and three dimensions
+
+- New
+  [`geo_mde()`](https://tidymapr.in4metrix.dev/reference/geo_mde.md): a
+  mid-domain null model of species richness over any bounded domain
+  (island, country, mountain range). Ranges built from occurrence
+  records keep their size and are placed at random with the
+  spreading-dye algorithm (Jetz and Rahbek 2001) on an equal-area grid
+  that follows the real coastline. Returns observed and expected
+  richness, the simulation interval and a standardised effect size per
+  cell. The placement kernel is in C++; on a one-cell-wide domain it
+  reproduces the one-dimensional model of rangemodelR.
+- New
+  [`geo_mde_3d()`](https://tidymapr.in4metrix.dev/reference/geo_mde_3d.md):
+  the same model in three dimensions for the sea (or any volume): the
+  water column above a bathymetry raster is divided into depth bands and
+  ranges grow in six directions, following the coast and the sea floor.
+  Returns maps per depth band and the vertical richness profile against
+  the null model.
+- Ranges can be built as convex hulls, buffers around records
+  (`range = "buffer"`, for patchy habitat such as reefs) or occupied
+  cells.
+- New example data: lemur records from Madagascar (GBIF) and reef coral
+  and fish records with depths from Papua New Guinea (OBIS), with GEBCO
+  bathymetry; CC0 and CC BY records only. New user guide chapter 10,
+  “Mid-domain effect on maps and in the sea”.
+
+### Bug fix: DBSCAN on Windows
+
+- [`geo_dbscan()`](https://tidymapr.in4metrix.dev/reference/geo_dbscan.md)
+  gave wrong clusters on Windows: the grid used to find neighbours built
+  its keys with a 32-bit integer there, so some neighbours were missed
+  and points were wrongly marked as noise. Keys are now 64-bit on every
+  platform, and results equal the dbscan package on Windows too. Re-run
+  [`geo_dbscan()`](https://tidymapr.in4metrix.dev/reference/geo_dbscan.md)
+  analyses made on Windows.
+
+### Input safety (November 2026)
+
+An audit of every function that takes coordinates or colours found two
+classes of silent error. The statistics themselves were correct (they
+match spdep, gstat, dbscan and landscapemetrics); the problem was how
+input reached them.
+
+- **Coordinates.** Coordinate columns of a plain data frame were always
+  read as longitude and latitude in degrees. Projected coordinates
+  (metres, e.g. UTM) given that way were silently treated as degrees,
+  giving wrong distances and therefore wrong results in
+  [`geo_moran()`](https://tidymapr.in4metrix.dev/reference/geo_moran.md),
+  [`geo_hotspot()`](https://tidymapr.in4metrix.dev/reference/geo-local.md),
+  [`geo_lisa()`](https://tidymapr.in4metrix.dev/reference/geo-local.md),
+  [`geo_dbscan()`](https://tidymapr.in4metrix.dev/reference/geo_dbscan.md),
+  [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md),
+  [`geo_distance()`](https://tidymapr.in4metrix.dev/reference/geo_distance.md),
+  [`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md),
+  [`geo_rarefy_spatial()`](https://tidymapr.in4metrix.dev/reference/geo_rarefy_spatial.md),
+  [`geo_buffer()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md),
+  [`geo_centroid()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md)
+  and others. Now:
+  - coordinate columns outside the longitude/latitude range are refused
+    with an error that shows how to convert them to an `sf` table with
+    their CRS (exceptions:
+    [`geo_as_sf()`](https://tidymapr.in4metrix.dev/reference/geo_as_sf.md)
+    and
+    [`as_spat_raster()`](https://tidymapr.in4metrix.dev/reference/geo-map-interop.md)
+    with a projected `crs`, and `method = "euclidean"` in
+    [`geo_distance()`](https://tidymapr.in4metrix.dev/reference/geo_distance.md),
+    [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md)
+    and
+    [`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md),
+    which are meant for planar coordinates);
+  - [`geo_moran()`](https://tidymapr.in4metrix.dev/reference/geo_moran.md),
+    [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md),
+    [`geo_distance()`](https://tidymapr.in4metrix.dev/reference/geo_distance.md),
+    [`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md)
+    and
+    [`geo_rarefy_spatial()`](https://tidymapr.in4metrix.dev/reference/geo_rarefy_spatial.md)
+    now accept `sf` tables, like the other functions;
+  - a new test checks that every distance-based function gives the same
+    answer for longitude/latitude columns, a longitude/latitude `sf`
+    table and a projected `sf` table.
+
+  Results from `sf` input and from genuine longitude/latitude columns
+  were always correct and do not change. Analyses that passed projected
+  coordinates as plain columns should be re-run.
+- **True areas, distances and buffers for longitude/latitude data.**
+  [`geo_area()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md),
+  [`geo_distance_to()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md)
+  and
+  [`geo_buffer()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md)
+  measured longitude/ latitude data in a global equirectangular
+  projection, which stretches east-west lengths by 1/cos(latitude):
+  areas and distances were too large (twice the truth at 60 degrees) and
+  buffers too narrow east-west (a 100 m buffer at 51 degrees was 63 m
+  wide). Areas and distances are now measured on the sphere by sf, and
+  each buffer is built in an azimuthal equidistant projection centred on
+  its feature. New tests check the results against true values.
+  Projected data were never affected. Results for longitude/latitude
+  data from these three functions should be recomputed.
+- **The test suite now runs in `R CMD check` and coverage.**
+  `tests/testthat.R` was missing, so `R CMD check` and covr ran none of
+  the tests (they ran only through `devtools::test()`); all 663 pass
+  under `R CMD check`, coverage is 77 %, and CI now fails below 75 %.
+- **[`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md)
+  now computes dbMEM as published** (Dray, Legendre and Peres-Neto
+  2006), reproducing
+  [`adespatial::dbmem()`](http://adeverse.github.io/adespatial/reference/dbmem.md)
+  exactly (same eigenvectors, eigenvalues and number of MEMs). Before,
+  it computed the older PCNM eigenvectors (principal coordinates of the
+  truncated distance matrix): it returned eigenvectors with *negative*
+  spatial autocorrelation as well (86 instead of 48 for the Meuse
+  samples), scaled by the square root of their eigenvalue instead of to
+  variance 1, and kept numerically zero eigenvectors when distances were
+  in metres. Models that used
+  [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md)
+  axes as predictors should be re-run.
+- [`geo_moran()`](https://tidymapr.in4metrix.dev/reference/geo_moran.md)
+  documentation: the variance is the variance under randomisation (equal
+  to `spdep::moran.test(randomisation = TRUE)`), not under normality as
+  stated; the values were always correct.
+- Reference tests strengthened so they compare full results, and their
+  reference packages (adespatial, dbscan, glmnet, landscapemetrics)
+  added to Suggests so CI runs them: Moran’s I and its variance equal
+  spdep’s to 1e-10; DBSCAN core points, noise and core partition equal
+  the dbscan package’s (border points reachable from two clusters may
+  legitimately join either).
+- **Colours.** A named `palette` for categories (e.g.
+  `c(hot = "red", cold = "blue")`) was applied in alphabetical order of
+  the categories instead of by name in
+  [`map_points()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`map_lines()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`map_polygons()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`geo_webmap()`](https://tidymapr.in4metrix.dev/reference/geo_webmap.md),
+  [`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md),
+  [`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
+  and
+  [`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md).
+  All now colour each category by its name; a named palette that misses
+  a category is an error, and factor columns keep their level order.
+
+### User guide (November 2026)
+
+- A seven-chapter User guide on the website: installing and running
+  tidymapr in RStudio; cartography concepts; spatial autocorrelation;
+  interpolation and kriging; species distribution models; remote sensing
+  and terrain; point clusters and landscape metrics. Each chapter gives
+  the concept and theory, runnable code on real data, figures and
+  tables, how to interpret them and a model paragraph for reporting.
+
+### New documentation (November 2026)
+
+- The website is rewritten around the current features: a new Get
+  started guide, two case studies (species distribution of the
+  brown-throated sloth; tree diversity across Barro Colorado Island), a
+  spatial analysis guide and a gallery with the code of every map. All
+  use real, published data. The navigation now matches tidydiversity’s.
+- [`geo_hotspot()`](https://tidymapr.in4metrix.dev/reference/geo-local.md)
+  and
+  [`geo_lisa()`](https://tidymapr.in4metrix.dev/reference/geo-local.md)
+  accept `sf` tables directly.
+- [`map_raster()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  gains `limits`, so rasters in several panels can share one colour
+  scale and one legend.
+- `geo_panels(guides = "keep")` no longer overrides each map’s own
+  legend position (including `legend = "none"`).
+- Web map legends round their labels to the precision of the data.
+- World maps from
+  [`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md)
+  are centred on Greenwich again, features crossing the date line
+  (Russia, Fiji) are split there instead of being stretched across the
+  map, and the frame shows the whole globe.
+- Coordinate labels that would overlap on narrow maps and panels are
+  dropped.
+- tidymapr ships a 90 m Copernicus elevation model of Mt Wilhelm, Papua
+  New Guinea (`inst/extdata/wilhelm-dem.tif`), used in the 3D examples.
+- The case studies and README explain how to read the uncertainty and
+  disagreement maps.
+
+### Interactive web maps (November 2026)
+
+- [`geo_webmap()`](https://tidymapr.in4metrix.dev/reference/geo_webmap.md)
+  turns a
+  [`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md) (or
+  one `sf` or raster layer) into a self-contained interactive web page
+  built on Leaflet: pan and zoom, four basemaps, layers that switch on
+  and off, attribute pop-ups, permanent labels, a scale bar and a legend
+  with the same symbols, classes and presets as the printed map.
+  Features are embedded as GeoJSON and rasters as images, so the single
+  HTML file can be emailed or published; Leaflet is loaded with
+  Subresource Integrity.
+
+### Symbology presets (November 2026)
+
+- [`map_polygons()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`map_lines()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  and
+  [`map_points()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  take `preset`, a standard cartographic symbol by name (water, forest,
+  protected area, administrative unit, river, main road, railway,
+  boundary, contour, town, peak, sample site and more); arguments you
+  set yourself override it.
+  [`map_presets()`](https://tidymapr.in4metrix.dev/reference/map_presets.md)
+  lists them. Polygons gain `linetype` for dashed outlines.
+
+### GeoSpaX plug-in tools (November 2026)
+
+- [`geo_dbscan()`](https://tidymapr.in4metrix.dev/reference/geo_dbscan.md)
+  clusters points with DBSCAN in C++ (grid index), with `eps` in metres
+  on the ground for geographic data and a convex-hull outline per
+  cluster. It gives the same partition as the dbscan package.
+- [`geo_landscape()`](https://tidymapr.in4metrix.dev/reference/geo_landscape.md)
+  computes FRAGSTATS fragmentation metrics by class (np, ca, pland, lpi,
+  area_mn, ed, ai, mesh) and for the landscape (with Shannon’s and
+  Simpson’s diversity). They match landscapemetrics on projected rasters
+  to machine precision, and unlike landscapemetrics they measure
+  geographic (degree) rasters in true hectares and metres.
+- Projections chosen from data that cross the antimeridian (Fiji, New
+  Zealand, Kiribati) now centre on the data, not on longitude 0.
+
+### 3D terrain maps (November 2026)
+
+- [`geo_map3d()`](https://tidymapr.in4metrix.dev/reference/geo_map3d.md)
+  renders a DEM as a 3D block diagram with sun lighting and cast
+  shadows, any viewing direction and angle, automatic vertical
+  exaggeration, hypsometric tints or any raster draped on the surface,
+  and sites or routes placed on the terrain and hidden behind hills. The
+  renderer is written in C++ (no OpenGL, rgl or rayshader), so it runs
+  on servers and in reports and returns an ordinary ggplot. Empty wedges
+  left by reprojection are trimmed so the block has clean sides.
+
+### Maxent and ensemble models in C++ (November 2026)
+
+- [`sdm_maxent()`](https://tidymapr.in4metrix.dev/reference/sdm_maxent.md)
+  fits Maxent as maxnet does (infinitely weighted logistic regression
+  with the lasso, the same feature classes and default regularisation),
+  with the lasso path solved in C++ (coordinate descent with strong
+  rules and active sets, on several cores): no Java and no glmnet. It
+  agrees with maxnet to a correlation of 0.999 or more on the Bradypus
+  data (Phillips et al. 2006). It fixes three weaknesses of maxnet:
+
+  - predictors are standardised to 0-1 before features are built (as in
+    the original Java Maxent), so quadratic and product features no
+    longer depend on where zero lies: in maxnet, temperatures in Kelvin
+    instead of Celsius change predicted suitability by up to 0.13 on the
+    Bradypus data; here they change nothing. `standardize = FALSE`
+    reproduces maxnet;
+  - the duplicated outermost hinge feature that maxnet builds for every
+    predictor is kept once;
+  - the solver centres features internally, which makes it converge
+    reliably where unscaled features stall coordinate descent.
+
+- [`sdm_ensemble()`](https://tidymapr.in4metrix.dev/reference/sdm_ensemble.md)
+  combines Maxent, GLM, GAM and a C++ random forest in the spirit of
+  biomod2: spatial block cross-validation with folds balanced for
+  presences and background, AUC, TSS and the continuous Boyce index,
+  weights from cross-validated TSS above `min_tss`, balanced weighting
+  of presences and background for every algorithm, and predictions of
+  the weighted mean and the weighted disagreement (SD) between
+  algorithms. The C++ random forest matches randomForest’s accuracy and
+  is about 18 times faster.
+
+- `geo_map(crs = "laea")` and other named projections now centre on
+  raster layers too.
+
+- [`geo_stac_search()`](https://tidymapr.in4metrix.dev/reference/geo-stac.md)
+  finds scenes in any STAC catalogue (default: Element 84 Earth Search:
+  Sentinel-2, Landsat, Copernicus DEM) by area, period and cloud cover,
+  and returns their footprints as an `sf` table.
+
+- [`geo_stac_read()`](https://tidymapr.in4metrix.dev/reference/geo-stac.md)
+  reads chosen bands over an area only (windowed reads of
+  cloud-optimised GeoTIFFs), applies the catalogue’s scale and offset
+  (skipping it where Earth Search has already applied it), mosaics tiles
+  and takes the per-pixel median of several scenes to remove clouds.
+  [`geo_stac_collections()`](https://tidymapr.in4metrix.dev/reference/geo-stac.md)
+  lists a catalogue’s collections. Needs the suggested package httr2.
+
+- [`geo_spectral_index()`](https://tidymapr.in4metrix.dev/reference/geo_spectral_index.md)
+  recognises STAC band names (`red`, `nir`, …) and returns `NA` where a
+  normalised difference has no signal.
+
+### Curved labels (November 2026)
+
+- The README shows a new gallery of maps made from real data: layered
+  maps, automatic world maps, diversity surfaces, spectral diversity,
+  curved labels, contours, insets, small multiples and GeoSpaX recipes.
+- [`map_curved_labels()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  writes labels that follow the shape of any feature: along lines (road
+  and river names), along the long axis or the outline of polygons, or
+  on an arc above points. Text stays upright, jagged paths are smoothed,
+  and labels that do not fit are left out.
+  [`map_line_labels()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  is the same for lines. Needs the suggested package geomtextpath.
+- [`map_contours()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  draws contour lines of a raster, with every second contour thicker and
+  labelled with its height at its straightest stretch.
+
+### Multi-panel figures (November 2026)
+
+- [`map_zoom()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  zooms a
+  [`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md) in
+  or out (`zoom = 2` is twice as close), on the centre or on a
+  `centre = c(lon, lat)`, or shows an exact `extent`; the scale bar
+  follows the zoom.
+- [`geo_panels()`](https://tidymapr.in4metrix.dev/reference/geo-panels.md)
+  arranges maps from
+  [`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md)
+  or any ggplot in a grid, tagged (a), (b), …, with matching legends
+  collected into one and a figure title and caption.
+- [`geo_facet_map()`](https://tidymapr.in4metrix.dev/reference/geo-panels.md)
+  draws small multiples (by a grouping column, or one panel per value
+  column) with one classification shared by all panels, one legend, and
+  the scale bar and north arrow in the first panel only.
+- [`geo_inset()`](https://tidymapr.in4metrix.dev/reference/geo-panels.md)
+  places a locator map on a larger map. By default (`location = "auto"`)
+  it takes a corner free of the scale bar, north arrow and any legend
+  inside the map, and of those the one hiding the least of the mapped
+  features; a corner name or any `c(x, y)` position also works.
+- `geo_map(legend = "inside")` puts the legend in a framed box on the
+  map, in a corner chosen the same way (or set with `legend_corner`).
+  `map_legend(position = "inside")` does the same for any map.
+
+### Layered maps (November 2026)
+
+- New layered-map builder in the style of a desktop GIS layout: start
+  with
+  [`geo_map()`](https://tidymapr.in4metrix.dev/reference/geo-map.md) and
+  add
+  [`map_raster()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  (gradient legend, optional hillshade),
+  [`map_polygons()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`map_lines()`](https://tidymapr.in4metrix.dev/reference/geo-map.md),
+  [`map_points()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  and
+  [`map_labels()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  (labels with a white halo). Each layer gets its own legend section
+  with the right symbol for its geometry, listed top layer first;
+  numbers are classed with
+  [`geo_classify()`](https://tidymapr.in4metrix.dev/reference/geo_breaks.md).
+  [`map_build()`](https://tidymapr.in4metrix.dev/reference/geo-map.md)
+  returns an ordinary ggplot. Needs the suggested package ggnewscale.
+- Named sequential palettes now run light (low) to dark (high), except
+  terrain and viridis-type ramps, which keep their own order.
+
+### Recipe exchange with GeoSpaX (November 2026)
+
+- New
+  [`geo_recipe_read()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md),
+  [`geo_recipe_write()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md),
+  [`geo_recipe_validate()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md)
+  and
+  [`geo_recipe_run()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md)
+  read, write, check and run GeoSpaX recipes (version 1 and 2 YAML), so
+  a workflow built in GeoSpaX runs in R and the other way round.
+  [`geo_recipe()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md),
+  [`recipe_input()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md)
+  and
+  [`recipe_step()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md)
+  build recipes in R.
+- Supported steps: `io.open`, `interpolate.idw`, `interpolate.auto`
+  (kriging against IDW by leave-one-out error, with a standard-error
+  map), `aggregate.hexbin`, `stats.hotspots` (Getis-Ord Gi\* with
+  FDR-corrected 90/95/99% classes), `automap.style`, `style.apply`,
+  `layout.auto`, `terrain.derive`, `rs.index`,
+  `export.map`/`png`/`svg`/`pdf`, `export.data` and `export.report` (an
+  HTML report with the maps, decisions and run log). Steps that only
+  GeoSpaX can run are reported by
+  [`geo_recipe_validate()`](https://tidymapr.in4metrix.dev/reference/geo-recipe.md).
+- Three GeoSpaX recipes ship in `inst/recipes`: interpolate-samples,
+  points-to-hotspots and points-to-hexbins.
+- Hot spot maps use the conventional diverging colours (reds for hot,
+  blues for cold, grey for not significant).
+- GeoSpaX is now linked: <https://geospax.in4metrix.dev>.
+
+### A wider scope (November 2026)
+
+- tidymapr is now a general toolkit for mapping, spatial analysis and
+  publication cartography, not only for biodiversity: new title “Tidy
+  Mapping, Spatial Analysis and Publication Cartography”. It is
+  compatible with the GeoSpaX desktop GIS (same cartographic
+  conventions, same formats through GDAL) and remains the mapping
+  companion to tidydiversity for ecology. No functions were renamed.
+- The reference is regrouped into Maps and cartography, Spatial
+  analysis, Terrain and hydrology, Remote sensing, Data input and
+  output, and Ecology with tidydiversity.
+
+Install the latest version with `pak::pak("jmozez/tidymapr")`.
+
+### New maps (November 2026)
+
+- New
+  [`plot_choropleth()`](https://tidymapr.in4metrix.dev/reference/thematic-maps.md)
+  shades polygons by a numeric column, grouped into classes with
+  [`geo_classify()`](https://tidymapr.in4metrix.dev/reference/geo_breaks.md)
+  (quantile, equal, Fisher-Jenks, pretty, standard deviation or fixed
+  breaks). It uses colour-blind-safe sequential palettes from
+  [`grDevices::hcl.colors()`](https://rdrr.io/r/grDevices/palettes.html)
+  (default `"YlGnBu"`, light for low values and dark for high). The
+  breaks, counts per class and goodness of variance fit are kept with
+  the plot.
+- New
+  [`plot_bubble()`](https://tidymapr.in4metrix.dev/reference/thematic-maps.md)
+  draws proportional-area circles for counts such as species richness or
+  abundance, from an `sf` point table or a lon/lat data frame,
+  optionally coloured by group and over a background layer. Sites with a
+  value of zero (sampled, nothing found) are shown as small open
+  circles, so absences stay on the map. The example maps ant species on
+  the 16 Mt Wilhelm transects, where no ants were found above 2,200 m.
+- [`geo_basemap()`](https://tidymapr.in4metrix.dev/reference/geo_basemap.md),
+  [`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md),
+  [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md),
+  [`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md)
+  and [`plot_sdm()`](https://tidymapr.in4metrix.dev/reference/sdm.md)
+  gain new basemaps, all free and needing no API key:
+  - topographic and street tiles: `"topo"` (OpenTopoMap, with contours
+    and hillshade), `"osm_hot"` (OpenStreetMap Humanitarian),
+    `"carto_voyager"`, `"esri_street"`, `"esri_relief"` (shaded relief),
+    `"esri_terrain"` and `"esri_natgeo"` (National Geographic),
+    alongside the existing `"esri"`, `"esri_topo"`, `"osm"`, `"carto"`
+    and `"carto_dark"`;
+  - built from an elevation model: `"hillshade"`, `"contour"` (labelled
+    contour lines) and `"terrain"` (both). Pass your own DEM with `dem`
+    (works offline), or let
+    [`geo_elevation()`](https://tidymapr.in4metrix.dev/reference/geo_elevation.md)
+    download one for the map extent; set the contour interval with
+    `contour_breaks`.
+- Map furniture in the GeoSpaX styles, for any ggplot map with
+  [`coord_sf()`](https://ggplot2.tidyverse.org/reference/ggsf.html). You
+  pick the style:
+  - [`annotation_scale_bar()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md):
+    `"pill"`, `"checker"`, `"line"` or `"ruler"`, in `"metric"`,
+    `"imperial"` or `"both"` units. Its length is measured on the ground
+    when the map is drawn, so it is right on longitude/latitude and
+    projected maps and in every facet.
+  - [`annotation_north_arrow()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md):
+    `"needle"`, `"compass"`, `"rose"` or `"minimal"`.
+  - [`map_legend()`](https://tidymapr.in4metrix.dev/reference/map-furniture.md):
+    legend `"right"`, `"bottom"`, `"inside"` a chosen corner or
+    `"none"`, with its title, renamed entries (`labels`), hidden legends
+    (`hide`), frame, text, title and key sizes, columns, direction and
+    order.
+- [`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md),
+  [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md)
+  and [`plot_sdm()`](https://tidymapr.in4metrix.dev/reference/sdm.md)
+  accept these style names in `scale_bar` and `north_arrow` (`TRUE`
+  keeps the default, `FALSE` turns them off), and
+  [`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md)
+  and
+  [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md)
+  gain `scale_units`. Their maps keep the full planned extent around the
+  sites.
+- Tile maps now carry each provider’s required attribution (for example
+  “© OpenStreetMap contributors”) as the plot caption.
+
+### Spectral diversity and spectral indices (November 2026)
+
+- New
+  [`geo_spectral_diversity()`](https://tidymapr.in4metrix.dev/reference/geo_spectral_diversity.md)
+  maps diversity from satellite or drone imagery in Hill numbers (q = 0,
+  1, 2), on the same scale as species diversity: bands are reduced by
+  principal components, pixels grouped into spectral species by k-means
+  (Féret and Asner 2014), and Hill numbers computed in a moving window
+  in C++ on several cores. Results equal direct Hill-number calculations
+  to machine precision.
+- New
+  [`geo_spectral_index()`](https://tidymapr.in4metrix.dev/reference/geo_spectral_index.md)
+  computes NDVI, GNDVI, NDRE, NDWI, MNDWI, NDMI, NBR and NDBI
+  (Sentinel-2 bands recognised automatically), with an optional Otsu
+  threshold that reports the area above the cut, as in GeoSpaX’s
+  Forestry plug-in.
+- Examples use the Sentinel-2 Level-2A scene of Luxembourg shipped with
+  terra.
+
+### Automatic publication maps (November 2026)
+
+- New
+  [`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md)
+  draws a finished map from one call and explains every choice;
+  [`geo_automap_explain()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md)
+  returns the decisions as a table for a methods section. Following
+  GeoSpaX’s AutoMap and ArcGIS/QGIS practice:
+  - projection by extent: Equal Earth for world data, Lambert equal-area
+    for regions, the local UTM zone for study areas (longitude/latitude
+    when raster tiles or a surface are drawn);
+  - numbers on points, lines and polygons get graduated colours in
+    classes (a classed legend, never a continuous ramp): equal intervals
+    when roughly symmetric, natural breaks when skewed, quantiles when
+    heavy-tailed; 5 classes for 30 or more features, fewer for small
+    samples; the colour ramp follows the field’s meaning (blues for
+    water, greens for vegetation, viridis for elevation, diverging
+    across zero);
+  - small counts on points get proportional circles, categories get
+    Okabe-Ito colours, plain sites a single symbol;
+  - a continuous surface (a raster, or a new `background` such as a DEM
+    under the sites) gets a stretched ramp with a gradient legend, while
+    the sites keep their own symbol legend;
+  - topographic tiles as muted context for study areas; graticule and
+    world outline on world maps; scale bar and north arrow in the
+    emptiest corners on regional and local maps.
+- [`geo_automap()`](https://tidymapr.in4metrix.dev/reference/geo_automap.md)
+  takes `palette` and `background_palette`: `"auto"`, any
+  [`grDevices::hcl.pals()`](https://rdrr.io/r/grDevices/palettes.html)
+  name (for example `"viridis"`, `"Blues 3"`, `"Terrain 2"`) or your own
+  colours. Every map is also a ggplot, so any `scale_fill_*()` or
+  `scale_colour_*()` can replace a ramp with `+`.
+- Scale bars drop the middle label when the bar is short, so labels
+  never collide.
+
+### Diversity surfaces with uncertainty (November 2026)
+
+- New
+  [`geo_diversity_surface()`](https://tidymapr.in4metrix.dev/reference/geo_diversity_surface.md)
+  turns a community table into continuous maps of Hill-number diversity
+  (q = 0, 1, 2) with 95% intervals:
+  1.  each site’s diversity is standardised to a common sample coverage
+      with
+      [`tidydiversity::div_standardise()`](https://tidydiversity.in4metrix.dev/reference/div_standardise.html)
+      (Chao and Jost 2012), keeping its bootstrap standard error;
+  2.  each order q is interpolated by kriging with measurement error
+      (Cressie 1993) on the log scale, so poorly sampled sites count for
+      less and the map shows the underlying diversity rather than
+      sampling noise;
+  3.  the interval combines spatial and estimation uncertainty. The
+      example maps tree diversity across the 50-ha Barro Colorado Island
+      forest plot
+      ([`vegan::BCI`](https://vegandevs.github.io/vegan/reference/BCI.html)).
+- New
+  [`plot_diversity_surface()`](https://tidymapr.in4metrix.dev/reference/plot_diversity_surface.md)
+  draws the surfaces with a matching row of uncertainty maps and the
+  sampled sites.
+- Kriging now accepts per-site measurement-error variances (C++); with a
+  common error it equals gstat’s `"Err"` variogram model.
+
+### Faster: C++ and multi-core (November 2026)
+
+- The most demanding calculations now run in C++ and use several CPU
+  cores (OpenMP). Set the number with `options(tidymapr.threads = n)`;
+  by default tidymapr uses all cores but one. Timings on 4 cores:
+  - [`geo_lisa()`](https://tidymapr.in4metrix.dev/reference/geo-local.md)
+    permutation test (500 sites, 999 permutations): 5 s to 0.05 s;
+  - kriging in
+    [`geo_interpolate()`](https://tidymapr.in4metrix.dev/reference/geo_interpolate.md)
+    (300 points to 40,000 cells): 20 s to 0.9 s; new `variance = FALSE`
+    skips the kriging variance for even larger grids;
+  - inverse-distance weighting: 0.8 s to 0.04 s;
+  - nearest-neighbour search for
+    [`geo_hotspot()`](https://tidymapr.in4metrix.dev/reference/geo-local.md)
+    and
+    [`geo_lisa()`](https://tidymapr.in4metrix.dev/reference/geo-local.md):
+    about 4 times faster;
+  - [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md)
+    minimum spanning tree (Prim’s algorithm): about 10 times faster and
+    now scales to thousands of sites.
+- Results are unchanged: they still equal spdep and gstat, and
+  permutation p-values are the same for a given seed whatever the number
+  of cores.
+
+### Projections and graticules (November 2026)
+
+- New
+  [`coord_projection()`](https://tidymapr.in4metrix.dev/reference/map-projection.md)
+  draws any tidymapr or ggplot map in a named projection, added with
+  `+`: `"equal_earth"` (true areas, recommended for world choropleths),
+  `"mercator"` (World Mercator), `"web_mercator"` (matches online
+  tiles), `"robinson"`, `"mollweide"`, `"winkel_tripel"`, `"lonlat"`,
+  `"utm"` (zone picked from your data), and `"laea"`, `"albers"` and
+  `"orthographic"` centred on your data. Any EPSG code or PROJ string
+  also works, and world projections take `lon0`, for example
+  `lon0 = 150` for a Pacific-centred map.
+- New
+  [`geo_crs()`](https://tidymapr.in4metrix.dev/reference/map-projection.md)
+  returns the CRS for those names, for reprojecting data.
+- New
+  [`map_graticule()`](https://tidymapr.in4metrix.dev/reference/map-projection.md)
+  sets the latitude/longitude grid interval and line style, labels
+  latitudes, longitudes, both or neither (on curved world projections it
+  labels latitudes only, so longitude labels do not crowd the pole
+  line), and can draw the edge of the world or, on orthographic maps,
+  the horizon circle.
+- Examples use
+  [`spData::world`](https://jakubnowosad.com/spData/reference/world.html)
+  (Natural Earth and World Bank, free to use) for world maps.
+
+### Reading GIS, CAD and remote sensing files (November 2026)
+
+- [`geo_read()`](https://tidymapr.in4metrix.dev/reference/geo-io.md) now
+  reads many more formats through GDAL:
+  - remote sensing and climate rasters: netCDF (`.nc`, `.nc4`, `.cdf`),
+    HDF4/HDF5 (MODIS, VIIRS, GEDI), GRIB weather files, Sentinel-2
+    `.SAFE` folders and zips, JPEG 2000, ENVI cubes (a `.dat`/`.bin`
+    with its `.hdr`), ERDAS Imagine, Zarr, VRT, IDRISI, SAGA and ER
+    Mapper;
+  - several band files at once (for example Landsat or Sentinel-2
+    bands), stacked into one multi-band raster;
+  - CAD drawings: AutoCAD `.dxf` and `.dwg` and MicroStation `.dgn`,
+    with `cad_layer` to keep chosen AutoCAD layers (DGN levels) and
+    `crs` to set the coordinate system CAD files do not store;
+  - vector formats: FlatGeobuf, GPX, MapInfo, SpatiaLite, TopoJSON,
+    OpenStreetMap `.osm`/`.pbf`, S-57 nautical charts and spreadsheets
+    (`.xlsx`, `.xls`, `.ods`).
+- New `var` argument to pick netCDF, HDF and GRIB variables by name or
+  number; several variables are combined into one raster, and time steps
+  stay in
+  [`terra::time()`](https://rspatial.github.io/terra/reference/time.html).
+- New
+  [`geo_layers()`](https://tidymapr.in4metrix.dev/reference/geo_layers.md)
+  shows what a file holds before you read it: vector layers, netCDF/HDF
+  variables and subdatasets, CAD layers or raster bands.
+
+### Earlier additions
+
+- New local spatial statistics:
+  [`geo_hotspot()`](https://tidymapr.in4metrix.dev/reference/geo-local.md)
+  (Getis-Ord Gi\*) and
+  [`geo_lisa()`](https://tidymapr.in4metrix.dev/reference/geo-local.md)
+  (local Moran’s I with cluster types, analytical or permutation
+  p-values) on k-nearest or distance-band neighbours. Results equal
+  [`spdep::localG()`](https://r-spatial.github.io/spdep/reference/localG.html)
+  and
+  [`spdep::localmoran()`](https://r-spatial.github.io/spdep/reference/localmoran.html).
+- New
+  [`geo_interpolate()`](https://tidymapr.in4metrix.dev/reference/geo_interpolate.md)
+  predicts a numeric column at raster cells or points by
+  inverse-distance weighting or ordinary kriging (exponential, spherical
+  or Gaussian variogram, fitted with gstat when not given). Results
+  equal
+  [`gstat::idw()`](https://r-spatial.github.io/gstat/reference/krige.html)
+  and
+  [`gstat::krige()`](https://r-spatial.github.io/gstat/reference/krige.html)
+  to numerical precision.
+- New terrain hydrology verbs:
+  [`geo_flow_direction()`](https://tidymapr.in4metrix.dev/reference/geo-hydrology.md)
+  (D8),
+  [`geo_flow_accumulation()`](https://tidymapr.in4metrix.dev/reference/geo-hydrology.md),
+  [`geo_watershed()`](https://tidymapr.in4metrix.dev/reference/geo-hydrology.md)
+  (with outlet snapping) and
+  [`geo_twi()`](https://tidymapr.in4metrix.dev/reference/geo-hydrology.md)
+  (topographic wetness index). Accumulation and watersheds equal
+  [`terra::flowAccumulation()`](https://rspatial.github.io/terra/reference/flowAccumulation.html)
+  and
+  [`terra::watershed()`](https://rspatial.github.io/terra/reference/watershed.html)
+  for the same flow directions.
+- Maps use real, published records only. New dataset `png_ants_sites`
+  holds the published bait GPS of the 16 Mt Wilhelm ant transects
+  (Mottl, Moses and Klimes 2023, <doi:10.5281/zenodo.8191946>), and
+  [`geo_example_sites()`](https://tidymapr.in4metrix.dev/reference/geo_example_sites.md)
+  returns their band centroids. The invented Wanang coordinates and the
+  simulated Wanang stem case study are gone.
+- The Gallery now shows the real-data site, Hill-number, SRTM elevation
+  and *Oecophylla smaragdina* species distribution maps (GBIF CC0/CC BY
+  records in `inst/extdata`, WorldClim 2.1), rendered by
+  `data-raw/gallery_maps.R`. Basemap tiles are drawn in the right
+  projection and their zoom follows the map extent.
+- First version. All mapping, geospatial and spatial-ecology verbs move
+  here from tidydiversity, which stays the home of diversity estimation.
+  The two packages are designed to be loaded together:
+  - Sites and occurrences:
+    [`geo_as_sf()`](https://tidymapr.in4metrix.dev/reference/geo_as_sf.md),
+    [`geo_drop_geometry()`](https://tidymapr.in4metrix.dev/reference/geo_as_sf.md),
+    [`geo_extract()`](https://tidymapr.in4metrix.dev/reference/geo_extract.md),
+    [`geo_clean()`](https://tidymapr.in4metrix.dev/reference/geo_clean.md),
+    [`geo_gbif()`](https://tidymapr.in4metrix.dev/reference/geo_gbif.md),
+    [`as_sf()`](https://tidymapr.in4metrix.dev/reference/geo-map-interop.md),
+    [`as_spat_raster()`](https://tidymapr.in4metrix.dev/reference/geo-map-interop.md),
+    [`geo_as_features()`](https://tidymapr.in4metrix.dev/reference/geo_as_features.md).
+  - Distances and spatial statistics:
+    [`geo_distance()`](https://tidymapr.in4metrix.dev/reference/geo_distance.md),
+    [`geo_decay()`](https://tidymapr.in4metrix.dev/reference/geo_decay.md)
+    (pairs with
+    [`tidydiversity::beta_decay_model()`](https://tidydiversity.in4metrix.dev/reference/beta_decay_model.html)),
+    [`geo_moran()`](https://tidymapr.in4metrix.dev/reference/geo_moran.md),
+    [`geo_mem()`](https://tidymapr.in4metrix.dev/reference/geo_mem.md),
+    [`geo_rarefy_spatial()`](https://tidymapr.in4metrix.dev/reference/geo_rarefy_spatial.md),
+    [`geo_grain()`](https://tidymapr.in4metrix.dev/reference/geo_grain.md),
+    [`geo_middomain()`](https://tidymapr.in4metrix.dev/reference/geo_middomain.md).
+  - Maps:
+    [`plot_sites()`](https://tidymapr.in4metrix.dev/reference/plot_sites.md),
+    [`plot_geo()`](https://tidymapr.in4metrix.dev/reference/plot_geo.md),
+    [`plot_topo()`](https://tidymapr.in4metrix.dev/reference/plot_topo.md),
+    [`geo_basemap()`](https://tidymapr.in4metrix.dev/reference/geo_basemap.md),
+    [`geo_save()`](https://tidymapr.in4metrix.dev/reference/geo_save.md)
+    and
+    [`theme_tidymapr()`](https://tidymapr.in4metrix.dev/reference/theme_tidymapr.md).
+  - Vector, raster and file verbs:
+    [`geo_read()`](https://tidymapr.in4metrix.dev/reference/geo-io.md),
+    [`geo_write()`](https://tidymapr.in4metrix.dev/reference/geo-io.md),
+    `geo_vector_*()`, `geo_raster_*()`,
+    [`geo_buffer()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md),
+    [`geo_crop()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md),
+    [`geo_union()`](https://tidymapr.in4metrix.dev/reference/geo-vector.md)
+    and friends.
+  - Environmental layers:
+    [`geo_bioclim()`](https://tidymapr.in4metrix.dev/reference/geo-bioclim.md),
+    [`geo_worldclim()`](https://tidymapr.in4metrix.dev/reference/geo-bioclim.md),
+    [`geo_chelsa()`](https://tidymapr.in4metrix.dev/reference/geo-bioclim.md),
+    [`geo_elevation()`](https://tidymapr.in4metrix.dev/reference/geo_elevation.md),
+    [`geo_gadm()`](https://tidymapr.in4metrix.dev/reference/geo_gadm.md),
+    cached under `tools::R_user_dir("tidymapr", "cache")`.
+  - Forest plot stem maps:
+    [`stems_quadrat()`](https://tidymapr.in4metrix.dev/reference/stems_spatial.md),
+    [`stems_habitat()`](https://tidymapr.in4metrix.dev/reference/stems_spatial.md),
+    [`stems_neighbours()`](https://tidymapr.in4metrix.dev/reference/stems_spatial.md)
+    and the torus-translation
+    [`stems_habitat_test()`](https://tidymapr.in4metrix.dev/reference/stems_habitat_test.md);
+    census summaries stay in tidydiversity.
+  - Species distribution models:
+    [`sdm_fit()`](https://tidymapr.in4metrix.dev/reference/sdm.md),
+    [`sdm_predict()`](https://tidymapr.in4metrix.dev/reference/sdm.md),
+    [`sdm_evaluate()`](https://tidymapr.in4metrix.dev/reference/sdm.md),
+    [`plot_sdm()`](https://tidymapr.in4metrix.dev/reference/sdm.md).
+  - Example data:
+    [`geo_example_sites()`](https://tidymapr.in4metrix.dev/reference/geo_example_sites.md),
+    [`geo_example_stems()`](https://tidymapr.in4metrix.dev/reference/geo_example_stems.md),
+    [`geo_example_dem()`](https://tidymapr.in4metrix.dev/reference/geo_example_dem.md),
+    [`geo_example_censuses()`](https://tidymapr.in4metrix.dev/reference/geo_example_censuses.md).
