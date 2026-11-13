@@ -11,7 +11,7 @@ authors:
     orcid: 0000-0003-3342-2384
     affiliation: 1
 affiliations:
-  - name: Papua New Guinea University of Technology, Lae, Papua New Guinea
+  - name: School of Forestry, Faculty of Natural Resources, Papua New Guinea University of Technology, Private Mail Bag, Lae 411, Morobe Province, Papua New Guinea
     index: 1
 date: 12 November 2026
 bibliography: paper.bib
@@ -138,6 +138,7 @@ Every exported function has a help page with a runnable example. A
 nine-chapter user guide at <https://tidymapr.in4metrix.dev> takes users
 from installation to reporting, with the concept, a worked example on
 real data, how to read the output and how to report it in a paper.
+Version 0.2.0 is archived on Zenodo [@tidymapr].
 
 # AI usage disclosure
 
