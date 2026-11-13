@@ -19,6 +19,11 @@
   shared niche, with optional unimodal (hump-shaped) responses and
   physiological limits such as CTmax, for plausible projections to future
   climates.
+* New `geo_climate_scenarios()` and `geo_shift_ensemble()`: ensembles of
+  climates (GCM x SSP x lapse rate, delta method on a downscaled baseline)
+  and of range-shift projections with limited and unlimited dispersal;
+  `summary()` gives the median change and the probability of losing more
+  than 30, 50 or 80% of the range.
 * `geo_chelsa()` is deprecated in favour of `geo_chelsa_area()`, which
   reads only the area needed. `geo_bioclim(source = "chelsa")` is unchanged.
 * `geo_bioclim(source = "chelsa", scenario = , year = )` now reads CHELSA-CMIP6 itself (the
