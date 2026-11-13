@@ -206,6 +206,8 @@ navbar:
           href: articles/case-sloth-sdm.html
         - text: Tree diversity across Barro Colorado Island
           href: articles/case-bci-diversity.html
+        - text: Did the models predict the climb? New Guinea birds
+          href: articles/case-karimui-hindcast.html
     gallery:
       text: Gallery
       href: articles/gallery.html
@@ -227,6 +229,7 @@ articles:
       - articles/tutorials
       - articles/case-sloth-sdm
       - articles/case-bci-diversity
+      - articles/case-karimui-hindcast
   - title: "User guide: all spatial methods"
     contents:
       - articles/geospatial
