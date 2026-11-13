@@ -201,6 +201,8 @@ navbar:
           href: articles/guide-10-mid-domain.html
         - text: 11. Range shifts under climate change
           href: articles/guide-11-range-shifts.html
+        - text: 12. Invasions and epidemics
+          href: articles/guide-12-invasions-epidemics.html
         - text: -------
         - text: "Reference: all spatial methods"
           href: articles/geospatial.html
