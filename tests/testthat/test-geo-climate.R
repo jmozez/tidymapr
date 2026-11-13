@@ -58,3 +58,18 @@ test_that("geo_chelsa_area reads a small real window", {
   v <- terra::values(r)
   expect_true(all(v > 0 & v < 30, na.rm = TRUE))
 })
+
+test_that("geo_chelsa() future climate uses CHELSA-CMIP6 periods", {
+  expect_equal(tidymapr:::tmr_chelsa_period(2050), "2041-2070")
+  expect_equal(tidymapr:::tmr_chelsa_period(2040), "2011-2040")
+  expect_equal(tidymapr:::tmr_chelsa_period(2100), "2071-2100")
+  expect_error(tidymapr:::tmr_chelsa_period(2200), "2011 to 2100")
+  skip_if_not_installed("terra")
+  expect_error(
+    suppressMessages(geo_chelsa("bio1",
+      scenario = "ssp585", year = 2050,
+      cache_dir = tempfile(), download = FALSE
+    )),
+    "not cached"
+  )
+})

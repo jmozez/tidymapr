@@ -63,8 +63,12 @@ cache or \code{path}.}
 \item{version}{Dataset version string (informational / URL selection).}
 
 \item{scenario, year, model}{Optional CHELSA-CMIP6 future climate
-arguments (chelsa only). When set, downloads future bioclim layers
-(Karger et al. 2023). Use \code{download = FALSE} on CRAN.}
+(chelsa only; Karger et al. 2023): scenario (\code{"ssp126"}, \code{"ssp370"},
+\code{"ssp585"}), any year from 2011 to 2100 (the 30-year period containing
+it is used) and GCM (\code{"MPI-ESM1-2-HR"}, \code{"GFDL-ESM4"}, \code{"IPSL-CM6A-LR"},
+\code{"MRI-ESM2-0"}, \code{"UKESM1-0-LL"}). Whole global files are downloaded;
+for a region and for GCM ensembles, use \code{\link[=geo_chelsa_area]{geo_chelsa_area()}}. Use
+\code{download = FALSE} on CRAN.}
 }
 \value{
 A \code{terra::SpatRaster} with one layer per requested variable.
