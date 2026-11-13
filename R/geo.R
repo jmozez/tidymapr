@@ -1045,7 +1045,16 @@ plot_geo <- function(data,
     as.factor(data[[val_col]])
   }
   use_fill <- !isTRUE(bm_layers$uses_fill)
-  if (use_fill && is.null(size_aes)) {
+  if (is.numeric(data[[val_col]]) && is.null(size_aes)) {
+    # A quantity at points: proportional symbols (area scaled to the value)
+    p <- p +
+      ggplot2::geom_sf(
+        data = data,
+        ggplot2::aes(size = .data[[val_col]]),
+        shape = 21, fill = tmr_palette(1), colour = "grey10", stroke = 0.4
+      ) +
+      ggplot2::scale_size_area(name = leg, max_size = size_max)
+  } else if (use_fill && is.null(size_aes)) {
     p <- p +
       ggplot2::geom_sf(
         data = data,
