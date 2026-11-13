@@ -13,6 +13,13 @@
   suitability by its present maximum before the simulation, so that
   probabilities of presence from a niche model are not taken as
   per-generation survival.
+* `predict()` for `sdm_integrated()` gains `se_fit` and `level`: the
+  standard error of the linear predictor (delta method from the fitted
+  covariance) and a confidence interval formed on the link scale and
+  back-transformed, so it stays within the bounds of the response.
+  Checked against `glm()` with a cloglog link.
+* `sdm_integrated()` now fits survey data without presence-only records
+  (it used to fail), and gives the same fit as a cloglog `glm()`.
 * New user guide chapter, "Range shifts under climate change", and a case
   study hindcasting the upslope shifts of New Guinea birds.
 
