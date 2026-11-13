@@ -10,6 +10,14 @@ authors:
     affiliation: "PNG University of Technology"
     orcid: "https://orcid.org/0000-0003-3342-2384"
 version: "0.2.0"
+doi: "10.5281/zenodo.24182562"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24182562"
+    description: "All versions (concept DOI)"
+  - type: doi
+    value: "10.5281/zenodo.24182563"
+    description: "Version 0.2.0"
 date-released: "2026-11-13"
 license: MIT
 repository-code: "https://github.com/jmozez/tidymapr"
