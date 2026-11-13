@@ -6,8 +6,9 @@ bibentry(
   year = "2026",
   note = "R package version 0.2.0",
   url = "https://github.com/jmozez/tidymapr",
+  doi = "10.5281/zenodo.24182562",
   textVersion = paste0(
     "Moses, J. (2026). tidymapr: Tidy Mapping, Spatial Analysis and Publication Cartography. ",
-    "R package version 0.2.0. https://github.com/jmozez/tidymapr"
+    "R package version 0.2.0. Zenodo. https://doi.org/10.5281/zenodo.24182562"
   )
 )
