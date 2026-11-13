@@ -87,6 +87,12 @@ Downloads use a cache directory (default
 not hit the network. Network access is never required in tests: pass a
 local \code{path}, or skip downloads on CRAN.
 }
+\details{
+\code{geo_chelsa()} is deprecated: it downloads whole global files (about
+1 GB each). Use \code{\link[=geo_chelsa_area]{geo_chelsa_area()}}, which reads only the area needed,
+takes several GCMs and scenarios at once, and returns the same values.
+\code{geo_bioclim(source = "chelsa")} keeps working.
+}
 \section{Citation and licence}{
 
 \itemize{
@@ -108,8 +114,10 @@ geo_bioclim_vars()
 
 \donttest{
 # Offline: build a tiny stand-in raster and treat it as bio1
-r <- terra::rast(ncols = 10, nrows = 10, xmin = 144, xmax = 146,
-  ymin = -7, ymax = -5, crs = "EPSG:4326")
+r <- terra::rast(
+  ncols = 10, nrows = 10, xmin = 144, xmax = 146,
+  ymin = -7, ymax = -5, crs = "EPSG:4326"
+)
 names(r) <- "bio1"
 terra::values(r) <- 20
 tmp <- tempfile(fileext = ".tif")

@@ -50,8 +50,10 @@
 #'
 #' \donttest{
 #' # Offline: build a tiny stand-in raster and treat it as bio1
-#' r <- terra::rast(ncols = 10, nrows = 10, xmin = 144, xmax = 146,
-#'   ymin = -7, ymax = -5, crs = "EPSG:4326")
+#' r <- terra::rast(
+#'   ncols = 10, nrows = 10, xmin = 144, xmax = 146,
+#'   ymin = -7, ymax = -5, crs = "EPSG:4326"
+#' )
 #' names(r) <- "bio1"
 #' terra::values(r) <- 20
 #' tmp <- tempfile(fileext = ".tif")
@@ -169,7 +171,7 @@ geo_bioclim <- function(vars = c("bio1", "bio12"),
       cache_dir = cache_dir, download = download, version = version
     )
   } else {
-    geo_chelsa(
+    tmr_chelsa_global(
       vars = vars, path = path,
       cache_dir = cache_dir, download = download, version = version,
       scenario = scenario, year = year, model = model
@@ -213,7 +215,8 @@ geo_worldclim <- function(vars = c("bio1", "bio12"),
   }
   layers <- lapply(vars, function(v) {
     geo_worldclim_layer(
-      v, res = res, cache_dir = cache_dir,
+      v,
+      res = res, cache_dir = cache_dir,
       download = download, version = version %||% "2.1"
     )
   })
@@ -221,6 +224,11 @@ geo_worldclim <- function(vars = c("bio1", "bio12"),
 }
 
 #' @rdname geo-bioclim
+#' @details
+#' `geo_chelsa()` is deprecated: it downloads whole global files (about
+#' 1 GB each). Use [geo_chelsa_area()], which reads only the area needed,
+#' takes several GCMs and scenarios at once, and returns the same values.
+#' `geo_bioclim(source = "chelsa")` keeps working.
 #' @export
 geo_chelsa <- function(vars = c("bio1", "bio12"),
                        path = NULL,
@@ -230,6 +238,24 @@ geo_chelsa <- function(vars = c("bio1", "bio12"),
                        scenario = NULL,
                        year = NULL,
                        model = "MPI-ESM1-2-HR") {
+  cli::cli_warn(c(
+    "{.fn geo_chelsa} is deprecated and will be removed in a future release.",
+    "i" = "Use {.fn geo_chelsa_area}, which reads only the area you need."
+  ), .frequency = "regularly", .frequency_id = "tmr_geo_chelsa_deprecated")
+  tmr_chelsa_global(
+    vars = vars, path = path, cache_dir = cache_dir, download = download,
+    version = version, scenario = scenario, year = year, model = model
+  )
+}
+
+tmr_chelsa_global <- function(vars = c("bio1", "bio12"),
+                              path = NULL,
+                              cache_dir = NULL,
+                              download = TRUE,
+                              version = "2.1",
+                              scenario = NULL,
+                              year = NULL,
+                              model = "MPI-ESM1-2-HR") {
   rlang::check_installed("terra")
   vars <- geo_bioclim_resolve_vars(vars)
   if (!is.null(path)) {
@@ -248,7 +274,8 @@ geo_chelsa <- function(vars = c("bio1", "bio12"),
   # GeoTIFFs directly (geo_chelsa_layer) and cache under cache_dir.
   layers <- lapply(vars, function(v) {
     geo_chelsa_layer(
-      v, cache_dir = cache_dir,
+      v,
+      cache_dir = cache_dir,
       download = download, version = version %||% "2.1"
     )
   })
@@ -317,7 +344,8 @@ tmr_chelsa_period <- function(year, call = caller_env()) {
 geo_bioclim_from_path <- function(path, vars) {
   rlang::check_installed("terra")
   if (length(path) == 1 && dir.exists(path)) {
-    files <- list.files(path, pattern = "\\.(tif|tiff|grd|nc)$",
+    files <- list.files(path,
+      pattern = "\\.(tif|tiff|grd|nc)$",
       full.names = TRUE, ignore.case = TRUE
     )
     if (length(files) == 0) {
@@ -398,7 +426,8 @@ geo_worldclim_layer <- function(var, res, cache_dir, download, version) {
     utils::unzip(zip_path, files = fname, exdir = dirname(dest), overwrite = TRUE)
     # Some zips nest the file
     if (!file.exists(dest)) {
-      found <- list.files(dirname(dest), pattern = fname, recursive = TRUE,
+      found <- list.files(dirname(dest),
+        pattern = fname, recursive = TRUE,
         full.names = TRUE
       )
       if (length(found) == 1) {
