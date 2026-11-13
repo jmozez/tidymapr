@@ -47,8 +47,8 @@ test_that("ensembles report range change and loss probabilities", {
     gcm = c("gcm-a", "gcm-b"), ssp = c("ssp126", "ssp585"),
     reader = stub_reader
   )
-  # Niche: a thermal band around 17 C (mid-slope)
-  niche <- function(x) exp(-((x[["bio1"]] - 17) / 1.5)^2)
+  # Niche: a thermal band around 20.5 C (the stub climate spans 18 to 22 C)
+  niche <- function(x) exp(-((x[["bio1"]] - 20.5) / 1.5)^2)
   ens <- geo_shift_ensemble(niche, sc,
     dispersal_mean = 2000, steps = 5, nsim = 10,
     seed = 1, elevation = dem
@@ -62,6 +62,9 @@ test_that("ensembles report range change and loss probabilities", {
     u$shift_median[u$gcm == "gcm-b" & u$ssp == "ssp585"],
     u$shift_median[u$gcm == "gcm-a" & u$ssp == "ssp126"]
   )
+  # Limited dispersal cannot occupy more than all suitable habitat
+  lim <- r[r$dispersal == "limited", ]
+  expect_true(all(lim$area_future <= u$area_future[match(lim$member, u$member)] + 1e-6))
   s <- summary(ens, loss = 50)
   expect_equal(nrow(s), 4)
   expect_true(all(s$p_loss_50 >= 0 & s$p_loss_50 <= 1))

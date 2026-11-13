@@ -69,8 +69,16 @@ sdm_rf_predict_cpp <- function(forest, x, threads = 1L) {
     .Call(`_tidymapr_sdm_rf_predict_cpp`, forest, x, threads)
 }
 
-shift_simulate_cpp <- function(suit, init, nrow, ncol, cell_w, cell_h, kmean, kmax, colon, persist, sub_steps, nsim, seed, threads) {
-    .Call(`_tidymapr_shift_simulate_cpp`, suit, init, nrow, ncol, cell_w, cell_h, kmean, kmax, colon, persist, sub_steps, nsim, seed, threads)
+kernel_info_cpp <- function(nrow, cell_w, cell_h, type, mean, shape, kmax) {
+    .Call(`_tidymapr_kernel_info_cpp`, nrow, cell_w, cell_h, type, mean, shape, kmax)
+}
+
+shift_simulate_cpp <- function(suit, init, nrow, ncol, cell_w, cell_h, ktype, kmean, kshape, kmax, colon, persist, sub_steps, nsim, seed, threads, resistance, disturb, jump_rate, jump_w) {
+    .Call(`_tidymapr_shift_simulate_cpp`, suit, init, nrow, ncol, cell_w, cell_h, ktype, kmean, kshape, kmax, colon, persist, sub_steps, nsim, seed, threads, resistance, disturb, jump_rate, jump_w)
+}
+
+epidemic_simulate_cpp <- function(hosts, init_inf, nrow, ncol, cell_w, cell_h, ktype, kmean, kshape, kmax, beta, gamma, omega, coupling, times, nsim, seed, threads, resistance) {
+    .Call(`_tidymapr_epidemic_simulate_cpp`, hosts, init_inf, nrow, ncol, cell_w, cell_h, ktype, kmean, kshape, kmax, beta, gamma, omega, coupling, times, nsim, seed, threads, resistance)
 }
 
 geo_jenks_cpp <- function(x, k) {

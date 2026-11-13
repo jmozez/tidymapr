@@ -60,6 +60,11 @@
 #'   the probability of presence in an area of `site_area`
 #'   (`type = "probability"`), the intensity (`"intensity"`) or the linear
 #'   predictor (`"link"`).
+#' @param se_fit For a data frame `newdata`, also return the standard error
+#'   of the linear predictor (`se_link`, by the delta method from the
+#'   covariance of the fitted parameters) and a confidence interval formed
+#'   on the link scale and back-transformed to `type` (`lower`, `upper`).
+#' @param level Confidence level of the interval.
 #' @references
 #' Fithian, W., Elith, J., Hastie, T. and Keith, D. A. (2015). Bias
 #' correction in species distribution models: pooling survey and
@@ -155,6 +160,7 @@ sdm_integrated <- function(presence,
   p_env <- ncol(x_po)
   p_bias <- ncol(b_po)
   uni_idx <- match(paste0(unimodal, "^2"), colnames(x_po))
+  uni_idx <- uni_idx[!is.na(uni_idx)]
   # Parameters: env (unimodal squared terms as log(-b)), po intercept,
   # bias, survey intercept
   unpack <- function(theta) {
@@ -170,7 +176,7 @@ sdm_integrated <- function(presence,
     q <- unpack(theta)
     e_po <- q$a_po + drop(x_po %*% q$b) + drop(b_po %*% q$g)
     e_bg <- q$a_po + drop(x_bg %*% q$b) + drop(b_bg %*% q$g)
-    ll <- sum(e_po) - w_bg * sum(exp(e_bg))
+    ll <- if (has_po) sum(e_po) - w_bg * sum(exp(e_bg)) else 0
     if (has_sv) {
       mu <- a_sv * exp(q$a_sv + drop(x_sv %*% q$b))
       ll <- ll + sum(ifelse(y_sv == 1, log(-expm1(-mu)), -mu))
@@ -181,7 +187,7 @@ sdm_integrated <- function(presence,
     q <- unpack(theta)
     e_po <- q$a_po + drop(x_po %*% q$b) + drop(b_po %*% q$g)
     e_bg <- q$a_po + drop(x_bg %*% q$b) + drop(b_bg %*% q$g)
-    r_bg <- w_bg * exp(e_bg)
+    r_bg <- if (has_po) w_bg * exp(e_bg) else 0 * e_bg
     gb <- colSums(x_po) - colSums(x_bg * r_bg)
     ga <- nrow(x_po) - sum(r_bg)
     gg <- colSums(b_po) - colSums(b_bg * r_bg)
@@ -196,7 +202,11 @@ sdm_integrated <- function(presence,
     gb[uni_idx] <- gb[uni_idx] * q$b[uni_idx]
     -c(gb, ga, gg, gs)
   }
-  start <- c(rep(0, p_env), log(nrow(x_po) / area), rep(0, p_bias), if (has_sv) -2)
+  has_po <- nrow(x_po) > 0
+  if (!has_po && !has_sv) {
+    cli::cli_abort("Give at least one presence record or a {.arg survey}.")
+  }
+  start <- c(rep(0, p_env), log(max(nrow(x_po), 1) / area), rep(0, p_bias), if (has_sv) -2)
   start[uni_idx] <- log(0.1)
   opt <- stats::optim(start, negll, grad,
     method = "BFGS", hessian = TRUE,
@@ -206,9 +216,16 @@ sdm_integrated <- function(presence,
     cli::cli_warn("The optimiser did not fully converge (code {opt$convergence}).")
   }
   q <- unpack(opt$par)
-  se_theta <- tryCatch(sqrt(pmax(diag(solve(opt$hessian)), 0)), error = function(e) {
-    rep(NA_real_, length(opt$par))
-  })
+  # Without presence records the presence-only intercept is not estimable
+  est <- if (has_po) seq_along(opt$par) else setdiff(seq_along(opt$par), p_env + 1)
+  se_theta <- rep(NA_real_, length(opt$par))
+  se_theta[est] <- tryCatch(sqrt(pmax(diag(solve(opt$hessian[est, est, drop = FALSE])), 0)),
+    error = function(e) rep(NA_real_, length(est))
+  )
+  vcov_theta <- matrix(NA_real_, length(opt$par), length(opt$par))
+  vcov_theta[est, est] <- tryCatch(solve(opt$hessian[est, est, drop = FALSE]),
+    error = function(e) matrix(NA_real_, length(est), length(est))
+  )
   se_b <- se_theta[seq_len(p_env)]
   se_b[uni_idx] <- se_b[uni_idx] * abs(q$b[uni_idx]) # delta method
   coef <- c(q$b,
@@ -225,7 +242,8 @@ sdm_integrated <- function(presence,
       presence = nrow(x_po), background = nrow(x_bg),
       survey = if (has_sv) length(y_sv) else 0L
     ),
-    lambda = lambda, convergence = opt$convergence
+    lambda = lambda, convergence = opt$convergence,
+    vcov_theta = vcov_theta, uni_idx = uni_idx, p_env = p_env, p_bias = p_bias
   ), class = "tmr_sdm_integrated")
 }
 
@@ -262,8 +280,12 @@ tmr_isdm_bias <- function(d, spec) {
 #' @export
 predict.tmr_sdm_integrated <- function(object, newdata,
                                        type = c("probability", "intensity", "link"),
-                                       site_area = 1, ...) {
+                                       site_area = 1, se_fit = FALSE,
+                                       level = 0.95, ...) {
   type <- rlang::arg_match(type)
+  if (se_fit && inherits(newdata, "SpatRaster")) {
+    cli::cli_abort("{.arg se_fit} needs a data frame {.arg newdata}.")
+  }
   if (inherits(newdata, "SpatRaster")) {
     rlang::check_installed("terra")
     vars <- unique(c(object$spec$covariates, names(object$limits)))
@@ -287,10 +309,38 @@ predict.tmr_sdm_integrated <- function(object, newdata,
     if (!is.na(l[1])) lim <- lim * stats::plogis((x - l[1]) / (w / 4.4) - 2.2)
     if (length(l) > 1 && !is.na(l[2])) lim <- lim * stats::plogis((l[2] - x) / (w / 4.4) - 2.2)
   }
-  switch(type,
-    link = eta + log(lim),
-    intensity = exp(eta) * lim,
-    probability = -expm1(-site_area * exp(eta) * lim)
+  inv <- function(e) {
+    switch(type,
+      link = e + log(lim),
+      intensity = exp(e) * lim,
+      probability = -expm1(-site_area * exp(e) * lim)
+    )
+  }
+  if (!se_fit) {
+    return(inv(eta))
+  }
+  # Standard error of the linear predictor by the delta method, from the
+  # covariance of the fitted parameters; the interval is formed on the link
+  # scale and back-transformed, so it respects the bounds of the response.
+  pe <- object$p_env
+  jac <- matrix(0, nrow(xm), nrow(object$vcov_theta))
+  jac[, seq_len(pe)] <- xm
+  if (length(object$uni_idx)) {
+    jac[, object$uni_idx] <- xm[, object$uni_idx, drop = FALSE] *
+      rep(b[object$uni_idx], each = nrow(xm))
+  }
+  int_idx <- if (object$has_survey) pe + object$p_bias + 2 else pe + 1
+  jac[, int_idx] <- 1
+  # Parameters not estimated (the presence-only intercept without records)
+  # do not enter the linear predictor
+  keep <- which(colSums(abs(jac)) > 0)
+  vc <- object$vcov_theta[keep, keep, drop = FALSE]
+  jk <- jac[, keep, drop = FALSE]
+  se <- sqrt(pmax(rowSums((jk %*% vc) * jk), 0))
+  z <- stats::qnorm(1 - (1 - level) / 2)
+  tibble::tibble(
+    fit = inv(eta), se_link = se,
+    lower = inv(eta - z * se), upper = inv(eta + z * se)
   )
 }
 
