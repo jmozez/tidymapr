@@ -11,7 +11,7 @@ authors:
     orcid: 0000-0003-3342-2384
     affiliation: 1
 affiliations:
-  - name: Papua New Guinea University of Technology, Lae, Papua New Guinea
+  - name: School of Forestry, Faculty of Natural Resources, Papua New Guinea University of Technology, Private Mail Bag, Lae 411, Morobe Province, Papua New Guinea
     index: 1
 date: 12 November 2026
 bibliography: paper.bib
