@@ -124,6 +124,7 @@ reference:
       - sdm
       - sdm_maxent
       - sdm_ensemble
+      - sdm_integrated
       - stems_spatial
       - stems_habitat_test
   - title: Recipes
