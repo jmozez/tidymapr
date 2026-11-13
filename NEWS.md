@@ -1,4 +1,4 @@
-# tidymapr (development version)
+# tidymapr 0.3.0
 
 * `geo_shift_simulate()` now normalises the dispersal kernel to sum to 1
   over the neighbourhood. Before, propagule pressure grew with the number
@@ -45,8 +45,6 @@
   (it used to fail), and gives the same fit as a cloglog `glm()`.
 * New user guide chapter, "Range shifts under climate change", and a case
   study hindcasting the upslope shifts of New Guinea birds.
-
-# tidymapr 0.3.0
 
 * New `geo_shift_simulate()` and `geo_shift_summary()`: stochastic
   colonisation-extinction simulation of range shifts with a negative
