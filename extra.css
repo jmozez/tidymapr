@@ -1,0 +1,171 @@
+/* tidymapr site styles, matching tidydiversity. Colours follow the logo:
+   navy #11376B, teal #349295 / #4DB3AE, green #6BAB59, gold #E8A21B. */
+:root {
+  color-scheme: light dark;
+  --tmr-navy: #11376B;
+  --tmr-teal: #349295;
+  --tmr-teal-light: #4DB3AE;
+  --tmr-gold: #E8A21B;
+  --tmr-surface: #F6F8FA;
+}
+[data-bs-theme="dark"] { --tmr-surface: #16202B; }
+
+/* Navbar: one tidy row on desktops, a hamburger menu on tablets and
+   phones. Labels never break over two lines; spacing and the search box
+   shrink on smaller desktops so everything fits in one row. */
+.navbar { box-shadow: 0 1px 0 rgba(255, 255, 255, .06), 0 2px 12px rgba(0, 0, 0, .18); }
+.navbar > .container { align-items: center; }
+.navbar-brand { font-weight: 700; letter-spacing: -.01em; margin-right: .35rem; }
+.navbar .nav-text { font-size: .78rem; padding: .1rem .45rem; margin-right: .75rem;
+  border: 1px solid rgba(255, 255, 255, .22); border-radius: 999px; line-height: 1.4; }
+.navbar .nav-link { font-weight: 500; white-space: nowrap; }
+.navbar .dropdown-toggle::after { vertical-align: .15em; }
+.navbar-toggler { border-color: rgba(255, 255, 255, .3); }
+.navbar-toggler:focus { box-shadow: 0 0 0 .2rem rgba(77, 179, 174, .45); }
+.navbar .nav-item.active .nav-link { color: #fff; background: rgba(255, 255, 255, .12); }
+@media (min-width: 992px) {
+  .navbar .navbar-nav { align-items: center; }
+  .navbar .navbar-nav .nav-link { padding: .4rem .6rem; }
+  .navbar .navbar-nav.ms-auto, .navbar #navbar > .navbar-nav:last-child { gap: .15rem; }
+  .navbar form[role="search"], .navbar .algolia-autocomplete { margin: 0 .35rem; }
+  .navbar input[type="search"] { width: 11rem; }
+}
+/* Smaller desktops and landscape tablets (992-1199 px): compact spacing,
+   and a narrower search box. */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .navbar .navbar-nav .nav-link { padding: .4rem .45rem; font-size: .95rem; }
+  .navbar input[type="search"] { width: 8rem; }
+}
+@media (min-width: 1400px) {
+  .navbar input[type="search"] { width: 13rem; }
+}
+/* Collapsed menu (below 992 px): full-width, well-spaced rows that are
+   easy to tap. */
+@media (max-width: 991.98px) {
+  .navbar-collapse { max-height: calc(100vh - 4rem); overflow-y: auto; padding-bottom: .75rem; }
+  .navbar .navbar-nav .nav-link { padding: .6rem .5rem; border-radius: .4rem; }
+  .navbar .navbar-nav + .navbar-nav { border-top: 1px solid rgba(255, 255, 255, .15); margin-top: .35rem; padding-top: .35rem; }
+  .navbar .dropdown-menu { box-shadow: none; background: rgba(255, 255, 255, .06); }
+  .navbar .dropdown-menu .dropdown-item { color: rgba(255, 255, 255, .88); white-space: normal; }
+  .navbar .dropdown-menu .dropdown-item:hover, .navbar .dropdown-menu .dropdown-item:focus { background: rgba(255, 255, 255, .1); color: #fff; }
+  .navbar .dropdown-header { color: var(--tmr-teal-light); }
+  .navbar .dropdown-divider { border-color: rgba(255, 255, 255, .15); }
+}
+.dropdown-menu { border: 0; box-shadow: 0 8px 28px rgba(17, 55, 107, .18); padding: .4rem; }
+.dropdown-header { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tmr-teal); }
+.dropdown-item { border-radius: .35rem; }
+
+/* Layout: grid columns are flex items, which by default never shrink below
+   their widest content. Let the main column shrink so wide tables or code
+   scroll inside it instead of pushing the sidebar below the page. */
+main#main { min-width: 0; }
+
+/* Tablets and desktops: content and sidebar always sit side by side.
+   pkgdown caps the content at 50rem and, from 1400 px, adds a 5rem margin
+   before the sidebar; both are in rem, so with a larger default font size
+   (a common accessibility setting, or desktop text scaling on Linux) the
+   two columns no longer fit and the sidebar wrapped below the whole page.
+   Keep them on one row and let the columns shrink instead. */
+@media (min-width: 768px) {
+  body > .container > .row { flex-wrap: nowrap; }
+  .row > main { flex: 0 1 75%; width: auto; }
+  .row > aside { flex: 0 1 25%; width: auto; min-width: 11rem; }
+}
+@media (min-width: 1400px) {
+  .row > aside.col-md-3 { margin-left: clamp(1.5rem, 4vw, 5rem); }
+}
+main table { display: block; max-width: 100%; overflow-x: auto; }
+pre { overflow-x: auto; }
+
+/* Typography and layout */
+main h1, main h2, main h3 { letter-spacing: -.015em; }
+main h2 { margin-top: 2.2rem; padding-bottom: .35rem; border-bottom: 1px solid var(--bs-border-color); }
+main > .page-header h1 { font-weight: 800; }
+img.logo { filter: drop-shadow(0 6px 16px rgba(17, 55, 107, .25)); }
+
+/* Code */
+pre { background: var(--tmr-surface); border: 1px solid var(--bs-border-color); border-left: 3px solid var(--tmr-teal); border-radius: .5rem; padding: .9rem 1rem; }
+code { font-size: .88em; }
+:not(pre) > code { background: var(--tmr-surface); padding: .1em .35em; border-radius: .3rem; }
+
+/* Tables */
+main table { font-size: .92rem; }
+main table thead th { border-bottom: 2px solid var(--tmr-teal); font-weight: 600; }
+main table tbody tr:hover { background: var(--tmr-surface); }
+
+/* Figures: plots are always light, also in the site's dark mode. A white
+   backing covers any transparent margin left by fixed-aspect plots. */
+main img:not(.logo) { border-radius: .5rem; }
+main img:not(.logo):not([src$=".svg"]) { background: #FFFFFF; padding: .25rem; }
+
+/* Callouts and cards used on the home page */
+.tmr-hero { padding: 1.5rem 0 1rem; border-bottom: 1px solid var(--bs-border-color); margin-bottom: 1.5rem; }
+.tmr-hero .lead { font-size: 1.2rem; }
+.tmr-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem; margin: 1rem 0 1.5rem; }
+.tmr-card { border: 1px solid var(--bs-border-color); border-top: 4px solid var(--tmr-teal); border-radius: .6rem; padding: 1rem 1.1rem; background: var(--bs-body-bg); transition: box-shadow .15s ease, transform .15s ease; }
+.tmr-card:hover { box-shadow: 0 8px 24px rgba(17, 55, 107, .12); transform: translateY(-2px); }
+.tmr-card h3 { font-size: 1.05rem; margin-top: 0; }
+.tmr-card p { margin-bottom: 0; font-size: .95rem; }
+
+/* Reference index */
+.ref-index h2 { border-bottom: 0; }
+.ref-index dt a { font-weight: 600; }
+
+/* Footer */
+footer { border-top: 1px solid var(--bs-border-color); margin-top: 3rem; padding-top: 1.2rem; font-size: .88rem; }
+
+/* Narrow screens (below Bootstrap's md breakpoint): pkgdown stacks the
+   sidebar after the content, so on a long page the links, citation and the
+   "On this page" contents end up thousands of pixels down. Show them first,
+   in a compact form, as documentation sites usually do. */
+@media (max-width: 767.98px) {
+  .row > aside { order: -1; position: static; margin: 4.5rem 0 0;
+    padding: .9rem 1rem; max-height: none;
+    border: 1px solid var(--bs-border-color); border-radius: .6rem;
+    background: var(--tmr-surface); }
+  .row > aside h2 { font-size: .75rem; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--tmr-teal); margin: .6rem 0 .3rem;
+    border: 0; padding: 0; }
+  .row > aside h2:first-child { margin-top: 0; }
+  .row > aside ul.list-unstyled { display: flex; flex-wrap: wrap;
+    gap: .25rem 1rem; margin-bottom: .2rem; }
+  .row > aside ul.list-unstyled li { margin: 0; }
+  .row > aside .dev-status ul { gap: .3rem; }
+  .row > aside nav#toc { max-height: 40vh; overflow-y: auto; }
+  .row > aside + main, .row > main { margin-top: 0; }
+  .row > main > .page-header, .row > main > .section > .page-header { margin-top: 1.25rem; padding-top: 0; }
+}
+
+/* Phones: the home page shows the package first and its links, licence and
+   badges after it; article contents stay on top but as a compact,
+   wrapping row of section links instead of a tall list. */
+@media (max-width: 767.98px) {
+  .row > aside:has(> .links) { order: 1; margin: 1.5rem 0 0; }
+  .row > main:has(+ aside > .links) { margin-top: 4.5rem; }
+  .row > aside nav#toc { max-height: none; overflow: visible; }
+  .row > aside nav#toc > ul.nav { display: flex; flex-direction: row;
+    flex-wrap: wrap; gap: .3rem .5rem; }
+  .row > aside nav#toc ul ul { display: none; }
+  .row > aside nav#toc .nav-link { padding: .15rem .55rem; font-size: .85rem;
+    border: 1px solid var(--bs-border-color); border-radius: 999px;
+    background: #fff; }
+}
+
+/* Version number in the navbar: readable on the dark bar. */
+.navbar .nav-text.text-muted { color: rgba(255, 255, 255, .72) !important; }
+
+/* The site's dark mode (Bootstrap/pkgdown) dims plot images (opacity 0.66)
+   and some themes invert them with a CSS filter, which greys or blackens
+   white figures. Figures are always shown exactly as drawn: white, at full
+   strength, with their true colours. */
+[data-bs-theme="dark"] img,
+[data-bs-theme="dark"] pre .r-plt.img img,
+[data-bs-theme="dark"] .cell-output-display img,
+[data-bs-theme="dark"] .html-widget { filter: none !important; opacity: 1 !important; }
+
+/* Very narrow phones (or phones with large text): drop the version badge so
+   the brand and menu button stay on one line. em-based so it follows the
+   browser's default font size. */
+@media (max-width: 22em) {
+  .navbar .nav-text { display: none; }
+}
