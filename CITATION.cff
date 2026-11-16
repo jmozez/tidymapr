@@ -18,7 +18,7 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.24182563"
     description: "Version 0.2.0"
-date-released: "2026-11-13"
+date-released: "2026-11-16"
 license: MIT
 repository-code: "https://github.com/jmozez/tidymapr"
 url: "https://tidymapr.in4metrix.dev"
