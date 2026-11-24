@@ -3,7 +3,7 @@
 * `tidyvisor()` now hands tidydiversity results, ordination questions and
   community data to `tidyvisor()` in tidydiversity, so it works whichever of
   the two packages was attached last (both export a function of that name).
-* Examples and tests that use terra's newer example files or
+* Examples and tests that use the newer example files of terra or
   `terra::flowAccumulation()` now skip with older terra releases instead of
   failing.
 
