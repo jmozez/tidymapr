@@ -82,14 +82,26 @@ species distribution models and forest plot maps with tidydiversity.
 
 ## Installation
 
+Install tidymapr first, then its two companion packages:
+
 ```r
 # install.packages("remotes")
-remotes::install_github("jmozez/tidyvisor")
 
-# and the packages it advises on
-remotes::install_github("jmozez/tidydiversity")
+# 1. tidymapr: spatial ecology (maps, species distributions, the spread
+#    of invasions and epidemics, range shifts, spatial autocorrelation)
 remotes::install_github("jmozez/tidymapr")
+
+# 2. tidydiversity: community ecology (taxonomic, phylogenetic and
+#    functional diversity, beta diversity, ordination and multivariate tests)
+remotes::install_github("jmozez/tidydiversity")
+
+# 3. tidyvisor: the statistical advisor for both (study design, power,
+#    assumption checks, which analysis, and plain-language interpretation)
+remotes::install_github("jmozez/tidyvisor")
 ```
+
+tidymapr works on its own; tidydiversity adds the community-ecology
+analyses, and tidyvisor the advice and interpretation.
 
 The packages are built from source, which needs Rtools on Windows or the
 Xcode command-line tools on macOS (`xcode-select --install`).
