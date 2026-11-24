@@ -28,7 +28,7 @@ per CAD layer or level, with its number of entities; pass the
 }
 }
 \examples{
-\dontshow{if (requireNamespace("terra", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("terra", "sf")) && nzchar(system.file("ex/nouragues.nc", package = "terra"))) withAutoprint(\{ # examplesIf}
 # ERA5 monthly climate at the Nouragues station, French Guiana (netCDF)
 nc <- system.file("ex/nouragues.nc", package = "terra")
 geo_layers(nc)

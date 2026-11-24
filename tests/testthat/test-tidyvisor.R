@@ -25,3 +25,13 @@ test_that("tidyvisor() advises on data and interprets results", {
   expect_error(tidyvisor(1:3), "data frame")
   expect_output(print(i), NA)
 })
+
+test_that("tidyvisor() hands tidydiversity's work to tidydiversity", {
+  skip_if_not_installed("tidydiversity")
+  skip_if_not_installed("vegan")
+  frogs <- tidydiversity::png_frogs
+  # community data with abundance: ordination advice from tidydiversity
+  expect_s3_class(tidyvisor(frogs, abundance = abundance), "td_ord_advice")
+  o <- tidydiversity::ord_fit(frogs, abundance = abundance, method = "pca", transform = "hellinger")
+  expect_s3_class(tidyvisor(o), "td_ord_interpretation")
+})

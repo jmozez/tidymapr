@@ -6,6 +6,8 @@ skip_if_not_installed("sf")
 lux <- function() sf::st_read(system.file("ex/lux.shp", package = "terra"), quiet = TRUE)
 
 test_that("layers stack and each gets a legend", {
+  # older terra releases do not ship the highways example
+  skip_if(!nzchar(system.file("ex/lux_highways.rds", package = "terra")))
   cantons <- lux()
   roads <- sf::st_as_sf(terra::unwrap(
     readRDS(system.file("ex/lux_highways.rds", package = "terra"))
