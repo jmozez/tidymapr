@@ -16,6 +16,8 @@ test_that("flow direction agrees with terra on a real DEM", {
 
 test_that("flow accumulation and watersheds equal terra for the same directions", {
   dem <- dem_lux()
+  # terra::flowAccumulation() and terra::watershed() need terra >= 1.8
+  skip_if_not("flowAccumulation" %in% getNamespaceExports("terra"))
   dir <- terra::terrain(dem, "flowdir")
   acc <- geo_flow_accumulation(dem, direction = dir)
   ref <- terra::flowAccumulation(dir)

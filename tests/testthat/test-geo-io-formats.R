@@ -1,7 +1,10 @@
 terra_ex <- function(f) {
   skip_if_not_installed("terra")
   skip_if_not_installed("sf")
-  system.file("ex", f, package = "terra")
+  path <- system.file("ex", f, package = "terra")
+  # older terra releases ship fewer example files
+  skip_if(!nzchar(path), paste("terra has no example file", f))
+  path
 }
 
 test_that("netCDF variables are listed and read by name or number", {
