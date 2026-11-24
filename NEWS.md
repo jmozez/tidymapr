@@ -1,7 +1,7 @@
 # tidymapr (development version)
 
-* `tidyvisor()` now hands tidydiversity's results, ordination questions and
-  community data to tidydiversity's `tidyvisor()`, so it works whichever of
+* `tidyvisor()` now hands tidydiversity results, ordination questions and
+  community data to `tidyvisor()` in tidydiversity, so it works whichever of
   the two packages was attached last (both export a function of that name).
 * Examples and tests that use terra's newer example files or
   `terra::flowAccumulation()` now skip with older terra releases instead of

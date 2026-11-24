@@ -28,8 +28,8 @@ tmr_interpret(x, ...)
 \code{\link[=geo_shift_ensemble]{geo_shift_ensemble()}}, \code{\link[=sdm_ensemble]{sdm_ensemble()}}, \code{\link[=sdm_integrated]{sdm_integrated()}} or
 \code{\link[=geo_moran]{geo_moran()}} (to be interpreted). tidydiversity results, its
 questions (\code{question = "explain"} and so on) and community data given
-with \code{abundance} or \code{formula} are passed to tidydiversity's
-\code{tidyvisor()}, so it does not matter which of the two packages was
+with \code{abundance} or \code{formula} are passed to \code{tidyvisor()} in
+tidydiversity, so it does not matter which of the two packages was
 attached last.}
 
 \item{...}{Passed to \code{tmr_advise()} or \code{tmr_interpret()}.}

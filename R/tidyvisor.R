@@ -28,8 +28,8 @@
 #'   [geo_shift_ensemble()], [sdm_ensemble()], [sdm_integrated()] or
 #'   [geo_moran()] (to be interpreted). tidydiversity results, its
 #'   questions (`question = "explain"` and so on) and community data given
-#'   with `abundance` or `formula` are passed to tidydiversity's
-#'   `tidyvisor()`, so it does not matter which of the two packages was
+#'   with `abundance` or `formula` are passed to `tidyvisor()` in
+#'   tidydiversity, so it does not matter which of the two packages was
 #'   attached last.
 #' @param ... Passed to `tmr_advise()` or `tmr_interpret()`.
 #' @return A `tmr_advice` or a `tmr_interpretation` object, printed as
@@ -68,7 +68,7 @@ tidyvisor <- function(x, ...) {
   }
 }
 
-# Objects and questions that belong to tidydiversity's tidyvisor: its
+# Objects and questions that belong to tidyvisor() in tidydiversity: its
 # results, its questions, or community data given with an abundance or a
 # formula of site variables
 tmr_for_tidydiversity <- function(x, ...) {
