@@ -26,7 +26,11 @@
 #' @param x A data frame of records (to be advised) or a result of
 #'   [epi_growth_rate()], [geo_spread_rate()], [geo_epidemic_simulate()],
 #'   [geo_shift_ensemble()], [sdm_ensemble()], [sdm_integrated()] or
-#'   [geo_moran()] (to be interpreted).
+#'   [geo_moran()] (to be interpreted). tidydiversity results, its
+#'   questions (`question = "explain"` and so on) and community data given
+#'   with `abundance` or `formula` are passed to tidydiversity's
+#'   `tidyvisor()`, so it does not matter which of the two packages was
+#'   attached last.
 #' @param ... Passed to `tmr_advise()` or `tmr_interpret()`.
 #' @return A `tmr_advice` or a `tmr_interpretation` object, printed as
 #'   sentences.
@@ -42,8 +46,18 @@
 #' g <- epi_growth_rate(cases, date = week, cases = n, unit = "week")
 #' tidyvisor(g)
 tidyvisor <- function(x, ...) {
+  # tidydiversity has its own tidyvisor(); whichever package is attached
+  # last masks the other, so each hands over what belongs to the other.
   if (inherits(x, tmr_interpretable)) {
     tmr_interpret(x, ...)
+  } else if (tmr_for_tidydiversity(x, ...)) {
+    if (!requireNamespace("tidydiversity", quietly = TRUE)) {
+      cli::cli_abort(c(
+        "This needs the {.pkg tidydiversity} package, which is not installed.",
+        i = "Install it with {.code remotes::install_github(\"jmozez/tidydiversity\")}."
+      ))
+    }
+    tidydiversity::tidyvisor(x, ...)
   } else if (is.data.frame(x)) {
     tmr_advise(x, ...)
   } else {
@@ -52,6 +66,21 @@ tidyvisor <- function(x, ...) {
       i = "Got an object of class {.cls {class(x)}}."
     ))
   }
+}
+
+# Objects and questions that belong to tidydiversity's tidyvisor: its
+# results, its questions, or community data given with an abundance or a
+# formula of site variables
+tmr_for_tidydiversity <- function(x, ...) {
+  # read only names, and `question` alone: other arguments may be bare
+  # column names such as `abundance = abundance`
+  nms <- ...names()
+  q <- if ("question" %in% nms) ...elt(match("question", nms))
+  any(grepl("^td_", class(x))) ||
+    (is.data.frame(x) && (
+      (!is.null(q) && q[1] %in% c("explore", "explain", "groups", "time", "partition")) ||
+        any(c("abundance", "formula", "treatment") %in% nms)
+    ))
 }
 
 tmr_interpretable <- c(

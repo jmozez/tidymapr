@@ -27,27 +27,6 @@ per CAD layer or level, with its number of entities; pass the
 \item other rasters: one row per band.
 }
 }
-\examples{
-\dontshow{if (requireNamespace("terra", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)) withAutoprint(\{ # examplesIf}
-# ERA5 monthly climate at the Nouragues station, French Guiana (netCDF)
-nc <- system.file("ex/nouragues.nc", package = "terra")
-geo_layers(nc)
-t2m <- geo_read(nc, var = "t2m")
-t2m
-
-# Sentinel-2 Level-2A bands over Luxembourg
-geo_layers(system.file("ex/sent2_L2A_2024-08-24.tif", package = "terra"))
-
-# Luxembourg cantons written to AutoCAD DXF, then one CAD layer read back
-lux <- sf::st_read(system.file("ex/lux.shp", package = "terra"), quiet = TRUE)
-lux <- sf::st_cast(lux[, "NAME_1"], "MULTILINESTRING")
-names(lux)[1] <- "Layer"
-dxf <- tempfile(fileext = ".dxf")
-sf::st_write(lux, dxf, driver = "DXF", quiet = TRUE)
-geo_layers(dxf)
-geo_read(dxf, cad_layer = "Diekirch", crs = 4326)
-\dontshow{\}) # examplesIf}
-}
 \seealso{
 \code{\link[=geo_read]{geo_read()}}
 }
