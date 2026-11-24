@@ -21,13 +21,11 @@ It needs no previous experience of R. If you already use R, skip to
 |---|---|---|
 | **R** (4.1 or newer) | The language that runs the analysis | <https://cran.r-project.org> |
 | **RStudio Desktop** | The program you type and run code in | <https://posit.co/download/rstudio-desktop/> |
-| **tidymapr** | This package | From r-universe, below |
-| **Build tools** | Only to build tidymapr from source (option 2) | See the table below |
+| **tidymapr** | This package | From GitHub, below |
+| **Build tools** | To build tidymapr from source | See the table below |
 
-The quickest way is a ready-built binary from r-universe (option 1 below):
-nothing to compile. To build the latest development version from source
-instead (option 2), your computer compiles tidymapr's C++ code once, which
-needs the build tools for your operating system:
+tidymapr is installed from GitHub source, so your computer compiles its C++
+code once, which needs the build tools for your operating system:
 
 | Operating system | Install once | How to check it worked |
 |---|---|---|
@@ -42,38 +40,11 @@ need. On Linux, the `-dev` libraries above let sf and terra compile.
 
 ## Install tidymapr
 
-Open RStudio and type these lines in the **Console** pane (bottom left),
-pressing Enter after each.
-
-**Option 1 (recommended): a ready-built binary from r-universe.** Works on
-Windows, macOS and Linux, with no compiler and no build tools:
-
-```r
-install.packages("tidymapr",
-  repos = c("https://jmozez.r-universe.dev", "https://cloud.r-project.org"))
-```
-
-**Option 2: build the development version from GitHub source.** Needs the
-build tools above, and takes a few minutes to compile:
-
-```r
-install.packages("pak")
-pak::pak("jmozez/tidymapr")
-```
-
-Either way, tidymapr and every package it needs are installed. Then add the optional
-spatial packages; most of this guide uses them:
-
-```r
-install.packages(c("sf", "terra", "patchwork", "ggnewscale", "geomtextpath", "mgcv"))
-```
-
-For biodiversity maps, also install the companion package
-[tidydiversity](https://tidydiversity.in4metrix.dev):
-
-```r
-pak::pak("jmozez/tidydiversity")
-```
+Install tidymapr, tidydiversity and tidyvisor with the commands in the
+[Installation](https://tidymapr.in4metrix.dev/#installation) section of the
+home page, typed in the **Console** pane of RStudio (bottom left). Most of this
+guide also uses the optional spatial packages; install them with
+`install.packages(c("sf", "terra", "patchwork", "ggnewscale", "geomtextpath", "mgcv"))`.
 
 Check the installation:
 
@@ -181,7 +152,7 @@ geo_save(m, "figures/figure-1.pdf", width = 174, height = 120, units = "mm")
 
 | Message | Cause | Fix |
 |---|---|---|
-| `Could not find tools necessary to compile a package` | Building from source (option 2) without build tools | Use option 1 (r-universe binary), or install Rtools (Windows) or `xcode-select --install` (macOS) and restart RStudio |
+| `Could not find tools necessary to compile a package` | Building from source without build tools | Install Rtools (Windows) or run `xcode-select --install` (macOS), then restart RStudio |
 | `there is no package called 'sf'` (or terra) | Optional package not installed | `install.packages(c("sf", "terra"))` |
 | `configure: error: gdal-config not found` (Linux) | GDAL development library missing | `sudo apt install libgdal-dev libgeos-dev libproj-dev` |
 | `lazy-load database ... is corrupt` | Package updated while loaded | **Session → Restart R**, then `library(tidymapr)` |
