@@ -1,5 +1,9 @@
 # tidymapr (development version)
 
+* README and website: installation lists tidymapr first, then tidydiversity and
+  tidyvisor, saying what each does; the navigation bar links to the
+  tidyvisor website.
+
 * New `geo_varpart()`: variation partitioning of species composition
   between environment and space, as in CANOCO. Moran's eigenvector maps
   are kept only if significant as a set, then forward-selected with the

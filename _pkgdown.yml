@@ -157,8 +157,13 @@ navbar:
   bg: dark
   structure:
     left: [intro, userguide, tutorials, gallery, reference, news]
-    right: [tidydiversity, search, github, gitlab]
+    right: [tidydiversity, tidyvisor, search, github, gitlab]
   components:
+    tidyvisor:
+      text: tidyvisor
+      icon: fa-compass
+      aria-label: Statistical advice with the companion package tidyvisor
+      href: https://tidyvisor.in4metrix.dev/
     github:
       icon: fa-github
       aria-label: Source code on GitHub
