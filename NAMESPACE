@@ -189,4 +189,5 @@ importFrom(rlang,
   enquo,
   quo_is_null
 )
+importFrom(tidyvisor,tidyvisor)
 useDynLib(tidymapr, .registration = TRUE)

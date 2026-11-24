@@ -51,7 +51,8 @@ repo:
 reference:
   - title: tidyvisor (advice and interpretation)
     contents:
-      - tidyvisor
+      - reexports
+      - tmr_advise
   - title: Maps and cartography
     desc: Automatic, explained maps, thematic maps, projections, graticules, basemaps and GeoSpaX-style map furniture.
     contents:

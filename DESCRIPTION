@@ -24,6 +24,7 @@ BugReports: https://github.com/jmozez/tidymapr/issues
 Depends: 
     R (>= 4.1.0)
 Imports: 
+    tidyvisor (>= 0.1.0),
     cli (>= 3.6.0),
     dplyr (>= 1.1.0),
     ggplot2 (>= 3.5.0),
@@ -90,3 +91,5 @@ LazyData: true
 Language: en-NZ
 Roxygen: list(markdown = TRUE)
 Config/roxygen2/version: 8.1.1
+Remotes: 
+    jmozez/tidyvisor

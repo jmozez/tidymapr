@@ -1,8 +1,11 @@
-#' tidyvisor: advice before the analysis, interpretation after it
+# nolint start: line_length_linter. Advice sentences read better unbroken.
+
+#' tidyvisor advice for spatial analyses
 #'
 #' @description
-#' `tidyvisor()` is the package's adviser. Give it **data** and a question,
-#' and it recommends the analysis, checks the data for the usual pitfalls,
+#' The advisor of tidymapr for the [tidyvisor][tidyvisor::tidyvisor] package.
+#' tidymapr registers it when loaded, so [tidyvisor()] uses it. Give
+#' `tidyvisor()` **data** and a question, and it recommends the analysis, checks the data for the usual pitfalls,
 #' and names the plots and the code to run (`tmr_advise()`). Give it a
 #' **result** (a growth rate, a spread rate, an epidemic or range-shift
 #' simulation, a species distribution model or a Moran's I test), and it
@@ -26,15 +29,10 @@
 #' @param x A data frame of records (to be advised) or a result of
 #'   [epi_growth_rate()], [geo_spread_rate()], [geo_epidemic_simulate()],
 #'   [geo_shift_ensemble()], [sdm_ensemble()], [sdm_integrated()] or
-#'   [geo_moran()] (to be interpreted). tidydiversity results, its
-#'   questions (`question = "explain"` and so on) and community data given
-#'   with `abundance` or `formula` are passed to `tidyvisor()` in
-#'   tidydiversity, so it does not matter which of the two packages was
-#'   attached last.
-#' @param ... Passed to `tmr_advise()` or `tmr_interpret()`.
+#'   [geo_moran()] (to be interpreted).
+#' @param ... Passed on.
 #' @return A `tmr_advice` or a `tmr_interpretation` object, printed as
 #'   sentences.
-#' @export
 #' @examples
 #' # Advice on weekly case counts
 #' cases <- data.frame(
@@ -45,52 +43,6 @@
 #' # ... and the interpretation of the fit
 #' g <- epi_growth_rate(cases, date = week, cases = n, unit = "week")
 #' tidyvisor(g)
-tidyvisor <- function(x, ...) {
-  # tidydiversity has its own tidyvisor(); whichever package is attached
-  # last masks the other, so each hands over what belongs to the other.
-  if (inherits(x, tmr_interpretable)) {
-    tmr_interpret(x, ...)
-  } else if (tmr_for_tidydiversity(x, ...)) {
-    if (!requireNamespace("tidydiversity", quietly = TRUE)) {
-      cli::cli_abort(c(
-        "This needs the {.pkg tidydiversity} package, which is not installed.",
-        i = "Install it with {.code remotes::install_github(\"jmozez/tidydiversity\")}."
-      ))
-    }
-    tidydiversity::tidyvisor(x, ...)
-  } else if (is.data.frame(x)) {
-    tmr_advise(x, ...)
-  } else {
-    cli::cli_abort(c(
-      "{.fn tidyvisor} needs a data frame of records or a tidymapr result.",
-      i = "Got an object of class {.cls {class(x)}}."
-    ))
-  }
-}
-
-# Objects and questions that belong to tidyvisor() in tidydiversity: its
-# results, its questions, or community data given with an abundance or a
-# formula of site variables
-tmr_for_tidydiversity <- function(x, ...) {
-  # read only names, and `question` alone: other arguments may be bare
-  # column names such as `abundance = abundance`
-  nms <- ...names()
-  q <- if ("question" %in% nms) ...elt(match("question", nms))
-  any(grepl("^td_", class(x))) ||
-    (is.data.frame(x) && (
-      (!is.null(q) && q[1] %in% c("explore", "explain", "groups", "time", "partition")) ||
-        any(c("abundance", "formula", "treatment") %in% nms)
-    ))
-}
-
-tmr_interpretable <- c(
-  "tmr_epi_growth", "tmr_spread_rate", "tmr_epidemic", "tmr_shift_ensemble",
-  "tmr_sdm_ensemble", "tmr_sdm_integrated", "tmr_geo_moran"
-)
-
-# nolint start: line_length_linter. Advice sentences read better unbroken.
-
-#' @rdname tidyvisor
 #' @param question What is asked (see above), or `"auto"` to guess it from
 #'   the columns.
 #' @param date,cases,lon,lat,presence,value Names (strings) of the columns
@@ -296,7 +248,7 @@ print.tmr_advice <- function(x, ...) {
   invisible(x)
 }
 
-#' @rdname tidyvisor
+#' @rdname tmr_advise
 #' @export
 tmr_interpret <- function(x, ...) UseMethod("tmr_interpret")
 
