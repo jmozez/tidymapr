@@ -465,8 +465,9 @@ geo_io_sentinel2_source <- function(path) {
 #' @return A tibble.
 #' @seealso [geo_read()]
 #' @export
-#' @examplesIf rlang::is_installed(c("terra", "sf")) &&
-#'   nzchar(system.file("ex/nouragues.nc", package = "terra"))
+# nolint start: line_length_linter.
+#' @examplesIf rlang::is_installed(c("terra", "sf")) && nzchar(system.file("ex/nouragues.nc", package = "terra"))
+# nolint end
 #' # ERA5 monthly climate at the Nouragues station, French Guiana (netCDF)
 #' nc <- system.file("ex/nouragues.nc", package = "terra")
 #' geo_layers(nc)

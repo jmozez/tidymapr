@@ -275,6 +275,31 @@ The legend lists them the other way round, top layer first, as in GeoSpaX,
 QGIS and ArcGIS layouts. Everything is projected to one coordinate
 reference system, chosen from the first layer unless you give \code{crs}.
 }
+\examples{
+\dontshow{if (rlang::is_installed(c("ggplot2", "ggnewscale", "terra")) && nzchar(system.file("ex/lux_highways.rds", package = "terra"))) withAutoprint(\{ # examplesIf}
+# Luxembourg: elevation, cantons, highways and canton names
+# (data shipped with terra)
+elev <- terra::rast(system.file("ex/elev.tif", package = "terra"))
+cantons <- sf::st_read(system.file("ex/lux.shp", package = "terra"), quiet = TRUE)
+roads <- sf::st_as_sf(terra::unwrap(
+  readRDS(system.file("ex/lux_highways.rds", package = "terra"))
+))
+
+\donttest{
+geo_map(title = "Luxembourg", caption = "Data: terra package") |>
+  map_raster(elev,
+    name = "Elevation (m)", palette = "Terrain 2",
+    hillshade = TRUE
+  ) |>
+  map_polygons(cantons, fill = NA, border = "grey20", label = "Cantons") |>
+  map_lines(roads,
+    colour = highway, palette = c("#B2182B", "#F4A582"),
+    group = "Roads"
+  ) |>
+  map_labels(cantons, text = NAME_2)
+}
+\dontshow{\}) # examplesIf}
+}
 \seealso{
 \code{\link[=geo_automap]{geo_automap()}} for a one-call map of one layer; \code{\link[=map_legend]{map_legend()}}
 and \code{\link[=theme_tidymapr]{theme_tidymapr()}} to restyle the result of \code{map_build()}.

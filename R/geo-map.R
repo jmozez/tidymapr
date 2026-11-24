@@ -113,8 +113,9 @@
 #' @name geo-map
 #' @seealso [geo_automap()] for a one-call map of one layer; [map_legend()]
 #'   and [theme_tidymapr()] to restyle the result of `map_build()`.
-#' @examplesIf rlang::is_installed(c("ggplot2", "ggnewscale", "terra")) &&
-#'   nzchar(system.file("ex/lux_highways.rds", package = "terra"))
+# nolint start: line_length_linter.
+#' @examplesIf rlang::is_installed(c("ggplot2", "ggnewscale", "terra")) && nzchar(system.file("ex/lux_highways.rds", package = "terra"))
+# nolint end
 #' # Luxembourg: elevation, cantons, highways and canton names
 #' # (data shipped with terra)
 #' elev <- terra::rast(system.file("ex/elev.tif", package = "terra"))
