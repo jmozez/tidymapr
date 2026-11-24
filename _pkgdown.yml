@@ -84,6 +84,7 @@ reference:
       - geo_distance
       - geo_decay
       - geo_mem
+      - geo_varpart
       - geo_mde
       - geo_mde_3d
   - title: Terrain and hydrology

@@ -1,5 +1,11 @@
 # tidymapr (development version)
 
+* New `geo_varpart()`: variation partitioning of species composition
+  between environment and space, as in CANOCO. Moran's eigenvector maps
+  are kept only if significant as a set, then forward-selected with the
+  double stopping criterion; fractions are adjusted R2, and the testable
+  ones are tested by permutation.
+
 * tidyvisor is now a package of its own, shared with tidydiversity.
   tidymapr imports it, registers its advisor (`tmr_advise()` and
   `tmr_interpret()`) when loaded, and re-exports `tidyvisor()`, so one
