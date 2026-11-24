@@ -22,7 +22,7 @@ test_that("tidyvisor() advises on data and interprets results", {
   pts$v <- pts$lon + stats::rnorm(40)
   expect_match(tidyvisor(geo_moran(pts, value = v))$sections$Result[2], "patchy")
   expect_identical(tidyvisor(pts, question = "distribution")$question, "distribution")
-  expect_error(tidyvisor(1:3), "data frame")
+  expect_error(tidyvisor(1:3), "No advis[eo]r")
   expect_output(print(i), NA)
 })
 
