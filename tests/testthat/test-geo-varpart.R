@@ -44,3 +44,14 @@ test_that("geo_varpart() stops when there is no spatial structure", {
   )
   expect_true(inherits(out, "tmr_geo_varpart") || grepl("No spatial structure", out))
 })
+
+test_that("tidyvisor explains a variation partitioning", {
+  skip_if_not_installed("vegan")
+  m <- mite_inputs()
+  set.seed(1)
+  vp <- geo_varpart(m$long, abundance = n, env = m$env, env_vars = "WatrCont",
+                    lon = "x", lat = "y", permutations = 49)
+  i <- tidyvisor(vp)
+  a <- sprintf("%.1f%%", 100 * vp$fractions$adj_r2[3])
+  expect_match(i$sections$Fractions[1], a, fixed = TRUE)
+})

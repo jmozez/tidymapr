@@ -7,7 +7,7 @@
     questions = c("distribution", "spread", "epidemic", "range_shift", "autocorrelation"),
     classes = c(
       "tmr_epi_growth", "tmr_spread_rate", "tmr_epidemic", "tmr_shift_ensemble",
-      "tmr_sdm_ensemble", "tmr_sdm_integrated", "tmr_geo_moran"
+      "tmr_sdm_ensemble", "tmr_sdm_integrated", "tmr_geo_moran", "tmr_geo_varpart"
     ),
     advise = tmr_advise,
     interpret = tmr_interpret,

@@ -151,3 +151,26 @@ print.tmr_geo_varpart <- function(x, ...) {
   print(x$fractions)
   invisible(x)
 }
+
+# nolint start: line_length_linter. Sentences read better unbroken.
+
+#' @export
+tmr_interpret.tmr_geo_varpart <- function(x, ...) {
+  f <- x$fractions
+  pct <- function(i) sprintf("%.1f%%", 100 * f$adj_r2[i])
+  pv <- function(i) if (is.na(f$p.value[i])) "not testable" else paste0("p = ", tmr_fp(f$p.value[i]))
+  s <- list(
+    Overview = sprintf("Variation in composition partitioned between the measured environment and space (%d Moran's eigenvector map%s selected: %s).",
+                       length(x$selected), if (length(x$selected) == 1) "" else "s", paste(x$selected, collapse = ", ")),
+    Fractions = c(
+      sprintf("Environment alone [a]: %s of the variation (adjusted R2), %s.", pct(3), pv(3)),
+      sprintf("Shared [b]: %s; spatially structured environment, which cannot be attributed to either set.", pct(4)),
+      sprintf("Space alone [c]: %s, %s; spatial structure the measured variables do not explain, pointing to unmeasured variables, dispersal or biotic processes.", pct(5), pv(5)),
+      sprintf("Unexplained [d]: %s.", pct(6))
+    ),
+    Reading = "Adjusted R2 values are unbiased and can be slightly negative for fractions near zero; a negative shared fraction means the two sets suppress each other. Show the fractions as a Venn diagram (tidydiversity::plot_venn())."
+  )
+  tmr_interp(s, list(fractions = f))
+}
+
+# nolint end
