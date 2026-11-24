@@ -71,21 +71,17 @@ species distribution models and forest plot maps with tidydiversity.
 
 ## Installation
 
-Install a ready-built binary from r-universe (Windows, macOS and Linux; no
-compiler needed):
-
 ```r
-install.packages("tidymapr",
-  repos = c("https://jmozez.r-universe.dev", "https://cloud.r-project.org"))
+# install.packages("remotes")
+remotes::install_github("jmozez/tidyvisor")
+
+# and the packages it advises on
+remotes::install_github("jmozez/tidydiversity")
+remotes::install_github("jmozez/tidymapr")
 ```
 
-Or build the latest development version from GitHub source (needs Rtools on
-Windows or the Xcode command-line tools on macOS):
-
-```r
-# install.packages("pak")
-pak::pak("jmozez/tidymapr")
-```
+The packages are built from source, which needs Rtools on Windows or the
+Xcode command-line tools on macOS (`xcode-select --install`).
 
 The source code lives on GitHub, <https://github.com/jmozez/tidymapr>, with a mirror on GitLab, <https://gitlab.com/jimmy.moses/tidymapr>.
 
@@ -110,6 +106,9 @@ them in a paper.
 7. [Point clusters and landscape fragmentation](https://tidymapr.in4metrix.dev/articles/guide-07-patterns-landscapes.html)
 8. [Data in and out, GBIF cleaning, web maps and recipes](https://tidymapr.in4metrix.dev/articles/guide-08-data-webmaps-recipes.html)
 9. [Distance decay and spatial eigenvectors](https://tidymapr.in4metrix.dev/articles/guide-09-decay-mem.html)
+10. [Mid-domain effect on maps and in the sea](https://tidymapr.in4metrix.dev/articles/guide-10-mid-domain.html)
+11. [Range shifts under climate change](https://tidymapr.in4metrix.dev/articles/guide-11-range-shifts.html)
+12. [Invasions and epidemics](https://tidymapr.in4metrix.dev/articles/guide-12-invasions-epidemics.html), including the slow cool-climate spread of cane toads in New South Wales
 
 ## Example
 
@@ -143,10 +142,13 @@ geo_map(title = "Luxembourg", caption = "Data: terra package") |>
 | Automatic maps | `geo_automap()`, `geo_automap_explain()`, `plot_choropleth()`, `plot_bubble()`, `geo_classify()` |
 | Figures and furniture | `geo_panels()`, `geo_facet_map()`, `geo_inset()`, `annotation_scale_bar()`, `annotation_north_arrow()`, `map_legend()`, `map_graticule()`, `coord_projection()`, `theme_tidymapr()`, `geo_save()` |
 | GeoSpaX recipes | `geo_recipe_read()`, `geo_recipe_validate()`, `geo_recipe_run()`, `geo_recipe_write()`, `geo_recipe()`, `recipe_step()` |
-| Spatial analysis | `geo_interpolate()` (kriging with measurement error, IDW), `geo_hotspot()`, `geo_lisa()`, `geo_moran()`, `geo_dbscan()`, `geo_landscape()`, `geo_distance()`, `geo_decay()`, `geo_mem()` |
+| Spatial analysis | `geo_interpolate()` (kriging with measurement error, IDW), `geo_hotspot()`, `geo_lisa()`, `geo_moran()`, `geo_dbscan()`, `geo_landscape()`, `geo_distance()`, `geo_decay()`, `geo_mem()`, `geo_varpart()` (environment versus space, as in CANOCO) |
 | Terrain and remote sensing | `geo_flow_direction()` and other hydrology tools, `geo_stac_search()`, `geo_stac_read()`, `geo_spectral_index()`, `geo_spectral_diversity()` |
 | Data input and output | `geo_read()`, `geo_write()`, `geo_layers()`, `geo_raster_read()`, `geo_as_sf()`, `geo_extract()`, `geo_basemap()` |
 | Ecology with tidydiversity | `geo_diversity_surface()`, `plot_diversity_surface()`, `geo_clean()`, `geo_gbif()`, `geo_rarefy_spatial()`, `sdm_maxent()`, `sdm_ensemble()`, `sdm_fit()`, `stems_habitat_test()` |
+| Mid-domain effect and range shifts | `geo_middomain()`, `geo_mde()`, `geo_mde_3d()`, `geo_range_shift()`, `geo_shift_simulate()`, `geo_shift_ensemble()`, `geo_shift_summary()` |
+| Invasions and epidemics | `geo_spread_rate()`, `geo_dispersal_kernel()`, `epi_growth_rate()`, `geo_epidemic_simulate()` |
+| Advice | `tidyvisor()`, `tmr_advise()`, `tmr_interpret()`: which analysis, and what the result means (with the tidyvisor package) |
 
 ## Gallery
 
