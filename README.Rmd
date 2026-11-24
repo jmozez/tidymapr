@@ -82,21 +82,17 @@ species distribution models and forest plot maps with tidydiversity.
 
 ## Installation
 
-Install a ready-built binary from r-universe (Windows, macOS and Linux; no
-compiler needed):
-
 ```r
-install.packages("tidymapr",
-  repos = c("https://jmozez.r-universe.dev", "https://cloud.r-project.org"))
+# install.packages("remotes")
+remotes::install_github("jmozez/tidyvisor")
+
+# and the packages it advises on
+remotes::install_github("jmozez/tidydiversity")
+remotes::install_github("jmozez/tidymapr")
 ```
 
-Or build the latest development version from GitHub source (needs Rtools on
-Windows or the Xcode command-line tools on macOS):
-
-```r
-# install.packages("pak")
-pak::pak("jmozez/tidymapr")
-```
+The packages are built from source, which needs Rtools on Windows or the
+Xcode command-line tools on macOS (`xcode-select --install`).
 
 The source code lives on GitHub, <https://github.com/jmozez/tidymapr>, with a mirror on GitLab, <https://gitlab.com/jimmy.moses/tidymapr>.
 
