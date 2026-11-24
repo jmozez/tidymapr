@@ -19,7 +19,8 @@ tidymapr answers it in three ways:
 This chapter uses real data throughout:
 
 - the 2014 Ebola epidemic in Sierra Leone;
-- GBIF records of the cane toad in Australia;
+- GBIF records of the cane toad in Australia, and range-edge transects at
+  its cool-climate front in New South Wales (McGregor et al. 2021);
 - the elevation and land cover of Mt Karimui, Papua New Guinea.
 
 The figures were made with the code shown. That code needs an internet
@@ -117,6 +118,93 @@ al. 2006). The gap is real and instructive: opportunistic records lag
 the front, and recording effort changed over these years. Rates from
 occurrence data are best read as lower bounds and compared with records
 per year (`tidyvisor(s)` reminds you).
+
+### A cool-climate front: cane toads in New South Wales
+
+The tropical front is only half the story. At the toads' southern, cooler
+front in north-eastern New South Wales, McGregor et al. (2021) measured
+how far the range edge moved along parallel transects 5 km apart, in
+each compass direction, between successive decades from the 1970s to the
+2010s. Their data are public domain (CC0) on Dryad
+(<https://doi.org/10.5061/dryad.dncjsxm0b>); download
+`Cane_toad_spread_NSW_for_Dryad.xlsx` from that page. Distances are in
+metres between decades, so dividing by 10 000 gives kilometres per year.
+
+```{r}
+raw <- readxl::read_excel("Cane_toad_spread_NSW_for_Dryad.xlsx")
+nsw <- data.frame(
+  direction = tolower(raw[["orientation of transect"]]),
+  zone = raw[["main range vs satellite dichotomous"]],
+  transect = raw[["Transect ID Number"]],
+  period = raw[["Interdecadal Period"]],
+  km_per_year = raw[["Invasion front metres progressed along transect between decades"]] / 10000,
+  wet = raw[["Prin1 (wet)"]], # first principal component of climate: wetter
+  hot = raw[["Prin2 (hot)"]] #  second principal component: hotter
+)
+core <- subset(nsw, zone == "Main Range") # the range-core, not satellites
+mean(core$km_per_year)
+#> [1] 0.45
+aggregate(km_per_year ~ direction + period, core, mean)
+```
+
+| Between decades | East | North | South | West |
+|---|---|---|---|---|
+| 1970s to 1980s | 0.02 | -0.09 | -2.02 | -1.25 |
+| 1980s to 1990s | -0.08 | -0.12 | 0.47 | 0.14 |
+| 1990s to 2000s | 0.07 | 0.32 | 2.09 | 2.60 |
+| 2000s to 2010s | -0.13 | -0.20 | 2.68 | 1.62 |
+
+Mean movement of the range edge (km per year; negative values are
+contractions).
+
+```{r, echo = FALSE, eval = TRUE, out.width = "85%"}
+fig("inv-toad-nsw.png")
+```
+
+The edge of the range-core moved on average 0.45 km a year: about fifty
+times slower than the 24 km a year estimated above for the Northern
+Territory, and a hundred times slower than the tropical front measured
+directly. In some decades the range shrank. Since the 1990s the toads
+have advanced to the south and west at 1.6 to 2.7 km a year, but hardly
+at all to the north and east.
+
+Does climate explain where the front moved fastest? A regression on the
+two climate components, interpreted by the tidyvisor:
+
+```{r}
+m <- lm(km_per_year ~ wet + hot, data = core)
+tidyvisor(m)
+#> wet: each one-unit increase in wet changes km_per_year by -0.314
+#>   (95% CI -0.390 to -0.238), p < 0.001.
+#> hot: each one-unit increase in hot changes km_per_year by 0.0506
+#>   (95% CI -0.0863 to 0.188), p = 0.467.
+#> The predictors explain 20.9% of the variance of km_per_year.
+#> Normality of residuals (Shapiro-Wilk): W = 0.871, p < 0.001; ...
+#> Constant variance (Breusch-Pagan): chi-squared = 22.48 on 2 df,
+#>   p < 0.001; ...
+```
+
+The front moved faster where and when conditions were drier, as
+McGregor et al. (2021) found; temperature added little once wetness was
+included. The diagnostics of the tidyvisor are a warning, though: the
+residuals are skewed and their spread is uneven, and transects 5 km
+apart may not be independent of each other. A mixed model with transect
+as a random effect is the check the tidyvisor suggests
+(`tidyvisor(core, question = "mixed", response = "km_per_year",
+predictors = c("wet", "hot"), random = "transect")`):
+
+```{r}
+m2 <- lme4::lmer(km_per_year ~ wet + hot + (1 | transect), data = core)
+tidyvisor(m2)
+#> boundary (singular) fit
+#> wet: each one-unit increase in wet changes km_per_year by -0.314
+#>   (95% CI -0.390 to -0.238), p < 0.001.
+```
+
+Its fit is singular: the transects share no variation beyond what
+climate explains, so the estimate is unchanged. The effect of wetness is
+robust to that check; the skew and uneven spread remain, so read the
+p-values as approximate.
 
 ## 3. How far do individuals move?
 
@@ -256,9 +344,16 @@ tidyvisor(s) # spread rate and the caveats of the method
 
 ## References
 
+
 Clark, J. S., Silman, M., Kern, R., Macklin, E. and HilleRisLambers, J.
 (1999). Seed dispersal near and far: patterns across temperate and
 tropical forests. *Ecology*, 80, 1475-1494.
+
+McGregor, L. F., Greenlees, M., de Bruyn, M. and Shine, R. (2021). An
+invasion in slow motion: the spread of invasive cane toads (*Rhinella
+marina*) into cooler climates in southern Australia. *Biological
+Invasions*. <https://doi.org/10.1007/s10530-021-02597-2>. Data:
+<https://doi.org/10.5061/dryad.dncjsxm0b>.
 
 Phillips, B. L., Brown, G. P., Webb, J. K. and Shine, R. (2006).
 Invasion and the evolution of speed in toads. *Nature*, 439, 803.
