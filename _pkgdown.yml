@@ -51,7 +51,8 @@ repo:
 reference:
   - title: tidyvisor (advice and interpretation)
     contents:
-      - tidyvisor
+      - reexports
+      - tmr_advise
   - title: Maps and cartography
     desc: Automatic, explained maps, thematic maps, projections, graticules, basemaps and GeoSpaX-style map furniture.
     contents:
@@ -83,6 +84,7 @@ reference:
       - geo_distance
       - geo_decay
       - geo_mem
+      - geo_varpart
       - geo_mde
       - geo_mde_3d
   - title: Terrain and hydrology

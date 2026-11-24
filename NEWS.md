@@ -1,15 +1,22 @@
 # tidymapr (development version)
 
-* `tidyvisor()` now hands tidydiversity results, ordination questions and
-  community data to `tidyvisor()` in tidydiversity, so it works whichever of
-  the two packages was attached last (both export a function of that name).
+* New `geo_varpart()`: variation partitioning of species composition
+  between environment and space, as in CANOCO. Moran's eigenvector maps
+  are kept only if significant as a set, then forward-selected with the
+  double stopping criterion; fractions are adjusted R2, and the testable
+  ones are tested by permutation.
+
+* tidyvisor is now a package of its own, shared with tidydiversity.
+  tidymapr imports it, registers its advisor (`tmr_advise()` and
+  `tmr_interpret()`) when loaded, and re-exports `tidyvisor()`, so one
+  `tidyvisor()` serves both packages, whichever is loaded.
 * Examples and tests that use the newer example files of terra or
   `terra::flowAccumulation()` now skip with older terra releases instead of
   failing.
 
 # tidymapr 0.3.0
 
-* New **tidyvisor**, the package's adviser. `tidyvisor()` given records and a
+* New **tidyvisor**, the package's advisor. `tidyvisor()` given records and a
   question (species distribution, spread, epidemic, range shift, spatial
   autocorrelation) checks the data and recommends the analysis, the plots
   and the code (`tmr_advise()`); given a result (growth rate, spread rate,
