@@ -1,5 +1,10 @@
 # tidymapr (development version)
 
+* tidymapr keeps the spatial side of epidemics: `tidyvisor()` no longer
+  hands it case counts without locations, which go to tidyepidemio (incidence,
+  growth, Rt, nowcasting); `question = "epidemic"` still works and its advice
+  points to tidyepidemio when the data have no coordinates.
+
 * Every interpretation (`tidyvisor()`, `tmr_interpret()`) ends with the same
   two sections as the interpretations of tidyvisor:
   - "After the overall test": what to do next and what not to, e.g. after

@@ -97,7 +97,15 @@ tmr_advise <- function(x,
       add("Time points", length(y), if (length(y) < 6) "few points: the growth rate will be uncertain" else "")
       add("Dispersion about the trend (Pearson)", sprintf("%.1f", ratio), if (ratio > 2) "overdispersed: use a negative binomial model" else "close to Poisson")
       fam <- if (ratio > 2) "negbin" else "poisson"
+      if (is.null(lon)) add("Locations", "none", "case counts over time without places: tidyepidemio covers outbreak statistics (incidence, Rt, nowcasting); tidymapr adds the spatial side")
       vctrs::vec_rbind(
+        if (is.null(lon)) {
+          step(
+            "Outbreak statistics", "Incidence, growth, Rt and nowcasting with tidyepidemio",
+            "Without locations this is an outbreak-statistics question; the tidyepidemio package has the full toolkit, and tidyvisor hands these data to it.",
+            "tidyvisor(data, question = \"outbreak\", time = <date column>, cases = <count column>)"
+          )
+        },
         step(
           "Approach", "Exponential growth rate from a log-linear count model",
           "Early in an outbreak cases grow exponentially; the slope of log cases on time is the growth rate r.", ""

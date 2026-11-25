@@ -3,8 +3,11 @@ test_that("tidyvisor() advises on data and interprets results", {
     week = seq(as.Date("2024-01-01"), by = "week", length.out = 12),
     n = c(2, 3, 5, 4, 9, 12, 15, 24, 30, 41, 60, 77)
   )
-  a <- tidyvisor(cases, date = "week", cases = "n")
+  # case counts without locations are not claimed: they belong to tidyepidemio
+  expect_false(tidyvisor:::tv_registry()$tidymapr$claims(cases, c("date", "cases")))
+  a <- tidyvisor(cases, question = "epidemic", date = "week", cases = "n")
   expect_s3_class(a, "tmr_advice")
+  expect_true(any(grepl("tidyepidemio", a$advice$recommendation)))
   expect_identical(a$question, "epidemic")
   # Counts close to an exponential trend are not overdispersed
   expect_true(any(grepl("family = \"poisson\"", a$advice$code)))
