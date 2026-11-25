@@ -156,8 +156,8 @@ reference:
 navbar:
   bg: dark
   structure:
-    left: [intro, userguide, tutorials, gallery, reference, news]
-    right: [tidydiversity, tidyvisor, search, github, gitlab]
+    left: [intro, userguide, tutorials, gallery, reference, news, tidydiversity, tidyvisor, search, github, gitlab]
+    right: []
   components:
     tidyvisor:
       text: tidyvisor
