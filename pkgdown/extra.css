@@ -15,6 +15,10 @@
    shrink on smaller desktops so everything fits in one row. */
 .navbar { box-shadow: 0 1px 0 rgba(255, 255, 255, .06), 0 2px 12px rgba(0, 0, 0, .18); }
 .navbar > .container { align-items: center; }
+
+/* No gap in the navbar: every item sits together from the left, the
+   companion sites, search box and source links straight after the menus. */
+.navbar .navbar-nav.me-auto { margin-right: 0 !important; }
 .navbar-brand { font-weight: 700; letter-spacing: -.01em; margin-right: .35rem; }
 .navbar .nav-text { font-size: .78rem; padding: .1rem .45rem; margin-right: .75rem;
   border: 1px solid rgba(255, 255, 255, .22); border-radius: 999px; line-height: 1.4; }
