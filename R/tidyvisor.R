@@ -219,7 +219,7 @@ tmr_advise <- function(x,
       step(
         "Plots", "Correlogram (Moran's I against distance class) and a map of the values in classes",
         "The correlogram shows the scale of patchiness; classed point symbols show where.",
-        "plot_geo(data, colour = <value>)"
+        sprintf("plot_geo(data, colour = %s)", value %||% "<value>")
       ),
       step("Interpret", "Plain-language explanation", "", "tidyvisor(mi)")
     )
@@ -230,13 +230,21 @@ tmr_advise <- function(x,
 
 #' @export
 print.tmr_advice <- function(x, ...) {
-  cli::cli_h1("tidyvisor: which analysis?")
+  heading <- switch(x$question,
+    distribution = "where can the species live?",
+    spread = "how fast is it spreading?",
+    epidemic = "how fast is the epidemic growing?",
+    range_shift = "where will the species be?",
+    autocorrelation = "are nearby values alike?",
+    "which analysis?"
+  )
+  cli::cli_h1(paste("tidyvisor:", heading))
   cli::cli_text("Question: {.strong {x$question}}")
   cli::cli_h2("What the data show")
   for (i in seq_len(nrow(x$checks))) {
     r <- x$checks[i, ]
     note <- if (nzchar(r$meaning)) paste0(" \u2014 ", r$meaning) else ""
-    cli::cli_bullets(c("*" = paste0(r$check, ": ", r$value, note)))
+    cli::cli_bullets(c("*" = gsub("([{}])", "\\1\\1", paste0(r$check, ": ", r$value, note))))
   }
   cli::cli_h2("Recommended")
   for (i in seq_len(nrow(x$advice))) {
