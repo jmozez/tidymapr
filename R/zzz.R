@@ -16,8 +16,10 @@
       if (any(c("abundance", "formula", "treatment") %in% args)) {
         return(FALSE)
       }
+      # case counts over time without locations belong to tidyepidemio;
+      # tidymapr keeps the spatial side (records with coordinates)
       nm <- tolower(names(x))
-      any(c("date", "cases", "lon", "lat", "longitude", "latitude", "presence") %in% c(nm, args))
+      any(c("lon", "lat", "longitude", "latitude", "presence") %in% c(nm, args))
     }
   )
 }
