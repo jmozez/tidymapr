@@ -160,7 +160,7 @@ geo_map(title = "Luxembourg", caption = "Data: terra package") |>
 | Ecology with tidydiversity | `geo_diversity_surface()`, `plot_diversity_surface()`, `geo_clean()`, `geo_gbif()`, `geo_rarefy_spatial()`, `sdm_maxent()`, `sdm_ensemble()`, `sdm_fit()`, `stems_habitat_test()` |
 | Mid-domain effect and range shifts | `geo_middomain()`, `geo_mde()`, `geo_mde_3d()`, `geo_range_shift()`, `geo_shift_simulate()`, `geo_shift_ensemble()`, `geo_shift_summary()` |
 | Invasions and epidemics | `geo_spread_rate()`, `geo_dispersal_kernel()`, `epi_growth_rate()`, `geo_epidemic_simulate()` |
-| Advice | `tidyvisor()`, `tmr_advise()`, `tmr_interpret()`: which analysis, and what the result means (with the tidyvisor package) |
+| Advice | `tidyvisor()`, `tmr_advise()`, `tmr_interpret()`: which analysis, and what the result means (with the tidyvisor package); save the advice to a file with `tidyvisor::tv_save()` |
 
 ## Gallery
 

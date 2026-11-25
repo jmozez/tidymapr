@@ -35,3 +35,12 @@ test_that("tidyvisor() hands tidydiversity's work to tidydiversity", {
   o <- tidydiversity::ord_fit(frogs, abundance = abundance, method = "pca", transform = "hellinger")
   expect_s3_class(tidyvisor(o), "td_ord_interpretation")
 })
+
+test_that("advice headings name the question and braces print safely", {
+  cases <- data.frame(week = 1:8, n = c(2, 3, 5, 8, 13, 21, 34, 55))
+  out <- cli::cli_fmt(print(tidyvisor(cases, question = "epidemic", date = "week", cases = "n")))
+  expect_true(any(grepl("how fast is the epidemic growing", out)))
+  a <- tidyvisor(cases, question = "epidemic", date = "week", cases = "n")
+  a$checks$value[1] <- "{12}"
+  expect_no_error(cli::cli_fmt(print(a)))
+})

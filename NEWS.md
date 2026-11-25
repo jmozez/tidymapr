@@ -1,5 +1,9 @@
 # tidymapr (development version)
 
+* Advice headings name the question ("how fast is the epidemic growing?");
+  check values containing braces print safely; the suggested map code names
+  the value column.
+
 * README and website: installation lists tidymapr first, then tidydiversity and
   tidyvisor, saying what each does; the navigation bar links to the
   tidyvisor website.
