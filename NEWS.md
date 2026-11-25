@@ -1,5 +1,19 @@
 # tidymapr (development version)
 
+* Every interpretation (`tidyvisor()`, `tmr_interpret()`) ends with the same
+  two sections as the interpretations of tidyvisor:
+  - "After the overall test": what to do next and what not to, e.g. after
+    a significant Moran's I a correlogram (with adjusted p-values) and, for
+    residuals, the missing spatial structure; after a non-significant one,
+    no search through distance classes; no doubling time or R when the
+    growth rate's interval includes zero.
+  - "For the paper": a sentence for the Results with the numbers, the
+    figure or map (with `geo_save()` at the page width and the rules for
+    journal maps: CRS, scale bar, north arrow, colour-blind-safe palettes),
+    the table, and what the Methods must state (ODMAP for distribution
+    models; climate data, models and scenarios for range shifts; parameter
+    sources and sensitivity for epidemic simulations).
+
 * Advice headings name the question ("how fast is the epidemic growing?");
   check values containing braces print safely; the suggested map code names
   the value column.

@@ -260,7 +260,11 @@ print.tmr_advice <- function(x, ...) {
 #' @export
 tmr_interpret <- function(x, ...) UseMethod("tmr_interpret")
 
-tmr_interp <- function(sections, tables = list()) {
+tmr_interp <- function(sections, tables = list(), x = NULL) {
+  if (!is.null(x)) {
+    sections$`After the overall test` <- tmr_after(x)
+    sections$`For the paper` <- tmr_paper(x)
+  }
   structure(list(sections = sections, tables = tables), class = "tmr_interpretation")
 }
 
@@ -300,7 +304,7 @@ tmr_interpret.tmr_epi_growth <- function(x, ...) {
     "Points are the observed counts; the line is the fitted exponential curve and the band its confidence interval, computed on the log scale and back-transformed.",
     "On a log scale the curve is straight; counts bending below it late in the window suggest control measures or depletion of susceptibles."
   )
-  tmr_interp(s, list(estimates = e))
+  tmr_interp(s, x = x, tables = list(estimates = e))
 }
 
 #' @export
@@ -319,7 +323,7 @@ tmr_interpret.tmr_spread_rate <- function(x, ...) {
     ),
     `Reading the plot` = "Each point is a year's distance from the origin; the line is the fitted rate and the band its confidence interval. Points well above the line early on suggest long-distance jumps."
   )
-  tmr_interp(s, list(estimate = e))
+  tmr_interp(s, x = x, tables = list(estimate = e))
 }
 
 #' @export
@@ -339,7 +343,7 @@ tmr_interpret.tmr_epidemic <- function(x, ...) {
       if (st$kernel == "2Dt") "With a fat-tailed kernel, rare long jumps seed distant patches ahead of the main front." else "With an exponential kernel, the infection spreads as a fairly regular front."
     )
   )
-  tmr_interp(s, list(curve = cu))
+  tmr_interp(s, x = x, tables = list(curve = cu))
 }
 
 #' @export
@@ -366,7 +370,7 @@ tmr_interpret.tmr_shift_ensemble <- function(x, ...) {
     by <- tapply(lim$change, lim$ssp, stats::median)
     s$Scenarios <- paste0(names(by), ": ", sprintf("%.0f%%", by), collapse = "; ")
   }
-  tmr_interp(s, list(results = r))
+  tmr_interp(s, x = x, tables = list(results = r))
 }
 
 #' @export
@@ -384,7 +388,7 @@ tmr_interpret.tmr_sdm_ensemble <- function(x, ...) {
     ),
     `Reading the map` = "Predicted values are relative suitability (presence-only) or probability of occurrence (presence-absence); a threshold turns them into a presence-absence map, which should be stated."
   )
-  tmr_interp(s, list(summary = sm))
+  tmr_interp(s, x = x, tables = list(summary = sm))
 }
 
 #' @export
@@ -404,7 +408,7 @@ tmr_interpret.tmr_sdm_integrated <- function(x, ...) {
       "Sampling-bias terms absorb uneven recording effort, so the environmental effects describe the species, not the observers."
     )
   )
-  tmr_interp(s, list(coefficients = tibble::tibble(term = names(cf), estimate = cf, std_error = se)))
+  tmr_interp(s, x = x, tables = list(coefficients = tibble::tibble(term = names(cf), estimate = cf, std_error = se)))
 }
 
 #' @export
@@ -422,7 +426,7 @@ tmr_interpret.tmr_geo_moran <- function(x, ...) {
       "For model residuals, autocorrelation means a missing spatial predictor and overconfident p-values."
     )
   )
-  tmr_interp(s, list(test = x))
+  tmr_interp(s, x = x, tables = list(test = x))
 }
 
 #' @export
