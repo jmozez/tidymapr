@@ -178,6 +178,15 @@ navbar:
         - text: "tidyepidemio: Epidemiological analysis"
           icon: fa-virus
           href: https://tidyepidemio.in4metrix.dev/
+        - text: "tidyinvasion: Invasion biology and biosecurity"
+          icon: fa-seedling
+          href: https://tidyinvasion.in4metrix.dev/
+        - text: "tidymetr: Meta-analysis and evidence synthesis"
+          icon: fa-layer-group
+          href: https://tidymetr.in4metrix.dev/
+        - text: "tidybiotek: Biotechnology bioinformatics"
+          icon: fa-dna
+          href: https://tidybiotek.in4metrix.dev/
     github:
       icon: fa-github
       aria-label: Source code on GitHub
