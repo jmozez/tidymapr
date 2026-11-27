@@ -8,11 +8,8 @@
 [![Lint](https://github.com/jmozez/tidymapr/actions/workflows/lint.yaml/badge.svg)](https://github.com/jmozez/tidymapr/actions/workflows/lint.yaml)
 [![Website deploy](https://github.com/jmozez/tidymapr/actions/workflows/vercel.yaml/badge.svg)](https://github.com/jmozez/tidymapr/actions/workflows/vercel.yaml)
 [![GitHub](https://img.shields.io/badge/source-GitHub-181717?logo=github)](https://github.com/jmozez/tidymapr)
-
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![License:
-MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jmozez/tidymapr/blob/main/LICENSE.md)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jmozez/tidymapr/blob/main/LICENSE.md)
 [![Website](https://img.shields.io/badge/website-tidymapr.in4metrix.dev-349295)](https://tidymapr.in4metrix.dev)
 [![Diversity with tidydiversity](https://img.shields.io/badge/diversity%20with-tidydiversity-1A9E93)](https://tidydiversity.in4metrix.dev)
 [![Compatible with GeoSpaX](https://img.shields.io/badge/compatible%20with-GeoSpaX-11376B)](https://geospax.in4metrix.dev)
