@@ -157,14 +157,27 @@ reference:
 navbar:
   bg: dark
   structure:
-    left: [intro, userguide, tutorials, gallery, reference, news, tidydiversity, tidyvisor, search, github, gitlab]
+    left: [intro, userguide, tutorials, gallery, reference, news, ecosystem, search, github, gitlab]
     right: []
   components:
-    tidyvisor:
-      text: tidyvisor
-      icon: fa-compass
-      aria-label: Statistical advice with the companion package tidyvisor
-      href: https://tidyvisor.in4metrix.dev/
+    ecosystem:
+      text: Ecosystem
+      icon: fa-cubes
+      aria-label: Companion packages that work together with the tidyverse and tidymodels
+      menu:
+        - text: Packages that work together
+        - text: "tidydiversity: Taxonomic, phylogenetic and functional diversity"
+          icon: fa-leaf
+          href: https://tidydiversity.in4metrix.dev/
+        - text: "tidymapr: Spatial analysis, remote sensing and maps"
+          icon: fa-map
+          href: https://tidymapr.in4metrix.dev/
+        - text: "tidyvisor: Statistical advice and interpretation"
+          icon: fa-compass
+          href: https://tidyvisor.in4metrix.dev/
+        - text: "tidyepidemio: Epidemiological analysis"
+          icon: fa-virus
+          href: https://tidyepidemio.in4metrix.dev/
     github:
       icon: fa-github
       aria-label: Source code on GitHub
@@ -173,11 +186,6 @@ navbar:
       icon: fa-gitlab
       aria-label: Source code on GitLab
       href: https://gitlab.com/jimmy.moses/tidymapr
-    tidydiversity:
-      text: tidydiversity
-      icon: fa-leaf
-      aria-label: Diversity with the companion package tidydiversity
-      href: https://tidydiversity.in4metrix.dev/
     intro:
       text: Get started
       href: articles/tidymapr.html
