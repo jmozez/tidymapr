@@ -14,10 +14,11 @@ Description: A tidyverse toolkit for making publication-quality maps and
     (<https://geospax.in4metrix.dev>): it follows
     the same cartographic conventions and reads and writes the same formats
     through 'GDAL', and runs its recipes, so maps, data and workflows
-    move between the two. For ecology, it
-    maps coverage-standardised diversity surfaces with uncertainty and
-    spectral diversity, and works with the companion package
-    'tidydiversity'.
+    move between the two. It is the spatial and remote sensing companion
+    to other packages: it maps and analyses any spatial data and the
+    outputs of 'tidydiversity' (coverage-standardised diversity surfaces
+    with uncertainty, spectral diversity), 'tidyepidemio' (the spread of
+    an epidemic across a landscape) and other packages.
 License: MIT + file LICENSE
 URL: https://tidymapr.in4metrix.dev/, https://github.com/jmozez/tidymapr
 BugReports: https://github.com/jmozez/tidymapr/issues

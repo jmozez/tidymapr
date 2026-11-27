@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use tidymapr, please cite it as below."
 type: software
 title: "tidymapr: Tidy Mapping, Spatial Analysis and Publication Cartography"
-abstract: "Tidy, pipe-friendly mapping and geospatial verbs for biodiversity and spatial ecology, designed to work with tidydiversity."
+abstract: "Tidy, pipe-friendly mapping and geospatial verbs for spatial ecology, spatial epidemiology and remote sensing, designed to work with tidydiversity, tidyepidemio and other packages."
 authors:
   - family-names: Moses
     given-names: Jimmy

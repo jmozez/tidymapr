@@ -27,9 +27,12 @@ explain each choice. It is compatible with the
 [GeoSpaX](https://geospax.in4metrix.dev) desktop GIS, following the
 same cartographic conventions, reading and writing the same formats and
 running the same recipes.
-For ecology, it is the mapping companion to
-[tidydiversity](https://tidydiversity.in4metrix.dev/):
-tidydiversity estimates diversity, tidymapr puts it on a map. Every verb
+It is the spatial and remote sensing companion to
+[tidydiversity](https://tidydiversity.in4metrix.dev/),
+[tidyepidemio](https://jmozez.github.io/tidyepidemio/) and other
+packages: they estimate diversity, incidence or growth, and tidymapr maps
+and analyses them in space, from diversity surfaces to the spread of an
+epidemic across a landscape. Every verb
 takes a data frame and returns a tibble, an `sf` table, a `SpatRaster` or a
 ggplot.
 
@@ -57,39 +60,48 @@ indices, spectral diversity, all in fast multi-core C++.
 </div>
 <div class="tmr-card">
 
-### Data and ecology
+### Data, ecology and epidemiology
 
 GIS, CAD and remote sensing formats (netCDF, HDF, Sentinel-2, AutoCAD
 DXF and more); diversity surfaces with uncertainty, distance decay,
-species distribution models and forest plot maps with tidydiversity.
+species distribution models and forest plot maps with tidydiversity; the
+spread of invasions and epidemics across a landscape, with outputs from
+tidyepidemio.
 
 </div>
 </div>
 
 ## Installation
 
-Install tidymapr first, then its two companion packages:
+Install tidymapr first, then the companion packages you use with it:
 
 ```r
 # install.packages("remotes")
 
-# 1. tidymapr: spatial ecology (maps, species distributions, the spread
-#    of invasions and epidemics, range shifts, spatial autocorrelation)
+# 1. tidymapr: spatial analysis and remote sensing (maps, species
+#    distributions, the spread of invasions and epidemics, range shifts,
+#    spatial autocorrelation)
 remotes::install_github("jmozez/tidymapr")
 
 # 2. tidydiversity: community ecology (taxonomic, phylogenetic and
 #    functional diversity, beta diversity, ordination and multivariate tests)
 remotes::install_github("jmozez/tidydiversity")
 
-# 3. tidyvisor: the statistical advisor for both (study design, power,
-#    assumption checks, which analysis, plain-language interpretation,
-#    post hoc comparisons, and the Results sentence, figure and table for
-#    the paper)
+# 3. tidyepidemio: epidemiology (outbreaks, incidence, growth, Rt,
+#    associations, survival, diagnostic tests and surveillance)
+remotes::install_github("jmozez/tidyepidemio")
+
+# 4. tidyvisor: the statistical advisor for all of them (study design,
+#    power, assumption checks, which analysis, plain-language
+#    interpretation, post hoc comparisons, and the Results sentence,
+#    figure and table for the paper)
 remotes::install_github("jmozez/tidyvisor")
 ```
 
 tidymapr works on its own; tidydiversity adds the community-ecology
-analyses, and tidyvisor the advice and interpretation.
+analyses, tidyepidemio the epidemiology, and tidyvisor the advice and
+interpretation. tidymapr maps and analyses the spatial side of their
+results.
 
 The packages are built from source, which needs Rtools on Windows or the
 Xcode command-line tools on macOS (`xcode-select --install`).
