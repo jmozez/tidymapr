@@ -44,7 +44,8 @@ repo:
     desktop GIS and compatible with GeoSpaX (geospax.in4metrix.dev): automatic, explained map
     design, projections, legends and map furniture, GIS, CAD and remote
     sensing formats, fast C++ spatial statistics, terrain hydrology,
-    spectral indices and diversity surfaces with tidydiversity.
+    spectral indices, diversity surfaces with tidydiversity and the
+    spread of epidemics with tidyepidemio.
   sidebar:
     structure: [links, license, community, citation, authors, dev]
 

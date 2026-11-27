@@ -1,5 +1,11 @@
 # tidymapr (development version)
 
+* The description, README and website present tidymapr as the spatial and
+  remote sensing companion to tidydiversity, tidyepidemio and other
+  packages: it maps and analyses their outputs in space, from diversity
+  surfaces to the spread of an epidemic across a landscape. The
+  installation steps add tidyepidemio.
+
 * tidymapr keeps the spatial side of epidemics: `tidyvisor()` no longer
   hands it case counts without locations, which go to tidyepidemio (incidence,
   growth, Rt, nowcasting); `question = "epidemic"` still works and its advice
