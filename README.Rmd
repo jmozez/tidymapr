@@ -43,7 +43,7 @@ same cartographic conventions, reading and writing the same formats and
 running the same recipes.
 It is the spatial and remote sensing companion to
 [tidydiversity](https://tidydiversity.in4metrix.dev/),
-[tidyepidemio](https://jmozez.github.io/tidyepidemio/) and other
+[tidyepidemio](https://tidyepidemio.in4metrix.dev/) and other
 packages: they estimate diversity, incidence or growth, and tidymapr maps
 and analyses them in space, from diversity surfaces to the spread of an
 epidemic across a landscape. Every verb
