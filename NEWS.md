@@ -1,5 +1,17 @@
 # tidymapr (development version)
 
+* `geo_gwr()`: geographically weighted regression (Fotheringham et al.
+  2002), with bisquare or Gaussian kernels, fixed or adaptive bandwidths
+  chosen by AICc or leave-one-out cross-validation, local coefficients,
+  standard errors, t values and local R-squared, ready to map. Results
+  agree with GWmodel (Gollini et al. 2015).
+* `sdm_aoa()`: the dissimilarity index and area of applicability of
+  spatial prediction models (Meyer and Pebesma 2021), with optional
+  predictor weights and cross-validation folds, matching CAST.
+* `sdm_mess()`: multivariate environmental similarity surfaces (Elith et
+  al. 2010), matching `dismo::mess()`, to flag where species distribution
+  models extrapolate.
+
 * The description, README and website present tidymapr as the spatial and
   remote sensing companion to tidydiversity, tidyepidemio and other
   packages: it maps and analyses their outputs in space, from diversity

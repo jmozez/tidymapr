@@ -82,6 +82,7 @@ reference:
       - geo_dbscan
       - geo_landscape
       - geo_moran
+      - geo_gwr
       - geo_distance
       - geo_decay
       - geo_mem
@@ -136,6 +137,7 @@ reference:
       - sdm_maxent
       - sdm_ensemble
       - sdm_integrated
+      - sdm_aoa
       - stems_spatial
       - stems_habitat_test
   - title: Recipes
